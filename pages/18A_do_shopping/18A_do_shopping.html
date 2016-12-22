@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Fai una commissione</ion-title>
+    <ion-buttons end>
+      <button ion-button>
+        FILTRA
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content title="" id="page18A">
+
+  <div class="tabs-striped tabs-top tabs-background-color tabs-color-light">
+    <div class="tabs">
+      <a class="tab-item active" ui-sref="#">
+        Cerca
+      </a>
+      <a class="tab-item" ui-sref="tabsController.MyListsToDo">
+        Liste
+      </a>
+    </div>
+  </div>
+
+    <div ui-view="map"></div>
+    <div ui-view="list"></div>
+</ion-content>

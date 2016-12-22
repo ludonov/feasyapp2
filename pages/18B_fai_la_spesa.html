@@ -1,0 +1,43 @@
+<ion-view title="Fai una commissione" id="page18B" class="background-color-body">
+  <ion-nav-title class="title-custom">Fai una commissione</ion-nav-title>
+  <ion-nav-buttons side="secondary">
+    <!--<button class="button button-small icon-color SF-regular" ui-sref="FilterListOnMap">FILTRA</button>-->
+  </ion-nav-buttons>
+  <div class="tabs-striped tabs-top tabs-background-color tabs-color-light">
+    <div class="tabs">
+      <a class="tab-item" ng-click="goto_map()">
+        Cerca
+      </a>
+      <a class="tab-item active" ui-sref="#">
+        Liste
+      </a>
+    </div>
+  </div>
+
+  <ion-scroll direction="y" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs" class="background-color-body">
+    <!-- MAPS LINK GENERATOR: http://embedgooglemaps.com/it/ -->
+
+    <div class="list" style='top: 49px'>
+      <div class="item item-divider item-title background-color-list-item-divider" style="border-top-color: transparent;">
+        <br>
+        CONFERMATE
+      </div>
+      <h5 class="SF-thin center" ng-show="accepted_candidatures.length == 0">NESSUNA LISTA CONFERMATA</h5>
+      <a class="item item-field" ng-repeat="candidature in accepted_candidatures" ng-click="view_confirmed_candidature(candidature)">
+        Lista {{candidature.list_name}}
+        <span class="item-note item-content">da: {{list.list_author_name}}</span>
+      </a>
+
+      <div class="item item-divider item-title background-color-list-item-divider">
+        <br>
+        PROPOSTE
+      </div>
+      <h5 class="SF-thin center" ng-show="candidatures.length == 0">NESSUNA LISTA PROPOSTA</h5>
+      <a class="item item-field" ng-repeat="candidature in candidatures" ng-click="view_candidature(candidature)">
+        Lista {{candidature.list_name}}
+        <span class="item-note item-content">da: {{list.list_author_name}}</span>
+      </a>
+    </div>
+
+  </ion-scroll>
+</ion-view>

@@ -1,0 +1,26 @@
+<ion-view title="Impostazioni" id="page23" class="background-color-body">
+  <ion-nav-title class="title-custom">Impostazioni</ion-nav-title>
+
+  <br>
+  <ion-scroll direction="y" style="right:0; bottom:0; left:0; position:absolute;" class="has-header" class="background-color-body">
+    <div class="list SF-regular">
+      <div class="item item-divider item-title" style="border-top-color: transparent;">
+      </div>
+      <a class="item item-field" ui-sref="EditProfile">
+        Modifica profilo
+      </a>
+      <a class="item item-field" ui-sref="ResetPassword">
+        Reimposta password
+      </a>
+      <a class="item item-field" ui-sref="TermsAndConditions">
+        Termini e condizioni
+      </a>
+      <div class="item item-divider item-title">
+        <br>
+      </div>
+      <a class="item SF-thin center" style="color:red" ng-click="logout()">
+        Esci
+      </a>
+  </ion-scroll>
+
+</ion-view>

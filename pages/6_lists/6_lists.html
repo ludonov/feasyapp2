@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Liste</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon name="plus"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+  <ion-scroll direction="y" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs" class="background-color-body">
+    <div class="list">
+      <div class="item item-divider item-title background-color-list-item-divider" style="border-top-color: transparent;">
+        <br>
+        ATTIVE
+      </div>
+      <h5 class="SF-thin center" ng-show="no_active_list">NESSUNA LISTA ATTIVA</h5>
+      <a class="item item-field" ng-click="goto_list(list.objectId)" ng-repeat="list in lists | filter:filterByActive">
+        {{list.name}}
+        <span class="item-note item-content">{{list.items.length}} pezzi</span>
+      </a>
+      <div class="item item-divider item-title background-color-list-item-divider">
+        <br>
+        ALTRE
+      </div>
+      <h5 class="SF-thin center" ng-show="no_passive_list">NESSUNA LISTA DA PUBBLICARE</h5>
+      <a class="item item-field" ng-click="goto_list(list.objectId)" ng-repeat="list in lists | filter:filterByNotActive">
+        {{list.name}}
+        <span class="item-note item-content">{{list.items.length}} pezzi</span>
+      </a>
+    </div>
+  </ion-scroll>
