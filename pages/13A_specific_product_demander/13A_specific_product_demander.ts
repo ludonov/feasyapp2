@@ -32,7 +32,7 @@ export class AddOrShowItemPage {
       this.units = [];
       this.units = GetUnits();
     }
-    this.items_db = af.database.list('unpublished_lists/' + this.list.$key + '/Items');
+    this.items_db = af.database.list('unpublished_lists/' + af.auth.getAuth().uid + '/' + this.list.$key + '/Items');
   }
 
 
@@ -77,6 +77,7 @@ export class AddOrShowItemPage {
     console.log("Deleting item: " + this.item.Name);
     this.items_db.remove(this.item.$key).then(res => {
       console.log("Item removed");
+      this.navCtrl.pop();
     }).catch((res: Error) => {
       console.log("Cannot remove item: " + res.message);
       let alert = this.alertCtrl.create({

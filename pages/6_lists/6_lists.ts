@@ -24,8 +24,8 @@ export class ListsPage {
   public num_items: number = 0;
 
   constructor(public navCtrl: NavController, af: AngularFire, public alertCtrl: AlertController) {
-    this.published_lists_db = af.database.list('/published_lists');
-    this.unpublished_lists_db = af.database.list('/unpublished_lists');
+    this.published_lists_db = af.database.list('/published_lists/' + af.auth.getAuth().uid);
+    this.unpublished_lists_db = af.database.list('/unpublished_lists/' + af.auth.getAuth().uid);
     this.published_lists_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
       this.published_lists = {};
       snapshot.forEach(list => {
