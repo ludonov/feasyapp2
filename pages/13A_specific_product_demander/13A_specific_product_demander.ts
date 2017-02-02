@@ -79,7 +79,7 @@ export class AddOrShowItemPage {
       console.log("Item removed");
       this.navCtrl.pop();
     }).catch((res: Error) => {
-      console.log("Cannot remove item: " + res.message);
+      console.warn("Cannot remove item: " + res.message);
       let alert = this.alertCtrl.create({
         title: 'Info',
         subTitle: "Impossibile rimuovere l'elemento",

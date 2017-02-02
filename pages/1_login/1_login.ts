@@ -95,7 +95,14 @@ export class LoginPage {
 
   facebookSignIn(): void {
     console.log("Facebook logging...");
-    //this.navCtrl.push(ListsPage);
+    this.af.auth.login({
+      provider: AuthProviders.Facebook,
+      method: AuthMethods.Popup,
+    }).then(res => {
+      console.log("Facebook login successful");
+    }).catch(res => {
+      console.warn("Facebook login error: " + res);
+    });
   }
 
   signUp(): void {

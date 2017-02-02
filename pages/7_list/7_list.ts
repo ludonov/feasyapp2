@@ -49,7 +49,7 @@ export class ListPage {
       console.log("List removed");
       this.navCtrl.pop();
     }).catch((res: Error) => {
-      console.log("Cannot remove list: " + res.message);
+      console.warn("Cannot remove list: " + res.message);
       let alert = this.alertCtrl.create({
         title: 'Info',
         subTitle: "Impossibile rimuovere la lista",

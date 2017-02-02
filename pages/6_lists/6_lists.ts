@@ -82,7 +82,7 @@ export class ListsPage {
                 this.navCtrl.push(ListPage, { list: new_list });
               });
             } else {
-              console.log('null list name');
+              console.warn('Inserted null list name');
               let alert = this.alertCtrl.create({
                 title: 'Info',
                 subTitle: 'Il nome non può essere vuoto',
