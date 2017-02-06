@@ -6,6 +6,8 @@ import { AngularFire } from 'angularfire2';
 import { ListsPage } from '../../pages/6_lists/6_lists';
 import { DoShoppingPage } from '../../pages/18A_do_shopping/18A_do_shopping';
 
+import { UserProfilePage } from '../../pages/17_user_profile/17_user_profile';
+
 @Component({
   selector: 'page-home',
   templateUrl: '5_home.html'
@@ -33,6 +35,7 @@ export class HomePage {
 
   goToProfile(): void {
     console.log("going to profile page");
+    this.navCtrl.push(UserProfilePage);
   }
 
   goToSettings(): void {
