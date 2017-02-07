@@ -222,7 +222,7 @@ position: absolute;
 }
 
 .profile-personal-info {
-  font-family: 'San Francisco Display Regular';
+  /*font-family: 'San Francisco Display Regular';*/
   color:#1c1c1c; /*#1c1c1c*/
 }
 
@@ -298,6 +298,36 @@ position: absolute;
 #map {
     width: 100%;
     height: 100%;
+}
+
+/*User profile*/
+.profile-item {
+  text-align: center;
+}
+
+.profile-picture {
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  padding: 3px;
+  border-radius: 100%;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  margin: 0 auto;
+  width: 128px;
+  height: 128px;
+  overflow: hidden;
+}
+
+.profile-picture img {
+  width: 128px;
+  border-radius: 100%;
+}
+
+.profile-name {
+  padding-top: 20px;
+  font-size: x-large !important;
+  font-weight: bold !important;
+  text-transform: capitalize;
 }
 
 

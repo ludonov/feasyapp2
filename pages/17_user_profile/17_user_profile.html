@@ -1,89 +1,178 @@
-<ion-view title="Profilo" id="page17A" class="background-color-body">
-  <ion-nav-title class="title-custom">Profilo</ion-nav-title>
-  <ion-nav-buttons side="secondary">
-    <button class="button button-small icon-color SF-regular bar-button-color" ng-click="edit_profile()">MODIFICA</button>
-  </ion-nav-buttons>
-  
-  <ion-scroll direction="y" style="right:0; bottom:0; left:0; position:absolute;" class="has-header" class="background-color-body">
-    <div class="center">
-      <h3 class="profile-personal-info" style="padding-top:10px; color:black">{{current_user.first_name}} {{current_user.last_name}}</h3>
-      <img id="profile_image" class="image-circle" src="{{current_user.profile_pic_url}}" height="100" width="100" onerror="this.src=get_unknown_man_pic()">
-      <h4 class="profile-personal-info">Valutazione: <i class="icon ion-star ion"></i><i class="icon ion-star ion"></i><i class="icon ion-star ion"></i><i class="icon ion-ios-star-half ion"></i><i class="icon ion-ios-star-outline ion"></i></h4>
-      <h4 class="profile-personal-info">Commissioni fatte: <font class="profile-personal-info">{{current_user.accomplished_tasks}}</font></h4>
-      <h4 class="profile-personal-info">Commissioni ricevute: <font class="profile-personal-info">{{current_user.requested_tasks}}</font></h4>
-      </input>
-    </div>
-    <div class="list card SF-regular">
-      <a ui-sref="Wallet" class="item item-icon-left">
-        <i class="icon ion-social-usd-outline" style="color:#8e8f92"></i>
-        Portafoglio
-        <span class="item-note SF-medium profile-element-content" style="color:#387ef5">{{current_user.wallet.amount}}</span>
-      </a>
-      <a ui-sref="History" class="item item-icon-left">
-        <i class="icon ion-ios-clock-outline" style="color:#8e8f92"></i>
-        Cronologia
-        <span class="item-note item-content profile-element-content">Ultima commissione: Ieri</span>
-      </a>
-    </div>
-    <div class="list SF-regular">
-      <div class="item item-divider item-title background-color-list-item-divider" style="border-top-color: transparent;">
-        INFORMAZIONI PERSONALI
-      </div>
-      <a class="item item-field">
-        Nome
-        <span class="item-note item-content profile-element-content">{{current_user.first_name}}</span>
-      </a>
-      <a class="item item-field">
-        Cognome
-        <span class="item-note item-content profile-element-content">{{current_user.last_name}}</span>
-      </a>
-      <a class="item item-field">
-        Nazionalità
-        <span class="item-note item-content profile-element-content">{{current_user.nationality}}</span>
-      </a>
-      <a class="item item-field">
-        Numero di telefono
-        <span class="item-note item-content profile-element-content">{{current_user.mobile_number}}</span>
-      </a>
-      <a class="item item-field">
-        Sesso
-        <span class="item-note item-content profile-element-content">{{current_user.gender}}</span>
-      </a>
-      <a class="item item-field">
-        Data di nascita
-        <span class="item-note item-content profile-element-content">{{current_user.birthday}}</span>
-      </a>
-      <div class="item item-divider item-title background-color-list-item-divider">
-        <br>
-        METODI DI PAGAMENTO
-      </div>
-      <span ng-repeat="payment_info in current_user.payment_infos">
-        <a class="item item-field">
-          Metodo
-          <span class="item-note item-content profile-element-content">{{payment_info.type}}</span>
-        </a>
-        <a class="item item-field">
-          Numero di carta
-          <span class="item-note item-content profile-element-content">{{payment_info.card_number}}</span>
-        </a>
-        <a class="item item-field">
-          Scadenza
-          <span class="item-note item-content profile-element-content">{{payment_info.expiry_date}}</span>
-        </a>
-        <a class="item item-field">
-          CVV
-          <span class="item-note item-content profile-element-content">{{payment_info.cvv}}</span>
-        </a>
-      </span>
-      <div class="item item-divider item-title background-color-list-item-divider">
-        <br>
-        INDIRIZZI
-      </div>
-      <ion-item ng-repeat="address in current_user.addresses" type="item-text-wrap" ng-click="view_address(address)">
-        <h2>{{address.metadata.street_name}}</h2>
-        <p>dalle {{address.metadata.time_from}} &nbsp; alle {{address.metadata.time_to}}</p>
-        <i class="icon ion-chevron-right icon-accessory"></i>
-      </ion-item>
-    </div>
-  </ion-scroll>
-</ion-view>
+<ion-header>
+  <ion-navbar>
+    <ion-title>Profilo</ion-title>
+		<ion-buttons start>
+      <button ion-button (click)="goToProfile()">MODIFICA</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
+	    
+	<ion-list>	
+		<ion-card>
+			<ion-item class="profile-item">
+				<div class="profile-picture">
+					<img src="assets/images/17_profilo/Ludovico.jpg">
+				</div>
+				<h2 class="profile-name dark">Lidovico Novelli</h2>
+				<div class="profile-info">@ludonov</div>
+			</ion-item>
+		</ion-card>
+	</ion-list>
+
+	
+	<!--<div class="center">
+		<h3 class="profile-personal-info" style="padding-top:10px; color:black">Alberto Arrighi</h3>
+		<img id="profile_image" class="image-circle" src="" height="100" width="100" onerror="this.src=get_unknown_man_pic()">
+		<h4 class="profile-personal-info">Valutazione: <ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon></h4>
+		<h4 class="profile-personal-info">Commissioni fatte: <font class="profile-personal-info">11</font></h4>
+		<h4 class="profile-personal-info">Commissioni ricevute: <font class="profile-personal-info">22</font></h4>
+    </div>-->
+
+	<ion-card>
+		<button ion-item>
+		<ion-icon name="time" item-left></ion-icon>
+		History
+		<ion-note item-right style="font-size: 15px">Ultima commissione: Ieri</ion-note>
+		</button>
+	</ion-card>
+	
+
+	<ion-list>
+		<ion-item-group>
+			<div class="spacer" style="height: 16px;"></div>
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">UTILIZZO</ion-item-divider>
+			<ion-item>
+				Fatte
+				<ion-note item-right>12</ion-note>
+			</ion-item>
+			<ion-item>
+				Ricevute
+				<ion-note item-right>6</ion-note>
+			</ion-item>
+			<ion-item>
+				Punteggio
+				<ion-note item-right><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon></ion-note>
+			</ion-item>
+
+		</ion-item-group>
+		
+		<ion-item-group>
+			<div class="spacer" style="height: 16px;"></div>
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">ACCOUNT</ion-item-divider>
+			<ion-item>
+				E-mail
+				<ion-note item-right>ludwigfeed@gmail.com</ion-note>
+			</ion-item>
+			<ion-item>
+				Username
+				<ion-note item-right>ludonov</ion-note>
+			</ion-item>
+			<ion-item>
+				Password
+				<ion-note item-right></ion-note>
+			</ion-item>
+		</ion-item-group>
+		
+		<ion-item-group>
+			<div class="spacer" style="height: 16px;"></div>
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">INFORMAZIONI PERSONALI</ion-item-divider>
+			<ion-item>
+				Nome
+				<ion-note item-right>Ludovico</ion-note>
+			</ion-item>
+			<ion-item>
+				Cognome
+				<ion-note item-right>Novelli</ion-note>
+			</ion-item>
+			<ion-item>
+				Nazionalità
+				<ion-note item-right>Nigeriana</ion-note>
+			</ion-item>
+			<ion-item>
+				Telefono
+				<ion-note item-right>+393497399748</ion-note>
+			</ion-item>
+			<ion-item>
+				Sesso
+				<ion-note item-right>Maschile</ion-note>
+			</ion-item>
+			<ion-item>
+				Data di nascita
+				<ion-note item-right>24/09/1994</ion-note>
+			</ion-item>
+		</ion-item-group>
+
+		<ion-item-group>
+			<div class="spacer" style="height: 16px;"></div>
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">METODI DI PAGAMENTO</ion-item-divider>
+			<ion-item>
+				Metodo
+				<ion-note item-right>Carta di credito</ion-note>
+			</ion-item>
+			<ion-item>
+				Numero di Carta
+				<ion-note item-right>1234 5678 91011 12014</ion-note>
+			</ion-item>
+			<ion-item>
+				Scadenza
+				<ion-note item-right>02/19</ion-note>
+			</ion-item>
+			<ion-item>
+				CVV
+				<ion-note item-right>12345</ion-note>
+			</ion-item>
+		</ion-item-group>
+
+		<ion-item-group>
+			<div class="spacer" style="height: 16px;"></div>
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZO CASA</ion-item-divider>
+			<ion-item>
+				Via
+				<ion-note item-right>Corso Vittorio</ion-note>
+			</ion-item>
+			<ion-item>
+				Numero
+				<ion-note item-right>90</ion-note>
+			</ion-item>
+			<ion-item>
+				Codice postale
+				<ion-note item-right>10125</ion-note>
+			</ion-item>
+			<ion-item>
+				Città
+				<ion-note item-right>Roma</ion-note>
+			</ion-item>
+			<ion-item>
+				Paese
+				<ion-note item-right>Italia</ion-note>
+			</ion-item>
+		</ion-item-group>
+
+		<ion-item-group>
+			<div class="spacer" style="height: 16px;"></div>
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZO LAVORO</ion-item-divider>
+			<ion-item>
+				Via
+				<ion-note item-right>Via Roma</ion-note>
+			</ion-item>
+			<ion-item>
+				Numero
+				<ion-note item-right>38</ion-note>
+			</ion-item>
+			<ion-item>
+				Codice postale
+				<ion-note item-right>10100</ion-note>
+			</ion-item>
+			<ion-item>
+				Città
+				<ion-note item-right>Roma</ion-note>
+			</ion-item>
+			<ion-item>
+				Paese
+				<ion-note item-right>Italia</ion-note>
+			</ion-item>
+		</ion-item-group>
+	</ion-list>
+	</ion-content>

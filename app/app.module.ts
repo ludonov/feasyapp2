@@ -9,6 +9,7 @@ import { HomePage } from '../pages/5_home/5_home';
 import { ListsPage } from '../pages/6_lists/6_lists';
 import { ListPage } from '../pages/7_list/7_list';
 import { AddOrShowItemPage } from '../pages/13A_specific_product_demander/13A_specific_product_demander';
+import { UserProfilePage } from '../pages/17_user_profile/17_user_profile';
 import { DoShoppingPage } from '../pages/18A_do_shopping/18A_do_shopping';
 import { ChatPage } from '../pages/19_chat_list/19_chat_list';
 
@@ -34,6 +35,7 @@ export const firebaseConfig = {
     HomePage,
     ListsPage,
     ListPage,
+    UserProfilePage,
     AddOrShowItemPage,
     DoShoppingPage,
     ChatPage,
@@ -51,6 +53,7 @@ export const firebaseConfig = {
     HomePage,
     ListsPage,
     ListPage,
+    UserProfilePage,
     AddOrShowItemPage,
     DoShoppingPage,
     ChatPage,
