@@ -1,14 +1,14 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Settings</ion-title>
+    <ion-title>Impostazioni</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content class="has-header" class="background-color-body">  
   <ion-list>  
     <button ion-item full class="" style="color:black; background-color:white" (click)="editProfile()">Modifica profilo</button>
-    <button ion-item full class="" style="color:black; background-color:white" ui-sref="#">Reimposta password</button>
-    <button ion-item full class="" style="color:black; background-color:white" ui-sref="#">Termini e condizioni</button>
+    <button ion-item full class="" style="color:black; background-color:white" (click)="editPassword()">Reimposta password</button>
+    <button ion-item full class="" style="color:black; background-color:white" (click)="terms()">Termini e condizioni</button>
   </ion-list>
-  <button ion-button full class="center" style="color:red; background-color:white" (click)="logout()">Esci</button>
+  <button ion-button full class="center" style="color:red; background-color:white" (click)="logout()">Logout</button>
 </ion-content>

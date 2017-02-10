@@ -12,7 +12,9 @@ import { AddOrShowItemPage } from '../pages/13A_specific_product_demander/13A_sp
 import { DoShoppingPage } from '../pages/18A_do_shopping/18A_do_shopping';
 import { ChatPage } from '../pages/19_chat_list/19_chat_list';
 import { SettingsPage } from '../pages/23_settings/23_settings';
-import { EditProfilePage } from '../pages/24_edit_profile/24_edit_profile'
+import { EditProfilePage } from '../pages/24_edit_profile/24_edit_profile';
+import { PasswordResetPage } from '../pages/25_password_reset/25_password_reset';
+import { TermsAndConditionsPage } from '../pages/26_terms_and_conditions/26_terms_and_conditions';
 
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -41,7 +43,9 @@ export const firebaseConfig = {
     ChatPage,
     TabsPage,
     SettingsPage,
-    EditProfilePage
+    EditProfilePage,
+    PasswordResetPage,
+    TermsAndConditionsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -60,7 +64,9 @@ export const firebaseConfig = {
     ChatPage,
     TabsPage,
     SettingsPage,
-    EditProfilePage
+    EditProfilePage,
+    PasswordResetPage,
+    TermsAndConditionsPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
