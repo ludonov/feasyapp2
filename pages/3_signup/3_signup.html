@@ -7,7 +7,7 @@
 
 <ion-content scroll="false">
 
-  <ion-list class="center">
+  <ion-list>
 
     <ion-item>
       <ion-label fixed>Nome</ion-label>
@@ -26,17 +26,15 @@
       <ion-input [(ngModel)]="userdata.Password" type="password" value=""></ion-input>
     </ion-item>
 
-    <br><br>
-    <ion-item>
-      <ion-label>Accetto i termini e le condizioni</ion-label>
-      <ion-checkbox [(ngModel)]="terms_accepted"></ion-checkbox>
-    </ion-item>
-
-
-    <div padding>
-      <button ion-button block (click)="signUp()">Iscriviti</button>
-    </div>
-
   </ion-list>
+
+  <div class="spacer" style="height: 32px;"></div>
+
+  <ion-item class="center">
+    <ion-label>Accetto i termini e le condizioni</ion-label>
+    <ion-checkbox class="center" [(ngModel)]="terms_accepted"></ion-checkbox>
+  </ion-item>
+
+  <button ion-button block color="primary" (click)="signUp()">Iscriviti</button>
 
 </ion-content>
