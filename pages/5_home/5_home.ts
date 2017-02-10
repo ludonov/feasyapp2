@@ -5,6 +5,7 @@ import { AngularFire } from 'angularfire2';
 
 import { ListsPage } from '../../pages/6_lists/6_lists';
 import { DoShoppingPage } from '../../pages/18A_do_shopping/18A_do_shopping';
+import { SettingsPage } from '../../pages/23_settings/23_settings';
 
 @Component({
   selector: 'page-home',
@@ -37,6 +38,7 @@ export class HomePage {
 
   goToSettings(): void {
     console.log("going to settings page");
+    this.navCtrl.push(SettingsPage);
   }
 
 }

@@ -1,26 +1,14 @@
-<ion-view title="Impostazioni" id="page23" class="background-color-body">
-  <ion-nav-title class="title-custom">Impostazioni</ion-nav-title>
+<ion-header>
+  <ion-navbar>
+    <ion-title>Settings</ion-title>
+  </ion-navbar>
+</ion-header>
 
-  <br>
-  <ion-scroll direction="y" style="right:0; bottom:0; left:0; position:absolute;" class="has-header" class="background-color-body">
-    <div class="list SF-regular">
-      <div class="item item-divider item-title" style="border-top-color: transparent;">
-      </div>
-      <a class="item item-field" ui-sref="EditProfile">
-        Modifica profilo
-      </a>
-      <a class="item item-field" ui-sref="ResetPassword">
-        Reimposta password
-      </a>
-      <a class="item item-field" ui-sref="TermsAndConditions">
-        Termini e condizioni
-      </a>
-      <div class="item item-divider item-title">
-        <br>
-      </div>
-      <a class="item SF-thin center" style="color:red" ng-click="logout()">
-        Esci
-      </a>
-  </ion-scroll>
-
-</ion-view>
+<ion-content class="has-header" class="background-color-body">  
+  <ion-list>  
+    <button ion-item full class="" style="color:black; background-color:white" (click)="editProfile()">Modifica profilo</button>
+    <button ion-item full class="" style="color:black; background-color:white" ui-sref="#">Reimposta password</button>
+    <button ion-item full class="" style="color:black; background-color:white" ui-sref="#">Termini e condizioni</button>
+  </ion-list>
+  <button ion-button full class="center" style="color:red; background-color:white" (click)="logout()">Esci</button>
+</ion-content>

@@ -11,6 +11,8 @@ import { ListPage } from '../pages/7_list/7_list';
 import { AddOrShowItemPage } from '../pages/13A_specific_product_demander/13A_specific_product_demander';
 import { DoShoppingPage } from '../pages/18A_do_shopping/18A_do_shopping';
 import { ChatPage } from '../pages/19_chat_list/19_chat_list';
+import { SettingsPage } from '../pages/23_settings/23_settings';
+import { EditProfilePage } from '../pages/24_edit_profile/24_edit_profile'
 
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -37,7 +39,9 @@ export const firebaseConfig = {
     AddOrShowItemPage,
     DoShoppingPage,
     ChatPage,
-    TabsPage
+    TabsPage,
+    SettingsPage,
+    EditProfilePage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -54,7 +58,9 @@ export const firebaseConfig = {
     AddOrShowItemPage,
     DoShoppingPage,
     ChatPage,
-    TabsPage
+    TabsPage,
+    SettingsPage,
+    EditProfilePage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
