@@ -1,12 +1,11 @@
 ﻿<ion-header>
-  <ion-navbar>
+  <ion-navbar hideBackButton="true">
     <ion-title>Accedi</ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content scroll="false">
-  
   <ion-list class="center">
 
     <ion-item class="center">
@@ -23,13 +22,13 @@
       <button ion-button block (click)="normalSignIn()">Accedi</button>
     </div>
 
-    <p padding class="SF-thin">
-      <a (click)="recoverPass()">Password dimenticata?</a>
+    <p padding style="color:black">
+      <a style="color:black" (click)="recoverPass()">Password dimenticata?</a>
     </p>
 
-    <p padding class="or-separator SF-thin">OR<p>
+    <p padding class="or-separator">OR<p>
 
-    <p padding class="center SF-thin">Non hai ancora un account? Iscriviti!</p>
+    <p padding class="center">Non hai ancora un account? Iscriviti!</p>
 
     <div padding>
       <button ion-button block (click)="facebookSignIn()">Accedi con Facebook</button>
@@ -46,4 +45,5 @@
   <div class="center SF-regular">
     <button class="button button-block button-positive icon ion-email" style="color:white; text-align:center" (click)="signUp()">&nbsp&nbsp&nbspIscriviti con Email</button>
   </div>-->
+
 </ion-content>
