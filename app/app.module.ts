@@ -10,7 +10,10 @@ import { HomePage } from '../pages/5_home/5_home';
 import { ListsPage } from '../pages/6_lists/6_lists';
 import { ListPage } from '../pages/7_list/7_list';
 import { AddOrShowItemPage } from '../pages/13A_specific_product_demander/13A_specific_product_demander';
+import { MapTabsPage } from '../pages/18_tabs/18_tabs';
 import { DoShoppingPage } from '../pages/18A_do_shopping/18A_do_shopping';
+import { DoShoppingListsPage } from '../pages/18B_do_shopping_lists/18B_do_shopping_lists';
+import { DoShoppingFiltersPage } from '../pages/18C_do_shopping_filters/18C_do_shopping_filters';
 import { ChatPage } from '../pages/19_chat_list/19_chat_list';
 import { SettingsPage } from '../pages/23_settings/23_settings';
 import { EditProfilePage } from '../pages/24_edit_profile/24_edit_profile';
@@ -41,7 +44,10 @@ export const firebaseConfig = {
     ListsPage,
     ListPage,
     AddOrShowItemPage,
+    MapTabsPage,
     DoShoppingPage,
+    DoShoppingListsPage,
+    DoShoppingFiltersPage,
     ChatPage,
     TabsPage,
     SettingsPage,
@@ -63,7 +69,10 @@ export const firebaseConfig = {
     ListsPage,
     ListPage,
     AddOrShowItemPage,
+    MapTabsPage,
     DoShoppingPage,
+    DoShoppingListsPage,
+    DoShoppingFiltersPage,
     ChatPage,
     TabsPage,
     SettingsPage,
