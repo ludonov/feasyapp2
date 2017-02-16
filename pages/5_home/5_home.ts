@@ -8,6 +8,9 @@ import { DoShoppingPage } from '../../pages/18A_do_shopping/18A_do_shopping';
 
 import { UserProfilePage } from '../../pages/17_user_profile/17_user_profile';
 
+// Temporary, to see the pages
+import { PublicatedListNoShopperPage } from '../../pages/10_publicated_list_no_shopper/10_publicated_list_no_shopper';
+
 @Component({
   selector: 'page-home',
   templateUrl: '5_home.html'
@@ -40,6 +43,11 @@ export class HomePage {
 
   goToSettings(): void {
     console.log("going to settings page");
+  }
+
+  tmp_goto_page10(): void {
+    console.log("going to page publicated list no shopper");
+    this.navCtrl.push(PublicatedListNoShopperPage);
   }
 
 }
