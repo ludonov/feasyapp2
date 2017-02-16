@@ -12,6 +12,7 @@ import { UserProfilePage } from '../../pages/17_user_profile/17_user_profile';
 import { PublicatedListNoShopperPage } from '../../pages/10_publicated_list_no_shopper/10_publicated_list_no_shopper';
 import { PublicatedListPovShopperPage } from '../../pages/10B_publicated_list_pov_shopper/10B_publicated_list_pov_shopper';
 import { PublicatedListWithShopperPage } from '../../pages/11_publicated_list_with_shopper/11_publicated_list_with_shopper';
+import { PublicatedListProductsPage } from '../../pages/12_publicated_list_products/12_publicated_list_products';
 
 @Component({
   selector: 'page-home',
@@ -60,6 +61,11 @@ export class HomePage {
   tmp_goto_page11(): void {
     console.log("going to page publicated list with shopper");
     this.navCtrl.push(PublicatedListWithShopperPage);
+  }
+
+  tmp_goto_page12(): void {
+    console.log("going to page publicated list products");
+    this.navCtrl.push(PublicatedListProductsPage);
   }
 
 }
