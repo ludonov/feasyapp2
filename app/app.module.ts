@@ -9,6 +9,7 @@ import { HomePage } from '../pages/5_home/5_home';
 import { ListsPage } from '../pages/6_lists/6_lists';
 import { ListPage } from '../pages/7_list/7_list';
 import { PublicatedListNoShopperPage } from '../pages/10_publicated_list_no_shopper/10_publicated_list_no_shopper';
+import { PublicatedListPovShopperPage } from '../pages/10B_publicated_list_pov_shopper/10B_publicated_list_pov_shopper';
 import { AddOrShowItemPage } from '../pages/13A_specific_product_demander/13A_specific_product_demander';
 import { UserProfilePage } from '../pages/17_user_profile/17_user_profile';
 import { DoShoppingPage } from '../pages/18A_do_shopping/18A_do_shopping';
@@ -37,6 +38,7 @@ export const firebaseConfig = {
     ListsPage,
     ListPage,
     PublicatedListNoShopperPage,
+    PublicatedListPovShopperPage,
     UserProfilePage,
     AddOrShowItemPage,
     DoShoppingPage,
@@ -56,6 +58,7 @@ export const firebaseConfig = {
     ListsPage,
     ListPage,
     PublicatedListNoShopperPage,
+    PublicatedListPovShopperPage,
     UserProfilePage,
     AddOrShowItemPage,
     DoShoppingPage,
