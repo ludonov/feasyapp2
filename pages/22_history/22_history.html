@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Profilo</ion-title>
+		<ion-buttons end>
+      		<button ion-button item-right>MODIFICA</button>
+    	</ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
+  
+  <ion-card>
+    <ion-card-header>
+      Ultimi movimenti
+    </ion-card-header>
+
+    <ion-list>
+      <ion-item>
+        <ion-avatar item-left (click)="goToProfile()">
+          <img src="assets/images/17_profilo/Alberto.jpg">
+        </ion-avatar>
+        <h2>Alberto Arrighi</h2>
+        <p>@albi</p>
+        <ion-note item-right>FATTA - 16:00 - 22/07/2016</ion-note>
+      </ion-item>
+      <ion-item>
+        <ion-avatar item-left (click)="goToProfile()">
+          <img src="assets/images/17_profilo/Daniele.jpg">
+        </ion-avatar>
+        <h2>Daniele Pettenuzzo</h2>
+        <p>@pette</p>
+        <ion-note item-right>FATTA - 14:36 - 22/07/2016</ion-note>
+      </ion-item>
+      <ion-item>
+        <ion-avatar item-left (click)="goToProfile()">
+          <img src="assets/images/17_profilo/Ludovico.jpg">
+        </ion-avatar>
+        <h2>Ludovico Novelli</h2>
+        <p>@ludonov</p>
+        <ion-note item-right>RICEVUTA - 18:02 - 21/07/2016</ion-note>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+</ion-content>
