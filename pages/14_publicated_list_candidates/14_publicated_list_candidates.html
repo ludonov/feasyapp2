@@ -1,22 +1,39 @@
-<ion-view title="Candidati" id="page14" class="background-color-body">
-    <ion-nav-title class="title-custom">Candidati</ion-nav-title>
+<ion-header>
+  <ion-navbar>
+    <ion-title>Publicated List Candidates</ion-title>
+    <ion-buttons end>
+        <button ion-button item-right>FILTRA</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
-  <ion-nav-buttons side="secondary">
-    <button class="button button-small icon-color SF-regular bar-button-color">FILTRA</button>
-  </ion-nav-buttons>
+<ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
 
-  <ion-scroll direction="y" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs" class="background-color-body">
-    <div class="list">
+  <ion-list>
+    <ion-item>
+      <ion-avatar item-left>
+        <img src="assets/images/17_profilo/Alberto.jpg">
+      </ion-avatar>
+      <h2>Alberto Arrighi</h2>
+      <p>@albi</p>
+      <ion-note item-right><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon></ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-avatar item-left>
+        <img src="assets/images/17_profilo/Daniele.jpg">
+      </ion-avatar>
+      <h2>Daniele Pettenuzzo</h2>
+      <p>@pette</p>
+      <ion-note item-right><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon></ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-avatar item-left>
+        <img src="assets/images/17_profilo/Ludovico.jpg">
+      </ion-avatar>
+      <h2>Ludovico Novelli</h2>
+      <p>@ludonov</p>
+      <ion-note item-right><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon></ion-note>
+    </ion-item>
+  </ion-list>
 
-      <h5 class="SF-thin center" ng-show="list.candidates.length == 0">NESSUN CANDIDATO DISPONIBILE</h5>
-
-      <a class="item item-avatar" ng-repeat="candidate in list.candidates" ng-click="view_candidate_info(candidate)">
-        <img ng-src={{candidate.profile_pic_url}}>
-        <h2 class="SF-regular">{{candidate.first_name}} {{candidate.last_name}}</h2>
-        <p><i class="icon ion-star ion"></i><i class="icon ion-star ion"></i><i class="icon ion-star ion"></i><i class="icon ion-ios-star-half ion"></i><i class="icon ion-ios-star-outline ion"></i></p>
-      </a>
-
-    </div>
-
-  </ion-scroll>
-</ion-view>
+</ion-content>

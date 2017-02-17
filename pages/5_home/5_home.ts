@@ -14,6 +14,7 @@ import { PublicatedListPovShopperPage } from '../../pages/10B_publicated_list_po
 import { PublicatedListWithShopperPage } from '../../pages/11_publicated_list_with_shopper/11_publicated_list_with_shopper';
 import { PublicatedListProductsPage } from '../../pages/12_publicated_list_products/12_publicated_list_products';
 import { SpecificProductShopperPage } from '../../pages/13B_specific_product_shopper/13B_specific_product_shopper';
+import { PublicatedListCandidatesPage } from '../../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 
 @Component({
   selector: 'page-home',
@@ -72,5 +73,10 @@ export class HomePage {
   tmp_goto_page13B(): void {
     console.log("going to page specific product shopper");
     this.navCtrl.push(SpecificProductShopperPage);
+  }
+
+  tmp_goto_page14(): void {
+    console.log("going to page publicated list candidates");
+    this.navCtrl.push(PublicatedListCandidatesPage);
   }
 }
