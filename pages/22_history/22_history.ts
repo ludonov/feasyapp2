@@ -7,6 +7,8 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 import { FeasyUser, FeasyList, FeasyItem } from '../../classes/Feasy';
 
 import { UserProfilePage } from '../../pages/17_user_profile/17_user_profile';
+import { UserProfilePovOtherUsersPage } from '../../pages/17B_user_profile_pov_other_users/17B_user_profile_pov_other_users';
+
 
 @Component({
   selector: 'page-history',
@@ -19,9 +21,9 @@ export class HistoryPage {
 
   }
 
-goToProfile(): void {
-    console.log("going to profile page");
-    this.navCtrl.push(UserProfilePage);
+  goToProfileOtherUser(): void {
+    console.log("going to profile page of another user");
+    this.navCtrl.push(UserProfilePovOtherUsersPage);
   }
 
 }

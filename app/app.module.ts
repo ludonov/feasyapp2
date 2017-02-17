@@ -18,8 +18,10 @@ import { SpecificProductShopperPage } from '../pages/13B_specific_product_shoppe
 import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 import { CandidateInfoUnacceptedPage } from '../pages/16_candidate_info_unaccepted/16_candidate_info_unaccepted';
 import { UserProfilePage } from '../pages/17_user_profile/17_user_profile';
+import { UserProfilePovOtherUsersPage } from '../pages/17B_user_profile_pov_other_users/17B_user_profile_pov_other_users';
 import { DoShoppingPage } from '../pages/18A_do_shopping/18A_do_shopping';
 import { ChatPage } from '../pages/19_chat_list/19_chat_list';
+import { HistoryPage } from '../pages/22_history/22_history';
 
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -52,9 +54,11 @@ export const firebaseConfig = {
     PublicatedListCandidatesPage,
     CandidateInfoUnacceptedPage,
     UserProfilePage,
+    UserProfilePovOtherUsersPage,
     AddOrShowItemPage,
     DoShoppingPage,
     ChatPage,
+    HistoryPage,
     TabsPage
   ],
   imports: [
@@ -78,9 +82,11 @@ export const firebaseConfig = {
     PublicatedListCandidatesPage,
     CandidateInfoUnacceptedPage,
     UserProfilePage,
+    UserProfilePovOtherUsersPage,
     AddOrShowItemPage,
     DoShoppingPage,
     ChatPage,
+    HistoryPage,
     TabsPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]

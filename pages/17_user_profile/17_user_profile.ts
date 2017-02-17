@@ -6,6 +6,8 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 
 import { FeasyUser, FeasyList, FeasyItem } from '../../classes/Feasy';
 
+import { HistoryPage } from '../../pages/22_history/22_history';
+
 @Component({
   selector: 'page-user-profile',
   templateUrl: '17_user_profile.html'
@@ -20,6 +22,11 @@ export class UserProfilePage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
     this.user_db = af.database.list('/users/' + af.auth.getAuth().uid);
     this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {this.user = snapshot.val();});
+  }
+
+  goToHistory(): void {
+    console.log("going to history page");
+    this.navCtrl.push(HistoryPage);
   }
 
 }
