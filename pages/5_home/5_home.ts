@@ -14,7 +14,7 @@ export class HomePage {
 
   public tab: Tabs;
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public af: AngularFire) {
     console.log("NAV> home page");
     this.tab = this.navCtrl.parent;
     //this.user = Backendless.UserService.login("ludovico.novelli@gmail.com", "prova", true);
@@ -33,6 +33,11 @@ export class HomePage {
 
   goToProfile(): void {
     console.log("going to profile page");
+    this.af.auth.logout().then(res => {
+      console.log("Logged out!");
+    }).catch(res => {
+      console.log("Cannot logout: " + res);
+    });
   }
 
   goToSettings(): void {

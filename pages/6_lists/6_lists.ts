@@ -101,6 +101,10 @@ export class ListsPage {
 
   goToList(list: any): void {
     console.log("Goto list: " + list.Name);
+    if (list.Items == null)
+      list.Items = {};
+    if (list.DeliveryAddresses == null)
+      list.DeliveryAddresses = {};
     this.navCtrl.push(ListPage, { list: list });
   }
 

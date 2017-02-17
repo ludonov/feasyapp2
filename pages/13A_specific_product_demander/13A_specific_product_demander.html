@@ -15,7 +15,7 @@
 
     <ion-item class="center">
       <ion-label fixed>Prodotto</ion-label>
-      <ion-input [(ngModel)]="item.Name" type="text" value=""></ion-input>
+      <ion-input #NameInput [(ngModel)]="item.Name" type="text" value="" autofocus></ion-input>
     </ion-item>
     <ion-item class="center">
       <ion-label fixed>Quantità</ion-label>

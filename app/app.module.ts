@@ -8,9 +8,11 @@ import { SignupPage } from '../pages/3_signup/3_signup';
 import { HomePage } from '../pages/5_home/5_home';
 import { ListsPage } from '../pages/6_lists/6_lists';
 import { ListPage } from '../pages/7_list/7_list';
+import { PublicateListPage } from '../pages/9_publicate_list/9_publicate_list';
 import { AddOrShowItemPage } from '../pages/13A_specific_product_demander/13A_specific_product_demander';
 import { DoShoppingPage } from '../pages/18A_do_shopping/18A_do_shopping';
 import { ChatPage } from '../pages/19_chat_list/19_chat_list';
+import { AddressViewPage } from '../pages/29_address_view/29_address_view';
 
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -34,9 +36,11 @@ export const firebaseConfig = {
     HomePage,
     ListsPage,
     ListPage,
+    PublicateListPage,
     AddOrShowItemPage,
     DoShoppingPage,
     ChatPage,
+    AddressViewPage,
     TabsPage
   ],
   imports: [
@@ -51,9 +55,11 @@ export const firebaseConfig = {
     HomePage,
     ListsPage,
     ListPage,
+    PublicateListPage,
     AddOrShowItemPage,
     DoShoppingPage,
     ChatPage,
+    AddressViewPage,
     TabsPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
