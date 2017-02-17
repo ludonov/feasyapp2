@@ -13,6 +13,7 @@ import { PublicatedListNoShopperPage } from '../../pages/10_publicated_list_no_s
 import { PublicatedListPovShopperPage } from '../../pages/10B_publicated_list_pov_shopper/10B_publicated_list_pov_shopper';
 import { PublicatedListWithShopperPage } from '../../pages/11_publicated_list_with_shopper/11_publicated_list_with_shopper';
 import { PublicatedListProductsPage } from '../../pages/12_publicated_list_products/12_publicated_list_products';
+import { SpecificProductShopperPage } from '../../pages/13B_specific_product_shopper/13B_specific_product_shopper';
 
 @Component({
   selector: 'page-home',
@@ -68,4 +69,8 @@ export class HomePage {
     this.navCtrl.push(PublicatedListProductsPage);
   }
 
+  tmp_goto_page13B(): void {
+    console.log("going to page specific product shopper");
+    this.navCtrl.push(SpecificProductShopperPage);
+  }
 }
