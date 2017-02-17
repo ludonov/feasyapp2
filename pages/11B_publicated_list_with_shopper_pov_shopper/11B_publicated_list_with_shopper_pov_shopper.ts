@@ -7,11 +7,11 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 import { FeasyUser, FeasyList, FeasyItem } from '../../classes/Feasy';
 
 @Component({
-  selector: 'page-publicated-pov-shopper',
-  templateUrl: '10B_publicated_list_pov_shopper.html'
+  selector: 'page-publicated-with-shopper-pov-shopper',
+  templateUrl: '11B_publicated_list_with_shopper_pov_shopper.html'
 })
 
-export class PublicatedListPovShopperPage {
+export class PublicatedListWithShopperPovShopperPage {
 
   constructor() {
 
