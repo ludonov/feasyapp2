@@ -1,68 +1,80 @@
-<ion-view title="Dettagli candidato" id="page16" class="background-color-body">
-    <ion-nav-title class="title-custom">Dettagli candidato</ion-nav-title>
+<ion-header>
+  <ion-navbar>
+    <ion-title>Candidate Info Unaccepted</ion-title>
+  </ion-navbar>
+</ion-header>
 
-    <ion-scroll direction="y" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs" class="background-color-body">
+<ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
+	    
+	<ion-list>	
+		<ion-card>
+			<ion-item class="profile-item">
+				<div class="profile-picture">
+					<img src="assets/images/16_candidate_info_unaccepted/Ludovico.jpg">
+				</div>
+				<h2 class="profile-name dark">Lidovico Novelli</h2>
+				<div class="profile-info">@ludonov</div>
+			</ion-item>
+		</ion-card>
+	</ion-list>
 
-      <div class="center">
-        <h3 class = "profile-personal-info" style="padding-top:10px; color:black">{{candidate.first_name}} {{candidate.last_name}}</h3>
-        <img id="profile_image" class="image-circle" src="{{candidate.profile_pic_url}}" height="100" width="100" onerror="this.src=get_unknown_man_pic()">
-        <h4 class = "profile-personal-info">Valutazione: <i class="icon ion-star ion"></i><i class="icon ion-star ion"></i><i class="icon ion-star ion"></i><i class="icon ion-ios-star-half ion"></i><i class="icon ion-ios-star-outline ion"></i></h4>
-        <h4 class = "profile-personal-info">Iscritto dal: <font class="profile-personal-info">03/01/2016</font></h4>
-        <h4 class = "profile-personal-info">Commissioni fatte: <font class="profile-personal-info">{{candidate.accepted_tasks}}</font></h4>
-        <h4 class = "profile-personal-info" style="margin-top:0px; margin-bottom:0px; padding-bottom:10px">Commissioni ricevute: <font class="profile-personal-info">{{candidate.requested_tasks}}</font></h4>
-      </div>
+	<ion-card>
+		<button ion-item>
+		<ion-icon name="person" item-left></ion-icon>
+		Visita profilo completo
+		<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+		</button>
+	</ion-card>
+	
+	<ion-list>
+		<ion-item-group>
+			<div class="spacer" style="height: 16px;"></div>
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">UTILIZZO</ion-item-divider>
+			<ion-item>
+				Iscritto dal
+				<ion-note item-right>12/07/2016</ion-note>
+			</ion-item>
+      <ion-item>
+				Commissioni fatte
+				<ion-note item-right>12</ion-note>
+			</ion-item>
+			<ion-item>
+				Commissioni ricevute
+				<ion-note item-right>6</ion-note>
+			</ion-item>
+			<ion-item>
+				Punteggio
+				<ion-note item-right><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon></ion-note>
+			</ion-item>
+		</ion-item-group>
 
-      <div class="list card">
+    <div class="spacer" style="height: 16px;"></div>
+    <ion-item-divider color="light" class="item-title">CONSEGNA PROPOSTA DALLO SHOPPER</ion-item-divider>
+    <ion-item class="item-icon-right"  type="item-text-wrap">
+      <h2>Corso Re Umberto 48, 10128, Torino (TO), ITALIA</h2>
+      <p>Sabato 18/02/2017 - dalle 16.00 alle 18.00</p>
+      <i class="icon ion-chevron-right icon-accessory"></i>
+    </ion-item>
+		
+    <div class="spacer" style="height: 16px;"></div>
+      <ion-item-divider color="light" class="item-title">DETTAGLI COMMISSIONE PROPOSTI DALLO SHOPPER </ion-item-divider>
 
-        <a class="item item-icon-left" ng-click="view_candidate_profile()">
-          <i class="icon ion-person SF-regular" style="color:#8e8f92"></i>
-          Visita profilo completo
-        </a>
+      <ion-item>
+        Mancia
+        <ion-note item-right>10 €</ion-note>
+      </ion-item>
+      <ion-item>
+        Negozio
+        <ion-note item-right>Carrefour</ion-note>
+      </ion-item>
+      <ion-item>
+        Tetto massimo
+        <ion-note item-right>50 €</ion-note>
+      </ion-item>
+	</ion-list>
 
-      </div>
-
-      <div class="list SF-regular">
-        <div class="item item-divider item-title background-color-list-item-divider" style="border-top-color: transparent;">
-          DETTAGLI CONSEGNA
-        </div>
-        <a class="item item-field">
-          Dove
-          <span class="item-note item-content profile-element-content">Corso Re Umberto 48</span>
-        </a>
-        <a class="item item-field">
-          Dalle
-          <span class="item-note item-content profile-element-content">18.00</span>
-        </a>
-        <a class="item item-field">
-          Alle
-          <span class="item-note item-content profile-element-content">19.00</span>
-        </a>
-        <div class="item item-divider item-title background-color-list-item-divider">
-          <br>
-          CONDIZIONI
-        </div>
-        <a class="item item-field">
-          Mancia
-          <span class="item-note item-content profile-element-content">{{candidate.conditions_reward}}</span>
-        </a>
-        <a class="item item-field">
-          Peso
-          <span class="item-note item-content profile-element-content">{{candidate.conditions_weight}}</span>
-        </a>
-        <a class="item item-field">
-          Negozio
-          <span class="item-note item-content profile-element-content">{{candidate.conditions_shops}}</span>
-        </a>
-        <a class="item item-field">
-          Tetto massimo
-          <span class="item-note item-content profile-element-content">{{candidate.conditions_max_value}}</span>
-        </a>
-
-      </div>
-      <br>
-      <button class="button button-block button-color SF-regular" ng-click="accept_candidate()">
-        Accetta
-      </button>
-
-    </ion-scroll>
-</ion-view>
+  <div class="spacer" style="height: 32px;"></div>
+  <div class="center" style="color:#387ef5"><p>È lo shopper più adatto alle tue esigenze? Accettalo!</p></div>
+  <button ion-button block>Accetta</button>
+		
+	</ion-content>
