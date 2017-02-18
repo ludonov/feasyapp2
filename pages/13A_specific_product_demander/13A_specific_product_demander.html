@@ -12,16 +12,15 @@
 
 <ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
   <ion-list>
-
-    <ion-item class="center">
+    <ion-item>
       <ion-label fixed>Prodotto</ion-label>
       <ion-input #NameInput [(ngModel)]="item.Name" type="text" value="" autofocus></ion-input>
     </ion-item>
-    <ion-item class="center">
+    <ion-item>
       <ion-label fixed>Quantità</ion-label>
-      <ion-input [(ngModel)]="item.Qty" type="number" value=""></ion-input>
+      <ion-input  [(ngModel)]="item.Qty" type="number" value=""></ion-input>
     </ion-item>
-    <ion-item class="center">
+    <ion-item>
       <ion-label fixed>Unità</ion-label>
       <ion-select [(ngModel)]="item.Unit" interface="action-sheet" multiple="false" placeholder="Pezzi">
         <ion-option value="{{unit}}" selected="(unit=='Pezzi' && item.Unit == undefined) || (item.Unit != null && unit == item.Unit)" *ngFor="let unit of units">
@@ -29,26 +28,23 @@
         </ion-option>
       </ion-select>
     </ion-item>
-    <ion-item class="center">
+    <ion-item>
       <ion-label fixed>Marca</ion-label>
       <ion-input [(ngModel)]="item.Brand" type="text" value=""></ion-input>
     </ion-item>
-    <ion-item class="center">
-      <ion-label fixed>Fascia di prezzo</ion-label>
+    <ion-item>
+      <ion-label fixed>Fascia prezzo</ion-label>
       <ion-input [(ngModel)]="item.PriceRange" type="text" value=""></ion-input>
     </ion-item>
-    <ion-item class="center">
-      <ion-label fixed>Altri Dettagli</ion-label>
+    <ion-item>
+      <ion-label fixed>Altri dettagli</ion-label>
       <ion-input [(ngModel)]="item.Comments" type="text" value=""></ion-input>
     </ion-item>
   </ion-list>
 
-  <button padding ion-button round class="SF-regular" (click)="save()">
-    Salva
-  </button>
+  <div class="center"><button ion-button round (click)="save()" style="width: 120px">Salva</button></div>
 
-  <button padding ion-button round class="SF-regular" (click)="delete()" [hidden]="is_new">
-    Elimina
-  </button>
+  <div class="spacer" style="height: 10px;"></div>
+  <div class="center"><button ion-button round (click)="delete()" [hidden]="is_new" color="danger" style="width: 120px">Elimina</button></div>
 
 </ion-content>

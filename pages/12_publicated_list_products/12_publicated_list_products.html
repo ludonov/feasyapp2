@@ -1,12 +1,24 @@
-<ion-view title="Prodotti" id="page12" class="background-color-body">
-    <ion-nav-title class="title-custom">Prodotti</ion-nav-title>
+<ion-header>
+  <ion-navbar>
+    <ion-title>Publicated List Products</ion-title>
+  </ion-navbar>
+</ion-header>
 
-  <ion-scroll direction="y" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs" class="background-color-body">
-    <div class = "list">
-      <a class="item item-field" ng-repeat="product in list.items" ng-click="view_product_details(product)">
-        {{product.name}}
-        <span class="item-note item-content">{{product.qty}} {{product.unit.unit_name}}</span>
-      </a>
-    </div>
-  </ion-scroll>
-</ion-view>
+
+<ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
+    <ion-list>
+        <ion-item>
+          Pane
+          <ion-note item-right> 300 g</ion-note>
+			  </ion-item>
+        <ion-item>
+          Latte
+          <ion-note item-right> 3 lt</ion-note>
+			  </ion-item>
+        <ion-item>
+          Carote
+          <ion-note item-right>1 kg</ion-note>
+			  </ion-item>
+    </ion-list>
+
+</ion-content>

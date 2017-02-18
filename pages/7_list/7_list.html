@@ -1,20 +1,14 @@
 ﻿<ion-header>
   <ion-navbar>
     <ion-title>Lista {{list.Name}}</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="addItem()">
-        <ion-icon name="md-add"></ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content scroll="false">
-
-    <h5 class="SF-thin center" [hidden]="!no_items">NESSUN PRODOTTO IN LISTA. AGGIUNGILO !</h5>
+<ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
+    <h6 class="center" [hidden]="!no_items">Nessun prodotto in lista, aggiungilo!</h6>
     <ion-list>
-      <ion-item class="item item-field" (click)="goToItem(item)" *ngFor="let item of items_db | async">
+      <ion-item (click)="goToItem(item)" *ngFor="let item of items_db | async">
         <ion-label>
           {{item.Name}}
         </ion-label>
@@ -24,8 +18,13 @@
       </ion-item>
     </ion-list>
 
-    <button padding ion-button round (click)="publicateList()" class="SF-regular">Pubblica</button>
-    <button padding ion-button round (click)="deleteList()" class="SF-regular">Elimina</button>
+    <div class="center"> <button ion-button round color="primary" (click)="addItem()" class="center">Aggiungi prodotto</button></div>
+
+    <div class="spacer" style="height: 64px;"></div>
+
+    <button ion-button block color="primary" (click)="publicateList()">Pubblica lista</button>
+    <div class="spacer" style="height: 16px;"></div>
+    <button ion-button block color="danger" (click)="deleteList()">Elimina lista</button>
 
 </ion-content>
 
