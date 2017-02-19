@@ -20,7 +20,7 @@
 
     <ion-item class="item item-field" (click)="ViewAddress(address)" *ngFor="let address of addresses_db | async">
       <ion-label>
-        {{address.metadata.formatted_address}}
+        {{address.FormattedAddress}}
       </ion-label>
       <div item-content>
         dalle {{address.From}} &nbsp; alle {{address.To}}  <br>

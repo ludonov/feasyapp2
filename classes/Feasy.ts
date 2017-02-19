@@ -203,20 +203,24 @@ export class DeliveryAddress {
   }
 
   private updateGeodata(data: google.maps.GeocoderResult): void {
-      this.Latitude = data.geometry.location.lat();
-      this.Longitude = data.geometry.location.lng();
-      this.FormattedAddress = data.formatted_address;
-      for (var j = 0; j < data.address_components.length; j++) {
-        if (data.address_components[j].types[0] == "route")
-          this.StreetName = data.address_components[j].short_name;
-        else if (data.address_components[j].types[0] == "locality")
-          this.City = data.address_components[j].short_name;
-        else if (data.address_components[j].types[0] == "country")
-          this.Nation = data.address_components[j].long_name;
-        else if (data.address_components[j].types[0] == "postal_code")
-          this.PostCode = data.address_components[j].short_name;
-      }
-
+    this.Latitude = data.geometry.location.lat();
+    this.Longitude = data.geometry.location.lng();
+    this.FormattedAddress = data.formatted_address;
+    let street_number: string = "";
+    for (var j = 0; j < data.address_components.length; j++) {
+      if (data.address_components[j].types[0] == "route")
+        this.StreetName = data.address_components[j].short_name;
+      else if (data.address_components[j].types[0] == "locality")
+        this.City = data.address_components[j].short_name;
+      else if (data.address_components[j].types[0] == "country")
+        this.Nation = data.address_components[j].long_name;
+      else if (data.address_components[j].types[0] == "postal_code")
+        this.PostCode = data.address_components[j].short_name;
+      else if (data.address_components[j].types[0] == "street_number")
+        street_number = data.address_components[j].short_name;
+    }
+    if (street_number != "")
+      this.StreetName += ", " + street_number;
   }
 }
 
@@ -227,4 +231,13 @@ export function StripForFirebase(obj: any): any {
       delete obj[p.toString()];
   }
   return obj;
+}
+
+export function copyObject<T>(source: T, destination: any): void {
+
+  for (var key in source) {
+    if (source.hasOwnProperty(key)) {
+      destination[key] = source[key];
+    }
+  }
 }

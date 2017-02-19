@@ -8,6 +8,7 @@ import { SignupPage } from '../pages/3_signup/3_signup';
 import { HomePage } from '../pages/5_home/5_home';
 import { ListsPage } from '../pages/6_lists/6_lists';
 import { ListPage } from '../pages/7_list/7_list';
+import { PublicateListPage } from '../pages/9_publicate_list/9_publicate_list';
 import { PublicatedListNoShopperPage } from '../pages/10_publicated_list_no_shopper/10_publicated_list_no_shopper';
 import { PublicatedListNoShopperPovShopperPage } from '../pages/10B_publicated_list_no_shopper_pov_shopper/10B_publicated_list_no_shopper_pov_shopper';
 import { PublicatedListWithShopperPage } from '../pages/11_publicated_list_with_shopper/11_publicated_list_with_shopper';
@@ -46,6 +47,7 @@ export const firebaseConfig = {
     HomePage,
     ListsPage,
     ListPage,
+    PublicateListPage,
     PublicatedListNoShopperPage,
     PublicatedListNoShopperPovShopperPage,
     PublicatedListWithShopperPage,
@@ -75,6 +77,7 @@ export const firebaseConfig = {
     HomePage,
     ListsPage,
     ListPage,
+    PublicateListPage,
     PublicatedListNoShopperPage,
     PublicatedListNoShopperPovShopperPage,
     PublicatedListWithShopperPage,

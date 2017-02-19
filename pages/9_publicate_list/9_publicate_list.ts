@@ -4,7 +4,7 @@ import { NavController, NavParams, AlertController } from 'ionic-angular';
 
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
-import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, copyObject } from '../../classes/Feasy';
 
 import { AddressViewPage } from '../../pages/29_address_view/29_address_view';
 
@@ -46,7 +46,9 @@ export class PublicateListPage {
 
   ViewAddress(address: DeliveryAddress): void {
     console.log("Goto view address:" + address.FormattedAddress);
-    this.navCtrl.push(AddressViewPage, { addresses_db: this.addresses_db, address: address });
+    let _address: DeliveryAddress = new DeliveryAddress();
+    copyObject(address, _address);
+    this.navCtrl.push(AddressViewPage, { addresses_db: this.addresses_db, address: _address });
   }
 
 

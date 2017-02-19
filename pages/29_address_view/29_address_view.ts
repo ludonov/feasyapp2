@@ -99,6 +99,12 @@ export class AddressViewPage {
 
   deleteAddress(): void {
     console.log("Deleting address:" + this.address.FormattedAddress);
+    this.addresses_db.remove(this.address.$key).then(res => {
+      console.log("Address <" + this.address.$key + " removed");
+      this.navCtrl.pop();
+    }).catch( (err:Error) => {
+      console.log("Cannot remove address " + this.address.$key + ": " + err.message);
+    });;
   }
 
 }
