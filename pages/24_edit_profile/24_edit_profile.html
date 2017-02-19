@@ -4,38 +4,142 @@
   </ion-navbar>
 </ion-header>
 
-  <ion-content class="has-header" class="background-color-body">
+  <ion-content class="has-header has-tabs" class="background-color-body">
 
-    <h3>Copiamo profilo di Albi</h3>
+    <ion-list>	
+		<ion-card>
+			<ion-item class="profile-item">
+				<div class="profile-picture">
+					<img src="assets/images/17_profilo/Ludovico.jpg">
+				</div>
+				<h2 class="profile-name dark">Ludovico Novelli</h2>
+				<div class="profile-info">@ludonov</div>
+			</ion-item>
+		</ion-card>
+	</ion-list>
+	
+	<ion-list>
+		
+		<ion-item-group>
+			<!--<div class="spacer" style="height: 16px;"></div>-->
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">ACCOUNT</ion-item-divider>
+			<ion-item>
+				<ion-label>E-mail</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>Username</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>Password</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+		</ion-item-group>
+		
+		<ion-item-group>
+			<!--<div class="spacer" style="height: 16px;"></div>-->
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">INFORMAZIONI PERSONALI</ion-item-divider>
+			<ion-item>
+				<ion-label>Nome</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>Cognome</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>Nazionalità</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>Telefono</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>Sesso</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>Data di nascita</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+		</ion-item-group>
 
-    <!--<div class="center" style="background-color:white">
-      <br>
-      <img id="profile_image" class="image-circle" src="{{user.profile_pic_url}}" height="100" width="100" onerror="this.src=get_unknown_man_pic()">
-      <h5 class="SF-thin" style="margin-top:0px; margin-bottom:0px; padding-top:10px; padding-bottom:10px">CARICA IMMAGINE PROFILO</h5>
+		<ion-item-group>
+			<!--<div class="spacer" style="height: 16px;"></div>-->
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">METODI DI PAGAMENTO</ion-item-divider>
+			<ion-item>
+				<ion-label>Metodo</ion-label>
+				<ion-note type="text">Carta di credito</ion-note>
+			</ion-item>
+			<ion-item>
+				<ion-label>Numero di Carta</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>Scadenza</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>CVV</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+		</ion-item-group>
+
+		<ion-item-group>
+			<!--<div class="spacer" style="height: 16px;"></div>-->
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZO CASA</ion-item-divider>
+			<ion-item>
+				<ion-label>Via</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>Numero</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>Codice postale</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>Città</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>Paese</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+		</ion-item-group>
+
+		<ion-item-group>
+			<!--<div class="spacer" style="height: 16px;"></div>-->
+			<ion-item-divider class="item-title" style="border-top-color: transparent">INDIRIZZO LAVORO</ion-item-divider>
+			<ion-item>
+				<ion-label>Via</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>Numero</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>Codice postale</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>Città</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>Paese</ion-label>
+				<ion-input type="text"></ion-input>
+			</ion-item>
+		</ion-item-group>
+	</ion-list>
+
+  <div padding>
+      <button ion-button block class="center button-color" style="color:white" (click)="changeProfile()">Applica</button>
     </div>
-    <div class="list SF-regular">
-      <div class="item item-divider SF-medium background-color-list-item-divider">
-        <br>
-        INFORMAZIONI PERSONALI
-      </div>
-      <label class="item item-input">
-        <span class="input-label" style="color:black">Nazionalita'</span>
-        <input type="text" ng-model="user.nationality">
-      </label>
-      <label class="item item-input">
-        <span class="input-label" style="color:black">Cellulare</span>
-        <input type="text" ng-model="user.mobile_number">
-      </label>
-      <label class="item item-input">
-        <span class="input-label" style="color:black">Sesso</span>
-        <input type="text" ng-model="user.gender">
-      </label>
-      <label class="item item-input">
-        <span class="input-label" style="color:black">Data di nascita</span>
-        <input type="text" ng-model="user.birthday">
-      </label>
-    </div>
-    <br>
-    <button class="button button-block button-color SF-regular" ng-click="save_user()">Salva</button>-->
 
   </ion-content>
