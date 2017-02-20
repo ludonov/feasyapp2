@@ -1,9 +1,13 @@
-﻿
+﻿/// <reference path="./../../typings/globals/google.maps/index.d.ts" />
+
+import { AlertController } from 'ionic-angular';
 
 type GenderType = "Uomo" | "Donna";
 
 type UnitType = "Grammi" | "Ettogrammi" | "Kilogrammi" | "Pezzi" | "Litri";
 
+
+export const GoogleApiKey: string = "AIzaSyCkCAGEfkSWp3mWjtq8fIj9vGaMglpbsXE";
 
 export function GetUnits(): string[] {
   return ["Grammi", "Ettogrammi", "Kilogrammi", "Pezzi", "Litri"];
@@ -31,6 +35,7 @@ export class FeasyUser {
 
 export class FeasyList {
   public $key: string;
+  public owner: string;
   public Name: string;
   public Items: Object;
   public ItemsCount: number;
@@ -38,14 +43,15 @@ export class FeasyList {
   public Reward: number;
   public PreferredShops: string;
   public MaxValue: number;
-  public EstimatedWeight: string;
+  public EstimatedWeight: number;
   public EstimatedValue: string;
   public Comments: string;
-  public DeliveryAddresses: Array<DeliveryAddress>;
+  public DeliveryAddresses: Object;
 
   constructor(name: string) {
     this.Name = name;
     this.Items = {};
+    this.DeliveryAddresses = {};
     this.Active = false;
   }
 }
@@ -73,34 +79,149 @@ export class DeliveryAddress {
   public City: string;
   public StreetName: string;
   public PostCode: string;
-  public lat: string;
-  public long: string;
-  public Active: boolean;
-  public DeliveryHours: Array<DeliveryHour>;
-
-  constructor(Name: string, FormattedAddress: string, Nation: string, City: string, StreetName: string, PostCode: string, lat: string, long: string, DeliveryHours: Array<DeliveryHour>, Active: boolean) {
-    this.Name = Name;
-    this.FormattedAddress = FormattedAddress;
-    this.Nation = Nation;
-    this.City = City;
-    this.StreetName = StreetName;
-    this.PostCode = PostCode;
-    this.lat = lat;
-    this.long = long;
-    this.DeliveryHours = DeliveryHours;
-    this.Active = Active;
-  }
-}
-
-export class DeliveryHour {
-  public From: number;
-  public To: number;
   public Comments: string;
+  public Latitude: number;
+  public Longitude: number;
+  public Active: boolean;
+  public From: string;
+  public To: string;
 
-  constructor(from: number, to: number, comments: string) {
-    this.From = from;
-    this.To = to;
-    this.Comments = comments;
+  public toString(): string {
+    let street_name: string = this.StreetName ? this.StreetName + ", " : "";
+    var post_code: string = this.PostCode ? this.PostCode + " " : "";
+    var city: string = this.City ? this.City + ", " : "";
+    var nation: string = this.Nation ? this.Nation : "";
+    return street_name + post_code + city + nation;
+  }
+
+  public Geocode(alertCtrl: AlertController): Promise<boolean> {
+
+    return new Promise((resolve, reject) => {
+
+      let geocoder = new google.maps.Geocoder();
+
+      // Geocode the address
+      geocoder.geocode({ address: this.toString() }, (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
+        try {
+          if (status === google.maps.GeocoderStatus.OK) {
+            if (results.length == 1 && (results[0].geometry.location.lat() == null || results[0].geometry.location.lng() == null)) {
+              console.warn("geocode() error: lat or lng is null, but status OK");
+              reject(new Error("Geocode error: lat or lng is null, but status OK"));
+            }
+            this.ParseGeocode(results, status, alertCtrl)
+              .then((res: boolean) => resolve(res))
+              .catch((err: Error) => reject(err));
+          }
+          else {
+            console.warn("geocode() error: status not OK, but " + status.toString());
+            if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
+              reject(new Error("Nessun risultato trovato. Ricontrollare le informazioni inserite e riprovare."));
+            } else {
+              reject(new Error("Errore nella verifica dell'indirizzo: " + status));
+            }
+          }
+        } catch (errdata) {
+          console.warn("geocode() catch error: " + errdata);
+          reject(new Error("geocode() catch error: " + errdata));
+        }
+      });
+    });
+  }
+
+  private ParseGeocode(results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus, alertCtrl: AlertController): Promise<boolean> {
+
+    return new Promise((resolve, reject) => {
+
+      if (results.length > 1) {
+
+        console.log("Found multiple possible addresses");
+
+        let radios: Array<any> = [];
+
+        results.forEach((value: google.maps.GeocoderResult, index: number, array: google.maps.GeocoderResult[]) => {
+          radios.push({ name: index.toString(), type: 'radio', label: value.formatted_address, value: index });
+        });
+
+        let alert = alertCtrl.create({
+          title: 'Quale intendi?',
+          inputs: radios,
+          buttons: [
+            {
+              text: 'Cancel',
+              role: 'cancel',
+              handler: data => {
+                console.log('Cancel clicked');
+                reject(new Error("cancelled"));
+              }
+            },
+            {
+              text: 'Ok',
+              handler: data => {
+                console.log("Chosen: " + radios[data].label);
+                this.updateGeodata(results[data]);
+                resolve(true);
+              }
+            }
+          ]
+        });
+        alert.present();
+
+      } else {
+        if (results[0].partial_match) {
+
+          console.log("Found partial_match address");
+
+          let alert = alertCtrl.create({
+            title: 'Indirizzo incompleto',
+            message: "Forse intendevi: " + results[0].formatted_address + " ?",
+            buttons: [
+              {
+                text: 'No',
+                role: 'cancel',
+                handler: () => {
+                  console.log('Cancel clicked');
+                  reject(new Error("cancelled"));
+                }
+              },
+              {
+                text: 'Sì',
+                handler: () => {
+                  console.log('Yes clicked!');
+                  this.updateGeodata(results[0]);
+                  resolve(true);
+                }
+              }
+            ]
+          });
+          alert.present();
+
+        } else {
+          this.updateGeodata(results[0]);
+          resolve(true);
+        }
+      }
+    });
+  }
+
+  private updateGeodata(data: google.maps.GeocoderResult): void {
+    this.Latitude = data.geometry.location.lat();
+    this.Longitude = data.geometry.location.lng();
+    this.FormattedAddress = data.formatted_address;
+    let street_number: string = "";
+    for (var j = 0; j < data.address_components.length; j++) {
+      if (data.address_components[j].types[0] == "route")
+        this.StreetName = data.address_components[j].short_name;
+      else if (data.address_components[j].types[0] == "locality")
+        this.City = data.address_components[j].short_name;
+      else if (data.address_components[j].types[0] == "country")
+        this.Nation = data.address_components[j].long_name;
+      else if (data.address_components[j].types[0] == "postal_code")
+        this.PostCode = data.address_components[j].short_name;
+      else if (data.address_components[j].types[0] == "street_number")
+        street_number = data.address_components[j].short_name;
+    }
+    if (street_number != "")
+      this.StreetName += ", " + street_number;
   }
 }
 
@@ -111,4 +232,13 @@ export function StripForFirebase(obj: any): any {
       delete obj[p.toString()];
   }
   return obj;
+}
+
+export function copyObject<T>(source: T, destination: any): void {
+
+  for (var key in source) {
+    if (source.hasOwnProperty(key)) {
+      destination[key] = source[key];
+    }
+  }
 }

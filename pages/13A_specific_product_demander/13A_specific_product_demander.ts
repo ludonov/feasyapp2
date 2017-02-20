@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, ViewChild } from '@angular/core';
 
 import { NavController, NavParams, AlertController } from 'ionic-angular';
 
@@ -18,6 +18,8 @@ export class AddOrShowItemPage {
   public items_db: FirebaseListObservable<any>;
   public units: string[] = GetUnits();
 
+  @ViewChild('NameInput') NameInputField;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, af: AngularFire, public alertCtrl: AlertController) {
     this.list = navParams.get('list');
     let item = navParams.get('item');
@@ -33,6 +35,12 @@ export class AddOrShowItemPage {
       this.units = GetUnits();
     }
     this.items_db = af.database.list('unpublished_lists/' + af.auth.getAuth().uid + '/' + this.list.$key + '/Items');
+  }
+
+  ionViewDidEnter() {
+    setTimeout(() => {
+      this.NameInputField.setFocus();
+    }, 150);
   }
 
 

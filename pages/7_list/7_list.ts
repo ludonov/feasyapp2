@@ -7,6 +7,7 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 import { FeasyUser, FeasyList, FeasyItem } from '../../classes/Feasy';
 
 import { AddOrShowItemPage } from '../../pages/13A_specific_product_demander/13A_specific_product_demander';
+import { PublicateListPage } from '../../pages/9_publicate_list/9_publicate_list';
 
 @Component({
   selector: 'page-list',
@@ -23,23 +24,34 @@ export class ListPage {
     this.items_db = af.database.list('unpublished_lists/' + af.auth.getAuth().uid + '/' + this.list.$key + '/Items');
     this.items_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
       this.no_items = !snapshot.hasChildren();
+      this.list.Items = snapshot.val() || {};
     });
   }
 
 
   addItem(): void {
     console.log("Goto add item");
-    this.navCtrl.push(AddOrShowItemPage, { list: this.list })
+    this.navCtrl.push(AddOrShowItemPage, { list: this.list });
   }
 
   goToItem(item: any): void {
     console.log("Goto update item: " + item.Name);
-    this.navCtrl.push(AddOrShowItemPage, { list: this.list, item: item })
+    this.navCtrl.push(AddOrShowItemPage, { list: this.list, item: item });
   }
 
+  publicateList(): void {
 
-  publicateList(list: any): void {
-    console.log("Goto publicate list: " + list.Name);
+    if (Object.keys(this.list.Items).length == 0) {
+      let alert = this.alertCtrl.create({
+        title: 'Info',
+        subTitle: "Aggiungere almeno un elemento alla lista",
+        buttons: ['Ok']
+      });
+      alert.present();
+    } else {
+      console.log("Goto publicate list: " + this.list.Name);
+      this.navCtrl.push(PublicateListPage, { list: this.list })
+    }
   }
 
 

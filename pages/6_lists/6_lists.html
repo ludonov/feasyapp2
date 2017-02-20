@@ -11,43 +11,38 @@
 
 
 <ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
-  <ion-list>
+	<div class="spacer" style="height: 16px;"></div>
+	<ion-list>
+		<ion-item-group>
+			<ion-item-divider color="light" class="item-title">ATTIVE</ion-item-divider>
+			<ion-item detail-none *ngIf="no_published_list">
+				<h5 class="center">NESSUNA LISTA ATTIVA</h5>
+			</ion-item>
 
-    <ion-list-header>
-      ATTIVE
-    </ion-list-header>
+			<ion-item *ngFor="let list of published_lists_db | async" (click)="goToList(list)">
+				<ion-label>
+					{{list.Name}}
+				</ion-label>
+				<div item-content>
+          {{published_lists[list.$key].ItemsCount}} pezzi
+				</div>
+			</ion-item>
+		</ion-item-group>
+		
+		<ion-item-group>
+			<ion-item-divider color="light" class="item-title">ALTRE</ion-item-divider>
+			<ion-item detail-none *ngIf="no_unpublished_list">
+				<h5 class="center">NESSUNA LISTA DA PUBBLICARE</h5>
+			</ion-item>
 
-    <ion-item detail-none *ngIf="no_published_list">
-      <h5 class="center">NESSUNA LISTA ATTIVA</h5>
-    </ion-item>
-
-    <ion-item *ngFor="let list of published_lists_db | async" (click)="goToList(list)">
-      <ion-label>
-        {{list.Name}}
-      </ion-label>
-      <div item-content>
-        {{list.ItemsCount}} pezzi
-      </div>
-    </ion-item>
-
-
-    <ion-list-header>
-      ALTRE
-    </ion-list-header>
-
-    <ion-item detail-none *ngIf="no_unpublished_list">
-      <h5 class="center">NESSUNA LISTA DA PUBBLICARE</h5>
-    </ion-item>
-
-    <ion-item *ngFor="let list of unpublished_lists_db | async" (click)="goToList(list)">
-      <ion-label>
-        {{list.Name}}
-      </ion-label>
-      <div item-content>
-        {{unpublished_lists[list.$key].ItemsCount}} pezzi
-      </div>
-    </ion-item>
-
-  </ion-list>
-
+			<ion-item *ngFor="let list of unpublished_lists_db | async" (click)="goToList(list)">
+				<ion-label>
+				{{list.Name}}
+				</ion-label>
+				<div item-content>
+				{{unpublished_lists[list.$key].ItemsCount}} pezzi
+				</div>
+			</ion-item>
+		</ion-item-group>
+	</ion-list>
 </ion-content>

@@ -1,58 +1,80 @@
-<ion-view title="Nome Lista" id="page11" class="background-color-body">
-    <ion-nav-title class="title-custom">{{list.name}}</ion-nav-title>
+<ion-header>
+  <ion-navbar>
+    <ion-title>Publicated List With Shopper</ion-title>
+  </ion-navbar>
+</ion-header>
 
-    <ion-scroll direction="y" style="right:0; bottom:0; left:0; position:absolute;" class="has-header" class="background-color-body">
-      <h4 class="center SF-regular">STATUS: CONFERMATA</h4>
+<ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
 
-      <div class="card">
-        <div class="item item-divider SF-medium">
-          Candidato scelto
-        </div>
-        <div class="item item-text-wrap SF-regular">
-          <a class="item item-avatar" ui-sref="#">
-            <img src="Images/11_lista_pubblicata_con_spesario/Daniele.jpg">
-            <h2>{{list.chosen_candidate.first_name}} {{list.chosen_candidate.last_name}}</h2>
-            <p>Commissioni fatte: 24<br>Commissioni Ricevute: 36</p>
-          </a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="item item-divider SF-regular">
-          Consegna
-        </div>
-        <div class="item item-text-wrap SF-thin">
-          Luogo:
-        </div>
-        <div class="item item-text-wrap SF-thin">
-          Dalle:
-        </div>
-        <div class="item item-text-wrap SF-thin">
-          Alle:
-        </div>
-      </div>
+      <div class="spacer" style="height: 16px;"></div>
 
-      <div class="list card">
+      <ion-list>
 
-        <a class="item item-icon-left" ui-sref="Chat">
-          <i class="icon ion-ios-chatbubble-outline SF-regular"></i>
+        <ion-item-divider color="light" class="item-title">DETTAGLI CANDIDATO SCELTO</ion-item-divider>
+        <ion-item>
+          <ion-avatar item-left icon-right>
+            <img src="assets/images/11_publicated_list_with_shopper/Ludovico.jpg">
+          </ion-avatar>
+          <h2>Ludovico Novelli</h2>
+          <p>@ludonov</p>
+          <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+        </ion-item>
+        <ion-item>
+          Punteggio
+          <ion-note item-right><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon></ion-note>
+        </ion-item>
+        <ion-item>
+          Commissioni Fatte
+          <ion-note item-right>12</ion-note>
+        </ion-item>
+
+
+        <div class="spacer" style="height: 16px;"></div>
+        <ion-item-divider color="light" class="item-title">DETTAGLI CONSEGNA</ion-item-divider>
+        <ion-item class="item-icon-right"  type="item-text-wrap">
+          <h2>Corso Re Umberto 48, 10128, Torino (TO), ITALIA</h2>
+          <p>Sabato 18/02/2017 - dalle 16.00 alle 18.00</p>
+          <i class="icon ion-chevron-right icon-accessory"></i>
+        </ion-item>
+
+        <div class="spacer" style="height: 16px;"></div>
+        <ion-item-divider color="light" class="item-title">DETTAGLI COMMISSIONE</ion-item-divider>
+
+        <ion-item>
+          Mancia
+          <ion-note item-right>10 €</ion-note>
+			  </ion-item>
+        <ion-item>
+          Negozio
+          <ion-note item-right>Carrefour</ion-note>
+			  </ion-item>
+        <ion-item>
+          Peso stimato
+          <ion-note item-right>3 kg</ion-note>
+			  </ion-item>
+        <ion-item>
+          Tetto massimo
+          <ion-note item-right>50 €</ion-note>
+			  </ion-item>
+
+        <div class="spacer" style="height: 32px;"></div>
+
+        <ion-item icon-left icon-right>
+          <ion-icon name="chatbubbles"></ion-icon>
           Chat
-        </a>
+          <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+			  </ion-item>
+        <div class="spacer" style="height: 16px;"></div>
+        <ion-item icon-left icon-right>
+          <ion-icon name="list"></ion-icon>
+          Lista prodotti
+          <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+			  </ion-item>
 
-        <a class="item item-icon-left" ui-sref="PublicatedListDetails">
-          <i class="icon ion-navicon SF-regular"></i>
-          Dettagli
-        </a>
+        <div class="spacer" style="height: 32px;"></div>
+        <div class="center" style="color:#387ef5"><p>Se la commissione è stata fatta, paga lo shopper!</p></div>
+        <button ion-button block>Paga</button>
 
-        <a class="item item-icon-left" ui-sref="ProductsPublicatedList">
-          <i class="icon ion-locked SF-regular"></i>
-          Prodotti
-        </a>
+      </ion-list>
 
-      </div>
-      <br>
-      <button class="button button-block button-color SF-regular">
-        PAGA
-      </button>
-    </ion-scroll>
-
-</ion-view>
+</ion-content>
