@@ -77,7 +77,7 @@ export const firebaseConfig = {
     SettingsPage,
     EditProfilePage,
     PasswordResetPage,
-    TermsAndConditionsPage
+    TermsAndConditionsPage,
     HistoryPage,
     AddressViewPage
   ],
@@ -115,7 +115,7 @@ export const firebaseConfig = {
     SettingsPage,
     EditProfilePage,
     PasswordResetPage,
-    TermsAndConditionsPage
+    TermsAndConditionsPage,
     HistoryPage,
     AddressViewPage,
     TabsPage
