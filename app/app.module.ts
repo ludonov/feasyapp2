@@ -31,6 +31,7 @@ import { EditProfilePage } from '../pages/24_edit_profile/24_edit_profile';
 import { PasswordResetPage } from '../pages/25_password_reset/25_password_reset';
 import { TermsAndConditionsPage } from '../pages/26_terms_and_conditions/26_terms_and_conditions';
 import { HistoryPage } from '../pages/22_history/22_history';
+import { ReviewsPage } from '../pages/30_reviews/30_reviews';
 import { AddressViewPage } from '../pages/29_address_view/29_address_view';
 
 import { TabsPage } from '../pages/tabs/tabs';
@@ -79,6 +80,7 @@ export const firebaseConfig = {
     PasswordResetPage,
     TermsAndConditionsPage,
     HistoryPage,
+    ReviewsPage,
     AddressViewPage
   ],
   imports: [
@@ -117,6 +119,7 @@ export const firebaseConfig = {
     PasswordResetPage,
     TermsAndConditionsPage,
     HistoryPage,
+    ReviewsPage,
     AddressViewPage,
     TabsPage
   ],

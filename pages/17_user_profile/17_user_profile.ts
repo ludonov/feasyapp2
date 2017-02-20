@@ -7,6 +7,7 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 import { FeasyUser, FeasyList, FeasyItem } from '../../classes/Feasy';
 
 import { HistoryPage } from '../../pages/22_history/22_history';
+import { ReviewsPage } from '../../pages/30_reviews/30_reviews';
 
 @Component({
   selector: 'page-user-profile',
@@ -27,6 +28,11 @@ export class UserProfilePage {
   goToHistory(): void {
     console.log("going to history page");
     this.navCtrl.push(HistoryPage);
+  }
+
+  goToReviews(): void {
+    console.log("going to reviews page");
+    this.navCtrl.push(ReviewsPage);
   }
 
 }
