@@ -23,7 +23,7 @@ export class ListsPage {
   public no_unpublished_list: boolean = true;
   public num_items: number = 0;
 
-  constructor(public navCtrl: NavController, af: AngularFire, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public af: AngularFire, public alertCtrl: AlertController) {
     this.published_lists_db = af.database.list('/published_lists/' + af.auth.getAuth().uid);
     this.unpublished_lists_db = af.database.list('/unpublished_lists/' + af.auth.getAuth().uid);
     this.published_lists_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
@@ -75,6 +75,7 @@ export class ListsPage {
           handler: data => {
             if (data.name != "") {
               let new_list: FeasyList = new FeasyList(data.name);
+              new_list.owner = this.af.auth.getAuth().uid;
               let new_list_promise = this.unpublished_lists_db.push(new_list);
               let new_list_key = new_list_promise.key;
               new_list_promise.then(new_list_db => {

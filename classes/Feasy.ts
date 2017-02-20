@@ -35,6 +35,7 @@ export class FeasyUser {
 
 export class FeasyList {
   public $key: string;
+  public owner: string;
   public Name: string;
   public Items: Object;
   public ItemsCount: number;
