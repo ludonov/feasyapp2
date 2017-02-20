@@ -32,6 +32,7 @@ import { PasswordResetPage } from '../pages/25_password_reset/25_password_reset'
 import { TermsAndConditionsPage } from '../pages/26_terms_and_conditions/26_terms_and_conditions';
 import { HistoryPage } from '../pages/22_history/22_history';
 import { ReviewsPage } from '../pages/30_reviews/30_reviews';
+import { SingleReviewPage } from '../pages/31_single_review/31_single_review';
 import { AddressViewPage } from '../pages/29_address_view/29_address_view';
 
 import { TabsPage } from '../pages/tabs/tabs';
@@ -81,6 +82,7 @@ export const firebaseConfig = {
     TermsAndConditionsPage,
     HistoryPage,
     ReviewsPage,
+    SingleReviewPage,
     AddressViewPage
   ],
   imports: [
@@ -120,6 +122,7 @@ export const firebaseConfig = {
     TermsAndConditionsPage,
     HistoryPage,
     ReviewsPage,
+    SingleReviewPage,
     AddressViewPage,
     TabsPage
   ],
