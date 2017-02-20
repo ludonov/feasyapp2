@@ -4,7 +4,9 @@ import { NavController, Tabs } from 'ionic-angular';
 import { AngularFire } from 'angularfire2';
 
 import { ListsPage } from '../../pages/6_lists/6_lists';
+import { MapTabsPage } from '../../pages/18_tabs/18_tabs';
 import { DoShoppingPage } from '../../pages/18A_do_shopping/18A_do_shopping';
+import { SettingsPage } from '../../pages/23_settings/23_settings';
 
 import { UserProfilePage } from '../../pages/17_user_profile/17_user_profile';
 
@@ -50,6 +52,7 @@ export class HomePage {
 
   goToSettings(): void {
     console.log("going to settings page");
+    this.navCtrl.push(SettingsPage);
   }
 
   tmp_goto_page10(): void {

@@ -4,6 +4,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { LoginPage } from '../pages/1_login/1_login';
+import { ForgotPassPage } from '../pages/2_forgot_pass/2_forgot_pass';
 import { SignupPage } from '../pages/3_signup/3_signup';
 import { HomePage } from '../pages/5_home/5_home';
 import { ListsPage } from '../pages/6_lists/6_lists';
@@ -20,8 +21,15 @@ import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candid
 import { CandidateInfoUnacceptedPage } from '../pages/16_candidate_info_unaccepted/16_candidate_info_unaccepted';
 import { UserProfilePage } from '../pages/17_user_profile/17_user_profile';
 import { UserProfilePovOtherUsersPage } from '../pages/17B_user_profile_pov_other_users/17B_user_profile_pov_other_users';
+import { MapTabsPage } from '../pages/18_tabs/18_tabs';
 import { DoShoppingPage } from '../pages/18A_do_shopping/18A_do_shopping';
+import { DoShoppingListsPage } from '../pages/18B_do_shopping_lists/18B_do_shopping_lists';
+import { DoShoppingFiltersPage } from '../pages/18C_do_shopping_filters/18C_do_shopping_filters';
 import { ChatPage } from '../pages/19_chat_list/19_chat_list';
+import { SettingsPage } from '../pages/23_settings/23_settings';
+import { EditProfilePage } from '../pages/24_edit_profile/24_edit_profile';
+import { PasswordResetPage } from '../pages/25_password_reset/25_password_reset';
+import { TermsAndConditionsPage } from '../pages/26_terms_and_conditions/26_terms_and_conditions';
 import { HistoryPage } from '../pages/22_history/22_history';
 import { AddressViewPage } from '../pages/29_address_view/29_address_view';
 
@@ -43,6 +51,7 @@ export const firebaseConfig = {
   declarations: [
     MyApp,
     LoginPage,
+    ForgotPassPage, 
     SignupPage,
     HomePage,
     ListsPage,
@@ -59,11 +68,18 @@ export const firebaseConfig = {
     UserProfilePage,
     UserProfilePovOtherUsersPage,
     AddOrShowItemPage,
+    MapTabsPage,
     DoShoppingPage,
+    DoShoppingListsPage,
+    DoShoppingFiltersPage,
     ChatPage,
+    TabsPage,
+    SettingsPage,
+    EditProfilePage,
+    PasswordResetPage,
+    TermsAndConditionsPage
     HistoryPage,
-    AddressViewPage,
-    TabsPage
+    AddressViewPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -73,6 +89,7 @@ export const firebaseConfig = {
   entryComponents: [
     MyApp,
     LoginPage,
+    ForgotPassPage ,
     SignupPage,
     HomePage,
     ListsPage,
@@ -90,8 +107,15 @@ export const firebaseConfig = {
     UserProfilePovOtherUsersPage,
     PublicateListPage,
     AddOrShowItemPage,
+    MapTabsPage,
     DoShoppingPage,
+    DoShoppingListsPage,
+    DoShoppingFiltersPage,
     ChatPage,
+    SettingsPage,
+    EditProfilePage,
+    PasswordResetPage,
+    TermsAndConditionsPage
     HistoryPage,
     AddressViewPage,
     TabsPage

@@ -6,6 +6,7 @@ import { FirebaseError } from 'firebase';
 
 import { FeasyUser } from '../../classes/Feasy';
 
+import {ForgotPassPage } from '../../pages/2_forgot_pass/2_forgot_pass';
 import { SignupPage } from '../../pages/3_signup/3_signup';
 
 @Component({
@@ -90,7 +91,7 @@ export class LoginPage {
 
   recoverPass(): void {
     console.log("going to recover pass");
-    //this.navCtrl.push(ListsPage);
+    this.navCtrl.push(ForgotPassPage);
   }
 
   facebookSignIn(): void {

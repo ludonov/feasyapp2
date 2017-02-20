@@ -1,80 +1,90 @@
-<ion-view title="Fai una commissione" id="page18C" class="background-color-body">
-    <ion-nav-title class="title-custom">Fai una commissione</ion-nav-title>
+<ion-header>
+  <ion-navbar>
+    <ion-title>Filtri</ion-title>
+  </ion-navbar>
+</ion-header>
 
-  <ion-scroll direction="y" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs" class="background-color-body">
+  <ion-content class="has-header has-tabs" class="background-color-body">
 
-    <div class="list SF-regular">
-      <div class="item item-divider item-title background-color-list-item-divider" style="border-top-color: transparent;">
+    <ion-list>  
+      <ion-item class="item-divider item-title background-color-list-item-divider" style="border-top-color: transparent;">
         <br>
         DISTANZA LUOGO DI CONSEGNA
-      </div>
-      <label class="item item-input item-field">
-        <span class="input-label item-content" style="color:black">Raggio</span>
-        <input type="text">
-      </label>
-      <label class="item item-input item-field">
-        <span class="input-label item-content" style="color:black">Zona</span>
-        <input type="text">
-      </label>
+      </ion-item>
 
-      <div class="item item-divider item-title background-color-list-item-divider">
+      <ion-item>
+        <ion-label>Raggio</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Zona</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+
+      <ion-item class="item-divider item-title background-color-list-item-divider">
         <br>
         SCADENZA
-      </div>
-      <label class="item item-input item-field">
-        <span class="input-label item-content" style="color:black">Giorno</span>
-        <input type="text">
-      </label>
-      <label class="item item-input item-field">
-        <span class="input-label item-content" style="color:black">Ora</span>
-        <input type="text">
-      </label>
+      </ion-item>
 
-      <div class="item item-divider item-title background-color-list-item-divider">
+      <ion-item>
+        <ion-label>Giorno</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Ora</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+
+      <ion-item class="item-divider item-title background-color-list-item-divider">
         <br>
         MANCIA
-      </div>
-      <label class="item item-input item-field">
-        <span class="input-label item-content" style="color:black">Da</span>
-        <input type="text">
-      </label>
-      <label class="item item-input item-field">
-        <span class="input-label item-content" style="color:black">A</span>
-        <input type="text">
-      </label>
+      </ion-item>
 
-      <div class="item item-divider item-title background-color-list-item-divider">
+      <ion-item>
+        <ion-label>Da</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>A</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+
+      <ion-item class="item-divider item-title background-color-list-item-divider">
         <br>
         PESO
-      </div>
-      <label class="item item-input item-field">
-        <span class="input-label item-content" style="color:black">Da</span>
-        <input type="text">
-      </label>
-      <label class="item item-input item-field">
-        <span class="input-label item-content" style="color:black">A</span>
-        <input type="text">
-      </label>
+      </ion-item>
 
-      <div class="item item-divider item-title background-color-list-item-divider">
+      <ion-item>
+        <ion-label>Da</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>A</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+
+      <ion-item class="item-divider item-title background-color-list-item-divider">
         <br>
         NEGOZIO
-      </div>
-      <label class="item item-input item-field">
-        <span class="input-label item-content" style="color:black">Tipo</span>
-        <input type="text">
-      </label>
-      <label class="item item-input item-field">
-        <span class="input-label item-content" style="color:black">Nome</span>
-        <input type="text">
-      </label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Tipo</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Nome</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <div padding>
+      <button ion-button block class="center button-color" style="color:white">Applica</button>
     </div>
 
-    <br>
-    <button class="button button-block button-color SF-regular" ui-sref="FindListOnMap">
-      Applica
-    </button>
-  </ion-scroll>
-
-
-</ion-view>
+  </ion-content>
