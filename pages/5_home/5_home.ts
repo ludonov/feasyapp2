@@ -20,6 +20,8 @@ import { SpecificProductShopperPage } from '../../pages/13B_specific_product_sho
 import { PublicatedListCandidatesPage } from '../../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 import { CandidateInfoUnacceptedPage } from '../../pages/16_candidate_info_unaccepted/16_candidate_info_unaccepted';
 
+import { DoShoppingListsPage } from '../../pages/18B_do_shopping_lists/18B_do_shopping_lists';
+
 @Component({
   selector: 'page-home',
   templateUrl: '5_home.html'
@@ -93,5 +95,15 @@ export class HomePage {
   tmp_goto_page16(): void {
     console.log("going to page candidate info unaccepted");
     this.navCtrl.push(CandidateInfoUnacceptedPage);
+  }
+
+  tmp_goto_page18A(): void {
+    console.log("going to page do shopping");
+    this.navCtrl.push(DoShoppingPage);
+  }
+
+  tmp_goto_page18B(): void {
+    console.log("going to page do shopping lists");
+    this.navCtrl.push(DoShoppingListsPage);
   }
 }

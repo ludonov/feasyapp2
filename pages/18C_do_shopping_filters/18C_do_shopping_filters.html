@@ -7,80 +7,87 @@
   <ion-content class="has-header has-tabs" class="background-color-body">
 
     <ion-list>  
-      <ion-item class="item-divider item-title background-color-list-item-divider" style="border-top-color: transparent;">
-        <br>
-        DISTANZA LUOGO DI CONSEGNA
-      </ion-item>
 
-      <ion-item>
-        <ion-label>Raggio</ion-label>
-        <ion-input type="text"></ion-input>
-      </ion-item>
+      <ion-item-group>
+			  <div class="spacer" style="height: 16px;"></div>
+			  <ion-item-divider class="item-title" style="border-top-color: transparent;">DISTANZA LUOGO DI CONSEGNA</ion-item-divider>
+    
+            <ion-item>
+              <ion-label>Raggio</ion-label>
+              <ion-input type="text"></ion-input>
+            </ion-item>
 
-      <ion-item>
-        <ion-label>Zona</ion-label>
-        <ion-input type="text"></ion-input>
-      </ion-item>
+            <ion-item>
+              <ion-label>Zona</ion-label>
+              <ion-input type="text"></ion-input>
+            </ion-item>
 
-      <ion-item class="item-divider item-title background-color-list-item-divider">
-        <br>
-        SCADENZA
-      </ion-item>
+      </ion-item-group>
 
-      <ion-item>
-        <ion-label>Giorno</ion-label>
-        <ion-input type="text"></ion-input>
-      </ion-item>
+      <ion-item-group>
+			  <div class="spacer" style="height: 16px;"></div>
+			  <ion-item-divider class="item-title" style="border-top-color: transparent;">SCADENZA</ion-item-divider>
 
-      <ion-item>
-        <ion-label>Ora</ion-label>
-        <ion-input type="text"></ion-input>
-      </ion-item>
+          <ion-item>
+            <ion-label>Giorno</ion-label>
+            <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.month"></ion-datetime>
+          </ion-item>
 
-      <ion-item class="item-divider item-title background-color-list-item-divider">
-        <br>
-        MANCIA
-      </ion-item>
+          <ion-item>
+            <ion-label>Ora</ion-label>
+            <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.timeStarts"></ion-datetime>
+          </ion-item>
 
-      <ion-item>
-        <ion-label>Da</ion-label>
-        <ion-input type="text"></ion-input>
-      </ion-item>
+      </ion-item-group>
 
-      <ion-item>
-        <ion-label>A</ion-label>
-        <ion-input type="text"></ion-input>
-      </ion-item>
+      <ion-item-group>
+			  <div class="spacer" style="height: 16px;"></div>
+			  <ion-item-divider class="item-title" style="border-top-color: transparent;">MANCIA</ion-item-divider>
 
-      <ion-item class="item-divider item-title background-color-list-item-divider">
-        <br>
-        PESO
-      </ion-item>
+            <ion-item>
+              <ion-label>Da</ion-label>
+              <ion-input type="text"></ion-input>
+            </ion-item>
 
-      <ion-item>
-        <ion-label>Da</ion-label>
-        <ion-input type="text"></ion-input>
-      </ion-item>
+            <ion-item>
+              <ion-label>A</ion-label>
+              <ion-input type="text"></ion-input>
+            </ion-item>
 
-      <ion-item>
-        <ion-label>A</ion-label>
-        <ion-input type="text"></ion-input>
-      </ion-item>
+      </ion-item-group>
 
-      <ion-item class="item-divider item-title background-color-list-item-divider">
-        <br>
-        NEGOZIO
-      </ion-item>
+      <ion-item-group>
+			  <div class="spacer" style="height: 16px;"></div>
+			  <ion-item-divider class="item-title" style="border-top-color: transparent;">PESO</ion-item-divider>
 
-      <ion-item>
-        <ion-label>Tipo</ion-label>
-        <ion-input type="text"></ion-input>
-      </ion-item>
+              <ion-item>
+                <ion-label>Da</ion-label>
+                <ion-input type="text"></ion-input>
+              </ion-item>
 
-      <ion-item>
-        <ion-label>Nome</ion-label>
-        <ion-input type="text"></ion-input>
-      </ion-item>
+              <ion-item>
+                <ion-label>A</ion-label>
+                <ion-input type="text"></ion-input>
+              </ion-item>
+
+      </ion-item-group>
+
+      <ion-item-group>
+			  <div class="spacer" style="height: 16px;"></div>
+			  <ion-item-divider class="item-title" style="border-top-color: transparent;">NEGOZIO</ion-item-divider>
+
+              <ion-item>
+                <ion-label>Tipo</ion-label>
+                <ion-input type="text"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Nome</ion-label>
+                <ion-input type="text"></ion-input>
+              </ion-item>
+
+      </ion-item-group>
+      
     </ion-list>
 
     <div padding>

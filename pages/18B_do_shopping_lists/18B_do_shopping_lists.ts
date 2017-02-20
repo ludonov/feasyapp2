@@ -12,4 +12,9 @@ export class DoShoppingListsPage {
 
   }
 
+  goToList(): void {
+    console.log("going to list");
+    //this.navCtrl.push(DoShoppingListsPage);
+  }
+
 }
