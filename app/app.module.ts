@@ -3,6 +3,8 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
+import { KeysPipe } from '../app/pipes';
+
 import { LoginPage } from '../pages/1_login/1_login';
 import { ForgotPassPage } from '../pages/2_forgot_pass/2_forgot_pass';
 import { SignupPage } from '../pages/3_signup/3_signup';
@@ -32,6 +34,7 @@ import { PasswordResetPage } from '../pages/25_password_reset/25_password_reset'
 import { TermsAndConditionsPage } from '../pages/26_terms_and_conditions/26_terms_and_conditions';
 import { HistoryPage } from '../pages/22_history/22_history';
 import { AddressViewPage } from '../pages/29_address_view/29_address_view';
+import { AddressViewStaticPage } from '../pages/30_address_view_static/30_address_view_static';
 
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -50,6 +53,7 @@ export const firebaseConfig = {
 @NgModule({
   declarations: [
     MyApp,
+    KeysPipe,
     LoginPage,
     ForgotPassPage, 
     SignupPage,
@@ -73,13 +77,14 @@ export const firebaseConfig = {
     DoShoppingListsPage,
     DoShoppingFiltersPage,
     ChatPage,
-    TabsPage,
     SettingsPage,
     EditProfilePage,
     PasswordResetPage,
     TermsAndConditionsPage,
     HistoryPage,
-    AddressViewPage
+    AddressViewPage,
+    AddressViewStaticPage,
+    TabsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -118,6 +123,7 @@ export const firebaseConfig = {
     TermsAndConditionsPage,
     HistoryPage,
     AddressViewPage,
+    AddressViewStaticPage,
     TabsPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]

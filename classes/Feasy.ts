@@ -12,16 +12,21 @@ export const GoogleApiKey: string = "AIzaSyCkCAGEfkSWp3mWjtq8fIj9vGaMglpbsXE";
 export function GetUnits(): string[] {
   return ["Grammi", "Ettogrammi", "Kilogrammi", "Pezzi", "Litri"];
 }
+export function GetExpiryDates(): string[] {
+  return ["Stasera", "Domani sera", "Tra 3 giorni", "Tra una settimana", "Tra due settimane"];
+}
 
 export class FeasyUser {
   public $key: string;
   public Email: string;
   public FirstName: string;
   public LastName: string;
+  public DisplayName: string;
   public Password: string;
   public Nationality: string;
   public Birthdate: string;
   public MobileNumber: string;
+  public PhotoURL: string;
   public Gender: GenderType = "Uomo";
   public Rating: number;
 
@@ -41,6 +46,8 @@ export class FeasyList {
   public ItemsCount: number;
   public Active: boolean;
   public Reward: number;
+  public CreatedDate: string;
+  public ExpiryDate: string;
   public PreferredShops: string;
   public MaxValue: number;
   public EstimatedWeight: number;
@@ -225,6 +232,21 @@ export class DeliveryAddress {
   }
 }
 
+export class GeoPoint {
+  public $key: string;
+  public own: string; //owner uid
+  public lst: string; //list uid
+  public lat: number; //latitude
+  public lng: number; //longitude
+  public rew: number; //reward
+  public exp: string; //expiry date
+  public com: string; //comments
+
+  constructor() {
+
+  }
+}
+
 
 export function StripForFirebase(obj: any): any {
   for (let p in obj) {
@@ -241,4 +263,21 @@ export function copyObject<T>(source: T, destination: any): void {
       destination[key] = source[key];
     }
   }
+}
+
+export function GetRealExpiryDate(expdate: string): string {
+  //return ["Stasera", "Domani sera", "Tra 3 giorni", "Tra una settimana", "Tra due settimane"];
+  let now: Date = new Date();
+  if (expdate == "Stasera")
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59).toUTCString();
+  else if (expdate == "Domani sera")
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 23, 59, 59).toUTCString();
+  else if (expdate == "Tra 3 giorni")
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 3, 23, 59, 59).toUTCString();
+  else if (expdate == "Tra una settimana")
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7, 23, 59, 59).toUTCString();
+  else if (expdate == "Tra due settimana")
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 14, 23, 59, 59).toUTCString();
+  else
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 3, 23, 59, 59).toUTCString();
 }

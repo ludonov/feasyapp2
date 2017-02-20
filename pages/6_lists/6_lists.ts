@@ -7,6 +7,7 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 import { FeasyUser, FeasyList } from '../../classes/Feasy';
 
 import { ListPage } from '../../pages/7_list/7_list';
+import { PublicatedListNoShopperPage } from '../../pages/10_publicated_list_no_shopper/10_publicated_list_no_shopper';
 
 
 @Component({
@@ -76,6 +77,7 @@ export class ListsPage {
             if (data.name != "") {
               let new_list: FeasyList = new FeasyList(data.name);
               new_list.owner = this.af.auth.getAuth().uid;
+              new_list.CreatedDate = (new Date()).toUTCString();
               let new_list_promise = this.unpublished_lists_db.push(new_list);
               let new_list_key = new_list_promise.key;
               new_list_promise.then(new_list_db => {
@@ -109,9 +111,13 @@ export class ListsPage {
     this.navCtrl.push(ListPage, { list: list });
   }
 
-
-  deleteList(list: any): void {
-    console.log("Delete list: " + list.Name);
+  goToPublicatedList(list: any): void {
+    console.log("Goto publicated list: " + list.Name);
+    if (list.Items == null)
+      list.Items = {};
+    if (list.DeliveryAddresses == null)
+      list.DeliveryAddresses = {};
+    this.navCtrl.push(PublicatedListNoShopperPage, { list: list });
   }
 
 }

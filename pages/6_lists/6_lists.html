@@ -19,7 +19,7 @@
 				<h5 class="center">NESSUNA LISTA ATTIVA</h5>
 			</ion-item>
 
-			<ion-item *ngFor="let list of published_lists_db | async" (click)="goToList(list)">
+			<ion-item *ngFor="let list of published_lists_db | async" (click)="goToPublicatedList(list)">
 				<ion-label>
 					{{list.Name}}
 				</ion-label>

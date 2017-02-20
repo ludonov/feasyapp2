@@ -17,7 +17,7 @@ export class AddressViewPage {
   public addresses_db: FirebaseListObservable<any>;
   public address: DeliveryAddress;
   public is_new: boolean = true;
-
+  
   @ViewChild('StreetNameInput') StreetNameInput;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {

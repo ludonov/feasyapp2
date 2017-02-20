@@ -1,8 +1,6 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 
 import { NavController, NavParams, AlertController } from 'ionic-angular';
-
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
 import { StripForFirebase, GetUnits, FeasyUser, FeasyList, FeasyItem } from '../../classes/Feasy';
 
@@ -12,8 +10,12 @@ import { StripForFirebase, GetUnits, FeasyUser, FeasyList, FeasyItem } from '../
 })
 export class SpecificProductShopperPage {
 
-  constructor() {
+  public item: FeasyItem;
 
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
+    this.item = navParams.get('item');
+    if (this.item == null || this.item == undefined)
+      navCtrl.pop();
   }
 
 }

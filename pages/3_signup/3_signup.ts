@@ -50,15 +50,24 @@ export class SignupPage {
           email: this.userdata.Email,
           password: this.userdata.Password
         })
-        .catch((error: FirebaseError) => this.showRegisterError(error))
-        .then(function (user: any) {
-          console.log("Registration successful: " + user);
-        });
+        .then((user: any) => {
+          if (user != undefined && user.uid != undefined) {
+            console.log("User successfully created. ID: " + user.uid);
+            delete this.userdata.Password;
+            this.userdata.DisplayName = this.userdata.FirstName + " " + this.userdata.LastName;
+            this.af.database.object("users/" + user.uid).set(this.userdata).then((res) => {
+              console.log("User data updated");
+            }).catch((err: Error) => {
+              console.warn("Cannot update user data: " + err.message);
+            });
+          }
+        })
+        .catch((error: FirebaseError) => this.showRegisterError(error));
     }
   }
 
   showRegisterError(error: FirebaseError): void {
-    console.log("Login error code: " + error.code + " - Message: " + error.message);
+    console.warn("Login error code: " + error.code + " - Message: " + error.message);
     if (error.code == "auth/invalid-email") {
       let alert = this.alertCtrl.create({
         title: 'Email invalida',

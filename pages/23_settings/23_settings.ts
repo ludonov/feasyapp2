@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 
 import { NavController} from 'ionic-angular';
 import { AngularFire } from 'angularfire2';
@@ -14,13 +14,13 @@ import { TermsAndConditionsPage } from '../../pages/26_terms_and_conditions/26_t
 })
 export class SettingsPage {
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public af: AngularFire) {
   
   }
 
   logout(): void {
     console.log("logging out");
-    this.navCtrl.push(LoginPage);
+    this.af.auth.logout();
   }
 
   editProfile(): void {
