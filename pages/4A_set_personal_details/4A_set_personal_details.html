@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Dettagli Personali</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="has-header background-color-body"> <!-- aggiungere ngModel a tutti i campi -->
+  <ion-list>
+
+    <ion-item-group>
+			<div class="spacer" style="height: 16px;"></div>
+        <ion-item>
+          <ion-label fixed>Nazionalità</ion-label>
+          <ion-input type="text" value=""></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed>Telefono</ion-label>
+          <ion-input type="text" value=""></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed>Sesso</ion-label>
+          <ion-input type="text" value=""></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Data di Nascita</ion-label>
+            <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.month"></ion-datetime>
+          </ion-item>
+      </ion-item-group>
+
+  <div class="spacer" style="height: 32px;"></div>
+  <button ion-button block color="primary" (click)="setPersonalDetails()">Aggiungi</button>
+
+  <div class="spacer" style="height: 32px;"></div>
+  <button ion-button block outline color="primary" (click)="skipToHome()">Salta</button>
+
+  </ion-list>
+</ion-content>

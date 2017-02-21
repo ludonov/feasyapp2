@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Metodo di Pagamento</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="has-header background-color-body"> <!-- aggiungere ngModel a tutti i campi -->
+  <ion-list>
+
+    <ion-item-group>
+			<div class="spacer" style="height: 16px;"></div>
+        <ion-item>
+          <ion-label fixed>Metodo</ion-label>
+          <ion-input type="text" value=""></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed>Nome</ion-label>
+          <ion-input type="text" value=""></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed>Cognome</ion-label>
+          <ion-input type="text" value=""></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed>Numero Carta</ion-label>
+          <ion-input type="text" value=""></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed>Scadenza</ion-label>
+          <ion-input type="text" value=""></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed>CVV</ion-label>
+          <ion-input type="text" value=""></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed>Paese</ion-label>
+          <ion-input type="text" value=""></ion-input>
+        </ion-item>
+      </ion-item-group>
+
+      <div class="spacer" style="height: 32px;"></div>
+  <button ion-button block color="primary" (click)="setPaymentMethod()">Aggiungi</button>
+
+  <div class="spacer" style="height: 32px;"></div>
+  <button ion-button block outline color="primary" (click)="skipToHome()">Salta</button>
+
+  </ion-list>
+</ion-content>

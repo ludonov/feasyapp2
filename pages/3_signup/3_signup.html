@@ -5,44 +5,53 @@
 </ion-header>
 
 
-<ion-content scroll="false">
+<ion-content class="has-header background-color-body">
 
   <ion-list>
 
-    <ion-item>
-      <ion-label fixed>Nome</ion-label>
-      <ion-input [(ngModel)]="userdata.FirstName" type="text" value=""></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label fixed>Cognome</ion-label>
-      <ion-input [(ngModel)]="userdata.LastName" type="text" value=""></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label fixed>Email</ion-label>
-      <ion-input [(ngModel)]="userdata.Email" type="email" value=""></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label fixed>Username</ion-label>
-      <ion-input type="text" value=""></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label fixed>Password</ion-label>
-      <ion-input [(ngModel)]="userdata.Password" type="password" value=""></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label fixed>Ripeti password</ion-label>
-      <ion-input type="password" value=""></ion-input>
-    </ion-item>
+    <ion-item-group>
+			<div class="spacer" style="height: 16px;"></div>
+          <ion-item>
+            <ion-label fixed>Nome</ion-label>
+            <ion-input [(ngModel)]="userdata.FirstName" type="text" value=""></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label fixed>Cognome</ion-label>
+            <ion-input [(ngModel)]="userdata.LastName" type="text" value=""></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label fixed>Email</ion-label>
+            <ion-input [(ngModel)]="userdata.Email" type="email" value=""></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label fixed>Username</ion-label>
+            <ion-input type="text" value=""></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label fixed>Password</ion-label>
+            <ion-input [(ngModel)]="userdata.Password" type="password" value=""></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label fixed>Ripeti password</ion-label>
+            <ion-input type="password" value=""></ion-input>
+          </ion-item>
+      </ion-item-group>
 
   </ion-list>
 
   <div class="spacer" style="height: 32px;"></div>
 
-  <ion-item class="center">
+  <ion-item-group>
+  <ion-item class="center background-color-body">
     <ion-label>Accetto i termini e le condizioni</ion-label>
     <ion-checkbox class="center" [(ngModel)]="terms_accepted"></ion-checkbox>
   </ion-item>
+  </ion-item-group>
 
+  
+  <div class="spacer" style="height: 32px;"></div>
   <button ion-button block color="primary" (click)="signUp()">Iscriviti</button>
+  <div class="spacer" style="height: 32px;"></div>
+  <button ion-button block color="primary" (click)="Test_Page4()">Test Pages 4</button>
 
 </ion-content>

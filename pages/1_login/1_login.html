@@ -9,6 +9,7 @@
   
   <ion-list class="center">
 
+  <ion-item-group>
     <div class="spacer" style="height: 64px;"></div>
     <ion-item class="center">
       <ion-label fixed>Username</ion-label>
@@ -19,6 +20,7 @@
       <ion-label fixed>Password</ion-label>
       <ion-input [(ngModel)]="userdata.Password" type="password" value=""></ion-input>
     </ion-item>
+  </ion-item-group>
 
     <div class="spacer" style="height: 32px;"></div>
     <button ion-button block (click)="normalSignIn()">Accedi</button>
