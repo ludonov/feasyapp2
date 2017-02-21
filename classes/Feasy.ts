@@ -250,7 +250,7 @@ export class GeoPoint {
 
 export function StripForFirebase(obj: any): any {
   for (let p in obj) {
-    if (p.indexOf('.') != -1 || p.indexOf('#') != -1 || p.indexOf('$') != -1 || p.indexOf('/') != -1 || p.indexOf('[') != -1 || p.indexOf(']') != -1 || typeof (obj[p.toString()]) == "function")
+    if (obj[p.toString()] == undefined || p.indexOf('.') != -1 || p.indexOf('#') != -1 || p.indexOf('$') != -1 || p.indexOf('/') != -1 || p.indexOf('[') != -1 || p.indexOf(']') != -1 || typeof (obj[p.toString()]) == "function")
       delete obj[p.toString()];
   }
   return obj;

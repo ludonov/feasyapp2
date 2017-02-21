@@ -86,14 +86,14 @@ export class PublicateListPage {
           let uid: string = this.af.auth.getAuth().uid;
           for (let address_key in list_copy.DeliveryAddresses) {
             let geo: GeoPoint = new GeoPoint();
-            geo.own = uid;
-            geo.lst = address_key;
+            geo.own = uid;  
+            geo.lst = res.key;
             geo.rew = list_copy.Reward;
+            geo.exp = list_copy.ExpiryDate;
             geo.lat = list_copy.DeliveryAddresses[address_key].Latitude;
             geo.lng = list_copy.DeliveryAddresses[address_key].Longitude;
-            geo.exp = list_copy.DeliveryAddresses[address_key].ExpiryDate;
             geo.com = list_copy.DeliveryAddresses[address_key].Comments;
-            this.af.database.list("geopoints").push(geo);
+            this.af.database.list("geopoints").push(StripForFirebase(geo));
           }
           console.log("List published! Publishing geopoints...");
           this.navCtrl.popToRoot();
