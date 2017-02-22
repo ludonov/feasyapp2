@@ -12,15 +12,18 @@ import { UserProfilePage } from '../../pages/17_user_profile/17_user_profile';
 
 // Temporary, to see the pages
 import { PublicatedListNoShopperPage } from '../../pages/10_publicated_list_no_shopper/10_publicated_list_no_shopper';
-import { PublicatedListNoShopperPovShopperPage } from '../../pages/10B_publicated_list_no_shopper_pov_shopper/10B_publicated_list_no_shopper_pov_shopper';
 import { PublicatedListWithShopperPage } from '../../pages/11_publicated_list_with_shopper/11_publicated_list_with_shopper';
-import { PublicatedListWithShopperPovShopperPage } from '../../pages/11B_publicated_list_with_shopper_pov_shopper/11B_publicated_list_with_shopper_pov_shopper';
 import { PublicatedListProductsPage } from '../../pages/12_publicated_list_products/12_publicated_list_products';
 import { SpecificProductShopperPage } from '../../pages/13B_specific_product_shopper/13B_specific_product_shopper';
 import { PublicatedListCandidatesPage } from '../../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 import { CandidateInfoUnacceptedPage } from '../../pages/16_candidate_info_unaccepted/16_candidate_info_unaccepted';
 
 import { DoShoppingListsPage } from '../../pages/18B_do_shopping_lists/18B_do_shopping_lists';
+
+/*   
+import { PublicatedListNoShopperPovShopperPage } from '../../pages/10B_publicated_list_no_shopper_pov_shopper/10B_publicated_list_no_shopper_pov_shopper';
+import { PublicatedListWithShopperPovShopperPage } from '../../pages/11B_publicated_list_with_shopper_pov_shopper/11B_publicated_list_with_shopper_pov_shopper';
+*/
 
 @Component({
   selector: 'page-home',
@@ -62,20 +65,20 @@ export class HomePage {
     this.navCtrl.push(PublicatedListNoShopperPage);
   }
 
-  tmp_goto_page10B(): void {
+  /*tmp_goto_page10B(): void {
     console.log("going to page publicated list pov shopper");
     this.navCtrl.push(PublicatedListNoShopperPovShopperPage);
-  }
+  }*/
 
   tmp_goto_page11(): void {
     console.log("going to page publicated list with shopper");
     this.navCtrl.push(PublicatedListWithShopperPage);
   }
 
-  tmp_goto_page11B(): void {
+  /*tmp_goto_page11B(): void {
     console.log("going to page publicated list with shopper pov shopper");
     this.navCtrl.push(PublicatedListWithShopperPovShopperPage);
-  }
+  }*/
 
   tmp_goto_page12(): void {
     console.log("going to page publicated list products");

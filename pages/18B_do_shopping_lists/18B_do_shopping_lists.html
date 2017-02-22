@@ -16,7 +16,7 @@
 		<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">CONFERMATE</ion-item-divider>
-			<ion-item (click)="goToList()">
+			<ion-item (click)="goToAcceptedList()">
 				Lista 1
 				<ion-note item-right>5 pezzi</ion-note>
 			</ion-item>
@@ -29,7 +29,7 @@
     <ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">PROPOSTE</ion-item-divider>
-			<ion-item>
+			<ion-item (click)="goToPendingList()">
 				Lista 3
 				<ion-note item-right>11 pezzi</ion-note>
 			</ion-item>
