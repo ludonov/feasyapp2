@@ -6,22 +6,17 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 
 import { FeasyUser, FeasyList, FeasyItem } from '../../classes/Feasy';
 
-import { PaymentPage } from '../../pages/32_payment/32_payment';
+
 
 @Component({
-  selector: 'page-publicated-with-shopper',
-  templateUrl: '11_publicated_list_with_shopper.html'
+  selector: 'page-payment-summary',
+  templateUrl: '33_payment_summary.html'
 })
 
-export class PublicatedListWithShopperPage {
+export class PaymentSummaryPage {
 
   constructor(public navCtrl: NavController) {
 
-  }
-  
-  goToPayment(): void {
-    console.log("going to payment page");
-    this.navCtrl.push(PaymentPage);
   }
 
 }
