@@ -5,10 +5,26 @@
 </ion-header>
 
 <ion-content class="has-header has-tabs background-color-body no-scroll">  
+
   <ion-list>  
-    <button ion-item full class="" style="color:black; background-color:white" (click)="editProfile()">Modifica profilo</button>
-    <button ion-item full class="" style="color:black; background-color:white" (click)="editPassword()">Reimposta password</button>
-    <button ion-item full class="" style="color:black; background-color:white" (click)="terms()">Termini e condizioni</button>
+
+    <ion-item icon-right (click)="editProfile()">
+      Modifica profilo
+      <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+    </ion-item>
+    <ion-item icon-right (click)="editPassword()">
+      Reimposta password
+      <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+    </ion-item>
+    <ion-item icon-right (click)="terms()">
+      Termini e condizioni
+      <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+    </ion-item>
+    
+    <div class="spacer" style="height: 32px;"></div>
+    <ion-item style="color:red; font-weight:lighter" class="center" (click)="logout()">
+      LOG OUT
+    </ion-item>
   </ion-list>
-  <button ion-button full class="center" style="color:red; background-color:white" (click)="logout()">Logout</button>
+
 </ion-content>

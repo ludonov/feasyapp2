@@ -9,7 +9,6 @@
   <ion-list>
 
     <ion-item-group>
-			<div class="spacer" style="height: 16px;"></div>
         <ion-item>
           <ion-label fixed>Metodo</ion-label>
           <ion-input type="text" value=""></ion-input>
@@ -41,10 +40,11 @@
       </ion-item-group>
 
       <div class="spacer" style="height: 32px;"></div>
-  <button ion-button block color="primary" (click)="setPaymentMethod()">Aggiungi</button>
+      <button ion-button block outline color="primary" (click)="skipToHome()">Salta</button>
 
-  <div class="spacer" style="height: 32px;"></div>
-  <button ion-button block outline color="primary" (click)="skipToHome()">Salta</button>
+      <div class="spacer" style="height: 16px;"></div>
+
+      <button ion-button block color="primary" (click)="setPaymentMethod()">Ok</button>
 
   </ion-list>
 </ion-content>

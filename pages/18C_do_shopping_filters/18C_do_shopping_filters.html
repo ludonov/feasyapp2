@@ -13,12 +13,12 @@
 			  <ion-item-divider class="item-title" style="border-top-color: transparent;">DISTANZA LUOGO DI CONSEGNA</ion-item-divider>
     
             <ion-item>
-              <ion-label>Raggio</ion-label>
+              <ion-label fixed>Raggio</ion-label>
               <ion-input type="text"></ion-input>
             </ion-item>
 
             <ion-item>
-              <ion-label>Zona</ion-label>
+              <ion-label fixed>Zona</ion-label>
               <ion-input type="text"></ion-input>
             </ion-item>
 
@@ -29,12 +29,12 @@
 			  <ion-item-divider class="item-title" style="border-top-color: transparent;">SCADENZA</ion-item-divider>
 
           <ion-item>
-            <ion-label>Giorno</ion-label>
+            <ion-label fixed>Giorno</ion-label>
             <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.month"></ion-datetime>
           </ion-item>
 
           <ion-item>
-            <ion-label>Ora</ion-label>
+            <ion-label fixed>Ora</ion-label>
             <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.timeStarts"></ion-datetime>
           </ion-item>
 
@@ -44,12 +44,12 @@
 			  <div class="spacer" style="height: 16px;"></div>
 			  <ion-item-divider class="item-title" style="border-top-color: transparent;">MANCIA</ion-item-divider>
 
-            <ion-item>
+            <ion-item fixed>
               <ion-label>Da</ion-label>
               <ion-input type="text"></ion-input>
             </ion-item>
 
-            <ion-item>
+            <ion-item fixed>
               <ion-label>A</ion-label>
               <ion-input type="text"></ion-input>
             </ion-item>
@@ -60,12 +60,12 @@
 			  <div class="spacer" style="height: 16px;"></div>
 			  <ion-item-divider class="item-title" style="border-top-color: transparent;">PESO</ion-item-divider>
 
-              <ion-item>
+              <ion-item fixed>
                 <ion-label>Da</ion-label>
                 <ion-input type="text"></ion-input>
               </ion-item>
 
-              <ion-item>
+              <ion-item fixed>
                 <ion-label>A</ion-label>
                 <ion-input type="text"></ion-input>
               </ion-item>
@@ -77,12 +77,12 @@
 			  <ion-item-divider class="item-title" style="border-top-color: transparent;">NEGOZIO</ion-item-divider>
 
               <ion-item>
-                <ion-label>Tipo</ion-label>
+                <ion-label fixed>Tipo</ion-label>
                 <ion-input type="text"></ion-input>
               </ion-item>
 
               <ion-item>
-                <ion-label>Nome</ion-label>
+                <ion-label fixed>Nome</ion-label>
                 <ion-input type="text"></ion-input>
               </ion-item>
 

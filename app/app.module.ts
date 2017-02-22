@@ -34,6 +34,10 @@ import { EditProfilePage } from '../pages/24_edit_profile/24_edit_profile';
 import { PasswordResetPage } from '../pages/25_password_reset/25_password_reset';
 import { TermsAndConditionsPage } from '../pages/26_terms_and_conditions/26_terms_and_conditions';
 import { HistoryPage } from '../pages/22_history/22_history';
+import { ReviewsPage } from '../pages/30_reviews/30_reviews';
+import { SingleReviewPage } from '../pages/31_single_review/31_single_review';
+import { PaymentPage } from '../pages/32_payment/32_payment';
+import { PaymentSummaryPage } from '../pages/33_payment_summary/33_payment_summary';
 import { AddressViewPage } from '../pages/29_address_view/29_address_view';
 
 import { TabsPage } from '../pages/tabs/tabs';
@@ -85,6 +89,10 @@ export const firebaseConfig = {
     PasswordResetPage,
     TermsAndConditionsPage,
     HistoryPage,
+    ReviewsPage,
+    SingleReviewPage,
+    PaymentPage,
+    PaymentSummaryPage,
     AddressViewPage
   ],
   imports: [
@@ -126,7 +134,11 @@ export const firebaseConfig = {
     PasswordResetPage,
     TermsAndConditionsPage,
     HistoryPage,
+    ReviewsPage,
+    SingleReviewPage,
     AddressViewPage,
+    PaymentPage,
+    PaymentSummaryPage,
     TabsPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
