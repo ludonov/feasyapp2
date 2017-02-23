@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Payment</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
+
+      <div class="spacer" style="height: 16px;"></div>
+      <ion-list>
+
+        <ion-item-divider color="light" class="item-title">SHOPPER</ion-item-divider>
+        <ion-item>
+          <ion-avatar item-left>
+            <img src="assets/images/32_payment/Ludovico.jpg">
+          </ion-avatar>
+          <h2>Ludovico Novelli</h2>
+          <p>@ludonov</p>
+        </ion-item>
+
+        <div class="spacer" style="height: 16px;"></div>
+        <ion-item-divider color="light" class="item-title">SOMMA DA PAGARE</ion-item-divider>
+
+				<ion-item>
+					<ion-label fixed>Mancia</ion-label>
+					<ion-input type="number" value="10 €"></ion-input>
+				</ion-item>
+				<ion-item>
+					<ion-label fixed>Spesa</ion-label>
+					<ion-input type="number" value="10 €"></ion-input>
+				</ion-item>
+
+		    <div class="spacer" style="height: 16px;"></div>
+        <ion-item-divider color="light" class="item-title">METODO DI PAGAMENTO</ion-item-divider>
+        
+				<ion-item>
+					<ion-label>Metodo</ion-label>
+					<ion-select>
+						<ion-option value="cash">Contanti</ion-option>
+						<ion-option value="cdc">Carta di credito</ion-option>
+						<ion-option value="pp">PayPal</ion-option>
+						<ion-option value="sp">Satispay</ion-option>
+					</ion-select>
+				</ion-item>
+				<ion-item>
+				<ion-label style="color:#999">Commissione</ion-label> <!-- Cambia a seconda della scelta del metodo cosi li invogliamo a usare quello che vogliamo noi -->
+					<ion-note item-right>0,50 €</ion-note>
+				</ion-item>
+
+	      <div class="spacer" style="height: 32px;"></div>
+        <button ion-button block (click)="goToPaymentSummary()">Paga</button>
+
+      </ion-list>
+
+</ion-content>
+

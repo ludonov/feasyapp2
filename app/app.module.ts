@@ -8,6 +8,9 @@ import { KeysPipe } from '../app/pipes';
 import { LoginPage } from '../pages/1_login/1_login';
 import { ForgotPassPage } from '../pages/2_forgot_pass/2_forgot_pass';
 import { SignupPage } from '../pages/3_signup/3_signup';
+import { SetPersonalDetailsPage } from '../pages/4A_set_personal_details/4A_set_personal_details';
+import { SetAddressPage } from '../pages/4B_set_address/4B_set_address';
+import { SetPaymentMethodPage } from '../pages/4C_set_payment_method/4C_set_payment_method';
 import { HomePage } from '../pages/5_home/5_home';
 import { ListsPage } from '../pages/6_lists/6_lists';
 import { ListPage } from '../pages/7_list/7_list';
@@ -33,6 +36,10 @@ import { EditProfilePage } from '../pages/24_edit_profile/24_edit_profile';
 import { PasswordResetPage } from '../pages/25_password_reset/25_password_reset';
 import { TermsAndConditionsPage } from '../pages/26_terms_and_conditions/26_terms_and_conditions';
 import { HistoryPage } from '../pages/22_history/22_history';
+import { ReviewsPage } from '../pages/30_reviews/30_reviews';
+import { SingleReviewPage } from '../pages/31_single_review/31_single_review';
+import { PaymentPage } from '../pages/32_payment/32_payment';
+import { PaymentSummaryPage } from '../pages/33_payment_summary/33_payment_summary';
 import { AddressViewPage } from '../pages/29_address_view/29_address_view';
 import { AddressViewStaticPage } from '../pages/30_address_view_static/30_address_view_static';
 
@@ -57,6 +64,9 @@ export const firebaseConfig = {
     LoginPage,
     ForgotPassPage, 
     SignupPage,
+    SetPersonalDetailsPage,
+    SetAddressPage,
+    SetPaymentMethodPage,
     HomePage,
     ListsPage,
     ListPage,
@@ -82,6 +92,11 @@ export const firebaseConfig = {
     PasswordResetPage,
     TermsAndConditionsPage,
     HistoryPage,
+    ReviewsPage,
+    SingleReviewPage,
+    PaymentPage,
+    PaymentSummaryPage,
+    AddressViewPage
     AddressViewPage,
     AddressViewStaticPage,
     TabsPage
@@ -96,7 +111,10 @@ export const firebaseConfig = {
     LoginPage,
     ForgotPassPage ,
     SignupPage,
+    SetPersonalDetailsPage,
+    SetPaymentMethodPage,
     HomePage,
+    SetAddressPage,
     ListsPage,
     ListPage,
     PublicateListPage,
@@ -122,7 +140,11 @@ export const firebaseConfig = {
     PasswordResetPage,
     TermsAndConditionsPage,
     HistoryPage,
+    ReviewsPage,
+    SingleReviewPage,
     AddressViewPage,
+    PaymentPage,
+    PaymentSummaryPage,
     AddressViewStaticPage,
     TabsPage
   ],
