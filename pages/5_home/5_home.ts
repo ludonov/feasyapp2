@@ -18,6 +18,7 @@ import { SpecificProductShopperPage } from '../../pages/13B_specific_product_sho
 import { PublicatedListCandidatesPage } from '../../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 import { CandidateInfoUnacceptedPage } from '../../pages/16_candidate_info_unaccepted/16_candidate_info_unaccepted';
 
+import { SetPersonalDetailsPage } from '../../pages/4A_set_personal_details/4A_set_personal_details';
 import { DoShoppingListsPage } from '../../pages/18B_do_shopping_lists/18B_do_shopping_lists';
 
 /*   
@@ -109,4 +110,14 @@ export class HomePage {
     console.log("going to page do shopping lists");
     this.navCtrl.push(DoShoppingListsPage);
   }
+
+  tmp_goto_page4A(): void {
+    console.log("going to add personal details");
+    this.navCtrl.push(SetPersonalDetailsPage);
+  }
 }
+
+
+
+
+

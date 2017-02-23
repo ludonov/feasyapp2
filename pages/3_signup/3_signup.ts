@@ -6,7 +6,6 @@ import { FirebaseError } from 'firebase';
 
 import { FeasyUser } from '../../classes/Feasy';
 
-import { SetPersonalDetailsPage } from '../../pages/4A_set_personal_details/4A_set_personal_details';
 
 @Component({
   selector: 'page-signup',
@@ -21,12 +20,6 @@ export class SignupPage {
     console.log("NAV> signup page");
     //this.user = Backendless.UserService.login("ludovico.novelli@gmail.com", "prova", true);
     //console.log(this.user);
-  }
-
-  Test_Page4(): void {
-    console.log("personal details set");
-    //send password to users email!!!!!!
-    this.navCtrl.push(SetPersonalDetailsPage);
   }
 
   signUp(): void {
