@@ -19,12 +19,11 @@ import { ReviewsPage } from '../../pages/30_reviews/30_reviews';
 export class UserProfilePage {
 
   public tab: Tabs;
-  public user: FeasyUser = new FeasyUser("", "", "");
-  public user_db: FirebaseListObservable<any>;
+
+  public user: FirebaseObjectObservable<any>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
-    this.user_db = af.database.list('/users/' + af.auth.getAuth().uid);
-    this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {this.user = snapshot.val();});
+    this.user = af.database.object("users/" + af.auth.getAuth().uid);
   }
 
   goToHistory(): void {

@@ -1,8 +1,11 @@
 
 import { Component } from '@angular/core';
 
-import { NavController} from 'ionic-angular';
-import { AngularFire } from 'angularfire2';
+import { NavController, AlertController } from 'ionic-angular';
+import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
+
+import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject } from '../../classes/Feasy';
+
 
 import { SetAddressPage } from '../../pages/4B_set_address/4B_set_address';
 import { HomePage } from '../../pages/5_home/5_home';
@@ -14,19 +17,22 @@ import { HomePage } from '../../pages/5_home/5_home';
 })
 export class SetPersonalDetailsPage {
 
-  constructor(public navCtrl: NavController) {
-  
-  }
+  public user: FirebaseObjectObservable<any>;
 
-  public event = {
-    month: '1990-02-19',
-    timeStarts: '07:43',
-    timeEnds: '1990-02-20'
+  constructor(public navCtrl: NavController, public af: AngularFire, public alertController: AlertController) {
+    this.user = af.database.object("users/" + af.auth.getAuth().uid);
   }
 
   skipToHome(): void {
     console.log("skip to home");
     //this.navCtrl.push(HomePage);
+
+    this.user.set(this.user).then(res => {
+      //this.navCtrl.push(new page);
+    }).catch((err: Error) => {
+      console.log("Error: " + err.message);
+    });
+
   }
 
   setPersonalDetails(): void {
