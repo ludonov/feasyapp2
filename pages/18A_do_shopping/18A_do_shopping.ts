@@ -1,13 +1,7 @@
-<<<<<<< HEAD
+﻿
 ﻿import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, Platform } from 'ionic-angular';
 import { GoogleMap, GoogleMapsEvent, GoogleMapsLatLng, GoogleMapsMarker, GoogleMapsMarkerOptions } from 'ionic-native';
-=======
-import { Component } from '@angular/core';
-
-import { NavController} from 'ionic-angular';
-import { AngularFire } from 'angularfire2';
->>>>>>> dani
 
 import { DoShoppingFiltersPage } from '../18C_do_shopping_filters/18C_do_shopping_filters';
 
@@ -16,7 +10,7 @@ import { DoShoppingFiltersPage } from '../18C_do_shopping_filters/18C_do_shoppin
   selector: 'page-doshopping',
   templateUrl: '18A_do_shopping.html'
 })
-<<<<<<< HEAD
+
 export class DoShoppingPage {
 
   map: GoogleMap;
@@ -70,17 +64,4 @@ export class DoShoppingPage {
     });
 
   }
-=======
-
-export class DoShoppingPage {
- constructor(public navCtrl: NavController) {
-
- }
-
- filters(): void {
-    console.log("apply filter on map");
-    this.navCtrl.push(DoShoppingFiltersPage);
-  }
-
->>>>>>> dani
 }

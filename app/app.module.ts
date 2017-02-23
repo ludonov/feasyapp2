@@ -96,7 +96,6 @@ export const firebaseConfig = {
     SingleReviewPage,
     PaymentPage,
     PaymentSummaryPage,
-    AddressViewPage
     AddressViewPage,
     AddressViewStaticPage,
     TabsPage

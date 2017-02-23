@@ -6,7 +6,6 @@ type GenderType = "Uomo" | "Donna";
 
 type UnitType = "Grammi" | "Ettogrammi" | "Kilogrammi" | "Pezzi" | "Litri";
 
-
 export const GoogleApiKey: string = "AIzaSyCkCAGEfkSWp3mWjtq8fIj9vGaMglpbsXE";
 
 export function GetUnits(): string[] {
