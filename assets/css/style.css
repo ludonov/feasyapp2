@@ -180,12 +180,6 @@ position: absolute;
   margin: 0 auto;
 }
 
-.profile-element-content {
-  /*Da aggiungere un allineamento wrt il lato sinistro del content, di 35% da destra che non sono capace a farlo*/
-  font-size:100%;
-  font:SF-regular;
-}
-
 .home-button {
     height: 100px;
     width: 100px;
@@ -215,12 +209,6 @@ position: absolute;
   /*font-family: 'San Francisco Display Regular';*/ /*Font removed as it is auto-detected depending on the running platform*/
 }
 
-.item-content { /*Il contenuto dell'item, la parte scritta a destra*/
-  font-family: 'San Francisco Display Regular';
-  color:#8e8f92;
-  font-size:100%;
-}
-
 .profile-personal-info {
   /*font-family: 'San Francisco Display Regular';*/
   color:#1c1c1c; /*#1c1c1c*/
@@ -248,12 +236,6 @@ position: absolute;
 .or-separator:after {
     left: 0.5em;
     margin-right: -50%;
-}
-
-/*Class to change style of header*/
-.title-custom {
-    font-family: 'San Francisco Display Medium';
-    color:white;  /*MediumBlue #0000CD*/ /*RoyalBlue #4169E1*/ /*BlueIonic #3b88f2;*/
 }
 
 .bar.bar-color{
