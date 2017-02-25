@@ -1,11 +1,14 @@
 
 import { Component } from '@angular/core';
 
-import { NavController} from 'ionic-angular';
-import { AngularFire } from 'angularfire2';
+import { NavController, AlertController } from 'ionic-angular';
+import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
+import { FirebaseError } from 'firebase';
 
 import { SetAddressPage } from '../../pages/4B_set_address/4B_set_address';
 import { HomePage } from '../../pages/5_home/5_home';
+
+import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject } from '../../classes/Feasy';
 
 
 @Component({
@@ -14,14 +17,10 @@ import { HomePage } from '../../pages/5_home/5_home';
 })
 export class SetPersonalDetailsPage {
 
-  constructor(public navCtrl: NavController) {
-  
-  }
+  public user: FirebaseObjectObservable<any>;
 
-  public event = {
-    month: '1990-02-19',
-    timeStarts: '07:43',
-    timeEnds: '1990-02-20'
+  constructor(public navCtrl: NavController, public af: AngularFire, public alertCtrl: AlertController) {
+      this.user=af.database.object("users/"+af.auth.getAuth().uid);
   }
 
   skipToHome(): void {
@@ -31,9 +30,18 @@ export class SetPersonalDetailsPage {
 
   setPersonalDetails(): void {
     console.log("personal details set");
-    this.navCtrl.push(SetAddressPage);
+    this.user.set(StripForFirebase(this.user)).then(res => {
+        this.navCtrl.push(SetAddressPage);
+    }).catch((err: Error) => {
+        console.log("Error: " + err.message);
+    });
   }
 
 }
 
 
+ /*public event = {
+    month: '1990-02-19',
+    timeStarts: '07:43',
+    timeEnds: '1990-02-20'
+  }*/
