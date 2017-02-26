@@ -1,4 +1,4 @@
-
+﻿
 import { Component } from '@angular/core';
 
 import { NavController, AlertController } from 'ionic-angular';
@@ -17,10 +17,14 @@ import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, cop
 })
 export class SetPersonalDetailsPage {
 
-  public user: FirebaseObjectObservable<any>;
+  public user: FeasyUser = new FeasyUser("", "", "");
+  public user_db: FirebaseObjectObservable<any>;
 
   constructor(public navCtrl: NavController, public af: AngularFire, public alertCtrl: AlertController) {
-      this.user=af.database.object("users/"+af.auth.getAuth().uid);
+    this.user_db = af.database.object("users/" + af.auth.getAuth().uid);
+    this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
+      this.user = snapshot.val();
+    });
   }
 
   skipToHome(): void {
@@ -30,7 +34,7 @@ export class SetPersonalDetailsPage {
 
   setPersonalDetails(): void {
     console.log("personal details set");
-    this.user.set(StripForFirebase(this.user)).then(res => {
+    this.user_db.set(StripForFirebase(this.user)).then(res => {
         this.navCtrl.push(SetAddressPage);
     }).catch((err: Error) => {
         console.log("Error: " + err.message);
