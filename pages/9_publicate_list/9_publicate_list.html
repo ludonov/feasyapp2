@@ -1,0 +1,80 @@
+﻿<ion-header>
+  <ion-navbar>
+    <ion-title>Pubblica</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
+
+  <ion-list>
+
+    <ion-item>
+      <ion-label fixed>Nome<sup>*</sup></ion-label>
+      <ion-input [(ngModel)]="list.Name" type="text" value=""></ion-input>
+    </ion-item>
+			
+    <div class="spacer" style="height: 16px;"></div>
+		<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZO E ORARIO CONSEGNA<sup>*</sup></ion-item-divider>
+
+    <ion-item class="item item-field" (click)="ViewAddress(address)" *ngFor="let address of addresses_db | async">
+      <ion-label>
+        {{address.FormattedAddress}}
+      </ion-label>
+      <div item-content>
+        dalle {{address.From}} &nbsp; alle {{address.To}}  <br>
+      </div>
+    </ion-item>
+
+    <div class="spacer" style="height: 16px;"></div>
+    <div class="center"><button ion-button round color="primary" (click)="AddAddress()">Aggiungi indirizzo e orario consegna</button></div>
+
+    <div class="spacer" style="height: 16px;"></div>
+		<ion-item-divider class="item-title" style="border-top-color: transparent;">RICOMPENSA<sup>*</sup></ion-item-divider>
+    
+    <ion-item>
+      <ion-label fixed>Quantità</ion-label>
+      <ion-input [(ngModel)]="list.Reward" type="number" value=""></ion-input>
+    </ion-item>
+
+
+    <ion-item-divider>
+      SCADENZA<sup>*</sup>
+    </ion-item-divider>
+
+    <ion-item>
+      <ion-label fixed>Data</ion-label>
+      <ion-select [(ngModel)]="list.ExpiryDate" interface="action-sheet" multiple="false" placeholder="Tra 3 giorni">
+        <ion-option value="{{expirydate}}" selected="(expirydate=='Tra 3 giorni' && list.ExpiryDate == undefined) || (list.ExpiryDate != null && expirydate == list.ExpiryDate)" *ngFor="let expirydate of expirydates">
+          {{expirydate}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- DA AGGIUNGERE: Trattabile con toggle a destra -->
+
+    <div class="spacer" style="height: 16px;"></div>
+		<ion-item-divider class="item-title" style="border-top-color: transparent;">DETTAGLI</ion-item-divider>
+
+    <ion-item>
+      <ion-label fixed>Negozio</ion-label>
+      <ion-input [(ngModel)]="list.PreferredShops" type="text" value=""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Valore massimo spesa</ion-label>
+      <ion-input [(ngModel)]="list.MaxValue" type="number" value=""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Peso stimato (kg)</ion-label>
+      <ion-input [(ngModel)]="list.EstimatedWeight" type="number" value=""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Altri commenti</ion-label>
+      <ion-input [(ngModel)]="list.Comments" type="text" value=""></ion-input>
+    </ion-item>
+
+  </ion-list>
+
+  <button padding ion-button block (click)="PublicateList()">Pubblica</button>
+
+</ion-content>
+
