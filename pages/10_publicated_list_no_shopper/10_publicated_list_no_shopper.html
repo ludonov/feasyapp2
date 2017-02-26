@@ -1,6 +1,6 @@
-<ion-header>
+﻿<ion-header>
   <ion-navbar>
-    <ion-title>Publicated List No Shopper</ion-title>
+    <ion-title>{{list.Name}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -11,9 +11,9 @@
       <ion-list>
         <ion-item-divider color="light" class="item-title">DETTAGLI CONSEGNA</ion-item-divider>
 
-        <ion-item class="item-icon-right"  type="item-text-wrap">
-          <h2>Corso Re Umberto 48, 10128, Torino (TO), ITALIA</h2>
-          <p>Sabato 18/02/2017 - dalle 16.00 alle 18.00</p>
+        <ion-item class="item-icon-right"  type="item-text-wrap"  (click)="ViewAddress(address)" *ngFor="let address of DeliveryAddresses | keys">
+          <h2>{{address.value.FormattedAddress}}</h2>
+          <p>dalle {{address.value.From}} &nbsp; alle {{address.value.To}}</p>
           <i class="icon ion-chevron-right icon-accessory"></i>
         </ion-item>
 
@@ -22,29 +22,33 @@
 
         <ion-item>
           Mancia
-          <ion-note item-right>10 €</ion-note>
+          <ion-note item-right>{{list.Reward}}</ion-note>
 			  </ion-item>
         <ion-item>
           Negozio
-          <ion-note item-right>Carrefour</ion-note>
+          <ion-note item-right>{{list.PreferredShops}}</ion-note>
 			  </ion-item>
         <ion-item>
           Peso stimato
-          <ion-note item-right>3 kg</ion-note>
-			  </ion-item>
+          <ion-note item-right>{{list.EstimatedWeight}}</ion-note>
+        </ion-item>
         <ion-item>
           Tetto massimo
-          <ion-note item-right>50 €</ion-note>
+          <ion-note item-right>{{list.MaxValue}}</ion-note>
+        </ion-item>
+        <ion-item>
+          Commenti
+          <ion-note item-right>{{list.Comments}}</ion-note>
 			  </ion-item>
 
         <div class="spacer" style="height: 32px;"></div>
 
-        <ion-item icon-left icon-right>
+        <ion-item icon-left icon-right (click)="ViewCandidates()">
           <ion-icon name="people"></ion-icon>
           Candidati
           <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 			  </ion-item>
-        <ion-item icon-left icon-right>
+        <ion-item icon-left icon-right (click)="ViewItems()">
           <ion-icon name="list"></ion-icon>
           Lista prodotti
           <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
@@ -52,11 +56,11 @@
         
 
         <div class="spacer" style="height: 32px;"></div>
-        <ion-item style="font-weight:lighter" class="center">
+        <ion-item style="font-weight:lighter" class="center" (click)="WithdrawList()">
           RITIRA LISTA
         </ion-item>
         <div class="spacer" style="height: 16px;"></div>
-        <ion-item style="color:red; font-weight:lighter" class="center">
+        <ion-item style="color:red; font-weight:lighter" class="center" (click)="RemoveList()">
           ELIMINA LISTA
         </ion-item>
         

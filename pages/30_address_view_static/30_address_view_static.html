@@ -1,0 +1,42 @@
+﻿<ion-header>
+  <ion-navbar>
+    <ion-title>Dettagli Indirizzo</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content scroll="false">
+
+  <ion-list class="center">
+
+    <ion-item>
+      Via
+      <ion-note item-right>{{address.StreetName}}</ion-note>
+    </ion-item>
+    <ion-item>
+      Città
+      <ion-note item-right>{{address.City}}</ion-note>
+    </ion-item>
+    <ion-item>
+      Codice postale (CAP)
+      <ion-note item-right>{{address.PostCode}}</ion-note>
+    </ion-item>
+    <ion-item>
+      Nazione
+      <ion-note item-right>{{address.Nation}}</ion-note>
+    </ion-item>
+    <ion-item>
+      Dalle
+      <ion-note item-right>{{address.From}}</ion-note>
+    </ion-item>
+    <ion-item>
+      Alle
+      <ion-note item-right>{{address.To}}</ion-note>
+    </ion-item>
+    <ion-item>
+      Commenti
+      <ion-note item-right>{{address.Comments}}</ion-note>
+    </ion-item>
+
+  </ion-list>
+</ion-content>

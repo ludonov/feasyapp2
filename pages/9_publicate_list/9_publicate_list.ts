@@ -1,12 +1,12 @@
 ﻿import { Component } from '@angular/core';
 
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, NavOptions, AlertController } from 'ionic-angular';
 
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
-import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, GeoPoint, StripForFirebase, copyObject, GetExpiryDates, GetRealExpiryDate } from '../../classes/Feasy';
 
-import { ListsPage } from '../../pages/6_lists/6_lists';
+import { HomePage } from '../../pages/5_home/5_home';
 import { AddressViewPage } from '../../pages/29_address_view/29_address_view';
 
 
@@ -17,11 +17,11 @@ import { AddressViewPage } from '../../pages/29_address_view/29_address_view';
 export class PublicateListPage {
 
   public list: FeasyList;
-  public DeliveryAddresses: Array<DeliveryAddress> = [];
   public addresses_db: FirebaseListObservable<any>;
   public published_lists_db: FirebaseListObservable<any>;
   public unpublished_lists_db: FirebaseListObservable<any>;
   public no_addresses: boolean = true;
+  public expirydates: string[] = GetExpiryDates();
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
     this.list = navParams.get('list');
@@ -35,6 +35,7 @@ export class PublicateListPage {
       this.no_addresses = !snapshot.hasChildren();
       this.list.DeliveryAddresses = snapshot.val() || {};
     });
+    this.list.ExpiryDate = "Tra 3 giorni";
     //this.DeliveryAddresses = [];
     //if (this.list.DeliveryAddresses != null)
     //  this.list.DeliveryAddresses = {};
@@ -78,16 +79,29 @@ export class PublicateListPage {
       let list_copy: FeasyList = Object.assign({}, this.list);
       this.unpublished_lists_db.remove(this.list.$key).then(res => {
         console.log("Removed list fom unpublished lists first");
-        delete this.list.$key;
-        this.list.owner = this.af.auth.getAuth().uid;
+        //delete this.list.$key;
+        //this.list.owner = this.af.auth.getAuth().uid;
+        list_copy.ExpiryDate = GetRealExpiryDate(this.list.ExpiryDate);
         this.published_lists_db.push(StripForFirebase(list_copy)).then(res => {
-          console.log("List published!");
-          this.navCtrl.popTo(ListsPage);
+          let uid: string = this.af.auth.getAuth().uid;
+          for (let address_key in list_copy.DeliveryAddresses) {
+            let geo: GeoPoint = new GeoPoint();
+            geo.own = uid;  
+            geo.lst = res.key;
+            geo.rew = list_copy.Reward;
+            geo.exp = list_copy.ExpiryDate;
+            geo.lat = list_copy.DeliveryAddresses[address_key].Latitude;
+            geo.lng = list_copy.DeliveryAddresses[address_key].Longitude;
+            geo.com = list_copy.DeliveryAddresses[address_key].Comments;
+            this.af.database.list("geopoints").push(StripForFirebase(geo));
+          }
+          console.log("List published! Publishing geopoints...");
+          this.navCtrl.popToRoot();
         }).catch((err: Error) => {
-          console.log("Cannot push list to published lists: " + err.message);
+          console.warn("Cannot move list to published lists: " + err.message);
         });
       }).catch((err: Error) => {
-        console.log("Cannot remove list from unpublished lists first: " + err.message);
+        console.warn("Cannot remove list from unpublished lists first: " + err.message);
       });
     }
 

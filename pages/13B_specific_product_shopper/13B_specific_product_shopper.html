@@ -1,6 +1,6 @@
-<ion-header>
+﻿<ion-header>
   <ion-navbar>
-    <ion-title>Specific Product Shopper</ion-title>
+    <ion-title>Dettagli Prodotto</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -8,27 +8,27 @@
   <ion-list>
     <ion-item>
       Prodotto
-      <ion-note item-right> Latte</ion-note>
+      <ion-note item-right>{{item.Name}}</ion-note>
     </ion-item>
     <ion-item>
       Quantità
-      <ion-note item-right> 3</ion-note>
+      <ion-note item-right>{{item.Qty}}</ion-note>
     </ion-item>
     <ion-item>
       Unità
-      <ion-note item-right> lt</ion-note>
+      <ion-note item-right>{{item.Unit}}</ion-note>
     </ion-item>
     <ion-item>
       Marca
-      <ion-note item-right> Centrale del Latte</ion-note>
+      <ion-note item-right>{{item.Brand}}</ion-note>
     </ion-item>
     <ion-item>
       Fascia di prezzo
-      <ion-note item-right> 1-2 €</ion-note>
+      <ion-note item-right>{{item.PriceRange}}</ion-note>
     </ion-item>
     <ion-item>
       Altri dettagli
-      <ion-note item-right> Tappo rosso</ion-note>
+      <ion-note item-right>{{item.Comments}}</ion-note>
     </ion-item>
   </ion-list>
 </ion-content>
