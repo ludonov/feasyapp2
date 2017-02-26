@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 
 import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 
@@ -20,10 +20,14 @@ export class UserProfilePage {
 
   public tab: Tabs;
 
-  public user: FirebaseObjectObservable<any>;
+  public user: FeasyUser = new FeasyUser("", "", "");
+  public user_db: FirebaseObjectObservable<any>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
-    this.user = af.database.object("users/" + af.auth.getAuth().uid);
+    this.user_db = af.database.object("users/" + af.auth.getAuth().uid);
+    this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
+      this.user = snapshot.val();
+    });
   }
 
   goToHistory(): void {
