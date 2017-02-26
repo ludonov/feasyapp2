@@ -27,6 +27,7 @@ export class DoShoppingPage {
   private markers_browser: Array<google.maps.Marker> = [];
   private marker_position: GoogleMapsMarker;
   private marker_position_browser: google.maps.Marker;
+  private infoWindow = new google.maps.InfoWindow({content: ""});
 
   private geopoints: Object = {};
   private geopoints_db: FirebaseListObservable<any>;
@@ -80,6 +81,7 @@ export class DoShoppingPage {
         console.log('Browser Map is ready!');
         this.map_ready = true;
         this.addMarker(location, "<h4>I'm here!</h4>", true);
+        google.maps.event.addListener(this.map_browser, 'click', function () { this.infoWindow.close(); });
         //this.map_browser.addListener('idle', function () { this.update_geopoints(); });
         this.update_geopoints();
       });
@@ -119,6 +121,10 @@ export class DoShoppingPage {
         //this.map.on(GoogleMapsEvent.CAMERA_IDLE).subscribe(() => this.update_geopoints())
         this.update_geopoints();
 
+        this.map.on(GoogleMapsEvent.MAP_CLICK).subscribe(() => {
+          this.CloseAllMarkers();
+        });
+
       });
     }
 
@@ -136,12 +142,10 @@ export class DoShoppingPage {
         position: ll
       });
 
-      let infoWindow = new google.maps.InfoWindow({
-        content: content
-      });
+      this.infoWindow.setContent(content);
 
       google.maps.event.addListener(marker, 'click', () => {
-        infoWindow.open(this.map_browser, marker);
+        this.infoWindow.open(this.map_browser, marker);
       });
 
       if (is_position) {
@@ -182,7 +186,7 @@ export class DoShoppingPage {
     }
   }
 
-   // Removes all markers
+  // Removes all markers
   RemoveAllMarkers(): void {
     if (this.is_web) {
       this.markers_browser.forEach((marker: google.maps.Marker) => {
@@ -195,6 +199,13 @@ export class DoShoppingPage {
       });
       this.markers.length = 0;
     }
+  }
+
+  // Closes all markers (only mobile map)
+  CloseAllMarkers(): void {
+    this.markers.forEach((marker: GoogleMapsMarker) => {
+      marker.hideInfoWindow();
+    });
   }
 
 }
