@@ -27,10 +27,7 @@ export class DoShoppingPage {
   private markers_browser: Array<google.maps.Marker> = [];
   private marker_position: GoogleMapsMarker;
   private marker_position_browser: google.maps.Marker;
-<<<<<<< HEAD
   private infoWindow = new google.maps.InfoWindow({content: ""});
-=======
->>>>>>> daniprova
 
   private geopoints: Object = {};
   private geopoints_db: FirebaseListObservable<any>;
@@ -68,15 +65,7 @@ export class DoShoppingPage {
     if (this.is_web) {
 
       console.log("Loading map for browser...");
-<<<<<<< HEAD
-
       let latLng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-
-=======
-
-      let latLng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-
->>>>>>> daniprova
       let mapOptions = {
         center: latLng,
         zoom: 15,
@@ -90,10 +79,7 @@ export class DoShoppingPage {
         console.log('Browser Map is ready!');
         this.map_ready = true;
         this.addMarker(location, "<h4>I'm here!</h4>", true);
-<<<<<<< HEAD
         google.maps.event.addListener(this.map_browser, 'click', function () { this.infoWindow.close(); });
-=======
->>>>>>> daniprova
         //this.map_browser.addListener('idle', function () { this.update_geopoints(); });
         this.update_geopoints();
       });
@@ -132,14 +118,10 @@ export class DoShoppingPage {
         this.addMarker(location, "<h4>I'm here!</h4>", true);
         //this.map.on(GoogleMapsEvent.CAMERA_IDLE).subscribe(() => this.update_geopoints())
         this.update_geopoints();
-
-<<<<<<< HEAD
+        
         this.map.on(GoogleMapsEvent.MAP_CLICK).subscribe(() => {
           this.CloseAllMarkers();
         });
-
-=======
->>>>>>> daniprova
       });
     }
 
@@ -156,20 +138,11 @@ export class DoShoppingPage {
         animation: google.maps.Animation.DROP,
         position: ll
       });
-
-<<<<<<< HEAD
+      
       this.infoWindow.setContent(content);
-
+      
       google.maps.event.addListener(marker, 'click', () => {
         this.infoWindow.open(this.map_browser, marker);
-=======
-      let infoWindow = new google.maps.InfoWindow({
-        content: content
-      });
-
-      google.maps.event.addListener(marker, 'click', () => {
-        infoWindow.open(this.map_browser, marker);
->>>>>>> daniprova
       });
 
       if (is_position) {
@@ -209,12 +182,8 @@ export class DoShoppingPage {
       });
     }
   }
-
-<<<<<<< HEAD
+  
   // Removes all markers
-=======
-   // Removes all markers
->>>>>>> daniprova
   RemoveAllMarkers(): void {
     if (this.is_web) {
       this.markers_browser.forEach((marker: google.maps.Marker) => {
@@ -228,15 +197,11 @@ export class DoShoppingPage {
       this.markers.length = 0;
     }
   }
-
-<<<<<<< HEAD
+  
   // Closes all markers (only mobile map)
   CloseAllMarkers(): void {
     this.markers.forEach((marker: GoogleMapsMarker) => {
       marker.hideInfoWindow();
     });
   }
-
-=======
->>>>>>> daniprova
 }
