@@ -32,12 +32,12 @@ export class SetPersonalDetailsPage {
 
   skipToHome(): void {
     console.log("skip to home");
-    //this.navCtrl.push(HomePage);
+    this.navCtrl.push(HomePage);
   }
 
   setPersonalDetails(): void {
     console.log("personal details set");
-    this.user_db.set(StripForFirebase(this.user)).then(res => {
+    this.user_db.update(StripForFirebase(this.user)).then(res => {
       this.navCtrl.push(SetAddressPage);
     }).catch((err: Error) => {
       console.log("Error: " + err.message);
