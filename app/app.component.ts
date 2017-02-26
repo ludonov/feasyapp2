@@ -54,6 +54,7 @@ export class MyApp {
           } else {
             console.log("Found normal User");
             if (globals.JustRegistered) {
+              globals.JustRegistered = false;
               console.log("Just registered! Redirecting to Personal details");
               this.rootPage = SetPersonalDetailsPage;
             }
