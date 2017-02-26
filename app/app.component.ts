@@ -1,6 +1,6 @@
 ﻿import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { AngularFire } from 'angularfire2';
+import { AngularFire, AuthProviders } from 'angularfire2';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { TabsPage } from '../pages/tabs/tabs';
@@ -22,7 +22,19 @@ export class MyApp {
         console.log("AUTH STATE CHANGED!");
         console.log(user);
         if (user) {
-          console.log("User auth found, redirecting to Home");
+          if (user.provider == AuthProviders.Facebook) {
+            console.log("Found FB user. Updating user data...");
+            af.database.object("users/" + user.uid).set({ "DisplayName": user.facebook.displayName, "Email": user.facebook.email, "PhotoURL": user.facebook.photoURL })
+              .then(res => {
+                console.log("FB user data updated");
+              })
+              .catch((err: Error) => {
+                console.warn("Cannot update fb user data: " + err.message);
+              });
+          } else {
+            console.log("Found normal User");
+          }
+          console.log("Redirecting to Home");
           this.rootPage = TabsPage;
         } else {
           console.log("User auth not found, redirecting to Login");
