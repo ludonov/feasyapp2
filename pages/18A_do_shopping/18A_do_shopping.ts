@@ -2,7 +2,7 @@
 
 ﻿import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, AlertController, Platform } from 'ionic-angular';
-import { Geolocation, Geoposition, GoogleMap, GoogleMapsEvent, GoogleMapsLatLng, GoogleMapsMarker, GoogleMapsMarkerOptions } from 'ionic-native';
+import { Geolocation, Geoposition, GoogleMap, GoogleMapsEvent, GoogleMapsLatLng, GoogleMapsMarker, GoogleMapsMarkerOptions, GoogleMapsAnimation } from 'ionic-native';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
 import { FeasyUser, FeasyList, GeoPoint } from '../../classes/Feasy';
@@ -53,8 +53,6 @@ export class DoShoppingPage {
       this.no_geopoints = Object.keys(this.geopoints).length == 0;
       this.update_geopoints();
     });
-    //this.geopoints_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-    //});
   }
   
 
@@ -78,8 +76,8 @@ export class DoShoppingPage {
       google.maps.event.addListenerOnce(this.map_browser, 'idle', () => {
         console.log('Browser Map is ready!');
         this.map_ready = true;
-        this.addMarker(location, "<h4>I'm here!</h4>", true);
-        google.maps.event.addListener(this.map_browser, 'click', function () { this.infoWindow.close(); });
+        this.addMarkerPosition(location);
+        google.maps.event.addListener(this.map_browser, 'click', () => { this.infoWindow.close(); });
         //this.map_browser.addListener('idle', function () { this.update_geopoints(); });
         this.update_geopoints();
       });
@@ -115,57 +113,64 @@ export class DoShoppingPage {
         this.map_ready = true;
 
         // create new marker
-        this.addMarker(location, "<h4>I'm here!</h4>", true);
+        //this.addMarker(location, "<h4>I'm here!</h4>", true);
         //this.map.on(GoogleMapsEvent.CAMERA_IDLE).subscribe(() => this.update_geopoints())
         this.update_geopoints();
         
-        this.map.on(GoogleMapsEvent.MAP_CLICK).subscribe(() => {
-          this.CloseAllMarkers();
-        });
+        //this.map.on(GoogleMapsEvent.MAP_CLICK).subscribe(() => {
+        //  this.CloseAllMarkers();
+        //});
       });
     }
 
   }
 
+  addMarkerPosition(pos: GoogleMapsLatLng): void {
 
-  addMarker(pos: GoogleMapsLatLng, content: string, is_position: boolean = false): void {
+    let marker = new google.maps.Marker({
+      map: this.map_browser,
+      animation: google.maps.Animation.DROP,
+      position: new google.maps.LatLng(pos.lat, pos.lng)
+    });
+
+    google.maps.event.addListener(marker, 'click', () => {
+      this.infoWindow.setContent("I'm here!");
+      this.infoWindow.open(this.map_browser, marker);
+    });
+    this.marker_position_browser = marker;
+  }
+
+  addMarker(pos: GoogleMapsLatLng, key: string): void {
 
     if (this.is_web) {
-      let ll: google.maps.LatLng = new google.maps.LatLng(pos.lat, pos.lng);
 
       let marker = new google.maps.Marker({
         map: this.map_browser,
         animation: google.maps.Animation.DROP,
-        position: ll
-      });
-      
-      this.infoWindow.setContent(content);
-      
-      google.maps.event.addListener(marker, 'click', () => {
-        this.infoWindow.open(this.map_browser, marker);
+        position: new google.maps.LatLng(pos.lat, pos.lng)
       });
 
-      if (is_position) {
-        this.marker_position_browser = marker;
-      } else {
-        this.markers_browser.push(marker);
-      }
+      this.markers_browser.push(marker);
+      google.maps.event.addListener(marker, 'click', () => {
+        console.log("Opening web list: " + key);
+        this.OpenListAlert(key);
+      });
 
     } else {
 
       let markerOptions: GoogleMapsMarkerOptions = {
         position: pos,
-        title: content
+        animation: GoogleMapsAnimation.DROP
       };
 
       this.map.addMarker(markerOptions)
         .then((marker: GoogleMapsMarker) => {
-          marker.showInfoWindow();
-          if (is_position) {
-            this.marker_position = marker;
-          } else {
-            this.markers.push(marker);
-          }
+          //marker.showInfoWindow();
+          this.markers.push(marker);
+          marker.set("firebase_key", key);
+          marker.addEventListener(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+            this.OpenListAlert(key);
+          });
         });
     }
   }
@@ -178,7 +183,7 @@ export class DoShoppingPage {
       this.RemoveAllMarkers();
       Object.keys(this.geopoints).forEach((key: string) => {
         let geo: GeoPoint = this.geopoints[key];
-        this.addMarker(new GoogleMapsLatLng(geo.lat, geo.lng), "Ricompensa: " + geo.rew.toString() + (geo.com == null ? "" : "<br>" + geo.com));
+        this.addMarker(new GoogleMapsLatLng(geo.lat, geo.lng), key);
       });
     }
   }
@@ -199,9 +204,54 @@ export class DoShoppingPage {
   }
   
   // Closes all markers (only mobile map)
-  CloseAllMarkers(): void {
-    this.markers.forEach((marker: GoogleMapsMarker) => {
-      marker.hideInfoWindow();
+  //CloseAllMarkers(): void {
+  //  this.markers.forEach((marker: GoogleMapsMarker) => {
+  //    marker.hideInfoWindow();
+  //  });
+  //}
+
+  OpenList(marker: GoogleMapsMarker): void {
+    console.log("Opening mobile list: ");
+    let key: string = marker.get("firebase_key");
+    let geo: GeoPoint = this.geopoints[key];
+    let alert = this.alertCtrl.create({
+      title: 'Dettagli lista',
+      message: "Ricompensa: " + geo.rew.toString() + (geo.com == null ? "" : "\r\n" + geo.com),
+      buttons: [
+        {
+          text: 'Indietro',
+          role: 'cancel'
+        },
+        {
+          text: 'Apri',
+          handler: () => {
+            console.log('APRI DETTAGLI LISTA: ' + key);
+          }
+        }
+      ]
     });
+    alert.present();
+  }
+
+  OpenListAlert(key: string) {
+
+    let geo: GeoPoint = this.geopoints[key];
+    let alert = this.alertCtrl.create({
+      title: 'Dettagli lista',
+      message: "Ricompensa: " + geo.rew.toString() + (geo.com == null ? "" : "\r\n" + geo.com) ,
+      buttons: [
+        {
+          text: 'Indietro',
+          role: 'cancel'
+        },
+        {
+          text: 'Apri',
+          handler: () => {
+            console.log('APRI DETTAGLI LISTA: ' + key);
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }
