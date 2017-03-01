@@ -17,6 +17,7 @@ import { PublicatedListProductsPage } from '../../pages/12_publicated_list_produ
 import { SpecificProductShopperPage } from '../../pages/13B_specific_product_shopper/13B_specific_product_shopper';
 import { PublicatedListCandidatesPage } from '../../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 import { CandidateInfoUnacceptedPage } from '../../pages/16_candidate_info_unaccepted/16_candidate_info_unaccepted';
+import { ListFromMapPage } from '../../pages/28_list_from_map_details/28_list_from_map_details';
 
 import { DoShoppingListsPage } from '../../pages/18B_do_shopping_lists/18B_do_shopping_lists';
 
@@ -108,5 +109,10 @@ export class HomePage {
   tmp_goto_page18B(): void {
     console.log("going to page do shopping lists");
     this.navCtrl.push(DoShoppingListsPage);
+  }
+
+  tmp_goto_page28(): void {
+    console.log("going to page do shopping lists");
+    this.navCtrl.push(ListFromMapPage);
   }
 }
