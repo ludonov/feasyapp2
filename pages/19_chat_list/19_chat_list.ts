@@ -6,7 +6,7 @@ import { NavController } from 'ionic-angular';
   selector: 'page-chats',
   templateUrl: '19_chat_list.html'
 })
-export class ChatPage {
+export class ChatListPage {
 
   constructor(public navCtrl: NavController) {
 

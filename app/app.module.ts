@@ -30,7 +30,7 @@ import { MapTabsPage } from '../pages/18_tabs/18_tabs';
 import { DoShoppingPage } from '../pages/18A_do_shopping/18A_do_shopping';
 import { DoShoppingListsPage } from '../pages/18B_do_shopping_lists/18B_do_shopping_lists';
 import { DoShoppingFiltersPage } from '../pages/18C_do_shopping_filters/18C_do_shopping_filters';
-import { ChatPage } from '../pages/19_chat_list/19_chat_list';
+import { ChatListPage } from '../pages/19_chat_list/19_chat_list';
 import { SettingsPage } from '../pages/23_settings/23_settings';
 import { EditProfilePage } from '../pages/24_edit_profile/24_edit_profile';
 import { PasswordResetPage } from '../pages/25_password_reset/25_password_reset';
@@ -86,7 +86,7 @@ export const firebaseConfig = {
     DoShoppingPage,
     DoShoppingListsPage,
     DoShoppingFiltersPage,
-    ChatPage,
+    ChatListPage,
     SettingsPage,
     EditProfilePage,
     PasswordResetPage,
@@ -133,7 +133,7 @@ export const firebaseConfig = {
     DoShoppingPage,
     DoShoppingListsPage,
     DoShoppingFiltersPage,
-    ChatPage,
+    ChatListPage,
     SettingsPage,
     EditProfilePage,
     PasswordResetPage,
