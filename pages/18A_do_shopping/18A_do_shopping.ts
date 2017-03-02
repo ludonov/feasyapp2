@@ -210,28 +210,35 @@ export class DoShoppingPage {
   //  });
   //}
 
-  OpenList(marker: GoogleMapsMarker): void {
-    console.log("Opening mobile list: ");
-    let key: string = marker.get("firebase_key");
-    let geo: GeoPoint = this.geopoints[key];
-    let alert = this.alertCtrl.create({
-      title: 'Dettagli lista',
-      message: "Ricompensa: " + geo.rew.toString() + (geo.com == null ? "" : "\r\n" + geo.com),
-      buttons: [
-        {
-          text: 'Indietro',
-          role: 'cancel'
-        },
-        {
-          text: 'Apri',
-          handler: () => {
-            console.log('APRI DETTAGLI LISTA: ' + key);
-          }
-        }
-      ]
-    });
-    alert.present();
-  }
+  //OpenList(marker: GoogleMapsMarker): void {
+  //  console.log("Opening mobile list: ");
+  //  let key: string = marker.get("firebase_key");
+  //  let geo: GeoPoint = this.geopoints[key];
+  //  let alert = this.alertCtrl.create({
+  //    title: 'Dettagli lista',
+  //    message: "Ricompensa: " + geo.rew.toString() + (geo.com == null ? "" : "\r\n" + geo.com),
+  //    buttons: [
+  //      {
+  //        text: 'Indietro',
+  //        role: 'cancel',
+  //        handler: () => {
+  //          this.map.setClickable(true);
+  //        }
+  //      },
+  //      {
+  //        text: 'Apri',
+  //        handler: () => {
+  //          this.map.setClickable(true);
+  //          console.log('APRI DETTAGLI LISTA: ' + key);
+  //        }
+  //      }
+  //    ]
+  //  });
+  //  alert.present().then(() => {
+  //    console.log("alert then");
+  //  });
+  //  this.map.setClickable(false);
+  //}
 
   OpenListAlert(key: string) {
 
@@ -242,16 +249,23 @@ export class DoShoppingPage {
       buttons: [
         {
           text: 'Indietro',
-          role: 'cancel'
+          role: 'cancel',
+          handler: () => {
+            this.map.setClickable(true);
+          }
         },
         {
           text: 'Apri',
           handler: () => {
+            this.map.setClickable(true);
             console.log('APRI DETTAGLI LISTA: ' + key);
           }
         }
       ]
     });
-    alert.present();
+    alert.present().then(() => {
+      console.log("alert then");
+    });
+    this.map.setClickable(false);
   }
 }
