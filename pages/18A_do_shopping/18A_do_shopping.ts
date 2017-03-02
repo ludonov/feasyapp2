@@ -251,13 +251,15 @@ export class DoShoppingPage {
           text: 'Indietro',
           role: 'cancel',
           handler: () => {
-            this.map.setClickable(true);
+            if (!this.is_web)
+              this.map.setClickable(true);
           }
         },
         {
           text: 'Apri',
           handler: () => {
-            this.map.setClickable(true);
+            if (!this.is_web)
+              this.map.setClickable(true);
             console.log('APRI DETTAGLI LISTA: ' + key);
           }
         }
@@ -266,6 +268,7 @@ export class DoShoppingPage {
     alert.present().then(() => {
       console.log("alert then");
     });
-    this.map.setClickable(false);
+    if (!this.is_web)
+      this.map.setClickable(false);
   }
 }
