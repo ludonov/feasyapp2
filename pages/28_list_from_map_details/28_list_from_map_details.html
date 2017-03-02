@@ -1,80 +1,72 @@
-<ion-view title="Nome lista" id="page10" class="background-color-body">
-    <ion-nav-title class="title-custom">{{list.name}}</ion-nav-title>
+<ion-header>
+  <ion-navbar>
+    <ion-title>List From Map</ion-title>
+  </ion-navbar>
+</ion-header>
 
-    <ion-scroll direction="y" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs" class="background-color-body">
-      <div class="list">
+<ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
 
-        <div class="card">
-          <div class="item item-divider SF-medium">
-            Autore
-          </div>
-          <div class="item item-text-wrap SF-regular">
-            <a class="item item-avatar" ui-sref="#">
-              <img src="images/11_lista_pubblicata_con_spesario/Daniele.jpg">
-              <h2>{{list.author_first_name}} {{list.author_last_name}}</h2>
-              <p>Commissioni fatte: 24<br>Commissioni Ricevute: 36</p>
-            </a>
-          </div>
-        </div>
+      <div class="spacer" style="height: 16px;"></div>
 
-        <div class="item item-divider item-title background-color-list-item-divider" style="color">
-          <br>
-          DETTAGLI COMMISSIONE
-        </div>
-        <a class="item item-field">
-          Mancia
-          <span class="item-note item-content profile-element-content"">{{list.reward}}</span>
-        </a>
-        <a class="item item-field">
-          Negozio
-          <span class="item-note item-content profile-element-content" >{{list.preferred_shops}}</span>
-        </a>
-        <a class="item item-field">
-          Peso stimato
-          <span class="item-note item-content profile-element-content">{{list.estimated_weight}}</span>
-        </a>
-        <a class="item item-field">
-          Tetto massimo
-          <span class="item-note item-content profile-element-content">{{list.max_value}}</span>
-        </a>
+      <ion-list>
 
-        <div class="item item-divider item-title background-color-list-item-divider" style="border-top-color: transparent;">
-          <br>
-          DETTAGLI CONSEGNA
-        </div>
+        <ion-item-divider color="light" class="item-title">DETTAGLI RICHIEDENTE</ion-item-divider>
+        <ion-item>
+          <ion-avatar item-left>
+            <img src="assets/images/28_list_from_map_details/Ludovico.jpg">
+          </ion-avatar>
+          <h2>Ludovico Novelli</h2>
+          <p>@ludonov</p>
+        </ion-item>
+        <ion-item>
+          Punteggio
+          <ion-note item-right><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon></ion-note>
+        </ion-item>
+        <ion-item>
+          Commissioni Ricevute
+          <ion-note item-right>6</ion-note>
+        </ion-item>
 
-        <ion-item class="item-icon-right " ng-repeat="address in list.delivery_addresses" type="item-text-wrap" ng-click="view_address(address)">
-          <h2>{{address.metadata.formatted_address}}</h2>
-          <p>dalle {{address.metadata.time_from}} &nbsp; alle {{address.metadata.time_to}}</p>
+
+        <div class="spacer" style="height: 16px;"></div>
+        <ion-item-divider color="light" class="item-title">DETTAGLI CONSEGNA</ion-item-divider>
+        <ion-item class="item-icon-right"  type="item-text-wrap">
+          <h2>Corso Re Umberto 48, 10128, Torino (TO), ITALIA</h2>
+          <p>Sabato 18/02/2017 - dalle 16.00 alle 18.00</p>
           <i class="icon ion-chevron-right icon-accessory"></i>
         </ion-item>
 
-        <div class="item item-divider background-color-list-item-divider">
-          <br>
-          <br>
-        </div>
+        <div class="spacer" style="height: 16px;"></div>
+        <ion-item-divider color="light" class="item-title">DETTAGLI COMMISSIONE</ion-item-divider>
 
-        <a class="item item-field item-icon-left item-icon-right" ng-click="view_products()">
-          <i class="icon ion-clipboard" style="color:#3b88f2"></i> <!--#8c8c8c-->
+        <ion-item>
+          Mancia
+          <ion-note item-right>10 €</ion-note>
+			  </ion-item>
+        <ion-item>
+          Negozio
+          <ion-note item-right>Carrefour</ion-note>
+			  </ion-item>
+        <ion-item>
+          Peso stimato
+          <ion-note item-right>3 kg</ion-note>
+			  </ion-item>
+        <ion-item>
+          Tetto massimo
+          <ion-note item-right>50 €</ion-note>
+			  </ion-item>
+
+        <div class="spacer" style="height: 32px;"></div>
+
+        <ion-item icon-left icon-right>
+          <ion-icon name="list"></ion-icon>
           Lista prodotti
-          <i class="icon ion-ios-arrow-right" style="color:#8c8c8c"></i>
-        </a>
-        <a class="item item-icon-left" ui-sref="Chat">
-          <i class="icon ion-ios-chatbubble-outline SF-regular"></i>
-          Chat
-        </a>
-        <div class="item item-divider SF-medium background-color-list-item-divider">
-          <br>
-        </div>
-        <a class="item SF-thin center" style="color:darkblue; font-weight:bold" ng-click="accept_list()" ng-hide="confirmed">
-          ACCETTA LISTA
-        </a>
-        <a class="item SF-thin center" style="color:red; font-weight:bold" ng-click="withdraw_bid()" ng-show="confirmed">
-          RITIRA PROPOSTA
-        </a>
+          <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+			  </ion-item>
 
-      </div>
+        <div class="spacer" style="height: 32px;"></div>
+        <div class="center"> <button ion-button round color="primary" style="width:90%"(click)="addItem()" class="center">Candidati</button></div>
+        
+      </ion-list>
 
-    </ion-scroll>
-
-</ion-view>
+</ion-content>

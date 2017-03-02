@@ -41,6 +41,7 @@ import { SingleReviewPage } from '../pages/31_single_review/31_single_review';
 import { PaymentPage } from '../pages/32_payment/32_payment';
 import { PaymentSummaryPage } from '../pages/33_payment_summary/33_payment_summary';
 import { AddressViewPage } from '../pages/29_address_view/29_address_view';
+import { ListFromMapPage } from '../pages/28_list_from_map_details/28_list_from_map_details';
 import { AddressViewStaticPage } from '../pages/30_address_view_static/30_address_view_static';
 
 import { TabsPage } from '../pages/tabs/tabs';
@@ -86,6 +87,7 @@ export const firebaseConfig = {
     DoShoppingPage,
     DoShoppingListsPage,
     DoShoppingFiltersPage,
+    ListFromMapPage,
     ChatListPage,
     SettingsPage,
     EditProfilePage,
@@ -134,6 +136,7 @@ export const firebaseConfig = {
     DoShoppingListsPage,
     DoShoppingFiltersPage,
     ChatListPage,
+    ListFromMapPage,
     SettingsPage,
     EditProfilePage,
     PasswordResetPage,

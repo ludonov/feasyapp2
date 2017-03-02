@@ -23,9 +23,9 @@
 				<ion-label>
 					{{list.Name}}
 				</ion-label>
-				<div item-content>
-          {{published_lists[list.$key].ItemsCount}} pezzi
-				</div>
+				<ion-note item-right>
+					{{published_lists[list.$key].ItemsCount}} pezzi
+				</ion-note>
 			</ion-item>
 		</ion-item-group>
 		
@@ -39,9 +39,9 @@
 				<ion-label>
 				{{list.Name}}
 				</ion-label>
-				<div item-content>
+				<ion-note item-right>
 				{{unpublished_lists[list.$key].ItemsCount}} pezzi
-				</div>
+				</ion-note>
 			</ion-item>
 		</ion-item-group>
 	</ion-list>
