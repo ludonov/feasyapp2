@@ -93,6 +93,7 @@ export class PublicateListPage {
             geo.lat = list_copy.DeliveryAddresses[address_key].Latitude;
             geo.lng = list_copy.DeliveryAddresses[address_key].Longitude;
             geo.com = list_copy.DeliveryAddresses[address_key].Comments;
+            geo.cnt = Object.keys(list_copy.Items).length;
             this.af.database.list("geopoints").push(StripForFirebase(geo));
           }
           console.log("List published! Publishing geopoints...");

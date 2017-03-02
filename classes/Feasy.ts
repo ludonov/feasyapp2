@@ -43,7 +43,6 @@ export class FeasyList {
   public Name: string;
   public Items: Object;
   public ItemsCount: number;
-  public Active: boolean;
   public Reward: number;
   public CreatedDate: string;
   public ExpiryDate: string;
@@ -58,7 +57,6 @@ export class FeasyList {
     this.Name = name;
     this.Items = {};
     this.DeliveryAddresses = {};
-    this.Active = false;
   }
 }
 
@@ -240,6 +238,7 @@ export class GeoPoint {
   public rew: number; //reward
   public exp: string; //expiry date
   public com: string; //comments
+  public cnt: number; //items count
 
   constructor() {
 

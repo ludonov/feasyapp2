@@ -8,6 +8,7 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 import { FeasyUser, FeasyList, GeoPoint } from '../../classes/Feasy';
 
 import { DoShoppingFiltersPage } from '../18C_do_shopping_filters/18C_do_shopping_filters';
+import { ListFromMapPage } from '../28_list_from_map_details/28_list_from_map_details';
 
 
 @Component({
@@ -84,7 +85,7 @@ export class DoShoppingPage {
 
     } else {
 
-      console.log("Loading map for device: " + Platform.name);
+      console.log("Loading map for device...");
 
       this.map = new GoogleMap('map', {
         'backgroundColor': 'white',
@@ -103,8 +104,7 @@ export class DoShoppingPage {
         'camera': {
           'latLng': location,
           'tilt': 30,
-          'zoom': 15,
-          'bearing': 50
+          'zoom': 15
         }
       });
 
@@ -140,7 +140,7 @@ export class DoShoppingPage {
     this.marker_position_browser = marker;
   }
 
-  addMarker(pos: GoogleMapsLatLng, key: string): void {
+  addMarker(pos: GoogleMapsLatLng, key: string, listowner: string): void {
 
     if (this.is_web) {
 
@@ -153,7 +153,7 @@ export class DoShoppingPage {
       this.markers_browser.push(marker);
       google.maps.event.addListener(marker, 'click', () => {
         console.log("Opening web list: " + key);
-        this.OpenListAlert(key);
+        this.OpenListAlert(key, listowner);
       });
 
     } else {
@@ -169,7 +169,7 @@ export class DoShoppingPage {
           this.markers.push(marker);
           marker.set("firebase_key", key);
           marker.addEventListener(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-            this.OpenListAlert(key);
+            this.OpenListAlert(key, listowner);
           });
         });
     }
@@ -183,7 +183,7 @@ export class DoShoppingPage {
       this.RemoveAllMarkers();
       Object.keys(this.geopoints).forEach((key: string) => {
         let geo: GeoPoint = this.geopoints[key];
-        this.addMarker(new GoogleMapsLatLng(geo.lat, geo.lng), key);
+        this.addMarker(new GoogleMapsLatLng(geo.lat, geo.lng), key, geo.own);
       });
     }
   }
@@ -240,7 +240,7 @@ export class DoShoppingPage {
   //  this.map.setClickable(false);
   //}
 
-  OpenListAlert(key: string) {
+  OpenListAlert(key: string, listowner: string) {
 
     let geo: GeoPoint = this.geopoints[key];
     let alert = this.alertCtrl.create({
@@ -261,13 +261,12 @@ export class DoShoppingPage {
             if (!this.is_web)
               this.map.setClickable(true);
             console.log('APRI DETTAGLI LISTA: ' + key);
+            this.navCtrl.push(ListFromMapPage, { listkey: geo.lst, listowner: listowner });
           }
         }
       ]
     });
-    alert.present().then(() => {
-      console.log("alert then");
-    });
+    alert.present();
     if (!this.is_web)
       this.map.setClickable(false);
   }
