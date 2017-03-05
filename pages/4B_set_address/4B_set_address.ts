@@ -6,7 +6,7 @@ import { NavController, AlertController } from 'ionic-angular';
 import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
 import { FirebaseError } from 'firebase';
 
-import { HomePage } from '../../pages/5_home/5_home';
+import { TabsPage } from '../../pages/tabs/tabs';
 import { SetPaymentMethodPage } from '../../pages/4C_set_payment_method/4C_set_payment_method';
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject, PlainAddress } from '../../classes/Feasy';
 
@@ -33,7 +33,7 @@ export class SetAddressPage {
 
   skipToHome(): void {
     console.log("skip to home");
-    this.navCtrl.setRoot(HomePage);
+    this.navCtrl.setRoot(TabsPage);
   }
 
   setAddress(): void {
@@ -41,7 +41,7 @@ export class SetAddressPage {
     this.user.Address = this.address; 
     this.user_db.update(StripForFirebase(this.user)).then(res => {
     //this.navCtrl.setRoot(SetPaymentMethodPage);
-    this.navCtrl.setRoot(HomePage);
+    this.navCtrl.setRoot(TabsPage);
     }).catch((err: Error) => {
       console.log("Error: " + err.message);
     });

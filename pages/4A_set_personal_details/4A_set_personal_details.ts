@@ -6,7 +6,7 @@ import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
 import { FirebaseError } from 'firebase';
 
 import { SetAddressPage } from '../../pages/4B_set_address/4B_set_address';
-import { HomePage } from '../../pages/5_home/5_home';
+import { TabsPage } from '../../pages/tabs/tabs';
 
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject } from '../../classes/Feasy';
 
@@ -32,7 +32,7 @@ export class SetPersonalDetailsPage {
 
   skipToHome(): void {
     console.log("skip to home");
-    this.navCtrl.setRoot(HomePage);
+    this.navCtrl.setRoot(TabsPage);
   }
 
   setPersonalDetails(): void {
