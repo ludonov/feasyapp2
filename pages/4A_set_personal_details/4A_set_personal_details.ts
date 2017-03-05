@@ -32,7 +32,7 @@ export class SetPersonalDetailsPage {
 
   skipToHome(): void {
     console.log("skip to home");
-    this.navCtrl.push(HomePage);
+    this.navCtrl.setRoot(HomePage);
   }
 
   setPersonalDetails(): void {

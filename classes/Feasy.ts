@@ -28,6 +28,7 @@ export class FeasyUser {
   public PhotoURL: string;
   public Gender: GenderType = "Uomo";
   public Rating: number;
+  public Address: Object;
 
   constructor(email: string, firstName: string, lastName: string) {
     this.Email = email;
@@ -35,6 +36,22 @@ export class FeasyUser {
     this.LastName = lastName;
     this.Gender = "Uomo";
   }
+}
+
+export class PlainAddress {
+  public $key: string;
+  public FormattedAddress: string;
+  public Nation: string;
+  public City: string;
+  public StreetName: string;
+  public PostCode: string;
+  public Latitude: number;
+  public Longitude: number;
+
+  constructor() {
+    
+  }
+
 }
 
 export class FeasyList {
