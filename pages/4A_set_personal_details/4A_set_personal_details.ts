@@ -9,6 +9,7 @@ import { SetAddressPage } from '../../pages/4B_set_address/4B_set_address';
 import { HomePage } from '../../pages/5_home/5_home';
 
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject } from '../../classes/Feasy';
+import { Globals } from '../../classes/Globals';
 
 
 @Component({
@@ -20,8 +21,8 @@ export class SetPersonalDetailsPage {
   public user: FeasyUser = new FeasyUser("", "", "");
   public user_db: FirebaseObjectObservable<any>;
 
-  constructor(public navCtrl: NavController, public af: AngularFire, public alertCtrl: AlertController) {
-    this.user_db = af.database.object("users/" + af.auth.getAuth().uid);
+  constructor(public navCtrl: NavController, public globals: Globals, public af: AngularFire, public alertCtrl: AlertController) {
+    this.user_db = af.database.object("users/" + globals.UID);
     this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
       this.user = snapshot.val();
       if (this.user == null) {

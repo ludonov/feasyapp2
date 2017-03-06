@@ -5,6 +5,7 @@ import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
 import { FeasyUser, FeasyList, FeasyItem } from '../../classes/Feasy';
+import { Globals } from '../../classes/Globals';
 
 import { HistoryPage } from '../../pages/22_history/22_history';
 
@@ -23,8 +24,8 @@ export class UserProfilePage {
   public user: FeasyUser = new FeasyUser("", "", "");
   public user_db: FirebaseObjectObservable<any>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
-    this.user_db = af.database.object("users/" + af.auth.getAuth().uid);
+  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
+    this.user_db = af.database.object("users/" + globals.UID);
     this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
       this.user = snapshot.val();
     });

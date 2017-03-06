@@ -75,6 +75,19 @@ export class FeasyItem {
   }
 }
 
+export class Candidate {
+  public $key: string;
+  public uid: string;
+  public DisplayName: string;
+  public Visualised: boolean = false;
+
+  constructor(uid: string, displayName: string) {
+    this.uid = uid;
+    this.DisplayName = displayName;
+    this.Visualised = false;
+  }
+}
+
 export class DeliveryAddress {
   public $key: string;
   public Name: string;
