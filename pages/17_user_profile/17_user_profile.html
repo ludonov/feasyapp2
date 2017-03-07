@@ -16,7 +16,7 @@
 					<img src="assets/images/17_profilo/Ludovico.jpg">
 				</div>
 				<h2 class="profile-name dark">{{user.DisplayName}}</h2>
-				<div class="profile-info">@ludonov</div>
+				<div class="profile-info">@{{user.Username}}</div>
 			</ion-item>
 		</ion-card>
 	</ion-list>
@@ -49,15 +49,15 @@
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">UTILIZZO</ion-item-divider>
 			<ion-item>
 				Commissioni fatte
-				<ion-note item-right>12</ion-note>
+				<ion-note item-right>{{user.CommissionsDone}}</ion-note>
 			</ion-item>
 			<ion-item>
 				Commissioni ricevute
-				<ion-note item-right>6</ion-note>
+				<ion-note item-right>{{user.CommissionsReceived}}</ion-note>
 			</ion-item>
 			<ion-item>
 				Punteggio
-				<ion-note item-right><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon></ion-note>
+				<ion-note item-right>{{user.Rating}}</ion-note>
 			</ion-item>
 
 		</ion-item-group>
@@ -67,15 +67,15 @@
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">ACCOUNT</ion-item-divider>
 			<ion-item>
 				E-mail
-				<ion-note item-right>ludwigfeed@gmail.com</ion-note>
+				<ion-note item-right>{{user.Email}}</ion-note>
 			</ion-item>
 			<ion-item>
 				Username
-				<ion-note item-right>ludonov</ion-note>
+				<ion-note item-right>{{user.Username}}</ion-note>
 			</ion-item>
 			<ion-item>
 				Password
-				<ion-note item-right></ion-note>
+				<ion-note item-right>{{user.Password}}</ion-note>
 			</ion-item>
 		</ion-item-group>
 		
@@ -84,27 +84,27 @@
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">INFORMAZIONI PERSONALI</ion-item-divider>
 			<ion-item>
 				Nome
-				<ion-note item-right>Ludovico</ion-note>
+				<ion-note item-right>{{user.FirstName}}</ion-note>
 			</ion-item>
 			<ion-item>
 				Cognome
-				<ion-note item-right>Novelli</ion-note>
+				<ion-note item-right>{{user.LastName}}</ion-note>
 			</ion-item>
 			<ion-item>
 				Nazionalità
-				<ion-note item-right>Nigeriana</ion-note>
+				<ion-note item-right>{{user.Nationality}}</ion-note>
 			</ion-item>
 			<ion-item>
 				Telefono
-				<ion-note item-right>+393497399748</ion-note>
+				<ion-note item-right>{{user.MobileNumber}}</ion-note>
 			</ion-item>
 			<ion-item>
 				Sesso
-				<ion-note item-right>Maschile</ion-note>
+				<ion-note item-right>{{user.Gender}}</ion-note>
 			</ion-item>
 			<ion-item>
 				Data di nascita
-				<ion-note item-right>24/09/1994</ion-note>
+				<ion-note item-right>{{user.BirthDate}}</ion-note>
 			</ion-item>
 		</ion-item-group>
 
@@ -112,26 +112,22 @@
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">METODI DI PAGAMENTO</ion-item-divider>
 			<ion-item>
-				Metodo
+				Metodo 1
 				<ion-note item-right>Carta di credito</ion-note>
 			</ion-item>
 			<ion-item>
-				Numero di Carta
-				<ion-note item-right>1234 5678 91011 12014</ion-note>
+				Metodo 2
+				<ion-note item-right>PayPal</ion-note>
 			</ion-item>
 			<ion-item>
-				Scadenza
-				<ion-note item-right>02/19</ion-note>
-			</ion-item>
-			<ion-item>
-				CVV
-				<ion-note item-right>12345</ion-note>
+				Metodo 3
+				<ion-note item-right>JiffyPay</ion-note>
 			</ion-item>
 		</ion-item-group>
 
 		<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZO CASA</ion-item-divider>
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZO 1</ion-item-divider>
 			<ion-item>
 				Via
 				<ion-note item-right>Corso Vittorio</ion-note>
@@ -141,7 +137,7 @@
 				<ion-note item-right>90</ion-note>
 			</ion-item>
 			<ion-item>
-				Codice postale
+				CAP
 				<ion-note item-right>10125</ion-note>
 			</ion-item>
 			<ion-item>
@@ -156,7 +152,7 @@
 
 		<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZO LAVORO</ion-item-divider>
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZO 2</ion-item-divider>
 			<ion-item>
 				Via
 				<ion-note item-right>Via Roma</ion-note>
@@ -166,7 +162,7 @@
 				<ion-note item-right>38</ion-note>
 			</ion-item>
 			<ion-item>
-				Codice postale
+				CAP
 				<ion-note item-right>10100</ion-note>
 			</ion-item>
 			<ion-item>
