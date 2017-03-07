@@ -18,6 +18,7 @@ export function GetExpiryDates(): string[] {
 export class FeasyUser {
   public $key: string;
   public Email: string;
+  public Username: string;
   public FirstName: string;
   public LastName: string;
   public DisplayName: string;
@@ -28,6 +29,8 @@ export class FeasyUser {
   public PhotoURL: string;
   public Gender: GenderType = "Uomo";
   public Rating: number;
+  public CommissionsDone: number;
+  public CommissionsReceived: number;
 
   constructor(email: string, firstName: string, lastName: string) {
     this.Email = email;
