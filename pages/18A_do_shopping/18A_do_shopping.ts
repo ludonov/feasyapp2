@@ -40,9 +40,10 @@ export class DoShoppingPage {
       if (this.is_web) {
         this.geolocate();
       } else {
-        Diagnostic.isLocationAvailable().then((data) => {
+        Diagnostic.isLocationEnabled().then((data) => {
           this.geolocate();
         }).catch((err: Error) => {
+          console.log('Geolocation seems not enabled: ' + err.message);
           let alert: Alert = alertCtrl.create({
             title: 'Info',
             subTitle: "Impossibile trovare la posizione, assicurarsi che la geolocalizzazione sia attiva.",
@@ -69,10 +70,11 @@ export class DoShoppingPage {
 
   geolocate(): void {
     Geolocation.getCurrentPosition().then(pos => {
-      console.log('POSITION: lat: ' + pos.coords.latitude + ', lon: ' + pos.coords.longitude);
+      console.log('POSITION OK: lat: ' + pos.coords.latitude + ', lon: ' + pos.coords.longitude);
       this.loadMap(pos.coords.latitude, pos.coords.longitude);
     }).catch((err: Error) => {
       console.log('POSITION ERROR: ' + err.message);
+      this.loadMap(45.05, 7.666667);
     });
   }
 

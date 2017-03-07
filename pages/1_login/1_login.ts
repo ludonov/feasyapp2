@@ -1,6 +1,6 @@
 ﻿import { Component } from '@angular/core';
-
-import { NavController, AlertController } from 'ionic-angular';
+import { Facebook } from 'ionic-native';
+import { Platform, NavController, AlertController } from 'ionic-angular';
 import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
 import { FirebaseError } from 'firebase';
 
@@ -16,9 +16,11 @@ import { SignupPage } from '../../pages/3_signup/3_signup';
 export class LoginPage {
   
   public userdata: FeasyUser = new FeasyUser("", "", "");
+  public is_web: boolean = false;
 
-  constructor(public navCtrl: NavController, public af: AngularFire, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, private platform: Platform, public af: AngularFire, public alertCtrl: AlertController) {
     console.log("NAV> login page");
+    this.is_web = this.platform.is("core");
     //this.user = Backendless.UserService.login("ludovico.novelli@gmail.com", "prova", true);
     //console.log(this.user);
   }
@@ -96,14 +98,30 @@ export class LoginPage {
 
   facebookSignIn(): void {
     console.log("Facebook logging...");
-    this.af.auth.login({
-      provider: AuthProviders.Facebook,
-      method: AuthMethods.Popup,
-    }).then(res => {
-      console.log("Facebook login successful");
-    }).catch(res => {
-      console.warn("Facebook login error: " + res);
-    });
+    if (this.is_web) {
+      this.af.auth.login({
+        provider: AuthProviders.Facebook,
+        method: AuthMethods.Popup,
+      }).then(res => {
+        console.log("Facebook login successful");
+      }).catch(res => {
+        console.warn("Facebook login error: " + res);
+      });
+    } else {
+      Facebook.login(['email']).then((response) => {
+        const facebookCredential = firebase.auth.FacebookAuthProvider
+          .credential(response.authResponse.accessToken);
+
+        firebase.auth().signInWithCredential(facebookCredential)
+          .then((success) => {
+            console.log("Firebase fb login success: " + JSON.stringify(success));
+          })
+          .catch((error) => {
+            console.log("Firebase fb login failure: " + JSON.stringify(error));
+          });
+
+      }).catch((err: Error) => { console.log("Firebase fb login catch error: " + err.message) });
+    }
   }
 
   signUp(): void {
