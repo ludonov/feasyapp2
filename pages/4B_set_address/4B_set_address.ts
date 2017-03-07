@@ -22,7 +22,7 @@ export class SetAddressPage {
   public address: PlainAddress = new PlainAddress();
 
     constructor(public navCtrl: NavController, public af: AngularFire, public alertCtrl: AlertController) {
-    this.user_db = af.database.object("users/" + af.auth.getAuth().uid);
+    this.user_db = af.database.object("users/" + af.auth.getAuth().uid + "/Addresses"); // aggiunto
     this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
       this.user = snapshot.val();
       if (this.user == null) {
@@ -38,6 +38,7 @@ export class SetAddressPage {
 
   setAddress(): void {
     console.log("personal address set");
+    //this.user_db.push(this.address);
     this.user.Address = this.address; 
     this.user_db.update(StripForFirebase(this.user)).then(res => {
     //this.navCtrl.setRoot(SetPaymentMethodPage);
