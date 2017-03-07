@@ -1,4 +1,4 @@
-﻿/// <reference path="./../../typings/globals/google.maps/index.d.ts" />
+/// <reference path="./../../typings/globals/google.maps/index.d.ts" />
 
 import { AlertController } from 'ionic-angular';
 
@@ -29,6 +29,7 @@ export class FeasyUser {
   public PhotoURL: string;
   public Gender: GenderType = "Uomo";
   public Rating: number;
+  public Address: Object;
   public CommissionsDone: number;
   public CommissionsReceived: number;
 
@@ -38,6 +39,22 @@ export class FeasyUser {
     this.LastName = lastName;
     this.Gender = "Uomo";
   }
+}
+
+export class PlainAddress {
+  public $key: string;
+  public FormattedAddress: string;
+  public Nation: string;
+  public City: string;
+  public StreetName: string;
+  public PostCode: string;
+  public Latitude: number;
+  public Longitude: number;
+
+  constructor() {
+    
+  }
+
 }
 
 export class FeasyList {
