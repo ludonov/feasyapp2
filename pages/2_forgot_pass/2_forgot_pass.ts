@@ -1,4 +1,4 @@
-﻿import { Component, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 
 import { NavController, AlertController } from 'ionic-angular';
 import { AngularFire, FirebaseApp } from 'angularfire2';
@@ -16,7 +16,6 @@ import { LoginPage } from '../../pages/1_login/1_login';
   templateUrl: '2_forgot_pass.html'
 })
 export class ForgotPassPage {
-
 
   private user: FeasyUser = new FeasyUser("", "", "");
   private fAppAuth: firebase.auth.Auth;
@@ -40,7 +39,6 @@ export class ForgotPassPage {
       alert.present();
     });
   }
-
 
 }
 
