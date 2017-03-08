@@ -1,12 +1,14 @@
-﻿import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
-import { AngularFire, AuthProviders, FirebaseObjectObservable } from 'angularfire2';
+﻿import { Component, ViewChild } from '@angular/core';
+import { Platform, NavController, AlertController, Alert } from 'ionic-angular';
+import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/1_login/1_login';
 import { SetPersonalDetailsPage } from '../pages/4A_set_personal_details/4A_set_personal_details';
+import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 
+import { Candidate } from '../classes/Feasy';
 import { Globals } from '../classes/Globals';
 
 @Component({
@@ -15,8 +17,11 @@ import { Globals } from '../classes/Globals';
 })
 export class MyApp {
   rootPage: any = LoginPage;
+  @ViewChild('mynav') public navCtrl: NavController;
 
-  constructor(platform: Platform, af: AngularFire, private globals: Globals) {
+  private candidates_refs: Array<firebase.database.Reference> = new Array();
+
+  constructor(platform: Platform, public af: AngularFire, private globals: Globals, public alertCtrl: AlertController) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -26,6 +31,10 @@ export class MyApp {
         console.log("AUTH STATE CHANGED!");
         console.log(user);
         if (user) {
+          globals.UID = user.uid;
+          globals.Email = user.auth.email;
+          globals.DisplayName = user.auth.displayName;
+          globals.photoURL = user.auth.photoURL;
           if (user.provider == AuthProviders.Facebook) {
             let user_db: FirebaseObjectObservable<any> = af.database.object("users/" + user.uid);
             user_db.$ref.once("value", (snaphot: firebase.database.DataSnapshot) => {
@@ -63,12 +72,18 @@ export class MyApp {
               this.rootPage = TabsPage;
             }
           }
+          this.linkCandidateWatchers();
         } else {
           console.log("User auth not found, redirecting to Login");
+          globals.UID = "";
+          globals.Email = "";
+          globals.DisplayName = "";
+          globals.photoURL = "";
+          this.unlinkCandidateWatchers();
           this.rootPage = LoginPage;
         }
       });
-      //if (af.auth.getAuth().uid != null) {
+      //if (this.globals.UID != null) {
       //  console.log("INIT User auth found, redirecting to Home");
       //  this.rootPage = TabsPage;
       //} else {
@@ -76,5 +91,49 @@ export class MyApp {
       //  this.rootPage = LoginPage;
       //}
     });
+  }
+
+  linkCandidateWatchers(): void {
+    let ref: FirebaseListObservable<any> = this.af.database.list("/candidates/" + this.globals.UID);
+    this.candidates_refs.push(ref.$ref.ref);
+    ref.$ref.on("child_added", (list: firebase.database.DataSnapshot) => {
+      let ref_cand: FirebaseListObservable<any> = this.af.database.list("/candidates/" + this.globals.UID + "/" + list.key);
+      this.candidates_refs.push(ref_cand.$ref.ref);
+      ref_cand.$ref.on("value", (candidates: firebase.database.DataSnapshot) => {
+        let candidates_data = candidates.val();
+        let new_candidates_number: number = 0;
+        for (let candidate in candidates_data) {
+          if (candidates_data[candidate] != null && !candidates_data[candidate].Visualised) {
+            new_candidates_number++;
+          }
+        }
+        if (new_candidates_number > 0) {
+          let alert: Alert = this.alertCtrl.create({
+            title: new_candidates_number == 1 ? 'Nuovo candidato!' : "Nuovi candidati!",
+            subTitle: "Vuoi vedere i dettagli?",
+            buttons: [
+              {
+                text: 'Cancel',
+                role: 'cancel'
+              },
+              {
+                text: 'Ok',
+                handler: () => {
+                  let candidates_list: any = list.val();
+                  this.navCtrl.push(PublicatedListCandidatesPage, { list_owner: this.globals.UID, list_key: list.key });
+                }
+              }]
+          });
+          alert.present();
+        }
+      });
+    });
+  }
+
+  unlinkCandidateWatchers(): void {
+    for (let ref of this.candidates_refs) {
+      ref.remove();
+    }
+    this.candidates_refs.length = 0;
   }
 }

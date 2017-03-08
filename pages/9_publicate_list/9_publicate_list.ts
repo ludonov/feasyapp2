@@ -5,6 +5,7 @@ import { NavController, NavParams, NavOptions, AlertController } from 'ionic-ang
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, GeoPoint, StripForFirebase, copyObject, GetExpiryDates, GetRealExpiryDate } from '../../classes/Feasy';
+import { Globals } from '../../classes/Globals';
 
 import { HomePage } from '../../pages/5_home/5_home';
 import { AddressViewPage } from '../../pages/29_address_view/29_address_view';
@@ -23,14 +24,14 @@ export class PublicateListPage {
   public no_addresses: boolean = true;
   public expirydates: string[] = GetExpiryDates();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
     this.list = navParams.get('list');
     if (this.list == undefined || this.list == null)
       navCtrl.pop();
-    this.published_lists_db = af.database.list('/published_lists/' + af.auth.getAuth().uid);
-    this.unpublished_lists_db = af.database.list('/unpublished_lists/' + af.auth.getAuth().uid);
-    this.addresses_db = af.database.list('unpublished_lists/' + af.auth.getAuth().uid + '/' + this.list.$key + '/DeliveryAddresses');
-    this.addresses_db = af.database.list('unpublished_lists/' + af.auth.getAuth().uid + '/' + this.list.$key + '/DeliveryAddresses');
+    this.published_lists_db = af.database.list('/published_lists/' + globals.UID);
+    this.unpublished_lists_db = af.database.list('/unpublished_lists/' + globals.UID);
+    this.addresses_db = af.database.list('unpublished_lists/' + globals.UID + '/' + this.list.$key + '/DeliveryAddresses');
+    this.addresses_db = af.database.list('unpublished_lists/' + globals.UID + '/' + this.list.$key + '/DeliveryAddresses');
     this.addresses_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
       this.no_addresses = !snapshot.hasChildren();
       this.list.DeliveryAddresses = snapshot.val() || {};
@@ -80,10 +81,10 @@ export class PublicateListPage {
       this.unpublished_lists_db.remove(this.list.$key).then(res => {
         console.log("Removed list fom unpublished lists first");
         //delete this.list.$key;
-        //this.list.owner = this.af.auth.getAuth().uid;
+        //this.list.owner = this.globals.UID;
         list_copy.ExpiryDate = GetRealExpiryDate(this.list.ExpiryDate);
         this.published_lists_db.push(StripForFirebase(list_copy)).then(res => {
-          let uid: string = this.af.auth.getAuth().uid;
+          let uid: string = this.globals.UID;
           for (let address_key in list_copy.DeliveryAddresses) {
             let geo: GeoPoint = new GeoPoint();
             geo.own = uid;  
