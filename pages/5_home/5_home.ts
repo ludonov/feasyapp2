@@ -1,7 +1,10 @@
 ﻿import { Component } from '@angular/core';
 
 import { NavController, Tabs } from 'ionic-angular';
-import { AngularFire } from 'angularfire2';
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+
+import { FeasyUser, FeasyList } from '../../classes/Feasy';
+import { Globals } from '../../classes/Globals';
 
 import { ListsPage } from '../../pages/6_lists/6_lists';
 import { MapTabsPage } from '../../pages/18_tabs/18_tabs';
@@ -34,12 +37,19 @@ import { PublicatedListWithShopperPovShopperPage } from '../../pages/11B_publica
 export class HomePage {
 
   public tab: Tabs;
+  public candidates: FirebaseListObservable<any>;
 
-  constructor(public navCtrl: NavController, public af: AngularFire) {
+  constructor(public navCtrl: NavController, public af: AngularFire, public globals: Globals) {
     console.log("NAV> home page");
     this.tab = this.navCtrl.parent;
+
     //this.user = Backendless.UserService.login("ludovico.novelli@gmail.com", "prova", true);
     //console.log(this.user);
+    //this.candidates = af.database.list("/candidates"); ///" + globals.UID);
+    //this.candidates.$ref.on("child_added", (snapshot: firebase.database.DataSnapshot) => {
+    //  let x: any = snapshot.val();
+    //  console.log(x);
+    //});
   }
 
   goto_lists(): void {

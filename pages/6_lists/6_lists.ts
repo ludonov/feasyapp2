@@ -5,6 +5,7 @@ import { NavController, AlertController } from 'ionic-angular';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
 import { FeasyUser, FeasyList } from '../../classes/Feasy';
+import { Globals } from '../../classes/Globals';
 
 import { ListPage } from '../../pages/7_list/7_list';
 import { PublicatedListNoShopperPage } from '../../pages/10_publicated_list_no_shopper/10_publicated_list_no_shopper';
@@ -24,9 +25,9 @@ export class ListsPage {
   public no_unpublished_list: boolean = true;
   public num_items: number = 0;
 
-  constructor(public navCtrl: NavController, public af: AngularFire, public alertCtrl: AlertController) {
-    this.published_lists_db = af.database.list('/published_lists/' + af.auth.getAuth().uid);
-    this.unpublished_lists_db = af.database.list('/unpublished_lists/' + af.auth.getAuth().uid);
+  constructor(public navCtrl: NavController, public af: AngularFire, public alertCtrl: AlertController, public globals: Globals) {
+    this.published_lists_db = af.database.list('/published_lists/' + globals.UID);
+    this.unpublished_lists_db = af.database.list('/unpublished_lists/' + globals.UID);
     this.published_lists_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
       this.published_lists = {};
       snapshot.forEach(list => {
@@ -76,7 +77,7 @@ export class ListsPage {
           handler: data => {
             if (data.name != "") {
               let new_list: FeasyList = new FeasyList(data.name);
-              new_list.owner = this.af.auth.getAuth().uid;
+              new_list.owner = this.globals.UID;
               new_list.CreatedDate = (new Date()).toUTCString();
               let new_list_promise = this.unpublished_lists_db.push(new_list);
               let new_list_key = new_list_promise.key;

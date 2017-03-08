@@ -5,6 +5,7 @@ import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
 import { StripForFirebase, GetUnits, FeasyUser, FeasyList, FeasyItem } from '../../classes/Feasy';
+import { Globals } from '../../classes/Globals';
 
 @Component({
   selector: 'page-item-add-or-show',
@@ -20,7 +21,7 @@ export class AddOrShowItemPage {
 
   @ViewChild('NameInput') NameInputField;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, af: AngularFire, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, af: AngularFire, public alertCtrl: AlertController) {
     this.list = navParams.get('list');
     let item = navParams.get('item');
     this.is_new = item == undefined || item == null;
@@ -34,7 +35,7 @@ export class AddOrShowItemPage {
       this.units = [];
       this.units = GetUnits();
     }
-    this.items_db = af.database.list('unpublished_lists/' + af.auth.getAuth().uid + '/' + this.list.$key + '/Items');
+    this.items_db = af.database.list('unpublished_lists/' + globals.UID + '/' + this.list.$key + '/Items');
   }
 
   ionViewDidEnter() {
