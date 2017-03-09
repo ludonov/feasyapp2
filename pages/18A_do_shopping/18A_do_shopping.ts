@@ -1,7 +1,7 @@
 ﻿/// <reference path="./../../../typings/globals/google.maps/index.d.ts" />
 
 ﻿import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, Alert, AlertController, Platform } from 'ionic-angular';
+import { NavController, Alert, AlertController, LoadingController, Loading, Platform } from 'ionic-angular';
 import { Diagnostic, Geolocation, Geoposition, GoogleMap, GoogleMapsEvent, GoogleMapsLatLng, GoogleMapsMarker, GoogleMapsMarkerOptions, GoogleMapsAnimation } from 'ionic-native';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
@@ -34,7 +34,7 @@ export class DoShoppingPage {
   private geopoints_db: FirebaseListObservable<any>;
   private no_geopoints: boolean = true;
 
-  constructor(public navCtrl: NavController, private platform: Platform, public af: AngularFire, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, private platform: Platform, public af: AngularFire, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
     this.is_web = this.platform.is("core");
     this.platform.ready().then(() => {
       if (this.is_web) {
@@ -50,7 +50,7 @@ export class DoShoppingPage {
             buttons: ['Ok']
           });
           alert.onDidDismiss(() => {
-            this.loadMap(45.05, 7.666667)
+            this.loadMap(41.872411, 12.480225, true);
           });
           alert.present();
         });
@@ -69,16 +69,35 @@ export class DoShoppingPage {
   }
 
   geolocate(): void {
-    Geolocation.getCurrentPosition().then(pos => {
+
+    let loading: Loading = this.loadingCtrl.create({
+      spinner: 'dots',
+      content: 'Getting location...'
+    });
+    loading.present();
+
+    Geolocation.getCurrentPosition({
+      timeout: 5000
+    }).then(pos => {
       console.log('POSITION OK: lat: ' + pos.coords.latitude + ', lon: ' + pos.coords.longitude);
+      loading.dismiss();
       this.loadMap(pos.coords.latitude, pos.coords.longitude);
     }).catch((err: Error) => {
       console.log('POSITION ERROR: ' + err.message);
-      this.loadMap(45.05, 7.666667);
+      loading.dismiss();
+      let alert: Alert = this.alertCtrl.create({
+        title: 'Info',
+        subTitle: "Impossibile trovare la posizione, assicurarsi che la geolocalizzazione sia attiva.",
+        buttons: ['Ok']
+      });
+      alert.onDidDismiss(() => {
+        this.loadMap(41.872411, 12.480225, true);
+      });
+      alert.present();
     });
   }
 
-  loadMap(lat: number, lng: number) {
+  loadMap(lat: number, lng: number, far: boolean = false) {
 
     let location = new GoogleMapsLatLng(lat, lng);
 
@@ -124,8 +143,8 @@ export class DoShoppingPage {
         },
         'camera': {
           'latLng': location,
-          'tilt': 30,
-          'zoom': 15
+          'tilt': 0,
+          'zoom': far ? 5 : 15
         }
       });
 
