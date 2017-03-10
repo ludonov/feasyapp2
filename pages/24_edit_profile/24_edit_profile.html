@@ -12,7 +12,7 @@
 				<div class="profile-picture">
 					<img src="assets/images/17_profilo/Ludovico.jpg">
 				</div>
-				<h2 class="profile-name dark">Ludovico Novelli</h2>
+				<h2 class="profile-name dark">{{user.DisplayName}}</h2>
 				<div class="profile-info">@ludonov</div>
 			</ion-item>
 		</ion-card>
@@ -25,14 +25,10 @@
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">ACCOUNT</ion-item-divider>
 			<ion-item>
 				<ion-label fixed>E-mail</ion-label>
-				<ion-input type="text"></ion-input>
+				<ion-input type="text" [(ngModel)]="user.Email"></ion-input>
 			</ion-item>
 			<ion-item>
 				<ion-label fixed>Username</ion-label>
-				<ion-input type="text"></ion-input>
-			</ion-item>
-			<ion-item>
-				<ion-label fixed>Password</ion-label>
 				<ion-input type="text"></ion-input>
 			</ion-item>
 		</ion-item-group>
@@ -42,31 +38,31 @@
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">INFORMAZIONI PERSONALI</ion-item-divider>
 			<ion-item>
 				<ion-label fixed>Nome</ion-label>
-				<ion-input type="text"></ion-input>
+				<ion-input type="text" [(ngModel)]="user.FirstName"></ion-input>
 			</ion-item>
 			<ion-item>
 				<ion-label fixed>Cognome</ion-label>
-				<ion-input type="text"></ion-input>
+				<ion-input type="text" [(ngModel)]="user.LastName"></ion-input>
 			</ion-item>
 			<ion-item>
 				<ion-label fixed>Nazionalità</ion-label>
-				<ion-input type="text"></ion-input>
+				<ion-input type="text" [(ngModel)]="user.Nationality"></ion-input>
 			</ion-item>
 			<ion-item>
 				<ion-label fixed>Telefono</ion-label>
-				<ion-input type="text"></ion-input>
+				<ion-input type="text" [(ngModel)]="user.MobileNumber"></ion-input>
 			</ion-item>
 			<ion-item>
 				<ion-label fixed>Sesso</ion-label>
-				<ion-input type="text"></ion-input>
+				<ion-input type="text" [(ngModel)]="user.Gender"></ion-input>
 			</ion-item>
 			<ion-item>
 				<ion-label fixed>Data di nascita</ion-label>
-				<ion-input type="text"></ion-input>
+				<ion-input type="text" [(ngModel)]="user.Birthdate"></ion-input>
 			</ion-item>
 		</ion-item-group>
 
-		<ion-item-group>
+		<!--<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">METODI DI PAGAMENTO</ion-item-divider>
 			<ion-item>
@@ -85,34 +81,30 @@
 				<ion-label fixed>CVV</ion-label>
 				<ion-input type="text"></ion-input>
 			</ion-item>
-		</ion-item-group>
+		</ion-item-group>-->
 
-		<ion-item-group>
+		<!--<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZO CASA</ion-item-divider>
 			<ion-item>
 				<ion-label fixed>Via</ion-label>
-				<ion-input type="text"></ion-input>
-			</ion-item>
-			<ion-item>
-				<ion-label fixed>Numero</ion-label>
-				<ion-input type="text"></ion-input>
+				<ion-input type="text" [(ngModel)]="user.Address.StreetName"></ion-input>
 			</ion-item>
 			<ion-item>
 				<ion-label fixed>Codice postale</ion-label>
-				<ion-input type="text"></ion-input>
+				<ion-input type="text" [(ngModel)]="user.Address.PostCode"></ion-input>
 			</ion-item>
 			<ion-item>
 				<ion-label fixed>Città</ion-label>
-				<ion-input type="text"></ion-input>
+				<ion-input type="text" [(ngModel)]="user.Address.City"></ion-input>
 			</ion-item>
 			<ion-item>
 				<ion-label fixed>Paese</ion-label>
-				<ion-input type="text"></ion-input>
+				<ion-input type="text" [(ngModel)]="user.Address.Nation"></ion-input>
 			</ion-item>
-		</ion-item-group>
+		</ion-item-group>-->
 
-		<ion-item-group>
+		<!--<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent">INDIRIZZO LAVORO</ion-item-divider>
 			<ion-item>
@@ -135,7 +127,7 @@
 				<ion-label fixed>Paese</ion-label>
 				<ion-input type="text"></ion-input>
 			</ion-item>
-		</ion-item-group>
+		</ion-item-group>-->
 	</ion-list>
 
   <div padding>

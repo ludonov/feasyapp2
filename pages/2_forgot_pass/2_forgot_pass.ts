@@ -1,10 +1,12 @@
-﻿import { Component, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 
 import { NavController, AlertController } from 'ionic-angular';
 import { AngularFire, FirebaseApp } from 'angularfire2';
 import * as firebase from 'firebase';
 
 import { FeasyUser } from '../../classes/Feasy';
+
+import { EmailComposer } from 'ionic-native';
 
 import { LoginPage } from '../../pages/1_login/1_login';
 
@@ -39,3 +41,8 @@ export class ForgotPassPage {
   }
 
 }
+
+
+
+
+

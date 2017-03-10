@@ -7,6 +7,7 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 
 import { FeasyUser, FeasyList, GeoPoint } from '../../classes/Feasy';
 
+import { DoShoppingListsPage } from '../18B_do_shopping_lists/18B_do_shopping_lists';
 import { DoShoppingFiltersPage } from '../18C_do_shopping_filters/18C_do_shopping_filters';
 import { ListFromMapPage } from '../28_list_from_map_details/28_list_from_map_details';
 
@@ -309,5 +310,16 @@ export class DoShoppingPage {
     alert.present();
     if (!this.is_web)
       this.map.setClickable(false);
+  }
+
+  filters(): void {
+    console.log("filters");
+    this.navCtrl.push(DoShoppingFiltersPage);
+  }
+
+  lists(): void {
+    console.log("my proposed lists");
+    this.navCtrl.push(DoShoppingListsPage);    
+
   }
 }

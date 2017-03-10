@@ -30,12 +30,12 @@
 
           <ion-item>
             <ion-label fixed>Giorno</ion-label>
-            <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.month"></ion-datetime>
+            <ion-datetime displayFormat="MM DD YYYY"></ion-datetime>
           </ion-item>
 
           <ion-item>
             <ion-label fixed>Ora</ion-label>
-            <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.timeStarts"></ion-datetime>
+            <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A"></ion-datetime>
           </ion-item>
 
       </ion-item-group>
@@ -91,7 +91,7 @@
     </ion-list>
 
     <div padding>
-      <button ion-button block class="center button-color" style="color:white">Applica</button>
+      <button ion-button block class="center button-color" style="color:white" (click)="applyFilters()">Applica</button>
     </div>
 
   </ion-content>

@@ -1,4 +1,4 @@
-﻿/// <reference path="./../../typings/globals/google.maps/index.d.ts" />
+/// <reference path="./../../typings/globals/google.maps/index.d.ts" />
 
 import { AlertController } from 'ionic-angular';
 
@@ -18,6 +18,7 @@ export function GetExpiryDates(): string[] {
 export class FeasyUser {
   public $key: string;
   public Email: string;
+  public Username: string;
   public FirstName: string;
   public LastName: string;
   public DisplayName: string;
@@ -28,6 +29,9 @@ export class FeasyUser {
   public PhotoURL: string;
   public Gender: GenderType = "Uomo";
   public Rating: number;
+  public Address: Object;
+  public CommissionsDone: number;
+  public CommissionsReceived: number;
 
   constructor(email: string, firstName: string, lastName: string) {
     this.Email = email;
@@ -35,6 +39,22 @@ export class FeasyUser {
     this.LastName = lastName;
     this.Gender = "Uomo";
   }
+}
+
+export class PlainAddress {
+  public $key: string;
+  public FormattedAddress: string;
+  public Nation: string;
+  public City: string;
+  public StreetName: string;
+  public PostCode: string;
+  public Latitude: number;
+  public Longitude: number;
+
+  constructor() {
+    
+  }
+
 }
 
 export class FeasyList {
