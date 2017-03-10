@@ -34,7 +34,7 @@ export class EditProfilePage {
     //this.user.Address = this.address; 
     this.user_db.update(StripForFirebase(this.user)).then(res => {
     //this.navCtrl.setRoot(SetPaymentMethodPage);
-    this.navCtrl.push(SettingsPage);
+    this.navCtrl.pop();
     }).catch((err: Error) => {
       console.log("Error: " + err.message);
     });

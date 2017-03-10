@@ -5,6 +5,7 @@ ionic plugin add cordova-plugin-googlemaps --variable API_KEY_FOR_ANDROID="AIzaS
 ionic plugin add cordova-plugin-geolocation
 ionic plugin add cordova.plugins.diagnostic
 ionic plugin add cordova-plugin-facebook4 --variable APP_ID="167576887016557" --variable APP_NAME="Feasy"
+ionic plugin add de.appplant.cordova.plugin.local-notification
 
 ALTRI COMANDI UTILI:
 ionic run android --device

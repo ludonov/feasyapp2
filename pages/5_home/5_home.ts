@@ -72,27 +72,27 @@ export class HomePage {
     this.navCtrl.push(SettingsPage);
   }
 
-  tmp_goto_page10(): void {
+  /*tmp_goto_page10(): void {
     console.log("going to page publicated list no shopper");
     this.navCtrl.push(PublicatedListNoShopperPage);
-  }
+  }*/
 
   /*tmp_goto_page10B(): void {
     console.log("going to page publicated list pov shopper");
     this.navCtrl.push(PublicatedListNoShopperPovShopperPage);
   }*/
 
-  tmp_goto_page11(): void {
+  /*tmp_goto_page11(): void {
     console.log("going to page publicated list with shopper");
     this.navCtrl.push(PublicatedListWithShopperPage);
-  }
+  }*/
 
   /*tmp_goto_page11B(): void {
     console.log("going to page publicated list with shopper pov shopper");
     this.navCtrl.push(PublicatedListWithShopperPovShopperPage);
   }*/
 
-  tmp_goto_page12(): void {
+  /*tmp_goto_page12(): void {
     console.log("going to page publicated list products");
     this.navCtrl.push(PublicatedListProductsPage);
   }
@@ -130,5 +130,5 @@ export class HomePage {
   tmp_goto_page28(): void {
     console.log("going to page do shopping lists");
     this.navCtrl.push(ListFromMapPage);
-  }
+  }*/
 }
