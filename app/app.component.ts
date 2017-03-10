@@ -128,7 +128,7 @@ export class MyApp {
             title: new_candidates_number == 1 ? 'Nuovo candidato!' : "Nuovi candidati!",
             text: "Clicca per vedere i dettagli",
             data: { list_owner: this.globals.UID, list_key: list.key },
-            icon: 'file://android_asset/www/assets/images/icon.png'
+            icon: 'file://android_asset/www/assets/img/icon.png'
           });
           LocalNotifications.on("click", (notification) => {
             this.navCtrl.push(PublicatedListCandidatesPage, { list_owner: this.globals.UID, list_key: list.key });
