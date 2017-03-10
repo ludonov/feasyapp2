@@ -4,7 +4,7 @@ import { NavController, NavParams, AlertController, Tabs, LoadingController, Loa
 
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
-import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, Candidate } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
 @Component({  
@@ -19,6 +19,9 @@ export class PublicatedListCandidatesPage {
     let list_owner: any = navParams.get("list_owner");
     let list_key: any = navParams.get("list_key");
     this.candidates = af.database.list("/candidates/" + list_owner + "/" + list_key);
+    this.candidates.forEach((candidate: any) => {
+      console.log(candidate);
+    });
   }
 
 }

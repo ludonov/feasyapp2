@@ -60,6 +60,7 @@ export class MyApp {
                 this.rootPage = TabsPage;
               }
             });
+            console.log("Name: " + this.globals.DisplayName);
           } else {
             console.log("Found normal User");
             if (globals.JustRegistered) {
@@ -78,6 +79,7 @@ export class MyApp {
                 if (user != null) {
                   globals.DisplayName = user.DisplayName;
                   globals.photoURL = user.PhotoURL;
+                  console.log("Name: " + this.globals.DisplayName);
                 }
               });
               console.log("Redirecting to Home");
@@ -85,7 +87,6 @@ export class MyApp {
             }
           }
           this.linkCandidateWatchers();
-          console.log("Name: " + this.globals.DisplayName);
         } else {
           console.log("User auth not found, redirecting to Login");
           globals.UID = "";
