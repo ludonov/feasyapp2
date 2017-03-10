@@ -1,4 +1,4 @@
-﻿typings install dt~google.maps --global --save
+typings install dt~google.maps --global --save
 ionic platform add android
 ionic platform add ios
 ionic plugin add cordova-plugin-googlemaps --variable API_KEY_FOR_ANDROID="AIzaSyAoHAO7Lg7OyuV21KCgneFC-A4C2ZYD33M" --variable API_KEY_FOR_IOS="AIzaSyA2uhJ0V0x9E1Ch33_3OXOPsaZCD0b5Jds"
