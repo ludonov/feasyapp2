@@ -10,7 +10,7 @@
 <ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
 
   <ion-list>
-    <ion-item (click)="ViewCandidate(candidate)" *ngFor="let candidate of candidates | async">
+    <ion-item (click)="ViewCandidate(candidate)" *ngFor="let candidate of candidates_db | async">
       <ion-avatar item-left>
         <img src="assets/images/17_profilo/Alberto.jpg">
       </ion-avatar>

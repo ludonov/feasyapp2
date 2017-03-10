@@ -40,7 +40,8 @@ export class PublicatedListNoShopperPage {
   }
 
   ViewCandidates(): void {
-
+    console.log("Going to PublicatedListCandidatesPage");
+    this.navCtrl.push(PublicatedListCandidatesPage, { list_owner: this.globals.UID, list_key: this.list.$key });
   }
 
   WithdrawList(): void {
