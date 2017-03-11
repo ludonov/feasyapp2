@@ -22,13 +22,14 @@ export class UserProfilePage {
   public tab: Tabs;
 
   public user: FeasyUser = new FeasyUser("", "", "");
-  public user_db: FirebaseObjectObservable<any>;
+  //public user_db: FirebaseObjectObservable<any>;
 
   constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
-    this.user_db = af.database.object("users/" + globals.UID);
-    this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-      this.user = snapshot.val();
-    });
+    //this.user_db = af.database.object("users/" + globals.UID);
+    //this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
+    //  this.user = snapshot.val();
+    //});
+    this.user = globals.User;
   }
 
   goToHistory(): void {

@@ -54,7 +54,7 @@ export class LoginPage {
         })
         .catch((error: FirebaseError) => this.showLoginError(error))
         .then(function (user: any) {
-          console.log("Login successful: " + user);
+          console.log("Normal Login successful");
         });
     }
   }
@@ -100,14 +100,21 @@ export class LoginPage {
   facebookSignIn(): void {
     console.log("Facebook logging...");
     if (this.is_web) {
-      this.af.auth.login({
-        provider: AuthProviders.Facebook,
-        method: AuthMethods.Popup,
-      }).then(res => {
-        console.log("Facebook login successful");
-      }).catch(res => {
-        console.warn("Facebook login error: " + res);
+
+      let alert = this.alertCtrl.create({
+        title: "Info",
+        subTitle: "Il login tramite Facebook è permesso solo da dispositivi mobili",
+        buttons: ['Ok']
       });
+      alert.present();
+      //this.af.auth.login({
+      //  provider: AuthProviders.Facebook,
+      //  method: AuthMethods.Popup,
+      //}).then(res => {
+      //  console.log("Facebook login successful");
+      //}).catch(res => {
+      //  console.warn("Facebook login error: " + res);
+      //});
     } else {
       Facebook.login(["public_profile", "user_birthday", "user_hometown", "email"]).then((response) => {
 
@@ -130,7 +137,7 @@ export class LoginPage {
           this.globals.User.PhotoURL = extradata.id != null ? "http://graph.facebook.com/" + extradata.id + "/picture?type=square&width=400&height=400" : "";
           firebase.auth().signInWithCredential(facebookCredential)
             .then((success) => {
-              console.log("Firebase fb login success: " + JSON.stringify(success));
+              console.log("Firebase fb login success!");
             })
             .catch((error) => {
               console.warn("Firebase fb login failure: " + JSON.stringify(error));

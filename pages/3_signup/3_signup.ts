@@ -49,7 +49,7 @@ export class SignupPage {
       this.globals.JustRegistered = true;
       this.globals.User.DisplayName = this.userdata.FirstName + " " + this.userdata.LastName;
       this.globals.User.Email = this.userdata.Email;
-      this.globals.User.photoURL = "";
+      this.globals.User.PhotoURL = "";
       this.af.auth.createUser(
         {
           email: this.userdata.Email,

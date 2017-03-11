@@ -1,16 +1,49 @@
-/// <reference path="./../../typings/globals/google.maps/index.d.ts" />
+﻿/// <reference path="./../../typings/globals/google.maps/index.d.ts" />
 
 import { AlertController } from 'ionic-angular';
 
-type GenderType = "Uomo" | "Donna";
-
-type UnitType = "Grammi" | "Ettogrammi" | "Kilogrammi" | "Pezzi" | "Litri";
-
 export const GoogleApiKey: string = "AIzaSyCkCAGEfkSWp3mWjtq8fIj9vGaMglpbsXE";
+
+
+// UNIT HELPERS
+export enum UnitType { Grams, Hectograms, Kilograms, Pieces, Liters };
 
 export function GetUnits(): string[] {
   return ["Grammi", "Ettogrammi", "Kilogrammi", "Pezzi", "Litri"];
 }
+export function GetUnitNameFromEnum(unit: UnitType): string {
+  if (unit == UnitType.Grams)
+    return "Grammi";
+  else if (unit == UnitType.Hectograms)
+    return "Ettogrammi";
+  else if (unit == UnitType.Kilograms)
+    return "Kilogrammi";
+  else if (unit == UnitType.Liters)
+    return "Litri";
+  else if (unit == UnitType.Pieces)
+    return "Litri";
+  else
+    return "";
+}
+
+
+
+// GENDER HELPERS
+export enum GenderType { Male, Female };
+
+export function GetGenders(): string[] {
+  return ["Uomo", "Donna"];
+}
+export function GetGenderNameFromEnum(gender: GenderType): string {
+  if (gender == GenderType.Male)
+    return "Uomo";
+  else if (gender == GenderType.Female)
+    return "Donna";
+  else
+    return "";
+}
+
+
 export function GetExpiryDates(): string[] {
   return ["Stasera", "Domani sera", "Tra 3 giorni", "Tra una settimana", "Tra due settimane"];
 }
@@ -27,9 +60,9 @@ export class FeasyUser {
   public Birthdate: string;
   public MobileNumber: string;
   public PhotoURL: string;
-  public Gender: GenderType = "Uomo";
+  public Gender: GenderType = GenderType.Male;
   public Rating: number;
-  public Address: Object;
+  public Address: Object = {};
   public CommissionsDone: number;
   public CommissionsReceived: number;
 
@@ -37,7 +70,7 @@ export class FeasyUser {
     this.Email = email;
     this.FirstName = firstName;
     this.LastName = lastName;
-    this.Gender = "Uomo";
+    this.Gender = GenderType.Male;
   }
 }
 

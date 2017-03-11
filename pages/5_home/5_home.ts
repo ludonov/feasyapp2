@@ -42,14 +42,6 @@ export class HomePage {
   constructor(public navCtrl: NavController, public af: AngularFire, public globals: Globals) {
     console.log("NAV> home page");
     this.tab = this.navCtrl.parent;
-
-    //this.user = Backendless.UserService.login("ludovico.novelli@gmail.com", "prova", true);
-    //console.log(this.user);
-    //this.candidates = af.database.list("/candidates"); ///" + globals.UID);
-    //this.candidates.$ref.on("child_added", (snapshot: firebase.database.DataSnapshot) => {
-    //  let x: any = snapshot.val();
-    //  console.log(x);
-    //});
   }
 
   goto_lists(): void {
