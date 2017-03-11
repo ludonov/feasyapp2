@@ -5,6 +5,7 @@ import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
 import { FirebaseError } from 'firebase';
 
 import { FeasyUser } from '../../classes/Feasy';
+import { Globals } from '../../classes/Globals';
 
 import {ForgotPassPage } from '../../pages/2_forgot_pass/2_forgot_pass';
 import { SignupPage } from '../../pages/3_signup/3_signup';
@@ -18,7 +19,7 @@ export class LoginPage {
   public userdata: FeasyUser = new FeasyUser("", "", "");
   public is_web: boolean = false;
 
-  constructor(public navCtrl: NavController, private platform: Platform, public af: AngularFire, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, private platform: Platform, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController) {
     console.log("NAV> login page");
     this.is_web = this.platform.is("core");
     //this.user = Backendless.UserService.login("ludovico.novelli@gmail.com", "prova", true);
@@ -59,7 +60,7 @@ export class LoginPage {
   }
 
   showLoginError(error: FirebaseError): void {
-    console.log("Login error code: " + error.code + " - Message: " + error.message);
+    console.warn("Login error code: " + error.code + " - Message: " + error.message);
     if (error.code == "auth/invalid-email") {
       let alert = this.alertCtrl.create({
         title: 'Email invalida',
@@ -108,19 +109,43 @@ export class LoginPage {
         console.warn("Facebook login error: " + res);
       });
     } else {
-      Facebook.login(['email']).then((response) => {
-        const facebookCredential = firebase.auth.FacebookAuthProvider
-          .credential(response.authResponse.accessToken);
+      Facebook.login(["public_profile", "user_birthday", "user_hometown", "email"]).then((response) => {
 
-        firebase.auth().signInWithCredential(facebookCredential)
-          .then((success) => {
-            console.log("Firebase fb login success: " + JSON.stringify(success));
-          })
-          .catch((error) => {
-            console.log("Firebase fb login failure: " + JSON.stringify(error));
+        const facebookCredential = firebase.auth.FacebookAuthProvider.credential(response.authResponse.accessToken);
+
+        // get extra fb data from FB Graph API
+        console.log("Getting extra user data from FB Graph API...");
+        Facebook.api("/me?fields=id,birthday,gender,first_name,last_name,name", ["public_profile", "user_birthday", "user_hometown", "email"]).then((extradata) => {
+          console.log("Extra data retrieved. Signing to firebase...");
+          this.globals.User.Birthdate = extradata.birthday || "";
+          if (extradata.gender == "male")
+            this.globals.User.Gender = "Uomo";
+          else if (extradata.gender == "female")
+            this.globals.User.Gender = "Donna";
+          else
+            this.globals.User.Gender = null;
+          this.globals.User.FirstName = extradata.first_name || "";
+          this.globals.User.LastName = extradata.last_name || "";
+          this.globals.User.DisplayName = extradata.name || "";
+          this.globals.User.PhotoURL = extradata.id != null ? "http://graph.facebook.com/" + extradata.id + "/picture?type=square&width=400&height=400" : "";
+          firebase.auth().signInWithCredential(facebookCredential)
+            .then((success) => {
+              console.log("Firebase fb login success: " + JSON.stringify(success));
+            })
+            .catch((error) => {
+              console.warn("Firebase fb login failure: " + JSON.stringify(error));
+            });
+        }).catch((err: Error) => {
+          console.warn("Cannot read fb graph api: " + err.message);
+          let alert = this.alertCtrl.create({
+            title: "Info",
+            subTitle: "Impossibile effettuare il login da Facebook. Riprovare.",
+            buttons: ['Ok']
           });
+          alert.present();
+        });
 
-      }).catch((err: Error) => { console.log("Firebase fb login catch error: " + err.message) });
+      }).catch((err: Error) => { console.warn("Native fb login catch error: " + err.message) });
     }
   }
 

@@ -47,9 +47,9 @@ export class SignupPage {
     } else {
       console.log("Normal logging...");
       this.globals.JustRegistered = true;
-      this.globals.DisplayName = this.userdata.FirstName + " " + this.userdata.LastName;
-      this.globals.Email = this.userdata.Email;
-      this.globals.photoURL = "";
+      this.globals.User.DisplayName = this.userdata.FirstName + " " + this.userdata.LastName;
+      this.globals.User.Email = this.userdata.Email;
+      this.globals.User.photoURL = "";
       this.af.auth.createUser(
         {
           email: this.userdata.Email,

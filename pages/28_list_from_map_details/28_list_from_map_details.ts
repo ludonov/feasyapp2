@@ -109,7 +109,7 @@ export class ListFromMapPage {
 
     this.loading.present();
 
-    this.af.database.list("/candidates/" + this.listowner + "/" + this.listkey).push(StripForFirebase(new Candidate(this.globals.UID, this.globals.DisplayName))).then(() => {
+    this.af.database.list("/candidates/" + this.listowner + "/" + this.listkey).push(StripForFirebase(new Candidate(this.globals.UID, this.globals.User.DisplayName))).then(() => {
       console.log("ListFromMapPage: candidate added!");
       this.loading.dismiss();
       let alert: Alert = this.alertCtrl.create({

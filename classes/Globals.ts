@@ -1,12 +1,12 @@
 ﻿import { Injectable } from '@angular/core';
 
+import { FeasyUser } from './Feasy';
+
 @Injectable()
 export class Globals {
 
   public UID: string = "";
-  public Email: string = "";
-  public DisplayName: string = "";
-  public photoURL: string = "";
+  public User: FeasyUser = new FeasyUser("", "", "");
 
   public JustRegistered: boolean = false;
 

@@ -32,10 +32,10 @@ export class MyApp {
         console.log(user);
         if (user) {
           globals.UID = user.uid;
-          globals.Email = user.auth.email;
+          globals.User.Email = user.auth.email;
           if (user.provider == AuthProviders.Facebook) {
-            globals.DisplayName = user.auth.displayName;
-            globals.photoURL = user.auth.photoURL;
+            globals.User.DisplayName = user.auth.displayName;
+            globals.User.PhotoURL = user.auth.photoURL;
             let user_db: FirebaseObjectObservable<any> = af.database.object("users/" + user.uid);
             user_db.$ref.once("value", (snaphot: firebase.database.DataSnapshot) => {
               console.log("Found FB user. Checking if user exists and updating user data...");
@@ -60,15 +60,15 @@ export class MyApp {
                 this.rootPage = TabsPage;
               }
             });
-            console.log("Name: " + this.globals.DisplayName);
+            console.log("Name: " + this.globals.User.DisplayName);
           } else {
             console.log("Found normal User");
             if (globals.JustRegistered) {
               globals.JustRegistered = false;
               console.log("Just registered! Redirecting to Personal details");
               user.auth.updateProfile({
-                displayName: this.globals.DisplayName,
-                photoURL: this.globals.photoURL,
+                displayName: this.globals.User.DisplayName,
+                photoURL: this.globals.User.PhotoURL,
               });
               this.rootPage = SetPersonalDetailsPage;
             }
@@ -77,9 +77,9 @@ export class MyApp {
               user_db.$ref.once("value", (snaphot: firebase.database.DataSnapshot) => {
                 let user: FeasyUser = snaphot.val();
                 if (user != null) {
-                  globals.DisplayName = user.DisplayName;
-                  globals.photoURL = user.PhotoURL;
-                  console.log("Name: " + this.globals.DisplayName);
+                  globals.User.DisplayName = user.DisplayName;
+                  globals.User.PhotoURL = user.PhotoURL;
+                  console.log("Name: " + this.globals.User.DisplayName);
                 }
               });
               console.log("Redirecting to Home");
@@ -90,9 +90,9 @@ export class MyApp {
         } else {
           console.log("User auth not found, redirecting to Login");
           globals.UID = "";
-          globals.Email = "";
-          globals.DisplayName = "";
-          globals.photoURL = "";
+          globals.User.Email = "";
+          globals.User.DisplayName = "";
+          globals.User.PhotoURL = "";
           this.unlinkCandidateWatchers();
           this.rootPage = LoginPage;
         }
