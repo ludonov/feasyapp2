@@ -319,7 +319,7 @@ export class DoShoppingPage {
 
   lists(): void {
     console.log("my proposed lists");
-    this.navCtrl.push(DoShoppingListsPage);    
+    this.navCtrl.setRoot(DoShoppingListsPage);    
 
   }
 }
