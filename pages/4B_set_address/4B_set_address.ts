@@ -3,13 +3,14 @@
 import { Component } from '@angular/core';
 
 import { NavController, AlertController } from 'ionic-angular';
-import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFire, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { FirebaseError } from 'firebase';
 
 import { TabsPage } from '../../pages/tabs/tabs';
+import { HomePage } from '../../pages/5_home/5_home';
 import { SetPaymentMethodPage } from '../../pages/4C_set_payment_method/4C_set_payment_method';
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject, PlainAddress } from '../../classes/Feasy';
-
+import { Globals } from '../../classes/Globals';
 
 @Component({
   selector: 'page-setaddress',
@@ -17,19 +18,14 @@ import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, cop
 })
 export class SetAddressPage {
 
-  public user: FeasyUser = new FeasyUser("", "", "");
-  public user_db: FirebaseObjectObservable<any>;
-  public address: PlainAddress = new PlainAddress();
+  public addresses_db: FirebaseListObservable<any>;
+  public address: DeliveryAddress = new DeliveryAddress();
 
-    constructor(public navCtrl: NavController, public af: AngularFire, public alertCtrl: AlertController) {
-    this.user_db = af.database.object("users/" + af.auth.getAuth().uid + "/Addresses"); // aggiunto
-    this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-      this.user = snapshot.val();
-      if (this.user == null) {
-        this.user = new FeasyUser(af.auth.getAuth().auth.email, "", "");
-      }
-    });
-  }
+    constructor(public navCtrl: NavController, public af: AngularFire, public alertCtrl: AlertController, public globals: Globals) {
+    this.addresses_db = af.database.list("users/" + af.auth.getAuth().uid + "/Addresses"); // aggiunto
+    
+    
+    }
 
   skipToHome(): void {
     console.log("skip to home");
@@ -39,13 +35,15 @@ export class SetAddressPage {
   setAddress(): void {
     console.log("personal address set");
     //this.user_db.push(this.address);
-    this.user.Address = this.address; 
-    this.user_db.update(StripForFirebase(this.user)).then(res => {
-    //this.navCtrl.setRoot(SetPaymentMethodPage);
-    this.navCtrl.setRoot(TabsPage);
+
+    let new_address_promise = this.addresses_db.push(this.address);
+    let new_address_key = new_address_promise.key;
+    new_address_promise.then(new_address_db => {
+        this.navCtrl.setRoot(TabsPage);
     }).catch((err: Error) => {
-      console.log("Error: " + err.message);
+      console.warn("Error: " + err.message);
     });
+
   }
 
 }

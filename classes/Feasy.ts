@@ -29,7 +29,7 @@ export class FeasyUser {
   public PhotoURL: string;
   public Gender: GenderType = "Uomo";
   public Rating: number;
-  public Address: Object;
+  public Addresses: Object;
   public CommissionsDone: number;
   public CommissionsReceived: number;
 
