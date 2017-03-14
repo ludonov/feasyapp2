@@ -1,5 +1,5 @@
 ﻿import { Component, ViewChild } from '@angular/core';
-import { Platform, NavController, AlertController, Alert } from 'ionic-angular';
+import { Platform, NavController, AlertController, Alert, Loading, LoadingController } from 'ionic-angular';
 import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { StatusBar, Splashscreen, LocalNotifications } from 'ionic-native';
 
@@ -19,15 +19,28 @@ export class MyApp {
   rootPage: any = LoginPage;
   @ViewChild('mynav') public navCtrl: NavController;
 
-  constructor(platform: Platform, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController) {
+  constructor(platform: Platform, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
       Splashscreen.hide();
+      globals.af = af;
+      globals.alertCtrl = alertCtrl;
+      globals.navCtrl = this.navCtrl;
+      globals.loadingCtrl = this.loadingCtrl;
+
       af.auth.subscribe(user => {
+
         console.log("AUTH STATE CHANGED!");
         console.log(user);
+
+        let loading: Loading = this.loadingCtrl.create({
+          spinner: 'dots',
+          content: 'Please wait...'
+        });
+        loading.present();
+
         if (user) {
           globals.UID = user.uid;
           globals.User.Email = user.auth.email;
@@ -50,11 +63,13 @@ export class MyApp {
                     console.warn("Cannot update fb user data: " + err.message);
                   });
                 this.rootPage = SetPersonalDetailsPage;
+                loading.dismiss();
               }
               else {
                 globals.User = userdata;
                 console.log("Redirecting to Home");
                 this.rootPage = TabsPage;
+                loading.dismiss();
               }
             });
             console.log("Name: " + this.globals.User.DisplayName);
@@ -72,6 +87,7 @@ export class MyApp {
                 photoURL: this.globals.User.PhotoURL,
               });
               this.rootPage = SetPersonalDetailsPage;
+              loading.dismiss();
             }
             else {
               if (user.auth.displayName == null) {
@@ -80,24 +96,18 @@ export class MyApp {
                   photoURL: this.globals.User.PhotoURL,
                 });
               }
-              let user_db: FirebaseObjectObservable<any> = af.database.object("users/" + user.uid);
-              user_db.$ref.once("value", (snaphot: firebase.database.DataSnapshot) => {
-                let user: FeasyUser = snaphot.val();
-                if (user != null) {
-                  globals.User = user;
-                  console.log("Name: " + this.globals.User.DisplayName);
-                }
-              });
               console.log("Redirecting to Home");
               this.rootPage = TabsPage;
+              loading.dismiss();
             }
           }
-          this.linkCandidateWatchers();
+          globals.LinkAllWatchers();
         } else {
           console.log("User auth not found, redirecting to Login");
           globals.UID = "";
           globals.User = new FeasyUser("", "", "");
           this.rootPage = LoginPage;
+          loading.dismiss();
         }
       });
       //if (this.globals.UID != null) {
@@ -108,58 +118,5 @@ export class MyApp {
       //  this.rootPage = LoginPage;
       //}
     });
-  }
-
-  linkCandidateWatchers(): void {
-    try {
-      let ref: FirebaseListObservable<any> = this.af.database.list("/candidates/" + this.globals.UID);
-      this.globals.candidates_refs.push(ref.$ref.ref);
-      ref.$ref.on("child_added", (list: firebase.database.DataSnapshot) => {
-        let ref_cand: FirebaseListObservable<any> = this.af.database.list("/candidates/" + this.globals.UID + "/" + list.key);
-        this.globals.candidates_refs.push(ref_cand.$ref.ref);
-        ref_cand.$ref.on("value", (candidates: firebase.database.DataSnapshot) => {
-          let candidates_data = candidates.val();
-          let new_candidates_number: number = 0;
-          for (let candidate in candidates_data) {
-            if (candidates_data[candidate] != null && !candidates_data[candidate].Visualised) {
-              new_candidates_number++;
-            }
-          }
-          if (new_candidates_number > 0) {
-            // Schedule a single notification
-            LocalNotifications.schedule({
-              id: 1,
-              title: new_candidates_number == 1 ? 'Nuovo candidato!' : "Nuovi candidati!",
-              text: "Clicca per vedere i dettagli",
-              data: { list_owner: this.globals.UID, list_key: list.key },
-              icon: 'res://icon'
-            });
-            LocalNotifications.on("click", (notification) => {
-              this.navCtrl.push(PublicatedListCandidatesPage, { list_owner: this.globals.UID, list_key: list.key });
-            });
-            //let alert: Alert = this.alertCtrl.create({
-            //  title: new_candidates_number == 1 ? 'Nuovo candidato!' : "Nuovi candidati!",
-            //  subTitle: "Vuoi vedere i dettagli?",
-            //  buttons: [
-            //    {
-            //      text: 'Cancel',
-            //      role: 'cancel'
-            //    },
-            //    {
-            //      text: 'Ok',
-            //      handler: () => {
-            //        let candidates_list: any = list.val();
-            //        this.navCtrl.push(PublicatedListCandidatesPage, { list_owner: this.globals.UID, list_key: list.key });
-            //      }
-            //    }]
-            //});
-            //alert.present();
-          }
-        });
-      });
-
-    } catch (e) {
-      console.log("link catch err: " + JSON.stringify(e));
-    }
   }
 }

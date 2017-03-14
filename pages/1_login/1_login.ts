@@ -4,7 +4,7 @@ import { Platform, NavController, AlertController } from 'ionic-angular';
 import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
 import { FirebaseError } from 'firebase';
 
-import { FeasyUser } from '../../classes/Feasy';
+import { FeasyUser, GenderType } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
 import {ForgotPassPage } from '../../pages/2_forgot_pass/2_forgot_pass';
@@ -126,9 +126,9 @@ export class LoginPage {
           console.log("Extra data retrieved. Signing to firebase...");
           this.globals.User.Birthdate = extradata.birthday || "";
           if (extradata.gender == "male")
-            this.globals.User.Gender = "Uomo";
+            this.globals.User.Gender = GenderType.Male;
           else if (extradata.gender == "female")
-            this.globals.User.Gender = "Donna";
+            this.globals.User.Gender = GenderType.Female;
           else
             this.globals.User.Gender = null;
           this.globals.User.FirstName = extradata.first_name || "";

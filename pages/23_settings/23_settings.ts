@@ -22,7 +22,7 @@ export class SettingsPage {
 
   logout(): void {
     console.log("Logging out: removing link to candidate refs");
-    this.globals.unlinkCandidateWatchers();
+    this.globals.UnlinkAllWatchers();
     this.af.auth.logout();
   }
 

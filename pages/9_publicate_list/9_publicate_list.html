@@ -10,18 +10,18 @@
 
     <ion-item>
       <ion-label fixed>Nome<sup>*</sup></ion-label>
-      <ion-input [(ngModel)]="list.Name" type="text" value=""></ion-input>
+      <ion-input [(ngModel)]="globals.UnpublishedLists[list_key].Name" type="text" value=""></ion-input>
     </ion-item>
 			
     <div class="spacer" style="height: 16px;"></div>
 		<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZO E ORARIO CONSEGNA<sup>*</sup></ion-item-divider>
 
-    <ion-item class="item item-field" (click)="ViewAddress(address)" *ngFor="let address of addresses_db | async">
+    <ion-item class="item item-field" (click)="ViewAddress(address)" *ngFor="let address of globals.UnpublishedLists[list_key].DeliveryAddresses | keys">
       <ion-label>
-        {{address.FormattedAddress}}
+        {{address.value.FormattedAddress}}
       </ion-label>
       <div item-content>
-        dalle {{address.From}} &nbsp; alle {{address.To}}  <br>
+        dalle {{address.value.From}} &nbsp; alle {{address.value.To}}  <br>
       </div>
     </ion-item>
 
@@ -33,7 +33,7 @@
     
     <ion-item>
       <ion-label fixed>Quantità</ion-label>
-      <ion-input [(ngModel)]="list.Reward" type="number" value=""></ion-input>
+      <ion-input [(ngModel)]="globals.UnpublishedLists[list_key].Reward" type="number" value=""></ion-input>
     </ion-item>
 
 
@@ -42,8 +42,8 @@
 
     <ion-item>
       <ion-label fixed>Data</ion-label>
-      <ion-select [(ngModel)]="list.ExpiryDate" interface="action-sheet" multiple="false" placeholder="Tra 3 giorni">
-        <ion-option value="{{expirydate}}" selected="(expirydate=='Tra 3 giorni' && list.ExpiryDate == undefined) || (list.ExpiryDate != null && expirydate == list.ExpiryDate)" *ngFor="let expirydate of expirydates">
+      <ion-select [(ngModel)]="globals.UnpublishedLists[list_key].ExpiryDate" interface="action-sheet" multiple="false" placeholder="Tra 3 giorni">
+        <ion-option value="{{i}}" selected="globals.UnpublishedLists[list_key].ExpiryDate == {{i}}" *ngFor="let expirydate of expirydates; let i = index">
           {{expirydate}}
         </ion-option>
       </ion-select>
@@ -56,19 +56,19 @@
 
     <ion-item>
       <ion-label fixed>Negozio</ion-label>
-      <ion-input [(ngModel)]="list.PreferredShops" type="text" value=""></ion-input>
+      <ion-input [(ngModel)]="globals.UnpublishedLists[list_key].PreferredShops" type="text" value=""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Valore massimo spesa</ion-label>
-      <ion-input [(ngModel)]="list.MaxValue" type="number" value=""></ion-input>
+      <ion-input [(ngModel)]="globals.UnpublishedLists[list_key].MaxValue" type="number" value=""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Peso stimato (kg)</ion-label>
-      <ion-input [(ngModel)]="list.EstimatedWeight" type="number" value=""></ion-input>
+      <ion-input [(ngModel)]="globals.UnpublishedLists[list_key].EstimatedWeight" type="number" value=""></ion-input>
     </ion-item>
     <ion-item>
       <ion-label fixed>Altri commenti</ion-label>
-      <ion-input [(ngModel)]="list.Comments" type="text" value=""></ion-input>
+      <ion-input [(ngModel)]="globals.UnpublishedLists[list_key].Comments" type="text" value=""></ion-input>
     </ion-item>
 
   </ion-list>

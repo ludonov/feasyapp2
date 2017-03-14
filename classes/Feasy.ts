@@ -6,21 +6,21 @@ export const GoogleApiKey: string = "AIzaSyCkCAGEfkSWp3mWjtq8fIj9vGaMglpbsXE";
 
 
 // UNIT HELPERS
-export enum UnitType { Grams, Hectograms, Kilograms, Pieces, Liters };
+export enum UnitType { Pieces, Grams, Hectograms, Kilograms, Liters };
 
 export function GetUnits(): string[] {
-  return ["Grammi", "Ettogrammi", "Kilogrammi", "Pezzi", "Litri"];
+  return ["Pezzi", "Grammi", "Ettogrammi", "Kilogrammi", "Litri"];
 }
 export function GetUnitNameFromEnum(unit: UnitType): string {
-  if (unit == UnitType.Grams)
+  if (unit == UnitType.Pieces)
+    return "Pezzi";
+  else if (unit == UnitType.Grams)
     return "Grammi";
   else if (unit == UnitType.Hectograms)
     return "Ettogrammi";
   else if (unit == UnitType.Kilograms)
     return "Kilogrammi";
   else if (unit == UnitType.Liters)
-    return "Litri";
-  else if (unit == UnitType.Pieces)
     return "Litri";
   else
     return "";
@@ -44,8 +44,25 @@ export function GetGenderNameFromEnum(gender: GenderType): string {
 }
 
 
+// EXPIRY DATES HELPER
+export enum ExpiryDateType { Today, Tomorrow, InThreeDays, InOneWeek, InTwoWeeks};
+
 export function GetExpiryDates(): string[] {
   return ["Stasera", "Domani sera", "Tra 3 giorni", "Tra una settimana", "Tra due settimane"];
+}
+export function GetExpiryDateFromEnum(expiryDate: ExpiryDateType): string {
+  if (expiryDate == ExpiryDateType.Today)
+    return "Stasera";
+  else if (expiryDate == ExpiryDateType.Tomorrow)
+    return "Domani sera";
+  else if (expiryDate == ExpiryDateType.InThreeDays)
+    return "Tra 3 giorni";
+  else if (expiryDate == ExpiryDateType.InOneWeek)
+    return "Tra una settimana";
+  else if (expiryDate == ExpiryDateType.InTwoWeeks)
+    return "Tra due settimane";
+  else
+    return "";
 }
 
 export class FeasyUser {
@@ -97,8 +114,9 @@ export class FeasyList {
   public Items: Object;
   public ItemsCount: number;
   public Reward: number;
+  public PublishedDate: string;
   public CreatedDate: string;
-  public ExpiryDate: string;
+  public ExpiryDate: ExpiryDateType;
   public PreferredShops: string;
   public MaxValue: number;
   public EstimatedWeight: number;
@@ -329,18 +347,17 @@ export function copyObject<T>(source: T, destination: any): void {
   }
 }
 
-export function GetRealExpiryDate(expdate: string): string {
-  //return ["Stasera", "Domani sera", "Tra 3 giorni", "Tra una settimana", "Tra due settimane"];
+export function GetRealExpiryDate(expdate: ExpiryDateType): string {
   let now: Date = new Date();
-  if (expdate == "Stasera")
+  if (expdate == ExpiryDateType.Today)
     return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59).toUTCString();
-  else if (expdate == "Domani sera")
+  else if (expdate == ExpiryDateType.Tomorrow)
     return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 23, 59, 59).toUTCString();
-  else if (expdate == "Tra 3 giorni")
+  else if (expdate == ExpiryDateType.InThreeDays)
     return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 3, 23, 59, 59).toUTCString();
-  else if (expdate == "Tra una settimana")
+  else if (expdate == ExpiryDateType.InOneWeek)
     return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7, 23, 59, 59).toUTCString();
-  else if (expdate == "Tra due settimana")
+  else if (expdate == ExpiryDateType.InTwoWeeks)
     return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 14, 23, 59, 59).toUTCString();
   else
     return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 3, 23, 59, 59).toUTCString();

@@ -1,19 +1,19 @@
 ﻿<ion-header>
   <ion-navbar>
-    <ion-title>Lista {{list.Name}}</ion-title>
+    <ion-title *ngIf="globals.UnpublishedLists[list_key] != undefined">Lista {{globals.UnpublishedLists[list_key].Name}}</ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
     <h6 class="center" [hidden]="!no_items">Nessun prodotto in lista, aggiungilo!</h6>
-    <ion-list>
-      <ion-item (click)="goToItem(item)" *ngFor="let item of items_db | async">
+    <ion-list *ngIf="globals.UnpublishedLists[list_key] != undefined">
+      <ion-item (click)="goToItem(item)" *ngFor="let item of globals.UnpublishedLists[list_key].Items | keys">
         <ion-label>
-          {{item.Name}}
+          {{item.value.Name}}
         </ion-label>
   			<ion-note item-right>
-          {{item.Qty}} {{(item.Unit == undefined) ? "" : item.Unit}}
+          {{item.value.Qty}} {{(item.value.Unit == undefined) ? "" : GetUnitName(item.value.Unit)}}
 				</ion-note>
       </ion-item>
     </ion-list>

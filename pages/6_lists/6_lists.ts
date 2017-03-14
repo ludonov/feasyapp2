@@ -19,37 +19,37 @@ export class ListsPage {
 
   public published_lists: Object;
   public unpublished_lists: Object;
-  public published_lists_db: FirebaseListObservable<any>;
-  public unpublished_lists_db: FirebaseListObservable<any>;
-  public no_published_list: boolean = true;
-  public no_unpublished_list: boolean = true;
+  //public published_lists_db: FirebaseListObservable<any>;
+  //public unpublished_lists_db: FirebaseListObservable<any>;
+  //public no_published_list: boolean = true;
+  //public no_unpublished_list: boolean = true;
   public num_items: number = 0;
 
   constructor(public navCtrl: NavController, public af: AngularFire, public alertCtrl: AlertController, public globals: Globals) {
-    this.published_lists_db = af.database.list('/published_lists/' + globals.UID);
-    this.unpublished_lists_db = af.database.list('/unpublished_lists/' + globals.UID);
-    this.published_lists_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-      this.published_lists = {};
-      snapshot.forEach(list => {
-        let _list: FeasyList = list.val();
-        _list.$key = list.key;
-        _list.ItemsCount = list.hasChild("Items") ? list.child("Items").numChildren() : 0;
-        this.published_lists[list.key] = _list;
-        return false;
-      });
-      this.no_published_list = !snapshot.hasChildren();
-    });
-    this.unpublished_lists_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-      this.unpublished_lists = {};
-      snapshot.forEach(list => {
-        let _list: FeasyList = list.val();
-        _list.$key = list.key;
-        _list.ItemsCount = list.hasChild("Items") ? list.child("Items").numChildren() : 0;
-        this.unpublished_lists[list.key] = _list;
-        return false;
-      });
-      this.no_unpublished_list = !snapshot.hasChildren();
-    });
+    //this.published_lists_db = af.database.list('/published_lists/' + globals.UID);
+    //this.unpublished_lists_db = af.database.list('/unpublished_lists/' + globals.UID);
+    //this.published_lists_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
+    //  this.published_lists = {};
+    //  snapshot.forEach(list => {
+    //    let _list: FeasyList = list.val();
+    //    _list.$key = list.key;
+    //    _list.ItemsCount = list.hasChild("Items") ? list.child("Items").numChildren() : 0;
+    //    this.published_lists[list.key] = _list;
+    //    return false;
+    //  });
+    //  this.no_published_list = !snapshot.hasChildren();
+    //});
+    //this.unpublished_lists_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
+    //  this.unpublished_lists = {};
+    //  snapshot.forEach(list => {
+    //    let _list: FeasyList = list.val();
+    //    _list.$key = list.key;
+    //    _list.ItemsCount = list.hasChild("Items") ? list.child("Items").numChildren() : 0;
+    //    this.unpublished_lists[list.key] = _list;
+    //    return false;
+    //  });
+    //  this.no_unpublished_list = !snapshot.hasChildren();
+    //});
   }
 
 
@@ -79,11 +79,11 @@ export class ListsPage {
               let new_list: FeasyList = new FeasyList(data.name);
               new_list.owner = this.globals.UID;
               new_list.CreatedDate = (new Date()).toUTCString();
-              let new_list_promise = this.unpublished_lists_db.push(new_list);
+              let new_list_promise = this.globals.UnpublishedLists_db.push(new_list);
               let new_list_key = new_list_promise.key;
               new_list_promise.then(new_list_db => {
                 new_list.$key = new_list_key;
-                this.navCtrl.push(ListPage, { list: new_list });
+                this.navCtrl.push(ListPage, { list_key: new_list_key });
               });
             } else {
               console.warn('Inserted null list name');
@@ -104,21 +104,13 @@ export class ListsPage {
 
 
   goToList(list: any): void {
-    console.log("Goto list: " + list.Name);
-    if (list.Items == null)
-      list.Items = {};
-    if (list.DeliveryAddresses == null)
-      list.DeliveryAddresses = {};
-    this.navCtrl.push(ListPage, { list: list });
+    console.log("Goto list: " + list.value.Name);
+    this.navCtrl.push(ListPage, { list_key: list.value.$key });
   }
 
   goToPublicatedList(list: any): void {
-    console.log("Goto publicated list: " + list.Name);
-    if (list.Items == null)
-      list.Items = {};
-    if (list.DeliveryAddresses == null)
-      list.DeliveryAddresses = {};
-    this.navCtrl.push(PublicatedListNoShopperPage, { list: list });
+    console.log("Goto publicated list: " + list.value.Name);
+    this.navCtrl.push(PublicatedListNoShopperPage, { list: list.value });
   }
 
 }

@@ -5,8 +5,7 @@ import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase } from '../../classes/Feasy';
-
-import { AddOrShowItemPage } from '../../pages/13A_specific_product_demander/13A_specific_product_demander';
+import { Globals } from '../../classes/Globals';
 
 @Component({
   selector: 'page-address-view',
@@ -14,24 +13,29 @@ import { AddOrShowItemPage } from '../../pages/13A_specific_product_demander/13A
 })
 export class AddressViewPage {
 
+  public list_key: string;
+  public address_key: string;
   public addresses_db: FirebaseListObservable<any>;
   public address: DeliveryAddress;
   public is_new: boolean = true;
   
   @ViewChild('StreetNameInput') StreetNameInput;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
-    this.addresses_db = navParams.get('addresses_db');
-    if (this.addresses_db == null) {
-      console.warn("Null addresses_db, going back");
+  constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController, public globals: Globals) {
+    this.list_key = navParams.get('list_key');
+    if (this.list_key == null) {
+      console.warn("AddressViewPage null list_key!!");
       navCtrl.pop();
-    }
-    let address: DeliveryAddress = navParams.get('address');
-    this.is_new = address == undefined || address == null;
-    if (this.is_new) {
-      this.address = new DeliveryAddress();
     } else {
-      this.address = address;
+      this.addresses_db = af.database.list('unpublished_lists/' + globals.UID + '/' + this.list_key + '/DeliveryAddresses');
+      this.address_key = navParams.get('address_key');
+      let address: DeliveryAddress = navParams.get('address');
+      this.is_new = address == undefined || address == null;
+      if (this.is_new) {
+        this.address = new DeliveryAddress();
+      } else {
+        this.address = address;
+      }
     }
   }
 
@@ -77,7 +81,7 @@ export class AddressViewPage {
             this.navCtrl.pop();
           });
         } else {
-          this.addresses_db.update(this.address.$key, StripForFirebase(this.address)).then(res => {
+          this.addresses_db.update(this.address_key, StripForFirebase(this.address)).then(res => {
             console.log("Existing address <" + this.address.$key + " updated");
             this.navCtrl.pop();
           });
@@ -99,11 +103,11 @@ export class AddressViewPage {
 
   deleteAddress(): void {
     console.log("Deleting address:" + this.address.FormattedAddress);
-    this.addresses_db.remove(this.address.$key).then(res => {
-      console.log("Address <" + this.address.$key + " removed");
+    this.addresses_db.remove(this.address_key).then(res => {
+      console.log("Address <" + this.address_key + " removed");
       this.navCtrl.pop();
     }).catch( (err:Error) => {
-      console.log("Cannot remove address " + this.address.$key + ": " + err.message);
+      console.log("Cannot remove address " + this.address_key + ": " + err.message);
     });;
   }
 

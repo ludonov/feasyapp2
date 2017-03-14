@@ -46,6 +46,8 @@ import { AddressViewStaticPage } from '../pages/30_address_view_static/30_addres
 
 import { TabsPage } from '../pages/tabs/tabs';
 
+import { Globals } from '../classes/Globals';
+
 // Import the AF2 Module
 import { AngularFireModule } from 'angularfire2';
 
@@ -150,7 +152,7 @@ export const firebaseConfig = {
     AddressViewStaticPage,
     TabsPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, Globals]
 })
 export class AppModule {
 
