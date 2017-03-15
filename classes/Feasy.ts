@@ -91,22 +91,6 @@ export class FeasyUser {
   }
 }
 
-export class PlainAddress {
-  public $key: string;
-  public FormattedAddress: string;
-  public Nation: string;
-  public City: string;
-  public StreetName: string;
-  public PostCode: string;
-  public Latitude: number;
-  public Longitude: number;
-
-  constructor() {
-    
-  }
-
-}
-
 export class FeasyList {
   public $key: string;
   public owner: string;

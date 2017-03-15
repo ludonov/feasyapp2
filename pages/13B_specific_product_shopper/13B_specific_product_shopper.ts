@@ -2,7 +2,7 @@
 
 import { NavController, NavParams, AlertController } from 'ionic-angular';
 
-import { StripForFirebase, GetUnits, FeasyUser, FeasyList, FeasyItem } from '../../classes/Feasy';
+import { StripForFirebase, GetUnits, FeasyUser, FeasyList, FeasyItem, GetUnitNameFromEnum, UnitType } from '../../classes/Feasy';
 
 @Component({
   selector: 'page-specific-product-shopper',
@@ -16,6 +16,10 @@ export class SpecificProductShopperPage {
     this.item = navParams.get('item');
     if (this.item == null || this.item == undefined)
       navCtrl.pop();
+  }
+
+  public GetUnitName(unit: UnitType) {
+    return GetUnitNameFromEnum(unit);
   }
 
 }

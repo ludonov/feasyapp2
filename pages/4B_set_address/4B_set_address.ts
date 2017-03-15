@@ -1,4 +1,4 @@
-
+﻿
 
 import { Component } from '@angular/core';
 
@@ -8,7 +8,7 @@ import { FirebaseError } from 'firebase';
 
 import { TabsPage } from '../../pages/tabs/tabs';
 import { SetPaymentMethodPage } from '../../pages/4C_set_payment_method/4C_set_payment_method';
-import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject, PlainAddress } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject } from '../../classes/Feasy';
 
 
 @Component({
@@ -19,7 +19,7 @@ export class SetAddressPage {
 
   public user: FeasyUser = new FeasyUser("", "", "");
   public user_db: FirebaseObjectObservable<any>;
-  public address: PlainAddress = new PlainAddress();
+  public address: DeliveryAddress = new DeliveryAddress();
 
     constructor(public navCtrl: NavController, public af: AngularFire, public alertCtrl: AlertController) {
     this.user_db = af.database.object("users/" + af.auth.getAuth().uid + "/Addresses"); // aggiunto

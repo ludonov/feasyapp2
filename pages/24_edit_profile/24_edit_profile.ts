@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 
 import { NavController, AlertController } from 'ionic-angular';
 import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
 import { FirebaseError } from 'firebase';
 
-import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject, PlainAddress } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject } from '../../classes/Feasy';
 
 import { SettingsPage } from '../../pages/23_settings/23_settings';
 
@@ -17,7 +17,7 @@ export class EditProfilePage {
 
   public user: FeasyUser = new FeasyUser("", "", "");
   public user_db: FirebaseObjectObservable<any>;
-  public address: PlainAddress = new PlainAddress();
+  public address: DeliveryAddress = new DeliveryAddress();
 
   constructor(public navCtrl: NavController, public af: AngularFire, public alertCtrl: AlertController) {
     this.user_db = af.database.object("users/" + af.auth.getAuth().uid);

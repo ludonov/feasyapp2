@@ -1,6 +1,6 @@
 ﻿import { Component, Pipe, PipeTransform, Injectable } from '@angular/core';
 
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, AlertController, Loading, LoadingController } from 'ionic-angular';
 
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
@@ -17,8 +17,8 @@ import { PublicatedListNoShopperPage } from '../../pages/10_publicated_list_no_s
 })
 export class ListsPage {
 
-  public published_lists: Object;
-  public unpublished_lists: Object;
+  //public published_lists: Object;
+  //public unpublished_lists: Object;
   //public published_lists_db: FirebaseListObservable<any>;
   //public unpublished_lists_db: FirebaseListObservable<any>;
   //public no_published_list: boolean = true;
@@ -104,13 +104,13 @@ export class ListsPage {
 
 
   goToList(list: any): void {
-    console.log("Goto list: " + list.value.Name);
-    this.navCtrl.push(ListPage, { list_key: list.value.$key });
+    console.log("Goto list: " + list.Name);
+    this.navCtrl.push(ListPage, { list_key: list.$key });
   }
 
   goToPublicatedList(list: any): void {
-    console.log("Goto publicated list: " + list.value.Name);
-    this.navCtrl.push(PublicatedListNoShopperPage, { list: list.value });
+    console.log("Goto publicated list: " + list.Name);
+    this.navCtrl.push(PublicatedListNoShopperPage, { list_key: list.$key });
   }
 
 }

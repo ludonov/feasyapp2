@@ -2,7 +2,7 @@
 
 import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 
-import { FeasyUser, FeasyList, FeasyItem } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, FeasyItem, GetUnitNameFromEnum, UnitType } from '../../classes/Feasy';
 
 import { SpecificProductShopperPage } from '../../pages/13B_specific_product_shopper/13B_specific_product_shopper';
 
@@ -24,6 +24,10 @@ export class PublicatedListProductsPage {
   ViewItem(item: any): void {
     console.log("Going to view specific item");
     this.navCtrl.push(SpecificProductShopperPage, { item: item.value});
+  }
+
+  public GetUnitName(unit: UnitType) {
+    return GetUnitNameFromEnum(unit);
   }
 
 }

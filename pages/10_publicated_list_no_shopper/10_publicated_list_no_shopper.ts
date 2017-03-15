@@ -19,14 +19,21 @@ import { AddressViewStaticPage } from '../../pages/30_address_view_static/30_add
 
 export class PublicatedListNoShopperPage {
 
-  public list: FeasyList;
-  public DeliveryAddresses: Object = {};
+  public list_key: string;
+  public list: FeasyList = new FeasyList("");
+  //public DeliveryAddresses: Object = {};
 
   constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
-    this.list = navParams.get('list');
-    if (this.list == undefined || this.list == null)
+    this.list_key = navParams.get('list_key');
+    if (this.list_key == undefined || this.list_key == null) {
+      console.warn("PublicatedListNoShopperPage null list_key. Going back.")
       navCtrl.pop();
-    this.DeliveryAddresses = this.list.DeliveryAddresses;
+    }
+    this.list = globals.PublishedLists[this.list_key];
+    af.database.object('published_lists/' + globals.UID + '/' + this.list_key).$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
+      this.list = snapshot.val();
+    });
+
   }
 
   ViewAddress(address: any): void {
@@ -41,7 +48,7 @@ export class PublicatedListNoShopperPage {
 
   ViewCandidates(): void {
     console.log("Going to PublicatedListCandidatesPage");
-    this.navCtrl.push(PublicatedListCandidatesPage, { list_owner: this.globals.UID, list_key: this.list.$key });
+    this.navCtrl.push(PublicatedListCandidatesPage, { list_owner: this.globals.UID, list_key: this.list_key });
   }
 
   WithdrawList(): void {

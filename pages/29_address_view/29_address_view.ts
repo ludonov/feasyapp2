@@ -77,12 +77,11 @@ export class AddressViewPage {
           let new_item_key = new_addr_promise.key;
           new_addr_promise.then(new_addr_db => {
             console.log("New address <" + new_item_key + "> saved");
-            this.address.$key = new_item_key;
             this.navCtrl.pop();
           });
         } else {
           this.addresses_db.update(this.address_key, StripForFirebase(this.address)).then(res => {
-            console.log("Existing address <" + this.address.$key + " updated");
+            console.log("Existing address <" + this.address_key + "> updated");
             this.navCtrl.pop();
           });
 

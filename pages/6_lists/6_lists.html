@@ -35,12 +35,12 @@
 				<h5 class="center">NESSUNA LISTA DA PUBBLICARE</h5>
 			</ion-item>
 
-			<ion-item *ngFor="let list of globals.UnpublishedLists | keys" (click)="goToList(list)">
+			<ion-item *ngFor="let list of globals.UnpublishedLists_db | async" (click)="goToList(list)">
 				<ion-label>
-					{{list.value.Name}}
+					{{list.Name}}
 				</ion-label>
 				<ion-note item-right>
-          {{list.value.ItemsCount}} pezzi
+          {{list.ItemsCount}} pezzi
 				</ion-note>
 			</ion-item>
 		</ion-item-group>

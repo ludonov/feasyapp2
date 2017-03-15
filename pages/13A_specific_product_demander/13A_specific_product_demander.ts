@@ -1,6 +1,6 @@
 ﻿import { Component, ViewChild } from '@angular/core';
 
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Loading, LoadingController } from 'ionic-angular';
 
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
@@ -22,7 +22,7 @@ export class AddOrShowItemPage {
 
   @ViewChild('NameInput') NameInputField;
 
-  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, af: AngularFire, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, af: AngularFire, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
     this.list_key = navParams.get('list_key');
     this.item_key = navParams.get('item_key');
     if (this.list_key == null) {
@@ -69,19 +69,31 @@ export class AddOrShowItemPage {
       });
       alert.present();
     } else {
+      let loading: Loading = this.loadingCtrl.create({
+        spinner: 'dots',
+        content: 'Please wait...'
+      });
+      loading.present();
       console.log("Saving item");
       if (this.is_new) {
         let new_item_promise = this.items_db.push(this.item);
         let new_item_key = new_item_promise.key;
         new_item_promise.then(new_item_db => {
           console.log("New item <" + new_item_key + "> saved");
-          this.item.$key = new_item_key;
+          loading.dismiss();
           this.navCtrl.pop();
+        }).catch((err: Error) => {
+          console.warn("Cannot save item: " + err.message);
+          loading.dismiss();
         });
       } else {
         this.items_db.update(this.item_key, StripForFirebase(this.item)).then(res => {
-          console.log("Existing item <" + this.item.$key + " updated");
+          console.log("Existing item <" + this.item_key + " updated");
+          loading.dismiss();
           this.navCtrl.pop();
+        }).catch((err: Error) => {
+          console.warn("Cannot update item: " + err.message);
+          loading.dismiss();
         });
 
       }
