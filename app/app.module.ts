@@ -44,6 +44,10 @@ import { AddressViewPage } from '../pages/29_address_view/29_address_view';
 import { ListFromMapPage } from '../pages/28_list_from_map_details/28_list_from_map_details';
 import { AddressViewStaticPage } from '../pages/30_address_view_static/30_address_view_static';
 
+import { AddressesFromProfilePage } from '../pages/34_addresses_from_profile/34_addresses_from_profile';
+import { SpecificAddressFromProfilePage } from '../pages/35_specific_address_from_profile/35_specific_address_from_profile';
+
+
 import { TabsPage } from '../pages/tabs/tabs';
 
 // Import the AF2 Module
@@ -89,6 +93,7 @@ export const firebaseConfig = {
     DoShoppingFiltersPage,
     ListFromMapPage,
     ChatListPage,
+    SpecificAddressFromProfilePage,
     SettingsPage,
     EditProfilePage,
     PasswordResetPage,
@@ -100,7 +105,8 @@ export const firebaseConfig = {
     PaymentSummaryPage,
     AddressViewPage,
     AddressViewStaticPage,
-    TabsPage
+    TabsPage,
+    AddressesFromProfilePage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -136,6 +142,7 @@ export const firebaseConfig = {
     DoShoppingListsPage,
     DoShoppingFiltersPage,
     ChatListPage,
+    SpecificAddressFromProfilePage,
     ListFromMapPage,
     SettingsPage,
     EditProfilePage,
@@ -148,7 +155,8 @@ export const firebaseConfig = {
     PaymentPage,
     PaymentSummaryPage,
     AddressViewStaticPage,
-    TabsPage
+    TabsPage,
+    AddressesFromProfilePage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

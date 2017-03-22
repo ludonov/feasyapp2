@@ -108,6 +108,15 @@
 			</ion-item>
 		</ion-item-group>
 
+		<ion-item-group>
+			<div class="spacer" style="height: 16px;"></div>
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZI</ion-item-divider>
+			<ion-item icon-right (click)="MyAddresses()">
+      			I Miei Indirizzi
+      			<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+    		</ion-item>
+		</ion-item-group>
+
 		<!--<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">METODI DI PAGAMENTO</ion-item-divider>
@@ -125,30 +134,26 @@
 			</ion-item>
 		</ion-item-group>-->
 
-		<ion-item-group>
+		<!--<ion-item-group *ngFor="let address of addresses_db | async">
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZO PRINCIPALE</ion-item-divider>
 			<ion-item>
 				Via
-				<ion-note item-right>Corso Vittorio</ion-note>
-			</ion-item>
-			<ion-item>
-				Numero
-				<ion-note item-right>90</ion-note>
-			</ion-item>
-			<ion-item>
-				CAP
-				<ion-note item-right>10125</ion-note>
+				<ion-note item-right>{{address.StreetName}}</ion-note>
 			</ion-item>
 			<ion-item>
 				Città
-				<ion-note item-right>Roma</ion-note>
+				<ion-note item-right>{{address.City}}</ion-note>
+			</ion-item>
+			<ion-item> 
+				CAP
+				<ion-note item-right>{{address.PostCode}}</ion-note>
 			</ion-item>
 			<ion-item>
 				Paese
-				<ion-note item-right>Italia</ion-note>
+				<ion-note item-right>{{address.Nation}}</ion-note>
 			</ion-item>
-		</ion-item-group>
+		</ion-item-group>-->
 
 	</ion-list>
 	</ion-content>

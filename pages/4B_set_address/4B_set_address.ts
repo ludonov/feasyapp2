@@ -35,13 +35,16 @@ export class SetAddressPage {
   setAddress(): void {
     console.log("personal address set");
     //this.user_db.push(this.address);
-
-    let new_address_promise = this.addresses_db.push(this.address);
-    let new_address_key = new_address_promise.key;
-    new_address_promise.then(new_address_db => {
-        this.navCtrl.setRoot(TabsPage);
+    this.address.Geocode(this.alertCtrl).then( (res) => {
+      let new_address_promise = this.addresses_db.push(this.address);
+      let new_address_key = new_address_promise.key;
+      new_address_promise.then(new_address_db => {
+          this.navCtrl.setRoot(TabsPage);
+      }).catch((err: Error) => {
+        console.warn("Error: " + err.message);
+      });
     }).catch((err: Error) => {
-      console.warn("Error: " + err.message);
+      console.log("Cannot geocode: " + err.message);
     });
 
   }
