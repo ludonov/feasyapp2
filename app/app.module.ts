@@ -46,7 +46,9 @@ import { AddressViewStaticPage } from '../pages/30_address_view_static/30_addres
 
 import { AddressesFromProfilePage } from '../pages/34_addresses_from_profile/34_addresses_from_profile';
 import { SpecificAddressFromProfilePage } from '../pages/35_specific_address_from_profile/35_specific_address_from_profile';
-
+import { AddressesFromEditProfilePage } from '../pages/36_addresses_from_edit_profile/36_addresses_from_edit_profile';
+import { SpecificAddressFromEditProfilePage } from '../pages/37_specific_address_from_edit_profile/37_specific_address_from_edit_profile';
+import { AddNewAddressPage } from '../pages/38_add_new_address/38_add_new_address';
 
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -93,7 +95,6 @@ export const firebaseConfig = {
     DoShoppingFiltersPage,
     ListFromMapPage,
     ChatListPage,
-    SpecificAddressFromProfilePage,
     SettingsPage,
     EditProfilePage,
     PasswordResetPage,
@@ -105,8 +106,12 @@ export const firebaseConfig = {
     PaymentSummaryPage,
     AddressViewPage,
     AddressViewStaticPage,
-    TabsPage,
-    AddressesFromProfilePage
+    AddressesFromProfilePage,
+    SpecificAddressFromProfilePage,
+    AddressesFromEditProfilePage,
+    SpecificAddressFromEditProfilePage,
+    AddNewAddressPage,
+    TabsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -142,7 +147,6 @@ export const firebaseConfig = {
     DoShoppingListsPage,
     DoShoppingFiltersPage,
     ChatListPage,
-    SpecificAddressFromProfilePage,
     ListFromMapPage,
     SettingsPage,
     EditProfilePage,
@@ -155,8 +159,12 @@ export const firebaseConfig = {
     PaymentPage,
     PaymentSummaryPage,
     AddressViewStaticPage,
-    TabsPage,
-    AddressesFromProfilePage
+    AddressesFromProfilePage,
+    SpecificAddressFromProfilePage,
+    AddressesFromEditProfilePage,
+    SpecificAddressFromEditProfilePage,
+    AddNewAddressPage,
+    TabsPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

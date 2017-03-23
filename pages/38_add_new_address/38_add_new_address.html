@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Indirizzo Principale</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="has-header background-color-body no-scroll"> <!-- aggiungere ngModel a tutti i campi -->
+  <ion-list>
+
+    <ion-item-group>
+        <ion-item>
+          <ion-label fixed>Via</ion-label>
+          <ion-input type="text" [(ngModel)]="address.StreetName" value=""></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed>Città</ion-label>
+          <ion-input type="text" [(ngModel)]="address.City" value=""></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed>CAP</ion-label>
+          <ion-input type="text" [(ngModel)]="address.PostCode" value=""></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed>Paese</ion-label>
+          <ion-input type="text" [(ngModel)]="address.Nation" value=""></ion-input>
+        </ion-item>
+      </ion-item-group>
+
+      <div class="spacer" style="height: 16px;"></div>
+      <button ion-button block color="primary" (click)="setAddress()">Ok</button>
+
+  </ion-list>
+</ion-content>

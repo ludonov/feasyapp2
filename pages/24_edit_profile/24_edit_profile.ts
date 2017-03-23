@@ -7,6 +7,7 @@ import { FirebaseError } from 'firebase';
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject, PlainAddress } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 import { SettingsPage } from '../../pages/23_settings/23_settings';
+import { AddressesFromEditProfilePage } from "../36_addresses_from_edit_profile/36_addresses_from_edit_profile";
 
 
 @Component({
@@ -38,7 +39,7 @@ export class EditProfilePage {
       });
     });
 
-    }
+    } 
 
   changeProfile(): void {
     console.log("personal address set");
@@ -49,6 +50,12 @@ export class EditProfilePage {
     }).catch((err: Error) => {
       console.log("Error: " + err.message);
     });
+  }
+
+  MyAddresses(): void {
+
+    this.navCtrl.push(AddressesFromEditProfilePage);
+
   }
 
 
