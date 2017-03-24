@@ -6,7 +6,7 @@
 
 
 <ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
-    <h6 class="center" [hidden]="!no_items">Nessun prodotto in lista, aggiungilo!</h6>
+    <h6 class="center" *ngIf="globals.UnpublishedLists[list_key] != undefined && globals.UnpublishedLists[list_key].ItemsCount == 0">Nessun prodotto in lista, aggiungilo!</h6>
     <ion-list *ngIf="globals.UnpublishedLists[list_key] != undefined">
       <ion-item (click)="goToItem(item)" *ngFor="let item of globals.UnpublishedLists[list_key].Items | keys">
         <ion-label>

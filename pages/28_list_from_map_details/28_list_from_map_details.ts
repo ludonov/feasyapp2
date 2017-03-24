@@ -33,9 +33,9 @@ export class ListFromMapPage {
       navCtrl.pop();
     }
 
-    af.database.object("/published_lists/" + this.listowner + "/" + this.listkey).$ref.once("value", (snaphot: firebase.database.DataSnapshot) => {
-      this.list = snaphot.val();
-      if (this.list == null) {
+    af.database.object("/published_lists/" + this.listowner + "/" + this.listkey).$ref.on("value", (snaphot: firebase.database.DataSnapshot) => {
+      let _val: any = snaphot.val();
+      if (_val == null) {
         console.warn("ListFromMapPage: null list data. Going back.");
         let alert: Alert = alertCtrl.create({
           title: 'Info',
@@ -46,23 +46,26 @@ export class ListFromMapPage {
           navCtrl.pop();
         });
         alert.present();
+      } else {
+        this.list = _val;
       }
-    }).catch((err: Error) => {
-      console.warn("ListFromMapPage: cannot retrieve list data: " + err.message);
-      let alert: Alert = alertCtrl.create({
-        title: 'Info',
-        subTitle: "Impossibile recuperare i dettagli della lista.",
-        buttons: ['Ok']
-      });
-      alert.onDidDismiss(() => {
-        navCtrl.pop();
-      });
-      alert.present();
     });
+    //  .catch((err: Error) => {
+    //  console.warn("ListFromMapPage: cannot retrieve list data: " + err.message);
+    //  let alert: Alert = alertCtrl.create({
+    //    title: 'Info',
+    //    subTitle: "Impossibile recuperare i dettagli della lista.",
+    //    buttons: ['Ok']
+    //  });
+    //  alert.onDidDismiss(() => {
+    //    navCtrl.pop();
+    //  });
+    //  alert.present();
+    //});
 
-    af.database.object("/users/" + this.listowner).$ref.once("value", (snaphot: firebase.database.DataSnapshot) => {
-      this.owner = snaphot.val();
-      if (this.owner == null) {
+    af.database.object("/users/" + this.listowner).$ref.on("value", (snaphot: firebase.database.DataSnapshot) => {
+      let _val: any = snaphot.val();
+      if (_val == null) {
         console.warn("ListFromMapPage: null owner data. Going back.");
         let alert: Alert = alertCtrl.create({
           title: 'Info',
@@ -73,19 +76,22 @@ export class ListFromMapPage {
           navCtrl.pop();
         });
         alert.present();
+      } else {
+        this.owner = _val;
       }
-    }).catch((err: Error) => {
-      console.warn("ListFromMapPage: cannot retrieve owner data: " + err.message);
-      let alert: Alert = alertCtrl.create({
-        title: 'Info',
-        subTitle: "Impossibile recuperare tutti i dettagli relativi alla lista selezionata.",
-        buttons: ['Ok']
-      });
-      alert.onDidDismiss(() => {
-        navCtrl.pop();
-      });
-      alert.present();
     });
+    //.catch((err: Error) => {
+    //  console.warn("ListFromMapPage: cannot retrieve owner data: " + err.message);
+    //  let alert: Alert = alertCtrl.create({
+    //    title: 'Info',
+    //    subTitle: "Impossibile recuperare tutti i dettagli relativi alla lista selezionata.",
+    //    buttons: ['Ok']
+    //  });
+    //  alert.onDidDismiss(() => {
+    //    navCtrl.pop();
+    //  });
+    //  alert.present();
+    //});
 
   }
 

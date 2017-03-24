@@ -52,6 +52,10 @@ export class ListsPage {
     //});
   }
 
+  GetItemsCount(list: any): string {
+    return (list == null || list.Items == null ? "0" : Object.keys(list.Items).length.toString());
+  }
+
 
   addList(): void {
     console.log("Adding list");

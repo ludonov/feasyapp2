@@ -16,11 +16,11 @@ export class Globals {
 
   public PublishedLists: Object = {};
   public PublishedLists_db: FirebaseListObservable<any>;
-  public NoPublishLists: boolean = true;
+  public NoPublishedLists: boolean = true;
 
   public UnpublishedLists: Object = {};
   public UnpublishedLists_db: FirebaseListObservable<any>;
-  public NoUnpublishLists: boolean = true;
+  public NoUnpublishedLists: boolean = true;
 
 
   public Candidates: Object = {};
@@ -71,7 +71,8 @@ export class Globals {
       this.PublishedLists = {};
       //let old_keys: string[] = Object.keys(this.PublishedLists);
       snapshot.forEach(list => {
-        let _list: FeasyList = list.val();
+        let _list: FeasyList = new FeasyList("");
+        Object.assign(_list, list.val());
         _list.$key = list.key;
         _list.Items = _list.Items || {};
         _list.DeliveryAddresses = _list.DeliveryAddresses || {};
@@ -85,7 +86,7 @@ export class Globals {
       });
       //for (let key in old_keys)
       //  delete this.PublishedLists[key];
-      this.NoPublishLists = !snapshot.hasChildren();
+      this.NoPublishedLists = !snapshot.hasChildren();
       //loading.dismiss();
     });
 
@@ -101,7 +102,8 @@ export class Globals {
       this.UnpublishedLists = {};
       //let old_keys: string[] = Object.keys(this.UnpublishedLists);
       snapshot.forEach(list => {
-        let _list: FeasyList = list.val();
+        let _list: FeasyList = new FeasyList("");
+        Object.assign(_list, list.val());
         _list.$key = list.key;
         _list.Items = _list.Items || {};
         _list.DeliveryAddresses = _list.DeliveryAddresses || {};
@@ -115,7 +117,7 @@ export class Globals {
       });
       //for (let key in old_keys)
       //  delete this.UnpublishedLists[key];
-      this.NoUnpublishLists = !snapshot.hasChildren();
+      this.NoUnpublishedLists = !snapshot.hasChildren();
       //loading2.dismiss();
     });
   }

@@ -15,7 +15,7 @@
 	<ion-list>
 		<ion-item-group>
 			<ion-item-divider color="light" class="item-title">ATTIVE</ion-item-divider>
-			<ion-item detail-none *ngIf="no_published_list">
+			<ion-item detail-none *ngIf="globals.NoPublishedLists">
 				<h5 class="center">NESSUNA LISTA ATTIVA</h5>
 			</ion-item>
 
@@ -24,14 +24,14 @@
 					{{list.Name}}
 				</ion-label>
 				<ion-note item-right>
-					{{list.ItemsCount}} pezzi
+					{{GetItemsCount(list)}} pezzi
 				</ion-note>
 			</ion-item>
 		</ion-item-group>
 		
 		<ion-item-group>
 			<ion-item-divider color="light" class="item-title">ALTRE</ion-item-divider>
-			<ion-item detail-none *ngIf="no_unpublished_list">
+			<ion-item detail-none *ngIf="globals.NoUnpublishedLists">
 				<h5 class="center">NESSUNA LISTA DA PUBBLICARE</h5>
 			</ion-item>
 
@@ -40,7 +40,7 @@
 					{{list.Name}}
 				</ion-label>
 				<ion-note item-right>
-          {{list.ItemsCount}} pezzi
+					{{GetItemsCount(list)}} pezzi
 				</ion-note>
 			</ion-item>
 		</ion-item-group>
