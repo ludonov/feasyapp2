@@ -53,11 +53,11 @@ import { AngularFireModule } from 'angularfire2';
 
 // AF2 Settings
 export const firebaseConfig = {
-  apiKey: "AIzaSyDNIp5Lc0niVP3-G52b5ylvPiZ-bZLCH1Q",
-  authDomain: "feasy-144313.firebaseapp.com",
-  databaseURL: "https://feasy-144313.firebaseio.com",
-  storageBucket: "feasy-144313.appspot.com",
-  messagingSenderId: "921392403918"
+  apiKey: "AIzaSyB-GTECPmK-YrUDH_-roy0MGXdgUMqgCDc",
+  authDomain: "feasy-748cf.firebaseapp.com",
+  databaseURL: "https://feasy-748cf.firebaseio.com",
+  storageBucket: "feasy-748cf.appspot.com",
+  messagingSenderId: "1081025975065"
 };
 
 @NgModule({
