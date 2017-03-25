@@ -20,7 +20,7 @@ export class AddressesFromProfilePage {
   public addresses_db: FirebaseListObservable<any>;
 
   constructor(public navCtrl: NavController, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController) {
-    this.addresses_db = af.database.list("users/" + globals.UID + "/Addresses");
+    this.addresses_db = af.database.list("users/" + globals.UID + "/Addresses"); 
 
     this.addresses_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
         this.addresses=snapshot.val();
