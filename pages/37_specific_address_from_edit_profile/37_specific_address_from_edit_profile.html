@@ -10,28 +10,30 @@
 
         <ion-item class="item-icon-right"  type="item-text-wrap">
             <ion-label>Indirizzo</ion-label>
-            <ion-note item-right>{{address.StreetName}}</ion-note>
+            <ion-input item-right type="text" [(ngModel)]="address.StreetName"></ion-input>
         </ion-item>
 
         <ion-item class="item-icon-right"  type="item-text-wrap">
             <ion-label>Città</ion-label>
-            <ion-note item-right>{{address.City}}</ion-note>
+            <ion-input item-right type="text" [(ngModel)]="address.City"></ion-input>
         </ion-item>
 
         <ion-item class="item-icon-right"  type="item-text-wrap">
             <ion-label>CAP</ion-label>
-            <ion-note item-right>{{address.PostCode}}</ion-note>
+            <ion-input item-right type="text" [(ngModel)]="address.PostCode"></ion-input>
         </ion-item>
 
         <ion-item class="item-icon-right"  type="item-text-wrap">
             <ion-label>Paese</ion-label>
-            <ion-note item-right>{{address.Nation}}</ion-note>
+            <ion-input item-right type="text" [(ngModel)]="address.Nation"></ion-input>
         </ion-item>
 
     </ion-list>
 
     <div padding>
       <button ion-button block class="center button-color" style="color:white" (click)="changeAddress()">Applica</button>
+      <div class="spacer" style="height: 16px;"></div>
+      <button ion-button block color="danger" class="center" (click)="deleteAddress()">Elimina Indirizzo</button>
     </div>
 
 </ion-content>
