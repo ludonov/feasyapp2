@@ -11,6 +11,7 @@ import { HistoryPage } from '../../pages/22_history/22_history';
 
 import { EditProfilePage } from '../../pages/24_edit_profile/24_edit_profile';
 import { ReviewsPage } from '../../pages/30_reviews/30_reviews';
+import { AddressesFromProfilePage } from "../34_addresses_from_profile/34_addresses_from_profile";
 
 @Component({
   selector: 'page-user-profile',
@@ -22,14 +23,15 @@ export class UserProfilePage {
   public tab: Tabs;
 
   public user: FeasyUser = new FeasyUser("", "", "");
-  //public user_db: FirebaseObjectObservable<any>;
+  public user_db: FirebaseObjectObservable<any>;
+  public addresses_db: FirebaseListObservable<any>;
 
   constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
-    //this.user_db = af.database.object("users/" + globals.UID);
-    //this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-    //  this.user = snapshot.val();
-    //});
-    this.user = globals.User;
+    this.user_db = af.database.object("users/" + globals.UID);
+    this.addresses_db = af.database.list("users/" + globals.UID + "/Addresses");
+    this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
+      this.user = snapshot.val();
+    });
   }
 
   goToHistory(): void {
@@ -45,6 +47,11 @@ export class UserProfilePage {
   goToReviews(): void {
     console.log("going to reviews page");
     this.navCtrl.push(ReviewsPage);
+  }
+
+  MyAddresses(): void {
+    console.log("going to addresses page");
+    this.navCtrl.push(AddressesFromProfilePage);
   }
 
 }

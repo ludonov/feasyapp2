@@ -1,4 +1,4 @@
-﻿
+
 
 import { Component } from '@angular/core';
 
@@ -13,10 +13,10 @@ import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, cop
 import { Globals } from '../../classes/Globals';
 
 @Component({
-  selector: 'page-setaddress',
-  templateUrl: '4B_set_address.html'
+  selector: 'page-add-new-address',
+  templateUrl: '38_add_new_address.html'
 })
-export class SetAddressPage {
+export class AddNewAddressPage {
 
   public addresses_db: FirebaseListObservable<any>;
   public address: DeliveryAddress = new DeliveryAddress();
@@ -27,11 +27,6 @@ export class SetAddressPage {
     
     }
 
-  skipToHome(): void {
-    console.log("skip to home");
-    this.navCtrl.setRoot(TabsPage);
-  }
-
   setAddress(): void {
     console.log("personal address set");
     //this.user_db.push(this.address);
@@ -39,7 +34,7 @@ export class SetAddressPage {
       let new_address_promise = this.addresses_db.push(this.address);
       let new_address_key = new_address_promise.key;
       new_address_promise.then(new_address_db => {
-          this.navCtrl.setRoot(TabsPage);
+          this.navCtrl.pop();
       }).catch((err: Error) => {
         console.warn("Error: " + err.message);
       });

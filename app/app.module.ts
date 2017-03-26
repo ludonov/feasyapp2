@@ -46,6 +46,12 @@ import { AddressViewPage } from '../pages/29_address_view/29_address_view';
 import { ListFromMapPage } from '../pages/28_list_from_map_details/28_list_from_map_details';
 import { AddressViewStaticPage } from '../pages/30_address_view_static/30_address_view_static';
 
+import { AddressesFromProfilePage } from '../pages/34_addresses_from_profile/34_addresses_from_profile';
+import { SpecificAddressFromProfilePage } from '../pages/35_specific_address_from_profile/35_specific_address_from_profile';
+import { AddressesFromEditProfilePage } from '../pages/36_addresses_from_edit_profile/36_addresses_from_edit_profile';
+import { SpecificAddressFromEditProfilePage } from '../pages/37_specific_address_from_edit_profile/37_specific_address_from_edit_profile';
+import { AddNewAddressPage } from '../pages/38_add_new_address/38_add_new_address';
+
 import { TabsPage } from '../pages/tabs/tabs';
 
 // Import the AF2 Module
@@ -102,6 +108,11 @@ export const firebaseConfig = {
     PaymentSummaryPage,
     AddressViewPage,
     AddressViewStaticPage,
+    AddressesFromProfilePage,
+    SpecificAddressFromProfilePage,
+    AddressesFromEditProfilePage,
+    SpecificAddressFromEditProfilePage,
+    AddNewAddressPage,
     TabsPage
   ],
   imports: [
@@ -150,6 +161,11 @@ export const firebaseConfig = {
     PaymentPage,
     PaymentSummaryPage,
     AddressViewStaticPage,
+    AddressesFromProfilePage,
+    SpecificAddressFromProfilePage,
+    AddressesFromEditProfilePage,
+    SpecificAddressFromEditProfilePage,
+    AddNewAddressPage,
     TabsPage
   ],
   providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, Globals]

@@ -79,7 +79,7 @@ export class FeasyUser {
   public PhotoURL: string;
   public Gender: GenderType = GenderType.Male;
   public Rating: number;
-  public Address: Object = {};
+  public Addresses: Object;
   public CommissionsDone: number;
   public CommissionsReceived: number;
 
@@ -88,7 +88,24 @@ export class FeasyUser {
     this.FirstName = firstName;
     this.LastName = lastName;
     this.Gender = GenderType.Male;
+    this.Addresses = {};
   }
+}
+
+export class PlainAddress {
+  public $key: string;
+  public FormattedAddress: string;
+  public Nation: string;
+  public City: string;
+  public StreetName: string;
+  public PostCode: string;
+  public Latitude: number;
+  public Longitude: number;
+
+  constructor() {
+
+  }
+
 }
 
 export class FeasyList {

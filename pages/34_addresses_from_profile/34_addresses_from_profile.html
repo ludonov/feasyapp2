@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>My Addresses</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
+
+    <ion-list>
+
+        <ion-item class="item-icon-right"  type="item-text-wrap"  (click)="ViewAddress(address)" *ngFor="let address of addresses | keys">
+            <h2>{{address.value.FormattedAddress}}</h2>
+            <i class="icon ion-chevron-right icon-accessory"></i>
+        </ion-item>
+
+    </ion-list>
+
+</ion-content>
+

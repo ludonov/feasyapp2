@@ -62,72 +62,41 @@
 			</ion-item>
 		</ion-item-group>
 
-		<!--<ion-item-group>
+		<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">METODI DI PAGAMENTO</ion-item-divider>
-			<ion-item>
-				<ion-label fixed>Metodo</ion-label>
-				<ion-note type="text">Carta di credito</ion-note>
-			</ion-item>
-			<ion-item>
-				<ion-label fixed>Numero di Carta</ion-label>
-				<ion-input type="text"></ion-input>
-			</ion-item>
-			<ion-item>
-				<ion-label fixed>Scadenza</ion-label>
-				<ion-input type="text"></ion-input>
-			</ion-item>
-			<ion-item>
-				<ion-label fixed>CVV</ion-label>
-				<ion-input type="text"></ion-input>
-			</ion-item>
-		</ion-item-group>-->
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZI</ion-item-divider>
+			<ion-item icon-right (click)="MyAddresses()">
+      			Modifica Indirizzi
+      			<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+    	</ion-item>
+		</ion-item-group>
 
-		<!--<ion-item-group>
-			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZO CASA</ion-item-divider>
-			<ion-item>
-				<ion-label fixed>Via</ion-label>
-				<ion-input type="text" [(ngModel)]="user.Address.StreetName"></ion-input>
-			</ion-item>
-			<ion-item>
-				<ion-label fixed>Codice postale</ion-label>
-				<ion-input type="text" [(ngModel)]="user.Address.PostCode"></ion-input>
-			</ion-item>
-			<ion-item>
-				<ion-label fixed>Città</ion-label>
-				<ion-input type="text" [(ngModel)]="user.Address.City"></ion-input>
-			</ion-item>
-			<ion-item>
-				<ion-label fixed>Paese</ion-label>
-				<ion-input type="text" [(ngModel)]="user.Address.Nation"></ion-input>
-			</ion-item>
-		</ion-item-group>-->
 
-		<!--<ion-item-group>
+		<!--<ion-item-group *ngFor="let address of addresses_db | async"> 
 			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent">INDIRIZZO LAVORO</ion-item-divider>
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZO PRINCIPALE</ion-item-divider>
 			<ion-item>
-				<ion-label fixed>Via</ion-label>
-				<ion-input type="text"></ion-input>
+				Via
+				<ion-note item-right>{{address.StreetName}}</ion-note>
 			</ion-item>
 			<ion-item>
-				<ion-label fixed>Numero</ion-label>
-				<ion-input type="text"></ion-input>
+				Numero
+				<ion-note item-right>{{address.StreetName}}</ion-note>
 			</ion-item>
 			<ion-item>
-				<ion-label fixed>Codice postale</ion-label>
-				<ion-input type="text"></ion-input>
+				CAP
+				<ion-note item-right>{{address.StreetName}}</ion-note>
 			</ion-item>
 			<ion-item>
-				<ion-label fixed>Città</ion-label>
-				<ion-input type="text"></ion-input>
+				Città
+				<ion-note item-right>{{address.StreetName}}</ion-note>
 			</ion-item>
 			<ion-item>
-				<ion-label fixed>Paese</ion-label>
-				<ion-input type="text"></ion-input>
+				Paese
+				<ion-note item-right>{{address.StreetName}}</ion-note>
 			</ion-item>
 		</ion-item-group>-->
+		
 	</ion-list>
 
   <div padding>
