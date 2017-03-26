@@ -8,6 +8,8 @@ import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, Candidate } from '../
 
 import { Globals } from '../../classes/Globals';
 
+import { PublicatedListProductsPage } from '../../pages/12_publicated_list_products/12_publicated_list_products';
+
 @Component({
   selector: 'page-publicated-with-shopper-pov-shopper',
   templateUrl: '11B_publicated_list_with_shopper_pov_shopper.html'
@@ -34,7 +36,7 @@ export class PublicatedListWithShopperPovShopperPage {
       console.warn("PublicatedListCandidatesPage: null listkeylist_owner/candidature_key/candidature. Going back.");
       navCtrl.pop();
     } else {
-      this.af.database.object("/Users/" + this.list_owner).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
+      this.af.database.object("/users/" + this.list_owner).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
         this.demander = snapshot.val() || new FeasyUser("", "", "");
       });
       this.af.database.object("/published_lists/" + this.list_owner + "/" + this.list_key).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
@@ -55,6 +57,10 @@ export class PublicatedListWithShopperPovShopperPage {
         }
       });
     }
+  }
+
+  GoToItems(): void {
+    this.navCtrl.push(PublicatedListProductsPage, { items: this.list.Items });
   }
 
 }
