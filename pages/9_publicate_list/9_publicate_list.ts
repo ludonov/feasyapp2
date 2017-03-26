@@ -94,6 +94,7 @@ export class PublicateListPage {
           let geo: GeoPoint = new GeoPoint();
           geo.own = uid;
           geo.lst = res.key;
+          geo.adr = address_key;
           geo.rew = list_copy.Reward;
           geo.exp = GetRealExpiryDate(list_copy.ExpiryDate);
           geo.lat = list_copy.DeliveryAddresses[address_key].Latitude;

@@ -104,7 +104,7 @@ export class FeasyList {
   public PreferredShops: string;
   public MaxValue: number;
   public EstimatedWeight: number;
-  public EstimatedValue: string;
+  public ChosenCandidateKey: string;
   public Comments: string;
   public DeliveryAddresses: Object;
 
@@ -131,15 +131,28 @@ export class FeasyItem {
 }
 
 export class Candidate {
-  public $key: string;
   public uid: string;
   public DisplayName: string;
+  public AddressKey: string;
+  public Comment: string;
   public Visualised: boolean = false;
 
-  constructor(uid: string, displayName: string) {
-    this.uid = uid;
-    this.DisplayName = displayName;
+  constructor() {
     this.Visualised = false;
+  }
+}
+
+export class Candidature {
+  public $key: string;
+  public ListOwnerUid: string;
+  public ListReferenceKey: string;
+  public CandidateReferenceKey: string;
+  public AddressKey: string;
+  public Comment: string;
+  public Accepted: boolean = false;
+
+  constructor() {
+    this.Accepted = false;
   }
 }
 
@@ -301,6 +314,7 @@ export class GeoPoint {
   public $key: string;
   public own: string; //owner uid
   public lst: string; //list uid
+  public adr: string; //address key relative to the delivery addresses of the list
   public lat: number; //latitude
   public lng: number; //longitude
   public rew: number; //reward

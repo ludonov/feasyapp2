@@ -302,7 +302,7 @@ export class DoShoppingPage {
             if (!this.is_web)
               this.map.setClickable(true);
             console.log('APRI DETTAGLI LISTA: ' + key);
-            this.navCtrl.push(ListFromMapPage, { listkey: geo.lst, listowner: listowner });
+            this.navCtrl.push(ListFromMapPage, { list_key: geo.lst, list_owner: listowner, address_key: geo.adr });
           }
         }
       ]

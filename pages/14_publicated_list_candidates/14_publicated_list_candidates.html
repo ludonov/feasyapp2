@@ -9,12 +9,13 @@
 
 <ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
 
+  <h6 class="center" *ngIf="globals.Candidates[list_key] == undefined">Nessun candidato presente, attendi ancora!</h6>
   <ion-list>
-    <ion-item (click)="ViewCandidate(candidate)" *ngFor="let candidate of candidates_db | async">
+    <ion-item (click)="ViewCandidate(candidate)" *ngFor="let candidate of globals.Candidates[list_key] | keys">
       <ion-avatar item-left>
         <img src="assets/img/Ludovico.jpg">
       </ion-avatar>
-      <h2>{{candidate.DisplayName}}</h2>
+      <h2>{{candidate.value.DisplayName}}</h2>
       <ion-note item-right><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon></ion-note>
     </ion-item>
   </ion-list>

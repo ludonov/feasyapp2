@@ -5,6 +5,8 @@ import { MyApp } from './app.component';
 
 import { KeysPipe } from '../app/pipes';
 
+import { Globals } from '../classes/Globals';
+
 import { LoginPage } from '../pages/1_login/1_login';
 import { ForgotPassPage } from '../pages/2_forgot_pass/2_forgot_pass';
 import { SignupPage } from '../pages/3_signup/3_signup';
@@ -45,8 +47,6 @@ import { ListFromMapPage } from '../pages/28_list_from_map_details/28_list_from_
 import { AddressViewStaticPage } from '../pages/30_address_view_static/30_address_view_static';
 
 import { TabsPage } from '../pages/tabs/tabs';
-
-import { Globals } from '../classes/Globals';
 
 // Import the AF2 Module
 import { AngularFireModule } from 'angularfire2';

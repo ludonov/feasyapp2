@@ -50,12 +50,12 @@ export class MyApp {
             globals.User.DisplayName = user.auth.displayName;
             //globals.User.PhotoURL = user.auth.photoURL;
             let user_db: FirebaseObjectObservable<any> = af.database.object("users/" + user.uid);
-            user_db.$ref.once("value", (snaphot: firebase.database.DataSnapshot) => {
+            user_db.$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
               console.log("Found FB user. Checking if user exists and updating user data...");
-              let userdata: FeasyUser = snaphot.val();
+              let userdata: FeasyUser = snapshot.val();
               if (userdata == null) {
                 console.log("Just registered! Updating FB user data and Redirecting to Personal details");
-                user_db.update(StripForFirebase(globals.User))
+                user_db.set(StripForFirebase(globals.User))
                   .then(res => {
                     console.log("FB user data updated");
                   })

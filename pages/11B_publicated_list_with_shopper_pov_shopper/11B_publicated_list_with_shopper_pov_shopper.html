@@ -1,6 +1,6 @@
 ﻿<ion-header>
   <ion-navbar>
-    <ion-title>Publicated List With Shopper Pov Shopper</ion-title>
+    <ion-title>Dettagli Lista Accettata</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -14,8 +14,7 @@
           <ion-avatar item-left>
             <img src="assets/img/10B_publicated_list_no_shopper_pov_shopper/Ludovico.jpg">
           </ion-avatar>
-          <h2>Ludovico Novelli</h2>
-          <p>@ludonov</p>
+          <h2>{{demander.DisplayName}}</h2>
         </ion-item>
         <ion-item>
           Punteggio
@@ -23,15 +22,15 @@
         </ion-item>
         <ion-item>
           Commissioni Ricevute
-          <ion-note item-right>6</ion-note>
+          <ion-note item-right>{{demander.CommissionsReceived}}</ion-note>
         </ion-item>
 
 
         <div class="spacer" style="height: 16px;"></div>
         <ion-item-divider color="light" class="item-title">DETTAGLI CONSEGNA</ion-item-divider>
         <ion-item class="item-icon-right"  type="item-text-wrap">
-          <h2>Corso Re Umberto 48, 10128, Torino (TO), ITALIA</h2>
-          <p>Sabato 18/02/2017 - dalle 16.00 alle 18.00</p>
+          <h2>{{address.FormattedAddress}}</h2>
+          <p>dalle {{address.From}} &nbsp; alle {{address.To}}</p>
           <i class="icon ion-chevron-right icon-accessory"></i>
         </ion-item>
 
@@ -40,19 +39,19 @@
 
         <ion-item>
           Mancia
-          <ion-note item-right>10 €</ion-note>
+          <ion-note item-right>{{list.Reward}}</ion-note>
 			  </ion-item>
         <ion-item>
           Negozio
-          <ion-note item-right>Carrefour</ion-note>
+          <ion-note item-right>{{list.PreferredShops}}</ion-note>
 			  </ion-item>
         <ion-item>
           Peso stimato
-          <ion-note item-right>3 kg</ion-note>
+          <ion-note item-right>{{list.EstimatedWeight}}</ion-note>
 			  </ion-item>
         <ion-item>
           Tetto massimo
-          <ion-note item-right>50 €</ion-note>
+          <ion-note item-right>{{list.MaxValue}}</ion-note>
 			  </ion-item>
 
         <div class="spacer" style="height: 32px;"></div>

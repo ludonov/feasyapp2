@@ -4,7 +4,7 @@ import { NavController, NavParams, AlertController, Tabs, LoadingController, Loa
 
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
-import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, Candidate, StripForFirebase } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, Candidate, Candidature, StripForFirebase } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
 import { PublicatedListProductsPage } from '../../pages/12_publicated_list_products/12_publicated_list_products';
@@ -17,81 +17,84 @@ import { AddressViewStaticPage } from '../../pages/30_address_view_static/30_add
 
 export class ListFromMapPage {
 
-  private listkey: string;
-  private listowner: string;
+  private list_key: string;
+  private list_owner: string;
+  private address_key: string;
   private list: FeasyList = new FeasyList("");
   private owner: FeasyUser = new FeasyUser("", "", "");
   private loading: Loading;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public globals: Globals) {
 
-    this.listkey = navParams.get("listkey");
-    this.listowner = navParams.get("listowner");
+    this.list_key = navParams.get("list_key");
+    this.list_owner = navParams.get("list_owner");
+    this.address_key = navParams.get("address_key");
 
-    if (this.listkey == null || this.listowner == null) {
-      console.warn("ListFromMapPage: null listkey or listowner. Going back.");
+    if (this.list_key == null || this.list_owner == null || this.address_key == null) {
+      console.warn("ListFromMapPage: null list_key or list_owner or address_key. Going back.");
       navCtrl.pop();
+    } else {
+
+      af.database.object("/published_lists/" + this.list_owner + "/" + this.list_key).$ref.on("value", (snaphot: firebase.database.DataSnapshot) => {
+        let _val: any = snaphot.val();
+        if (_val == null) {
+          console.warn("ListFromMapPage: null list data. Going back.");
+          let alert: Alert = alertCtrl.create({
+            title: 'Info',
+            subTitle: "Impossibile trovare la lista selezionata. Questo può verificarsi se la lista è stata ritirata dal richiedente.",
+            buttons: ['Ok']
+          });
+          alert.onDidDismiss(() => {
+            navCtrl.pop();
+          });
+          alert.present();
+        } else {
+          this.list = _val;
+        }
+      });
+      //  .catch((err: Error) => {
+      //  console.warn("ListFromMapPage: cannot retrieve list data: " + err.message);
+      //  let alert: Alert = alertCtrl.create({
+      //    title: 'Info',
+      //    subTitle: "Impossibile recuperare i dettagli della lista.",
+      //    buttons: ['Ok']
+      //  });
+      //  alert.onDidDismiss(() => {
+      //    navCtrl.pop();
+      //  });
+      //  alert.present();
+      //});
+
+      af.database.object("/users/" + this.list_owner).$ref.on("value", (snaphot: firebase.database.DataSnapshot) => {
+        let _val: any = snaphot.val();
+        if (_val == null) {
+          console.warn("ListFromMapPage: null owner data. Going back.");
+          let alert: Alert = alertCtrl.create({
+            title: 'Info',
+            subTitle: "Impossibile recuperare tutti i dettagli relativi alla lista selezionata.",
+            buttons: ['Ok']
+          });
+          alert.onDidDismiss(() => {
+            navCtrl.pop();
+          });
+          alert.present();
+        } else {
+          this.owner = _val;
+        }
+      });
+      //.catch((err: Error) => {
+      //  console.warn("ListFromMapPage: cannot retrieve owner data: " + err.message);
+      //  let alert: Alert = alertCtrl.create({
+      //    title: 'Info',
+      //    subTitle: "Impossibile recuperare tutti i dettagli relativi alla lista selezionata.",
+      //    buttons: ['Ok']
+      //  });
+      //  alert.onDidDismiss(() => {
+      //    navCtrl.pop();
+      //  });
+      //  alert.present();
+      //});
     }
-
-    af.database.object("/published_lists/" + this.listowner + "/" + this.listkey).$ref.on("value", (snaphot: firebase.database.DataSnapshot) => {
-      let _val: any = snaphot.val();
-      if (_val == null) {
-        console.warn("ListFromMapPage: null list data. Going back.");
-        let alert: Alert = alertCtrl.create({
-          title: 'Info',
-          subTitle: "Impossibile trovare la lista selezionata. Questo può verificarsi se la lista è stata ritirata dal richiedente.",
-          buttons: ['Ok']
-        });
-        alert.onDidDismiss(() => {
-          navCtrl.pop();
-        });
-        alert.present();
-      } else {
-        this.list = _val;
-      }
-    });
-    //  .catch((err: Error) => {
-    //  console.warn("ListFromMapPage: cannot retrieve list data: " + err.message);
-    //  let alert: Alert = alertCtrl.create({
-    //    title: 'Info',
-    //    subTitle: "Impossibile recuperare i dettagli della lista.",
-    //    buttons: ['Ok']
-    //  });
-    //  alert.onDidDismiss(() => {
-    //    navCtrl.pop();
-    //  });
-    //  alert.present();
-    //});
-
-    af.database.object("/users/" + this.listowner).$ref.on("value", (snaphot: firebase.database.DataSnapshot) => {
-      let _val: any = snaphot.val();
-      if (_val == null) {
-        console.warn("ListFromMapPage: null owner data. Going back.");
-        let alert: Alert = alertCtrl.create({
-          title: 'Info',
-          subTitle: "Impossibile recuperare tutti i dettagli relativi alla lista selezionata.",
-          buttons: ['Ok']
-        });
-        alert.onDidDismiss(() => {
-          navCtrl.pop();
-        });
-        alert.present();
-      } else {
-        this.owner = _val;
-      }
-    });
-    //.catch((err: Error) => {
-    //  console.warn("ListFromMapPage: cannot retrieve owner data: " + err.message);
-    //  let alert: Alert = alertCtrl.create({
-    //    title: 'Info',
-    //    subTitle: "Impossibile recuperare tutti i dettagli relativi alla lista selezionata.",
-    //    buttons: ['Ok']
-    //  });
-    //  alert.onDidDismiss(() => {
-    //    navCtrl.pop();
-    //  });
-    //  alert.present();
-    //});
 
   }
 
@@ -108,37 +111,76 @@ export class ListFromMapPage {
   Apply(): void {
     console.log("ListFromMapPage: applying to list");
 
-    this.loading = this.loadingCtrl.create({
-      spinner: 'dots',
-      content: 'Please wait...'
-    });
-
-    this.loading.present();
-
-    this.af.database.list("/candidates/" + this.listowner + "/" + this.listkey).push(StripForFirebase(new Candidate(this.globals.UID, this.globals.User.DisplayName))).then(() => {
-      console.log("ListFromMapPage: candidate added!");
-      this.loading.dismiss();
+    if (this.globals.IsAlreadyCandidate(this.list_key)) {
       let alert: Alert = this.alertCtrl.create({
         title: 'Info',
-        subTitle: "Ti sei candidato alla lista!",
-        buttons: ['Ok']
-      });
-      alert.onDidDismiss(() => {
-        this.navCtrl.pop();
-      });
-      alert.present();
-    }).catch((err: Error) => {
-      this.loading.dismiss();
-      console.log("ListFromMapPage: cannot candidate: " + err.message);
-      let alert: Alert = this.alertCtrl.create({
-        title: 'Info',
-        subTitle: "Impossibile candidarsi alla lista selezionata.",
+        subTitle: "Sei già candidato per questa lista!",
         buttons: ['Ok']
       });
       alert.present();
-    });
+    } else {
 
+      let alert1 = this.alertCtrl.create({
+        title: 'Aggiungi commento',
+        message: "C'è qualcosa che vorresti far sapere al tuo richiedente? Scrivi qui qualunque informazione aggiuntiva oppure lascia vuoto!",
+        inputs: [
+          {
+            name: 'comment',
+            placeholder: 'Inserisci commento o lascia vuoto'
+          }
+        ],
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel'
+          },
+          {
+            text: 'Ok',
+            handler: data => {
+              this.loading = this.loadingCtrl.create({
+                spinner: 'dots',
+                content: 'Please wait...'
+              });
 
+              this.loading.present();
+              let new_candidate: Candidate = new Candidate();
+              new_candidate.uid = this.globals.UID;
+              new_candidate.DisplayName = this.globals.User.DisplayName;
+              new_candidate.AddressKey = this.address_key;
+              new_candidate.Comment = data.comment || "";
+              let new_candidature: Candidature = new Candidature();
+              new_candidature.ListOwnerUid = this.list_owner;
+              new_candidature.ListReferenceKey = this.list_key;
+              new_candidature.AddressKey = this.address_key;
+              new_candidature.Comment = data.comment || "";
+              this.globals.AddCandidature(new_candidate, new_candidature).then((res: boolean) => {
+                console.log("ListFromMapPage: candidate added!");
+                this.loading.dismiss();
+                let alert2: Alert = this.alertCtrl.create({
+                  title: 'Info',
+                  subTitle: "Ti sei candidato alla lista!",
+                  buttons: ['Ok']
+                });
+                alert2.onDidDismiss(() => {
+                  this.navCtrl.pop();
+                });
+                alert2.present();
+              }).catch((err: Error) => {
+                this.loading.dismiss();
+                console.log("ListFromMapPage: cannot candidate: " + err.message);
+                let alert3: Alert = this.alertCtrl.create({
+                  title: 'Info',
+                  subTitle: err.message == "already_candidated" ? "Sei già candidato per questa lista!" : "Impossibile candidarsi alla lista selezionata.",
+                  buttons: ['Ok']
+                });
+                alert3.present();
+              });
+            }
+          }
+        ]
+      });
+      alert1.present();
+    }
   }
 
 }
