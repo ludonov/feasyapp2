@@ -22,20 +22,11 @@
 		
 		<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">ACCOUNT</ion-item-divider>
-			<ion-item>
-				<ion-label fixed>E-mail</ion-label>
-				<ion-input type="text" [(ngModel)]="user.Email"></ion-input>
-			</ion-item>
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">INFORMAZIONI PERSONALI</ion-item-divider>
 			<ion-item>
 				<ion-label fixed>Username</ion-label>
 				<ion-input type="text"></ion-input>
 			</ion-item>
-		</ion-item-group>
-		
-		<ion-item-group>
-			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">INFORMAZIONI PERSONALI</ion-item-divider>
 			<ion-item>
 				<ion-label fixed>Nome</ion-label>
 				<ion-input type="text" [(ngModel)]="user.FirstName"></ion-input>
@@ -70,32 +61,6 @@
       			<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
     	</ion-item>
 		</ion-item-group>
-
-
-		<!--<ion-item-group *ngFor="let address of addresses_db | async"> 
-			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZO PRINCIPALE</ion-item-divider>
-			<ion-item>
-				Via
-				<ion-note item-right>{{address.StreetName}}</ion-note>
-			</ion-item>
-			<ion-item>
-				Numero
-				<ion-note item-right>{{address.StreetName}}</ion-note>
-			</ion-item>
-			<ion-item>
-				CAP
-				<ion-note item-right>{{address.StreetName}}</ion-note>
-			</ion-item>
-			<ion-item>
-				Città
-				<ion-note item-right>{{address.StreetName}}</ion-note>
-			</ion-item>
-			<ion-item>
-				Paese
-				<ion-note item-right>{{address.StreetName}}</ion-note>
-			</ion-item>
-		</ion-item-group>-->
 		
 	</ion-list>
 
