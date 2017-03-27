@@ -16,7 +16,8 @@ import { SetPaymentMethodPage } from '../pages/4C_set_payment_method/4C_set_paym
 import { HomePage } from '../pages/5_home/5_home';
 import { ListsPage } from '../pages/6_lists/6_lists';
 import { ListPage } from '../pages/7_list/7_list';
-import { PublicateListPage } from '../pages/9_publicate_list/9_publicate_list';
+import { PublicateListFirstPage } from '../pages/9A_publicate_list/9A_publicate_list';
+import { PublicateListSecondPage } from '../pages/9B_publicate_list/9B_publicate_list';
 import { PublicatedListNoShopperPage } from '../pages/10_publicated_list_no_shopper/10_publicated_list_no_shopper';
 import { PublicatedListNoShopperPovShopperPage } from '../pages/10B_publicated_list_no_shopper_pov_shopper/10B_publicated_list_no_shopper_pov_shopper';
 import { PublicatedListWithShopperPage } from '../pages/11_publicated_list_with_shopper/11_publicated_list_with_shopper';
@@ -79,7 +80,8 @@ export const firebaseConfig = {
     HomePage,
     ListsPage,
     ListPage,
-    PublicateListPage,
+    PublicateListFirstPage,
+    PublicateListSecondPage,
     PublicatedListNoShopperPage,
     PublicatedListNoShopperPovShopperPage,
     PublicatedListWithShopperPage,
@@ -131,7 +133,8 @@ export const firebaseConfig = {
     SetAddressPage,
     ListsPage,
     ListPage,
-    PublicateListPage,
+    PublicateListFirstPage,
+    PublicateListSecondPage,
     PublicatedListNoShopperPage,
     PublicatedListNoShopperPovShopperPage,
     PublicatedListWithShopperPage,
@@ -142,7 +145,6 @@ export const firebaseConfig = {
     CandidateInfoUnacceptedPage,
     UserProfilePage,
     UserProfilePovOtherUsersPage,
-    PublicateListPage,
     AddOrShowItemPage,
     MapTabsPage,
     DoShoppingPage,

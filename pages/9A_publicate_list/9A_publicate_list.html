@@ -48,32 +48,10 @@
         </ion-option>
       </ion-select>
     </ion-item>
-
-    <!-- DA AGGIUNGERE: Trattabile con toggle a destra -->
-
-    <div class="spacer" style="height: 16px;"></div>
-		<ion-item-divider class="item-title" style="border-top-color: transparent;">DETTAGLI</ion-item-divider>
-
-    <ion-item>
-      <ion-label fixed>Negozio</ion-label>
-      <ion-input [(ngModel)]="list.PreferredShops" type="text" value=""></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label fixed>Valore massimo spesa</ion-label>
-      <ion-input [(ngModel)]="list.MaxValue" type="number" value=""></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label fixed>Peso stimato (kg)</ion-label>
-      <ion-input [(ngModel)]="list.EstimatedWeight" type="number" value=""></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label fixed>Altri commenti</ion-label>
-      <ion-input [(ngModel)]="list.Comments" type="text" value=""></ion-input>
-    </ion-item>
-
   </ion-list>
 
-  <button padding ion-button block (click)="PublicateList()">Pubblica</button>
+  <div class="spacer" style="height: 32px;"></div>
+  <button padding ion-button block (click)="GoToPublicateListSecond()">Avanti</button>
 
 </ion-content>
 
