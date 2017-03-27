@@ -1,9 +1,15 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { Component, Inject } from '@angular/core';
+
+import { NavController, AlertController } from 'ionic-angular';
+import { AngularFire, FirebaseApp } from 'angularfire2';
+import * as firebase from 'firebase';
 
 import { FeasyUser, FeasyList, FeasyItem, StripForFirebase } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
+
+import { EmailComposer } from 'ionic-native'; 
+
+import { SettingsPage } from '../23_settings/23_settings';
 
 
 @Component({
@@ -12,48 +18,32 @@ import { Globals } from '../../classes/Globals';
 })
 export class PasswordResetPage {
 
-  public user_db: FirebaseObjectObservable<any>;
-  public user: FeasyUser = new FeasyUser("", "", "");
+  private fAppAuth: firebase.auth.Auth;
 
-  public old_password: string;
-  public new_password: string;
-  public repeat_new_password: string;
-
-  constructor(public navCtrl: NavController, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController) {
-      this.user_db = af.database.object("users/" + globals.UID);
-      this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-      this.user = snapshot.val();
-    });
+  constructor(public navCtrl: NavController, @Inject(FirebaseApp) firebaseApp: firebase.app.App, public alertCtrl: AlertController, public globals: Globals) {
+    this.fAppAuth = firebaseApp.auth();
   }
-
 
   changePassword(): void {
-    console.log("change password");
-    if(this.old_password == this.user.Password) {
-        if(this.new_password == this.repeat_new_password) {
-            this.user.Password = this.new_password;
-            this.user_db.update(StripForFirebase(this.user)).then(res => {
-                this.navCtrl.pop();
-            }).catch((err: Error) => {
-                console.log("Error: " + err.message);
-            });
-        } else {
-            let alert = this.alertCtrl.create({
-                title: 'Info',
-                subTitle: "Nuove Password sono diverse",
-                buttons: ['Ok']
-            });
-            alert.present();
-        }
-    } else {
-        let alert = this.alertCtrl.create({
+    console.log("sending reset password");
+    this.fAppAuth.sendPasswordResetEmail(this.globals.User.Email).then(() => {
+      console.log("reset password succeded");
+      let alert = this.alertCtrl.create({
         title: 'Info',
-        subTitle: "Password Errata",
+        subTitle: "Link inviato. Controlla la tua email.",
         buttons: ['Ok']
-        });
-        alert.present();
-    }
+      });
+      alert.present();
+      this.navCtrl.pop();
+    }).catch((err: Error) => {
+      console.warn("Cannot send reset password: " + err.message);
+      let alert = this.alertCtrl.create({
+        title: 'Info',
+        subTitle: "Impossibile resettare la password: " +  err.message,
+        buttons: ['Ok']
+      });
+      alert.present();
+    });
   }
-
 
 }
