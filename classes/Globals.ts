@@ -2,6 +2,7 @@
 import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 import { PublicatedListWithShopperPovShopperPage } from '../pages/11B_publicated_list_with_shopper_pov_shopper/11B_publicated_list_with_shopper_pov_shopper';
 import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
 import { NavController, AlertController, Alert, LoadingController, Loading, Platform } from 'ionic-angular';
 import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { LocalNotifications } from 'ionic-native';
@@ -40,6 +41,7 @@ export class Globals {
   public navCtrl: NavController;
   public alertCtrl: AlertController;
   public loadingCtrl: LoadingController;
+  public http: Http;
 
   constructor(platform: Platform) {
     this.IsWeb = platform.is("core");
@@ -201,6 +203,7 @@ export class Globals {
 
   public AddCandidature(candidate: Candidate, candidature: Candidature): Promise<boolean> {
     console.log("Globals.AddCandidature > adding candidature to list " + candidature.ListReferenceKey);
+
     return new Promise((resolve, reject) => {
       if (this.IsAlreadyCandidate(candidature.ListReferenceKey)) {
         reject(new Error("already_candidated"));

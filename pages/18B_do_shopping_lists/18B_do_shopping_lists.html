@@ -1,4 +1,4 @@
-<!--<ion-view title="Fai una commissione" id="page18B" class="background-color-body">
+﻿<!--<ion-view title="Fai una commissione" id="page18B" class="background-color-body">
   <ion-nav-title class="title-custom">Fai una commissione</ion-nav-title>
   <ion-nav-buttons side="secondary">
   </ion-nav-buttons>-->
@@ -21,30 +21,18 @@
 		<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">CONFERMATE</ion-item-divider>
-			<ion-item (click)="goToAcceptedList()">
-				Lista 1
-				<ion-note item-right>5 pezzi</ion-note>
-			</ion-item>
-			<ion-item>
-				Lista 2
-				<ion-note item-right>3 pezzi</ion-note>
+			<ion-item (click)="goToAcceptedList()" *ngFor="let list of accepted_lists | keys">
+				{{list.value.ChosenAddress.FormattedAddress}}
+				<ion-note item-right>{{list.value.ItemsCount}} pezzi</ion-note>
 			</ion-item>
 		</ion-item-group>
 
     <ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">PROPOSTE</ion-item-divider>
-			<ion-item (click)="goToPendingList()">
-				Lista 3
-				<ion-note item-right>11 pezzi</ion-note>
-			</ion-item>
-			<ion-item>
-				Lista 4
-				<ion-note item-right>23 pezzi</ion-note>
-			</ion-item>
-      <ion-item>
-				Lista 5
-				<ion-note item-right>2 pezzi</ion-note>
+			<ion-item (click)="goToPendingList()" *ngFor="let list of pending_lists | keys">
+        {{list.value.ChosenAddress.FormattedAddress}}
+        <ion-note item-right>{{list.value.ItemsCount}} pezzi</ion-note>
 			</ion-item>
 		</ion-item-group>
 
