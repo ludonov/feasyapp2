@@ -43,9 +43,17 @@
 				<ion-label fixed>Telefono</ion-label>
 				<ion-input type="text" [(ngModel)]="user.MobileNumber"></ion-input>
 			</ion-item>
+			<!--<ion-item>
+      <ion-label fixed>Sesso</ion-label>
+      <ion-select [(ngModel)]="gender" interface="action-sheet" multiple="false">
+        <ion-option value="{{i}}" selected="item.Unit == {{i}}" *ngFor="let Gender of Genders; let i = index">
+          {{Gender}}
+        </ion-option>
+      </ion-select>
+    	</ion-item>-->
 			<ion-item>
 				<ion-label fixed>Sesso</ion-label>
-				<ion-input type="text" [(ngModel)]="user.Gender"></ion-input>
+				<ion-input type="text" [(ngModel)]="gender"></ion-input>
 			</ion-item>
 			<ion-item>
 				<ion-label fixed>Data di nascita</ion-label>

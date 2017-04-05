@@ -42,6 +42,17 @@ export function GetGenderNameFromEnum(gender: GenderType): string {
   else
     return "";
 }
+export function GetEnumFromGenderName(gender: any): any {
+      
+      if (gender == "Uomo"){
+          return 0;
+      } else if (gender == "Donna") {
+          return 1;
+      } else {
+          return 0;
+      }
+
+  }
 
 
 // EXPIRY DATES HELPER
