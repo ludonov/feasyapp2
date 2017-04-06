@@ -11,6 +11,7 @@ export enum UnitType { Pieces, Grams, Hectograms, Kilograms, Liters };
 export function GetUnits(): string[] {
   return ["Pezzi", "Grammi", "Ettogrammi", "Kilogrammi", "Litri"];
 }
+
 export function GetUnitNameFromEnum(unit: UnitType): string {
   if (unit == UnitType.Pieces)
     return "Pezzi";
