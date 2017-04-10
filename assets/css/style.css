@@ -322,4 +322,9 @@ position: absolute;
     background-size: cover;
 }
 
+.lateral-padding {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
 
