@@ -7,28 +7,14 @@
 <ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
 	    
 	<ion-list>
-		<ion-item (click)="goToSingleReview()">
+		<ion-item *ngFor="let review of globals.Reviews_db | async"  (click)="goToSingleReview(review)">
 			<ion-avatar item-left>
 			<img src="assets/img/17_profilo/Alberto.jpg">
 			</ion-avatar>
-			<h2>"Bravissimo"</h2>
+			<h2>{{review.WriterName}}</h2>
+			<h2>{{review.Title}}</h2>
 			<p><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon></p>
-			<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
-		</ion-item>
-		<ion-item (click)="goToSingleReview()">
-			<ion-avatar item-left>
-			<img src="assets/img/17_profilo/Daniele.jpg">
-			</ion-avatar>
-			<h2>"Velocissimo"</h2>
-			<p><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon></p>
-			<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
-		</ion-item>
-		<ion-item (click)="goToSingleReview()">
-			<ion-avatar item-left>
-			<img src="assets/img/17_profilo/Ludovico.jpg">
-			</ion-avatar>
-			<h2>"Na merda"</h2>
-			<p><ion-icon name="star"></ion-icon><ion-icon name="star-outline"></ion-icon><ion-icon name="star-outline"></ion-icon><ion-icon name="star-outline"></ion-icon><ion-icon name="star-outline"></ion-icon></p>
+			<p>{{review.Text}}</p>
 			<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 		</ion-item>
 	</ion-list>

@@ -4,7 +4,7 @@ import { NavController, AlertController } from 'ionic-angular';
 import { AngularFire, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { FirebaseError } from 'firebase';
 
-import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject, PlainAddress, GenderType, GetGenderNameFromEnum, GetEnumFromGenderName } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, GenderType, GetGenderNameFromEnum, GetEnumFromGenderName } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 import { SettingsPage } from '../../pages/23_settings/23_settings';
 import { AddressesFromEditProfilePage } from "../36_addresses_from_edit_profile/36_addresses_from_edit_profile";

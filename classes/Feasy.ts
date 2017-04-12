@@ -104,21 +104,6 @@ export class FeasyUser {
   }
 }
 
-export class PlainAddress {
-  public $key: string;
-  public FormattedAddress: string;
-  public Nation: string;
-  public City: string;
-  public StreetName: string;
-  public PostCode: string;
-  public Latitude: number;
-  public Longitude: number;
-
-  constructor() {
-
-  }
-
-}
 
 export class FeasyList {
   public $key: string;
@@ -136,6 +121,7 @@ export class FeasyList {
   public ChosenCandidateKey: string;
   public Comments: string;
   public DeliveryAddresses: Object;
+  public WaitingForReview: boolean = false;
 
   constructor(name: string) {
     this.Name = name;
@@ -182,6 +168,20 @@ export class Candidature {
 
   constructor() {
     this.Accepted = false;
+  }
+}
+
+export class Review {
+  public $key: string;
+  public Rating: number;
+  public Title: string;
+  public Text: string;
+  public UID_Writer: string;
+  public WriterName: string;
+  public ListKey: string;
+
+  constructor() {
+
   }
 }
 

@@ -12,14 +12,13 @@
 			<ion-avatar item-left>
 				<img src="assets/img/17_profilo/Ludovico.jpg">
 			</ion-avatar>
-			<h2>Ludovico Novelli</h2>
-			<p>@ludonov</p>
+			<h2>{{review.WriterName}}</h2>
 		</ion-item>
 
 		<ion-card-content>
 			<p><ion-icon name="star"></ion-icon><ion-icon name="star-outline"></ion-icon><ion-icon name="star-outline"></ion-icon><ion-icon name="star-outline"></ion-icon><ion-icon name="star-outline"></ion-icon></p>
-			<h2 style="font-weight: bold;">"Na merda"</h2>
-			<p>La spesa fatta da Ludovico è stata una merda, nei dettagli ho specificato di essere vegano e si è presentato con una mucca intera ancora viva caricata sopra la sua Mini</p>
+			<h2 style="font-weight: bold;">{{review.Title}}</h2>
+			<p>{{review.Text}}</p>
 		</ion-card-content>
 		
 	</ion-card>
