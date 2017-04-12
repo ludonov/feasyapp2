@@ -22,20 +22,11 @@
 		
 		<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">ACCOUNT</ion-item-divider>
-			<ion-item>
-				<ion-label fixed>E-mail</ion-label>
-				<ion-input type="text" [(ngModel)]="user.Email"></ion-input>
-			</ion-item>
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">INFORMAZIONI PERSONALI</ion-item-divider>
 			<ion-item>
 				<ion-label fixed>Username</ion-label>
 				<ion-input type="text"></ion-input>
 			</ion-item>
-		</ion-item-group>
-		
-		<ion-item-group>
-			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">INFORMAZIONI PERSONALI</ion-item-divider>
 			<ion-item>
 				<ion-label fixed>Nome</ion-label>
 				<ion-input type="text" [(ngModel)]="user.FirstName"></ion-input>
@@ -52,13 +43,21 @@
 				<ion-label fixed>Telefono</ion-label>
 				<ion-input type="text" [(ngModel)]="user.MobileNumber"></ion-input>
 			</ion-item>
+			<!--<ion-item>
+      <ion-label fixed>Sesso</ion-label>
+      <ion-select [(ngModel)]="gender" interface="action-sheet" multiple="false">
+        <ion-option value="{{i}}" selected="item.Unit == {{i}}" *ngFor="let Gender of Genders; let i = index">
+          {{Gender}}
+        </ion-option>
+      </ion-select>
+    	</ion-item>-->
 			<ion-item>
 				<ion-label fixed>Sesso</ion-label>
-				<ion-input type="text" [(ngModel)]="user.Gender"></ion-input>
+				<ion-input type="text" [(ngModel)]="gender"></ion-input>
 			</ion-item>
 			<ion-item>
 				<ion-label fixed>Data di nascita</ion-label>
-				<ion-input type="text" [(ngModel)]="user.Birthdate"></ion-input>
+				<ion-datetime displayFormat="DD MMM YYYY" [(ngModel)]="user.Birthdate"></ion-datetime>
 			</ion-item>
 		</ion-item-group>
 
@@ -70,32 +69,6 @@
       			<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
     	</ion-item>
 		</ion-item-group>
-
-
-		<!--<ion-item-group *ngFor="let address of addresses_db | async"> 
-			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZO PRINCIPALE</ion-item-divider>
-			<ion-item>
-				Via
-				<ion-note item-right>{{address.StreetName}}</ion-note>
-			</ion-item>
-			<ion-item>
-				Numero
-				<ion-note item-right>{{address.StreetName}}</ion-note>
-			</ion-item>
-			<ion-item>
-				CAP
-				<ion-note item-right>{{address.StreetName}}</ion-note>
-			</ion-item>
-			<ion-item>
-				Città
-				<ion-note item-right>{{address.StreetName}}</ion-note>
-			</ion-item>
-			<ion-item>
-				Paese
-				<ion-note item-right>{{address.StreetName}}</ion-note>
-			</ion-item>
-		</ion-item-group>-->
 		
 	</ion-list>
 

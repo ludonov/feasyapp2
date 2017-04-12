@@ -4,7 +4,7 @@ import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
-import { FeasyUser, FeasyList, FeasyItem } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, FeasyItem, GetGenderNameFromEnum } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
 import { HistoryPage } from '../../pages/22_history/22_history';
@@ -25,12 +25,14 @@ export class UserProfilePage {
   public user: FeasyUser = new FeasyUser("", "", "");
   public user_db: FirebaseObjectObservable<any>;
   public addresses_db: FirebaseListObservable<any>;
+  public gender: string;
 
   constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
     this.user_db = af.database.object("users/" + globals.UID);
     this.addresses_db = af.database.list("users/" + globals.UID + "/Addresses");
     this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
       this.user = snapshot.val();
+      this.gender = GetGenderNameFromEnum(this.user.Gender);
     });
   }
 

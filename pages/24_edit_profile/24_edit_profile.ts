@@ -4,7 +4,7 @@ import { NavController, AlertController } from 'ionic-angular';
 import { AngularFire, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { FirebaseError } from 'firebase';
 
-import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject, PlainAddress } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject, PlainAddress, GenderType, GetGenderNameFromEnum, GetEnumFromGenderName } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 import { SettingsPage } from '../../pages/23_settings/23_settings';
 import { AddressesFromEditProfilePage } from "../36_addresses_from_edit_profile/36_addresses_from_edit_profile";
@@ -20,6 +20,7 @@ export class EditProfilePage {
   public user_db: FirebaseObjectObservable<any>;
   public addresses: Object = {};
   public addresses_db: FirebaseListObservable<any>;
+  public gender: string;
 
   constructor(public navCtrl: NavController, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController) {
     this.user_db = af.database.object("users/" + globals.UID);
@@ -29,6 +30,7 @@ export class EditProfilePage {
       if (this.user == null) {
         this.user = new FeasyUser(af.auth.getAuth().auth.email, "", "");
       }
+      this.gender = GetGenderNameFromEnum(this.user.Gender);
     });
 
     this.addresses_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
@@ -38,12 +40,13 @@ export class EditProfilePage {
         return false;
       });
     });
-
+      
     } 
 
   changeProfile(): void {
     console.log("personal address set");
     //this.user.Address = this.address; 
+    this.user.Gender=GetEnumFromGenderName(this.gender);
     this.user_db.update(StripForFirebase(this.user)).then(res => {
     this.navCtrl.pop();
     }).catch((err: Error) => {

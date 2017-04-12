@@ -6,9 +6,9 @@ import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
 import { FirebaseError } from 'firebase';
 
 import { SetAddressPage } from '../../pages/4B_set_address/4B_set_address';
-import { TabsPage } from '../../pages/tabs/tabs';
+//import { TabsPage } from '../../pages/tabs/tabs';
 
-import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject, GetEnumFromGenderName, GetGenderNameFromEnum } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
 
@@ -20,6 +20,7 @@ export class SetPersonalDetailsPage {
 
   public user: FeasyUser = new FeasyUser("", "", "");
   public user_db: FirebaseObjectObservable<any>;
+  public gender: string;
 
   constructor(public navCtrl: NavController, public globals: Globals, public af: AngularFire, public alertCtrl: AlertController) {
     this.user_db = af.database.object("users/" + globals.UID);
@@ -31,13 +32,14 @@ export class SetPersonalDetailsPage {
     });
   }
 
-  skipToHome(): void {
+  skip(): void {
     console.log("skip to home");
-    this.navCtrl.setRoot(TabsPage);
+    this.navCtrl.push(SetAddressPage);
   }
 
   setPersonalDetails(): void {
     console.log("personal details set");
+    this.user.Gender=GetEnumFromGenderName(this.gender);
     this.user_db.update(StripForFirebase(this.user)).then(res => {
       this.navCtrl.push(SetAddressPage);
     }).catch((err: Error) => {

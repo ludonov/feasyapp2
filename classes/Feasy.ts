@@ -11,6 +11,7 @@ export enum UnitType { Pieces, Grams, Hectograms, Kilograms, Liters };
 export function GetUnits(): string[] {
   return ["Pezzi", "Grammi", "Ettogrammi", "Kilogrammi", "Litri"];
 }
+
 export function GetUnitNameFromEnum(unit: UnitType): string {
   if (unit == UnitType.Pieces)
     return "Pezzi";
@@ -42,6 +43,17 @@ export function GetGenderNameFromEnum(gender: GenderType): string {
   else
     return "";
 }
+export function GetEnumFromGenderName(gender: any): any {
+      
+      if (gender == "Uomo"){
+          return 0;
+      } else if (gender == "Donna") {
+          return 1;
+      } else {
+          return 0;
+      }
+
+  }
 
 
 // EXPIRY DATES HELPER
