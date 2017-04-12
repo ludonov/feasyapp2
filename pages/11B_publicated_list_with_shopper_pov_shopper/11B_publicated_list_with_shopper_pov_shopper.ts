@@ -19,7 +19,6 @@ export class PublicatedListWithShopperPovShopperPage {
 
   private list_owner: string;
   private list_key: string;
-  private candidature_key: string;
 
   private list: FeasyList = new FeasyList("");
   private demander: FeasyUser = new FeasyUser("", "", "");
@@ -29,10 +28,9 @@ export class PublicatedListWithShopperPovShopperPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, @Inject(forwardRef(() => Globals)) public globals: Globals, public af: AngularFire, public alertCtrl: AlertController) {
     this.list_key = navParams.get("list_key");
     this.list_owner = navParams.get("list_owner");
-    this.candidature_key = navParams.get("candidature_key");
     this.candidature = navParams.get("candidature");
 
-    if (this.list_key == null || this.list_owner == null || this.candidature_key == null || this.candidature == null) {
+    if (this.list_key == null || this.list_owner == null || this.candidature == null) {
       console.warn("PublicatedListCandidatesPage: null listkeylist_owner/candidature_key/candidature. Going back.");
       navCtrl.pop();
     } else {

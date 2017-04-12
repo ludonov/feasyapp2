@@ -101,8 +101,10 @@ export class PublicateListPage {
           geo.lng = list_copy.DeliveryAddresses[address_key].Longitude;
           geo.com = list_copy.DeliveryAddresses[address_key].Comments;
           geo.cnt = Object.keys(list_copy.Items).length;
-          this.af.database.list("geopoints").push(StripForFirebase(geo)).then(() => {
-            console.log("Geopoint published");
+          this.af.database.list("geopoints").push(StripForFirebase(geo)).then((point) => {
+              console.log("Geopoint published: " + point);
+              //QUI C'E' un errore!!! perché se ho più geopoint devo avere anche più GeopointKey! quindi GeopointKey deve essere una proprietà del DeliveryAddress e non della Spesa
+              this.af.database.object('/published_lists/' + this.globals.UID + "/" + res.key + "/GeopointKey").set(point.key);
           }).catch((err: Error) => {
             console.warn("Cannot publish geopoint: " + err.message);
             this.ShowGenericError();
