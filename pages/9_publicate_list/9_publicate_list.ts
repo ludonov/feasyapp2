@@ -90,6 +90,7 @@ export class PublicateListPage {
       this.af.database.list('/published_lists/' + this.globals.UID).push(StripForFirebase(list_copy)).then(res => {
         console.log("List Published! Publishing geopoints...");
         let uid: string = this.globals.UID;
+        let counter: number = 0;
         for (let address_key in list_copy.DeliveryAddresses) {
           let geo: GeoPoint = new GeoPoint();
           geo.own = uid;
@@ -103,11 +104,14 @@ export class PublicateListPage {
           geo.cnt = Object.keys(list_copy.Items).length;
           this.af.database.list("geopoints").push(StripForFirebase(geo)).then((point) => {
               console.log("Geopoint published: " + point);
-              //QUI C'E' un errore!!! perché se ho più geopoint devo avere anche più GeopointKey! quindi GeopointKey deve essere una proprietà del DeliveryAddress e non della Spesa
-              this.af.database.object('/published_lists/' + this.globals.UID + "/" + res.key + "/GeopointKey").set(point.key);
+              this.af.database.object('/published_lists/' + this.globals.UID + "/DeliveryAddresses/" + address_key + "/GeopointKey").set(point.key).then(res => {
+              }).catch((err: Error) => {
+                  console.warn("Cannot update GeopointKey: " + err.message);
+                  this.ShowGenericError();
+              });
           }).catch((err: Error) => {
-            console.warn("Cannot publish geopoint: " + err.message);
-            this.ShowGenericError();
+              console.warn("Cannot publish geopoint: " + err.message);
+              this.ShowGenericError();
           });
         }
         console.log("Removing list from unpublished_lists...");
