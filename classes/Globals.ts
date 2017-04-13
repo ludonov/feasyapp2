@@ -7,7 +7,7 @@ import { NavController, AlertController, Alert, LoadingController, Loading, Plat
 import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { LocalNotifications } from 'ionic-native';
 
-import { FeasyUser, FeasyList, Candidate, Candidature, StripForFirebase } from './Feasy';
+import { FeasyUser, FeasyList, Candidate, Candidature, Review, StripForFirebase } from './Feasy';
 
 @Injectable()
 export class Globals {
@@ -35,6 +35,9 @@ export class Globals {
   public Candidatures_db: FirebaseListObservable<any>;
   public candidatures_refs: Array<firebase.database.Reference> = new Array();
 
+  public Reviews: Object = {};
+  public Reviews_db: FirebaseListObservable<any>;
+
   public JustRegistered: boolean = false;
 
   public af: AngularFire;
@@ -53,6 +56,7 @@ export class Globals {
     this.LinkListsWatchers();
     this.LinkCandidatesWatchers();
     this.LinkCandidaturesWatchers();
+    this.LinkReviewsWatchers();
   }
 
 
@@ -318,6 +322,15 @@ export class Globals {
       console.log("Globals.LinkCandidatesWatchers catch err: " + JSON.stringify(e));
     }
   }
+
+    private LinkReviewsWatchers(): void {
+
+    this.Reviews_db = this.af.database.list('/reviews/' + this.UID);
+    this.Reviews_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
+      this.Reviews = snapshot.val();
+    });
+    
+    }
 
   // UNLINK WATCHERS SECTION
 

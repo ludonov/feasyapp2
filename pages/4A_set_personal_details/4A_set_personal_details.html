@@ -17,14 +17,18 @@
           <ion-label fixed>Telefono</ion-label>
           <ion-input [(ngModel)]="user.MobileNumber" type="text"></ion-input>
         </ion-item>
-        <ion-item> 
+        <ion-item>
           <ion-label fixed>Sesso</ion-label>
-          <ion-input [(ngModel)]="gender" type="text"></ion-input>
+            <ion-select [(ngModel)]="user.Gender" interface="action-sheet" multiple="false" placeholder="{{GetGenderName(0)}}">
+              <ion-option value="{{i}}" selected="user.Gender == {{i}}" *ngFor="let gender of genders; let i = index">
+                {{gender}}
+              </ion-option>
+            </ion-select>
         </ion-item>
         <ion-item>
             <ion-label fixed>Data di nascita</ion-label>
             <ion-datetime displayFormat="DD MMM YYYY" [(ngModel)]="user.Birthdate"></ion-datetime>
-          </ion-item>
+        </ion-item>
       </ion-item-group>
 
   <div class="spacer" style="height: 32px;"></div>
