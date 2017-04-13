@@ -45,14 +45,14 @@
 
 
     <div class="spacer" style="height: 32px;"></div>
-    <div class="center">
-      <button padding ion-button round (click)="saveAddress()" style="width: 30%">Salva</button>
+    <div class="lateral-padding center">
+      <button ion-button block color="primary" (click)="saveAddress()">Salva</button>
     </div>
 
-    <div class="spacer" style="height: 10px;"></div>
+    <div class="spacer" style="height: 16px;"></div>
 
-    <div class="center">
-      <button padding ion-button round color="danger" style="width: 30%" (click)="deleteAddress()" [hidden]="is_new">Elimina</button>
+    <div class="lateral-padding center">
+      <button ion-button block color="danger" (click)="deleteAddress()" [hidden]="is_new">Elimina</button>
     </div>
 
   </ion-list>

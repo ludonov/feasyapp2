@@ -56,14 +56,13 @@
         
 
         <div class="spacer" style="height: 32px;"></div>
-        <ion-item style="font-weight:lighter" class="center" (click)="WithdrawList()">
-          RITIRA LISTA
-        </ion-item>
+        <div class="lateral-padding">
+          <button ion-button block color="primary" (click)="WithdrawList()">Ritira</button>
+        </div>
         <div class="spacer" style="height: 16px;"></div>
-        <ion-item style="color:red; font-weight:lighter" class="center" (click)="RemoveList()">
-          ELIMINA LISTA
-        </ion-item>
-        
+        <div class="lateral-padding">
+          <button ion-button block color="danger" (click)="RemoveList()">Elimina</button>
+        </div>
       </ion-list>
 
 </ion-content>

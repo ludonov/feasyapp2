@@ -7,7 +7,7 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 import { FeasyUser, FeasyList, FeasyItem, Review } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
-import { SingleReviewPage } from '../../pages/31_single_review/31_single_review';
+import { SingleReviewDisplayPage } from '../../pages/31A_single_review_display/31A_single_review_display';
 
 @Component({
   selector: 'page-reviews',
@@ -25,6 +25,7 @@ export class ReviewsPage {
   goToSingleReview(review: any): void {
     console.log("going to single review page");
     this.navCtrl.push(SingleReviewPage, { review: review });
+
   }
 
 }

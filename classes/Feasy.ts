@@ -358,6 +358,22 @@ export class GeoPoint {
   }
 }
 
+export class Review {
+  public $key: string;
+  public ReviewerFirstName: string;           //First name of reviewer
+  public ReviewerLastName: string;            //Last name of reviewer
+  public Title: string;                       //Title of review
+  public Content: string;                     //Content of review 
+  public Vote: number;                        //Vote of commission
+  public CreatedDate: string;                 //Date of review
+  public CommissionDate: string;              //Date the commission took place
+  public CommissionDeliveryAddress: Object;   //Address the commission was delivered to
+
+  constructor() {
+
+  }
+}
+
 
 export function StripForFirebase(obj: any): any {
   for (let p in obj) {

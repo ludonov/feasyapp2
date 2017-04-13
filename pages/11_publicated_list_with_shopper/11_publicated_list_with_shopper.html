@@ -1,4 +1,4 @@
-﻿<ion-header>
+<ion-header>
   <ion-navbar>
     <ion-title>{{list.Name}}</ion-title>
   </ion-navbar>
@@ -74,9 +74,12 @@
       <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
     </ion-item>
 
-    <div class="spacer" style="height: 32px;"></div>
-    <div class="center" style="color:#387ef5"><p>Se la commissione è stata fatta, paga lo shopper!</p></div>
-    <button ion-button block (click)="goToPayment()">Paga</button>
+        <div class="spacer" style="height: 32px;"></div>
+        <div class="center" style="color:#387ef5"><p>Se la commissione è stata fatta, paga lo shopper!</p></div>
+        
+        <div class="lateral-padding">
+          <button ion-button block color="primary" (click)="goToPayment()">Paga</button>
+        </div>
 
   </ion-list>
 

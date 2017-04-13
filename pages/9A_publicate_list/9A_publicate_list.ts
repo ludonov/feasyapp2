@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { NavController, NavParams, NavOptions, AlertController, Loading, LoadingController } from 'ionic-angular';
 
@@ -9,13 +9,14 @@ import { Globals } from '../../classes/Globals';
 
 import { HomePage } from '../../pages/5_home/5_home';
 import { AddressViewPage } from '../../pages/29_address_view/29_address_view';
+import { PublicateListSecondPage } from '../../pages/9B_publicate_list/9B_publicate_list';
 
 
 @Component({
-  selector: 'page-publicate-list',
-  templateUrl: '9_publicate_list.html'
+  selector: 'page-publicate-list-first',
+  templateUrl: '9A_publicate_list.html'
 })
-export class PublicateListPage {
+export class PublicateListFirstPage {
 
   public list: FeasyList = new FeasyList("");
   public list_key: string;
@@ -59,7 +60,7 @@ export class PublicateListPage {
   }
 
 
-  PublicateList(): void {
+  GoToPublicateListSecond(): void {
     console.log("Goto really publicate list: " + this.list.Name);
     if (Object.keys(this.list.DeliveryAddresses).length == 0) {
       let alert = this.alertCtrl.create({
@@ -76,14 +77,9 @@ export class PublicateListPage {
       });
       alert.present();
     } else {
-
-      let loading: Loading = this.loadingCtrl.create({
-        spinner: 'dots',
-        content: 'Publishing...'
-      });
-      loading.present();
-
       let list_copy: FeasyList = Object.assign({}, this.list);
+      console.log("going to page publicate list 2");
+      this.navCtrl.push(PublicateListSecondPage, {list_copy: list_copy, list_key: this.list_key});
       //delete this.list.$key;
       //this.list.owner = this.globals.UID;
       list_copy.PublishedDate = (new Date()).toUTCString();
@@ -140,5 +136,4 @@ export class PublicateListPage {
     });
     alert.present();
   }
-
 }
