@@ -1,5 +1,6 @@
 ﻿import { Component, ViewChild } from '@angular/core';
 import { Http } from '@angular/http';
+
 import { Platform, NavController, AlertController, Alert, Loading, LoadingController } from 'ionic-angular';
 import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { StatusBar, Splashscreen, LocalNotifications } from 'ionic-native';
@@ -44,6 +45,16 @@ export class MyApp {
         loading.present();
 
         if (user) {
+
+            //let token: string;
+            //firebase.auth().currentUser.getToken().then((_token) => {
+            //    token = _token;
+            //    http.get("https://us-central1-feasy-748cf.cloudfunctions.net/addMessage?token=" + token).subscribe(res => {
+            //        console.log(res);
+            //        console.log(res.json());
+            //    });
+            //});
+
           globals.UID = user.uid;
           globals.User.Email = user.auth.email;
 
