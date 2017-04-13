@@ -23,8 +23,9 @@
   </ion-item-group>
 
     <div class="spacer" style="height: 32px;"></div>
-    <button ion-button block (click)="normalSignIn()">Accedi</button>
-
+    <div class="lateral-padding">
+      <button ion-button block (click)="normalSignIn()">Accedi</button>
+    </div>
 
     <p>
       <a (click)="recoverPass()">Password dimenticata?</a>
@@ -38,17 +39,21 @@
 
     <p padding class="center">Non hai ancora un account? Iscriviti!</p>
 
-    <button ion-button block icon-left style="background-color:#3b5998" (click)="facebookSignIn()">
-      <ion-icon name="logo-facebook"></ion-icon>
-      Accedi con Facebook
-    </button>
+    <div class="lateral-padding">
+      <button ion-button block icon-left style="background-color:#3b5998" (click)="facebookSignIn()">
+        <ion-icon name="logo-facebook"></ion-icon>
+        Accedi con Facebook
+      </button>
+    </div>
 
     <div class="spacer" style="height: 20px;"></div>
 
-    <button ion-button block icon-left (click)="signUp()">
-      <ion-icon name="mail"></ion-icon>
-      Iscriviti con Email
-    </button>
+    <div class="lateral-padding">
+      <button ion-button block icon-left color="primary" (click)="signUp()">
+        <ion-icon name="mail"></ion-icon>
+        Iscriviti con Email
+      </button>
+    </div>
 
   </ion-list>
 

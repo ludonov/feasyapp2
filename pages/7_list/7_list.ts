@@ -8,7 +8,7 @@ import { FeasyUser, FeasyList, FeasyItem, GetUnitNameFromEnum } from '../../clas
 import { Globals } from '../../classes/Globals';
 
 import { AddOrShowItemPage } from '../../pages/13A_specific_product_demander/13A_specific_product_demander';
-import { PublicateListPage } from '../../pages/9_publicate_list/9_publicate_list';
+import { PublicateListFirstPage } from '../../pages/9A_publicate_list/9A_publicate_list';
 
 @Component({
   selector: 'page-list',
@@ -57,7 +57,7 @@ export class ListPage {
       alert.present();
     } else {
       console.log("Goto publicate list: " + this.globals.UnpublishedLists[this.list_key].Name);
-      this.navCtrl.push(PublicateListPage, { list_key: this.list_key })
+      this.navCtrl.push(PublicateListFirstPage, { list_key: this.list_key })
     }
   }
 

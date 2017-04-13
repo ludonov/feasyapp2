@@ -8,6 +8,7 @@
 
   <ion-list>
 
+    <div class="spacer" style="height: 32px;"></div>
     <ion-item>
       <ion-label fixed>Nome<sup>*</sup></ion-label>
       <ion-input [(ngModel)]="list.Name" type="text" value=""></ion-input>
@@ -26,7 +27,9 @@
     </ion-item>
 
     <div class="spacer" style="height: 16px;"></div>
-    <div class="center"><button ion-button round color="primary" (click)="AddAddress()">Aggiungi indirizzo e orario consegna</button></div>
+    <div class="center">
+      <button ion-button round color="primary" (click)="AddAddress()" style="width:40%">Aggiungi</button>
+    </div>
 
     <div class="spacer" style="height: 16px;"></div>
 		<ion-item-divider class="item-title" style="border-top-color: transparent;">RICOMPENSA<sup>*</sup></ion-item-divider>
@@ -48,32 +51,12 @@
         </ion-option>
       </ion-select>
     </ion-item>
-
-    <!-- DA AGGIUNGERE: Trattabile con toggle a destra -->
-
-    <div class="spacer" style="height: 16px;"></div>
-		<ion-item-divider class="item-title" style="border-top-color: transparent;">DETTAGLI</ion-item-divider>
-
-    <ion-item>
-      <ion-label fixed>Negozio</ion-label>
-      <ion-input [(ngModel)]="list.PreferredShops" type="text" value=""></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label fixed>Valore massimo spesa</ion-label>
-      <ion-input [(ngModel)]="list.MaxValue" type="number" value=""></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label fixed>Peso stimato (kg)</ion-label>
-      <ion-input [(ngModel)]="list.EstimatedWeight" type="number" value=""></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label fixed>Altri commenti</ion-label>
-      <ion-input [(ngModel)]="list.Comments" type="text" value=""></ion-input>
-    </ion-item>
-
   </ion-list>
 
-  <button padding ion-button block (click)="PublicateList()">Pubblica</button>
+  <div class="spacer" style="height: 32px;"></div>
+  <div class="lateral-padding">
+    <button ion-button block color="primary" (click)="GoToPublicateListSecond()">Avanti</button>
+  </div>
 
 </ion-content>
 

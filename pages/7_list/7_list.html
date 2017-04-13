@@ -18,13 +18,20 @@
       </ion-item>
     </ion-list>
 
-    <div class="center"> <button ion-button round color="primary" (click)="addItem()" class="center">Aggiungi prodotto</button></div>
+    <div class="lateral-padding center">
+      <button ion-button round color="primary" (click)="addItem()" class="center" style="width:40%">Aggiungi</button>
+    </div>
 
     <div class="spacer" style="height: 64px;"></div>
 
-    <button ion-button block color="primary" (click)="publicateList()">Pubblica lista</button>
+    <div class="lateral-padding">
+      <button ion-button block color="primary" (click)="publicateList()">Pubblica lista</button>
+    </div>
+
     <div class="spacer" style="height: 16px;"></div>
-    <button ion-button block color="danger" (click)="deleteList()">Elimina lista</button>
+    <div class="lateral-padding">
+      <button ion-button block color="danger" (click)="deleteList()">Elimina lista</button>
+    </div>
 
 </ion-content>
 

@@ -8,10 +8,10 @@ import { FeasyUser, FeasyList, FeasyItem, Review } from '../../classes/Feasy';
 
 @Component({
   selector: 'page-single-review',
-  templateUrl: '31_single_review.html'
+  templateUrl: '31B_single_review_input.html'
 })
 
-export class SingleReviewPage {
+export class SingleReviewInputPage {
 
   public review: Review;
 

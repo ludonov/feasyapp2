@@ -1,9 +1,10 @@
-﻿import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { Platform, NavController, AlertController, Alert, Loading, LoadingController } from 'ionic-angular';
 import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { StatusBar, Splashscreen, LocalNotifications } from 'ionic-native';
+//import { StatusBar } from '@ionic-native/status-bar';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/1_login/1_login';
@@ -21,11 +22,12 @@ export class MyApp {
   rootPage: any = LoginPage;
   @ViewChild('mynav') public navCtrl: NavController;
 
-  constructor(platform: Platform, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public http: Http) {
+  constructor(platform: Platform, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public http: Http) { //, private statusBar: StatusBar
+
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      StatusBar.styleDefault();
+      //StatusBar.styleDefault();
       Splashscreen.hide();
       globals.af = af;
       globals.alertCtrl = alertCtrl;
@@ -131,5 +133,7 @@ export class MyApp {
       //  this.rootPage = LoginPage;
       //}
     });
+
+    //StatusBar.styleLightContent();
   }
 }
