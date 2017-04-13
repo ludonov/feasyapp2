@@ -6,22 +6,15 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 
 import { FeasyUser, FeasyList, FeasyItem } from '../../classes/Feasy';
 
-import { SingleReviewDisplayPage } from '../../pages/31A_single_review_display/31A_single_review_display';
-
 @Component({
-  selector: 'page-reviews',
-  templateUrl: '30_reviews.html'
+  selector: 'page-single-review',
+  templateUrl: '31B_single_review_input.html'
 })
 
-export class ReviewsPage {
+export class SingleReviewInputPage {
 
   constructor(public navCtrl: NavController) {
 
-  }
-
-  goToSingleReviewDisplay(): void {
-    console.log("going to single review display page");
-    this.navCtrl.push(SingleReviewDisplayPage);
   }
 
 }

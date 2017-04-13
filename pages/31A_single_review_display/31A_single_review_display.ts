@@ -8,10 +8,10 @@ import { FeasyUser, FeasyList, FeasyItem } from '../../classes/Feasy';
 
 @Component({
   selector: 'page-single-review',
-  templateUrl: '31_single_review.html'
+  templateUrl: '31A_single_review_display.html'
 })
 
-export class SingleReviewPage {
+export class SingleReviewDisplayPage {
 
   constructor(public navCtrl: NavController) {
 

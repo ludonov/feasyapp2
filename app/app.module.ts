@@ -40,7 +40,8 @@ import { PasswordResetPage } from '../pages/25_password_reset/25_password_reset'
 import { TermsAndConditionsPage } from '../pages/26_terms_and_conditions/26_terms_and_conditions';
 import { HistoryPage } from '../pages/22_history/22_history';
 import { ReviewsPage } from '../pages/30_reviews/30_reviews';
-import { SingleReviewPage } from '../pages/31_single_review/31_single_review';
+import { SingleReviewDisplayPage } from '../pages/31A_single_review_display/31A_single_review_display';
+import { SingleReviewInputPage } from '../pages/31B_single_review_input/31B_single_review_input';
 import { PaymentPage } from '../pages/32_payment/32_payment';
 import { PaymentSummaryPage } from '../pages/33_payment_summary/33_payment_summary';
 import { AddressViewPage } from '../pages/29_address_view/29_address_view';
@@ -105,7 +106,8 @@ export const firebaseConfig = {
     TermsAndConditionsPage,
     HistoryPage,
     ReviewsPage,
-    SingleReviewPage,
+    SingleReviewDisplayPage,
+    SingleReviewInputPage,
     PaymentPage,
     PaymentSummaryPage,
     AddressViewPage,
@@ -158,7 +160,8 @@ export const firebaseConfig = {
     TermsAndConditionsPage,
     HistoryPage,
     ReviewsPage,
-    SingleReviewPage,
+    SingleReviewDisplayPage,
+    SingleReviewInputPage,
     AddressViewPage,
     PaymentPage,
     PaymentSummaryPage,
