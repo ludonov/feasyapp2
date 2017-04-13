@@ -24,7 +24,7 @@ export class ReviewsPage {
 
   goToSingleReview(review: any): void {
     console.log("going to single review page");
-    this.navCtrl.push(SingleReviewPage, { review: review });
+    this.navCtrl.push(SingleReviewDisplayPage, { review: review });
 
   }
 
