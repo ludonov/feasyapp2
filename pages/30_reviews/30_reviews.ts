@@ -4,7 +4,8 @@ import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
-import { FeasyUser, FeasyList, FeasyItem } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, FeasyItem, Review } from '../../classes/Feasy';
+import { Globals } from '../../classes/Globals';
 
 import { SingleReviewDisplayPage } from '../../pages/31A_single_review_display/31A_single_review_display';
 
@@ -15,13 +16,16 @@ import { SingleReviewDisplayPage } from '../../pages/31A_single_review_display/3
 
 export class ReviewsPage {
 
-  constructor(public navCtrl: NavController) {
+  public Reviews_db: FirebaseListObservable<any>;
+
+  constructor(public navCtrl: NavController, public af: AngularFire, public globals: Globals) {
 
   }
 
-  goToSingleReviewDisplay(): void {
-    console.log("going to single review display page");
-    this.navCtrl.push(SingleReviewDisplayPage);
+  goToSingleReview(review: any): void {
+    console.log("going to single review page");
+    this.navCtrl.push(SingleReviewPage, { review: review });
+
   }
 
 }

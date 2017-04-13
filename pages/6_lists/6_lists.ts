@@ -9,6 +9,7 @@ import { Globals } from '../../classes/Globals';
 
 import { ListPage } from '../../pages/7_list/7_list';
 import { PublicatedListNoShopperPage } from '../../pages/10_publicated_list_no_shopper/10_publicated_list_no_shopper';
+import { PublicatedListWithShopperPage } from '../../pages/11_publicated_list_with_shopper/11_publicated_list_with_shopper';
 
 
 @Component({
@@ -112,9 +113,15 @@ export class ListsPage {
     this.navCtrl.push(ListPage, { list_key: list.$key });
   }
 
-  goToPublicatedList(list: any): void {
-    console.log("Goto publicated list: " + list.Name);
-    this.navCtrl.push(PublicatedListNoShopperPage, { list_key: list.$key });
+  goToPublicatedList(list: FeasyList): void {
+      if (list.ChosenCandidateKey != null && list.ChosenCandidateKey != "") {
+          console.log("Goto publicated list: " + list.Name);
+          this.navCtrl.push(PublicatedListWithShopperPage, { list_key: list.$key });
+      } else {
+          console.log("Goto publicated list: " + list.Name);
+          this.navCtrl.push(PublicatedListNoShopperPage, { list_key: list.$key });
+
+      }
   }
 
 }

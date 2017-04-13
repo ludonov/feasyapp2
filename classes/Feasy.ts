@@ -11,6 +11,7 @@ export enum UnitType { Pieces, Grams, Hectograms, Kilograms, Liters };
 export function GetUnits(): string[] {
   return ["Pezzi", "Grammi", "Ettogrammi", "Kilogrammi", "Litri"];
 }
+
 export function GetUnitNameFromEnum(unit: UnitType): string {
   if (unit == UnitType.Pieces)
     return "Pezzi";
@@ -42,6 +43,17 @@ export function GetGenderNameFromEnum(gender: GenderType): string {
   else
     return "";
 }
+export function GetEnumFromGenderName(gender: any): any {
+      
+      if (gender == "Uomo"){
+          return 0;
+      } else if (gender == "Donna") {
+          return 1;
+      } else {
+          return 0;
+      }
+
+  }
 
 
 // EXPIRY DATES HELPER
@@ -82,6 +94,7 @@ export class FeasyUser {
   public Addresses: Object;
   public CommissionsDone: number;
   public CommissionsReceived: number;
+  public Candidatures: Object = {};
 
   constructor(email: string, firstName: string, lastName: string) {
     this.Email = email;
@@ -92,21 +105,6 @@ export class FeasyUser {
   }
 }
 
-export class PlainAddress {
-  public $key: string;
-  public FormattedAddress: string;
-  public Nation: string;
-  public City: string;
-  public StreetName: string;
-  public PostCode: string;
-  public Latitude: number;
-  public Longitude: number;
-
-  constructor() {
-
-  }
-
-}
 
 export class FeasyList {
   public $key: string;
@@ -124,6 +122,7 @@ export class FeasyList {
   public ChosenCandidateKey: string;
   public Comments: string;
   public DeliveryAddresses: Object;
+  public WaitingForReview: boolean = false;
 
   constructor(name: string) {
     this.Name = name;
@@ -173,6 +172,20 @@ export class Candidature {
   }
 }
 
+export class Review {
+  public $key: string;
+  public Rating: number;
+  public Title: string;
+  public Text: string;
+  public UID_Writer: string;
+  public WriterName: string;
+  public ListKey: string;
+
+  constructor() {
+
+  }
+}
+
 export class DeliveryAddress {
   public $key: string;
   public Name: string;
@@ -187,6 +200,7 @@ export class DeliveryAddress {
   public Active: boolean;
   public From: string;
   public To: string;
+  public GeopointKey: string;
 
   public toString(): string {
     let street_name: string = this.StreetName ? this.StreetName + ", " : "";

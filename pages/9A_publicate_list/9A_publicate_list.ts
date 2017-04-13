@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { NavController, NavParams, NavOptions, AlertController, Loading, LoadingController } from 'ionic-angular';
 
@@ -78,9 +78,52 @@ export class PublicateListFirstPage {
       alert.present();
     } else {
       let list_copy: FeasyList = Object.assign({}, this.list);
-
       console.log("going to page publicate list 2");
       this.navCtrl.push(PublicateListSecondPage, {list_copy: list_copy, list_key: this.list_key});
+      //delete this.list.$key;
+      //this.list.owner = this.globals.UID;
+      list_copy.PublishedDate = (new Date()).toUTCString();
+      this.af.database.list('/published_lists/' + this.globals.UID).push(StripForFirebase(list_copy)).then(res => {
+        console.log("List Published! Publishing geopoints...");
+        let uid: string = this.globals.UID;
+        let counter: number = 0;
+        for (let address_key in list_copy.DeliveryAddresses) {
+          let geo: GeoPoint = new GeoPoint();
+          geo.own = uid;
+          geo.lst = res.key;
+          geo.adr = address_key;
+          geo.rew = list_copy.Reward;
+          geo.exp = GetRealExpiryDate(list_copy.ExpiryDate);
+          geo.lat = list_copy.DeliveryAddresses[address_key].Latitude;
+          geo.lng = list_copy.DeliveryAddresses[address_key].Longitude;
+          geo.com = list_copy.DeliveryAddresses[address_key].Comments;
+          geo.cnt = Object.keys(list_copy.Items).length;
+          this.af.database.list("geopoints").push(StripForFirebase(geo)).then((point) => {
+              console.log("Geopoint published: " + point);
+              this.af.database.object('/published_lists/' + this.globals.UID + "/DeliveryAddresses/" + address_key + "/GeopointKey").set(point.key).then(res => {
+              }).catch((err: Error) => {
+                  console.warn("Cannot update GeopointKey: " + err.message);
+                  this.ShowGenericError();
+              });
+          }).catch((err: Error) => {
+              console.warn("Cannot publish geopoint: " + err.message);
+              this.ShowGenericError();
+          });
+        }
+        console.log("Removing list from unpublished_lists...");
+        this.af.database.list('/unpublished_lists/' + this.globals.UID).remove(this.list_key).then(res => {
+          console.log("Removed list from unpublished lists!");
+          loading.dismiss();
+          this.navCtrl.popToRoot();
+        }).catch((err: Error) => {
+          console.warn("Cannot remove list from unpublished lists: " + err.message);
+          loading.dismiss();
+          this.ShowGenericError();
+        });
+      }).catch((err: Error) => {
+        console.warn("Cannot push list to published lists: " + err.message);
+        this.ShowGenericError();
+      });
     }
 
   }
