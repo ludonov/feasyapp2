@@ -22,7 +22,7 @@
     </ion-item>
     <ion-item>
       <ion-label fixed>Unità</ion-label>
-      <ion-select [(ngModel)]="item.Unit" interface="action-sheet" multiple="false" placeholder="Pezzi">
+      <ion-select [(ngModel)]="item.Unit" interface="action-sheet" multiple="false" placeholder="{{GetUnitName(0)}}">
         <ion-option value="{{i}}" selected="item.Unit == {{i}}" *ngFor="let unit of units; let i = index">
           {{unit}}
         </ion-option>

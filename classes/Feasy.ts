@@ -94,6 +94,7 @@ export class FeasyUser {
   public Addresses: Object;
   public CommissionsDone: number;
   public CommissionsReceived: number;
+  public Candidatures: Object = {};
 
   constructor(email: string, firstName: string, lastName: string) {
     this.Email = email;
@@ -199,6 +200,7 @@ export class DeliveryAddress {
   public Active: boolean;
   public From: string;
   public To: string;
+  public GeopointKey: string;
 
   public toString(): string {
     let street_name: string = this.StreetName ? this.StreetName + ", " : "";
