@@ -180,12 +180,12 @@ position: absolute;
   margin: 0 auto;
 }
 
-.home-button {
+/*.home-button {
     height: 100px;
     width: 100px;
     background-color: white;
     border: 2px solid positive;
-}
+}*/
 
 .background-color-body {
   background-color: #efeff4;
@@ -316,11 +316,11 @@ position: absolute;
   background-color: transparent !important;
 }
 
-.home-background {
+/*.home-background {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-}
+}*/
 
 .lateral-padding {
   padding-left: 16px;
