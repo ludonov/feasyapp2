@@ -1,3 +1,4 @@
+﻿
 typings install dt~google.maps --global --save
 ionic platform add android
 ionic platform add ios
@@ -8,6 +9,7 @@ ionic plugin add cordova-plugin-facebook4 --variable APP_ID="167576887016557" --
 ionic plugin add de.appplant.cordova.plugin.local-notification
 
 ALTRI COMANDI UTILI:
+npm install firebase angularfire2 --save
 ionic run android --device
 adb connect 192.168.1.116:5555
 
