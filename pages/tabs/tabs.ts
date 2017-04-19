@@ -12,10 +12,9 @@ import { ChatListPage } from '../19_chat_list/19_chat_list';
 export class TabsPage {
   // this tells the tabs component which Pages
   // should be each tab's root Page
-  tab1Root: any = HomePage;
-  tab2Root: any = ListsPage;
-  tab3Root: any = DoShoppingPage;
-  tab4Root: any = ChatListPage;
+  tab1Root: any = ListsPage;
+  tab2Root: any = DoShoppingPage;
+  tab3Root: any = ChatListPage;
 
   constructor() {
 
