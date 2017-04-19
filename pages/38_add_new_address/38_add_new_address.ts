@@ -7,7 +7,6 @@ import { AngularFire, FirebaseObjectObservable, FirebaseListObservable } from 'a
 import { FirebaseError } from 'firebase';
 
 import { TabsPage } from '../../pages/tabs/tabs';
-import { HomePage } from '../../pages/5_home/5_home';
 import { SetPaymentMethodPage } from '../../pages/4C_set_payment_method/4C_set_payment_method';
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';

@@ -7,7 +7,6 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, GeoPoint, StripForFirebase, copyObject, ExpiryDateType, GetExpiryDates, GetRealExpiryDate } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
-import { HomePage } from '../../pages/5_home/5_home';
 import { AddressViewPage } from '../../pages/29_address_view/29_address_view';
 import { PublicateListSecondPage } from '../../pages/9B_publicate_list/9B_publicate_list';
 

@@ -34,7 +34,7 @@ export class SetPersonalDetailsPage {
   }
 
   skip(): void {
-    console.log("skip to home");
+    console.log("skip to tab root 1");
     this.navCtrl.push(SetAddressPage);
   }
 

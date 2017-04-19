@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
 import { NavController} from 'ionic-angular';
 import { AngularFire } from 'angularfire2';
 
-import { HomePage } from '../../pages/5_home/5_home';
-
 
 @Component({
   selector: 'page-setpaymentmethod',
@@ -17,7 +15,7 @@ export class SetPaymentMethodPage {
   
   }
 
-  skipToHome(): void {
+  skipToTabRoot(): void {
     console.log("skip personal details");
     //this.navCtrl.push(HomePage);
   }

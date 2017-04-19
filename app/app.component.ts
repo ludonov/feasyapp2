@@ -73,7 +73,7 @@ export class MyApp {
               }
               else {
                 globals.User = userdata;
-                console.log("Redirecting to Home");
+                console.log("Redirecting to tab root 1");
                 this.rootPage = TabsPage;
                 loading.dismiss();
               }
@@ -102,7 +102,7 @@ export class MyApp {
                   photoURL: this.globals.User.PhotoURL,
                 });
               }
-              console.log("Redirecting to Home");
+              console.log("Redirecting to tab root 1");
               this.rootPage = TabsPage;
               loading.dismiss();
             }
