@@ -142,7 +142,7 @@ export class FeasyList {
   public PreferredShops: string;
   public MaxValue: number;
   public EstimatedWeight: number;
-  public ChosenCandidateKey: string;
+  public ChosenCandidatureKey: string;
   public Comments: string;
   public DeliveryAddresses: Object;
   public WaitingForReview: boolean = false;
@@ -175,6 +175,7 @@ export class Candidate {
   public AddressKey: string;
   public Comment: string;
   public Visualised: boolean = false;
+  public CandidatureReferenceKey: string;
 
   constructor() {
     this.Visualised = false;
@@ -185,7 +186,6 @@ export class Candidature {
   public $key: string;
   public ListOwnerUid: string;
   public ListReferenceKey: string;
-  public CandidateReferenceKey: string;
   public AddressKey: string;
   public Comment: string;
   public Accepted: boolean = false;

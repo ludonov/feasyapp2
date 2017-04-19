@@ -80,7 +80,7 @@ export class PublicateListFirstPage {
 
         let loading: Loading = this.loadingCtrl.create({
             spinner: 'dots',
-            content: 'Publishing...'
+            content: 'Saving...'
         });
         loading.present();
 

@@ -132,7 +132,7 @@ export class ListsPage {
   }
 
   goToPublicatedList(list: FeasyList): void {
-      if (list.ChosenCandidateKey != null && list.ChosenCandidateKey != "") {
+      if (list.ChosenCandidatureKey != null && list.ChosenCandidatureKey != "") {
           console.log("Goto publicated list: " + list.Name);
           this.navCtrl.push(PublicatedListWithShopperPage, { list_key: list.$key });
       } else {
@@ -161,11 +161,11 @@ export class ListsPage {
             let candidature: Candidature = <Candidature>candidatures[cand];
             counter++;
             this.af.database.object("/published_lists/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey).$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-              let _list: any = snapshot.val();
+                let _list: FeasyList = snapshot.val();
               _list.ItemsCount = Object.keys(_list.Items).length;
-              _list.ChosenAddress = _list.DeliveryAddresses[candidature.AddressKey];
-              _list.Candidature = candidature;
-              if (_list.ChosenCandidateKey == candidature.CandidateReferenceKey) {
+              (_list as any).ChosenAddress = _list.DeliveryAddresses[candidature.AddressKey];
+              (_list as any).Candidature = candidature;
+              if (_list.ChosenCandidatureKey == cand) {
                 this.accepted_lists[snapshot.key] = _list;
               } else {
                 this.pending_lists[snapshot.key] = _list;

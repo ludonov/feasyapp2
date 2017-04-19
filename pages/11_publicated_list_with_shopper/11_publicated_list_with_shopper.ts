@@ -35,7 +35,7 @@ export class PublicatedListWithShopperPage {
                 console.warn("PublicatedListWithShopperPage null candidate. Going back.")
                 navCtrl.pop();
             } else {
-                this.candidate = globals.Candidates[this.list_key][this.list.ChosenCandidateKey];
+                this.candidate = globals.getAcceptedCandidateFromList(this.list_key);
                 this.ChosenAddress = this.list.DeliveryAddresses[this.candidate.AddressKey];
                 af.database.object("/users/" + this.candidate.uid).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
                     this.ChosenCandidate = snapshot.val() || new FeasyUser("", "", "");
