@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 
 import { NavController, NavParams, NavOptions, AlertController, Loading, LoadingController } from 'ionic-angular';
 
@@ -77,9 +77,22 @@ export class PublicateListFirstPage {
       });
       alert.present();
     } else {
-      let list_copy: FeasyList = Object.assign({}, this.list);
-      console.log("going to page publicate list 2");
-      this.navCtrl.push(PublicateListSecondPage, {list_copy: list_copy, list_key: this.list_key});
+
+        let loading: Loading = this.loadingCtrl.create({
+            spinner: 'dots',
+            content: 'Publishing...'
+        });
+        loading.present();
+
+        this.globals.UnpublishedLists_db.update(this.list_key, StripForFirebase(this.list)).then(res1 => {
+            console.log("going to page publicate list 2");
+            loading.dismiss();
+            this.navCtrl.push(PublicateListSecondPage, { list_key: this.list_key });
+        }).catch((err: Error) => {
+            console.warn("PublicateListFirstPage> cannot update list: " + err.message);
+            loading.dismiss();
+            this.ShowGenericError();
+        });
     }
 
   }
@@ -87,7 +100,7 @@ export class PublicateListFirstPage {
   ShowGenericError() {
     let alert = this.alertCtrl.create({
       title: 'Info',
-      subTitle: "C'è stato un errore durante la pubblicazione della lista. Controllare sulla mappa se la lista è visualizzata correttamente.",
+      subTitle: "C'è stato un errore durante il salvataggio della lista. Ritentare nuovamente.",
       buttons: ['Ok']
     });
     alert.present();
