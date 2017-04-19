@@ -7,6 +7,8 @@ ionic plugin add cordova-plugin-geolocation
 ionic plugin add cordova.plugins.diagnostic
 ionic plugin add cordova-plugin-facebook4 --variable APP_ID="167576887016557" --variable APP_NAME="Feasy"
 ionic plugin add de.appplant.cordova.plugin.local-notification
+ionic plugin add cordova-plugin-statusbar
+npm install --save @ionic-native/status-bar
 
 ALTRI COMANDI UTILI:
 npm install firebase angularfire2 --save
