@@ -323,14 +323,14 @@ export class Globals {
     }
   }
 
-    private LinkReviewsWatchers(): void {
+  private LinkReviewsWatchers(): void {
 
     this.Reviews_db = this.af.database.list('/reviews/' + this.UID);
     this.Reviews_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
       this.Reviews = snapshot.val();
     });
-    
-    }
+  
+  }
 
   // UNLINK WATCHERS SECTION
 

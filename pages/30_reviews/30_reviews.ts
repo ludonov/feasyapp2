@@ -16,7 +16,6 @@ import { SingleReviewDisplayPage } from '../../pages/31A_single_review_display/3
 
 export class ReviewsPage {
 
-  public Reviews_db: FirebaseListObservable<any>;
 
   constructor(public navCtrl: NavController, public af: AngularFire, public globals: Globals) {
 
