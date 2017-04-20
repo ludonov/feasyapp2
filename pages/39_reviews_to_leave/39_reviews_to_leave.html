@@ -1,4 +1,4 @@
- <ion-header>
+﻿ <ion-header>
   <ion-navbar>
     <ion-title>Reviews To Leave</ion-title>
   </ion-navbar>
@@ -7,12 +7,12 @@
 <ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
 	    
 	<ion-list>
-		<ion-item *ngFor="let review_waiting of reviewsToLeave | keys">
+		<ion-item *ngFor="let review_waiting of reviewsToLeave">
 			<ion-avatar item-left>
 			<img src="assets/img/17_profilo/Alberto.jpg">
 			</ion-avatar>
-			<h2>{{review_waiting.value.OwnerName}}</h2>
-			<p>{{review_waiting.value.AddressName}}</p>
+			<h2>{{review_waiting.OwnerName}}</h2>
+			<p>{{review_waiting.AddressName}}</p>
 			<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 		</ion-item>
 	</ion-list>
