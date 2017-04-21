@@ -145,7 +145,6 @@ export class FeasyList {
   public ChosenCandidatureKey: string;
   public Comments: string;
   public DeliveryAddresses: Object;
-  public WaitingForReview: boolean = false;
 
   constructor(name: string) {
     this.Name = name;
@@ -189,6 +188,7 @@ export class Candidature {
   public AddressKey: string;
   public Comment: string;
   public Accepted: boolean = false;
+  public Review: boolean = false;
 
   constructor() {
     this.Accepted = false;

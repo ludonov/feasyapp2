@@ -52,6 +52,7 @@ import { SpecificAddressFromProfilePage } from '../pages/35_specific_address_fro
 import { AddressesFromEditProfilePage } from '../pages/36_addresses_from_edit_profile/36_addresses_from_edit_profile';
 import { SpecificAddressFromEditProfilePage } from '../pages/37_specific_address_from_edit_profile/37_specific_address_from_edit_profile';
 import { AddNewAddressPage } from '../pages/38_add_new_address/38_add_new_address';
+import { ReviewsToLeavePage } from '../pages/39_reviews_to_leave/39_reviews_to_leave';
 
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -115,6 +116,7 @@ export const firebaseConfig = {
     AddressesFromEditProfilePage,
     SpecificAddressFromEditProfilePage,
     AddNewAddressPage,
+    ReviewsToLeavePage,
     TabsPage
   ],
   imports: [
@@ -168,6 +170,7 @@ export const firebaseConfig = {
     AddressesFromEditProfilePage,
     SpecificAddressFromEditProfilePage,
     AddNewAddressPage,
+    ReviewsToLeavePage,
     TabsPage
   ],
   providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, Globals]
