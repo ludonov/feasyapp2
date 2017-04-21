@@ -10,9 +10,13 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/1_login/1_login';
 import { SetPersonalDetailsPage } from '../pages/4A_set_personal_details/4A_set_personal_details';
 import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candidates/14_publicated_list_candidates';
+import { SettingsPage } from '../pages/23_settings/23_settings';
+import { UserProfilePage } from '../pages/17_user_profile/17_user_profile';
 
 import { Candidate, FeasyUser, StripForFirebase } from '../classes/Feasy';
 import { Globals } from '../classes/Globals';
+
+import { MenuController } from 'ionic-angular';
 
 @Component({
   templateUrl: 'app.html',
@@ -22,7 +26,7 @@ export class MyApp {
   rootPage: any = LoginPage;
   @ViewChild('mynav') public navCtrl: NavController;
 
-  constructor(platform: Platform, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public http: Http, private statusBar: StatusBar) {
+  constructor(platform: Platform, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public http: Http, private statusBar: StatusBar, public menuCtrl: MenuController) {
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -126,5 +130,26 @@ export class MyApp {
     });
 
     statusBar.styleLightContent();
+    
+  }
+
+  //SIDE MENU
+
+  goToProfile(): void {
+    console.log("going to profile page");
+    this.navCtrl.push(UserProfilePage);
+    this.menuCtrl.close();
+  }
+
+  goToSettings(): void {
+    console.log("going to settings page");
+    this.navCtrl.push(SettingsPage);
+    this.menuCtrl.close();
+  }
+
+  logout(): void {
+    console.log("Logging out: removing link to candidate refs");
+    this.globals.UnlinkAllWatchers();
+    this.af.auth.logout();
   }
 }
