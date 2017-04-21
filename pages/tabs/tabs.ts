@@ -1,7 +1,6 @@
 ﻿import { Component } from '@angular/core';
 
 import { LoginPage } from '../1_login/1_login';
-import { HomePage } from '../5_home/5_home';
 import { ListsPage } from '../6_lists/6_lists';
 import { DoShoppingPage } from '../18A_do_shopping/18A_do_shopping';
 import { ChatListPage } from '../19_chat_list/19_chat_list';

@@ -13,7 +13,6 @@ import { SignupPage } from '../pages/3_signup/3_signup';
 import { SetPersonalDetailsPage } from '../pages/4A_set_personal_details/4A_set_personal_details';
 import { SetAddressPage } from '../pages/4B_set_address/4B_set_address';
 import { SetPaymentMethodPage } from '../pages/4C_set_payment_method/4C_set_payment_method';
-import { HomePage } from '../pages/5_home/5_home';
 import { ListsPage } from '../pages/6_lists/6_lists';
 import { ListPage } from '../pages/7_list/7_list';
 import { PublicateListFirstPage } from '../pages/9A_publicate_list/9A_publicate_list';
@@ -78,7 +77,6 @@ export const firebaseConfig = {
     SetPersonalDetailsPage,
     SetAddressPage,
     SetPaymentMethodPage,
-    HomePage,
     ListsPage,
     ListPage,
     PublicateListFirstPage,
@@ -131,7 +129,6 @@ export const firebaseConfig = {
     SignupPage,
     SetPersonalDetailsPage,
     SetPaymentMethodPage,
-    HomePage,
     SetAddressPage,
     ListsPage,
     ListPage,

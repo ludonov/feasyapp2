@@ -17,7 +17,6 @@ import { DoShoppingPage } from '../18A_do_shopping/18A_do_shopping';
 import { ListFromMapPage } from '../../pages/28_list_from_map_details/28_list_from_map_details';
 import { PublicatedListWithShopperPovShopperPage } from '../../pages/11B_publicated_list_with_shopper_pov_shopper/11B_publicated_list_with_shopper_pov_shopper';
 
-
 @Component({
   selector: 'page-lists',
   templateUrl: '6_lists.html'
@@ -43,7 +42,7 @@ export class ListsPage {
   private no_pending_lists: boolean = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController, public globals: Globals, public loadingCtrl: LoadingController) {
-    
+
     //this.published_lists_db = af.database.list('/published_lists/' + globals.UID);
     //this.unpublished_lists_db = af.database.list('/unpublished_lists/' + globals.UID);
     //this.published_lists_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
