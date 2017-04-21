@@ -50,6 +50,14 @@ export class Globals {
     this.IsWeb = platform.is("core");
   }
 
+  public getAcceptedCandidateFromList(list_key: string): Candidate {
+      let list: FeasyList = this.PublishedLists[list_key];
+      for (let cand in this.Candidates) {
+          if ((this.Candidates[cand] as Candidate).CandidatureReferenceKey == list.ChosenCandidatureKey)
+              return this.Candidates[cand];
+      }
+      return null;
+  }
 
   public LinkAllWatchers(): void {
     this.LinkUserWatchers();
@@ -182,11 +190,11 @@ export class Globals {
         console.log("Globals.LinkCandidaturesWatchers > user has candidated to new list!");
         let candidature: Candidature = _candidature.val();
         this.Candidatures[_candidature.key] = candidature;
-        let ref_cand_accepted: FirebaseObjectObservable<any> = this.af.database.object("/published_lists/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey + "/ChosenCandidateKey");
+        let ref_cand_accepted: FirebaseObjectObservable<any> = this.af.database.object("/published_lists/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey + "/ChosenCandidatureKey");
         this.candidates_refs.push(ref_cand_accepted.$ref.ref);
         ref_cand_accepted.$ref.on("value", (accepted: firebase.database.DataSnapshot) => {
-          let _cand_key: any = accepted.val();
-          if (_cand_key != null && _cand_key == candidature.CandidateReferenceKey) {
+            let _cand_key: any = accepted.val();
+            if (_cand_key != null && _cand_key == _candidature.key) {
             candidature.Accepted = true;
             this.Candidatures_db.update(_candidature.key, candidature).then(() => {
               if (this.IsWeb) {
@@ -239,18 +247,18 @@ export class Globals {
       if (this.IsAlreadyCandidate(candidature.ListReferenceKey)) {
         reject(new Error("already_candidated"));
       } else {
-        let cand_db_promise = this.af.database.list("/candidates/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey).push(StripForFirebase(candidate));
-        cand_db_promise.then((cand_db) => {
-          candidature.CandidateReferenceKey = cand_db_promise.key;
+        //let cand_db_promise = this.af.database.list("/candidates/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey).push(StripForFirebase(candidate));
+        //cand_db_promise.then((cand_db) => {
+        //  candidature.CandidateReferenceKey = cand_db_promise.key;
           this.Candidatures_db.push(candidature).then(() => {
             console.log("Globals.AddCandidature > new candidature pushed");
             resolve(true);
           }).catch((err: Error) => {
             reject(new Error("cannot add candidature to db: " + err.message));
           });
-        }).catch((err: Error) => {
-          reject(new Error("cannot add candidate to db: " + err.message));
-        });
+        //}).catch((err: Error) => {
+        //  reject(new Error("cannot add candidate to db: " + err.message));
+        //});
       }
     });
   }
