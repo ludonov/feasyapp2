@@ -161,6 +161,7 @@ export class ListsPage {
             counter++;
             this.af.database.object("/published_lists/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey).$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
                 let _list: FeasyList = snapshot.val();
+                if (_list != null && _list.Items != null && _list.DeliveryAddresses != null) {
               _list.ItemsCount = Object.keys(_list.Items).length;
               (_list as any).ChosenAddress = _list.DeliveryAddresses[candidature.AddressKey];
               (_list as any).Candidature = candidature;
@@ -168,6 +169,7 @@ export class ListsPage {
                 this.accepted_lists[snapshot.key] = _list;
               } else {
                 this.pending_lists[snapshot.key] = _list;
+              }
               }
               if (counter >= cands_count)
                 loading.dismiss();
