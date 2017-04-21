@@ -20,9 +20,11 @@ export class AddOrShowItemPage {
   public items_db: FirebaseListObservable<any>;
   public units: string[] = GetUnits();
 
+  tabBarElement: any;
   @ViewChild('NameInput') NameInputField;
 
   constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, af: AngularFire, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
+    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.list_key = navParams.get('list_key');
     this.item_key = navParams.get('item_key');
     if (this.list_key == null) {
@@ -44,6 +46,24 @@ export class AddOrShowItemPage {
       this.items_db = af.database.list('unpublished_lists/' + globals.UID + '/' + this.list_key + '/Items');
     }
   }
+  
+  //ionViewWillEnter() {
+  //  let tabs = document.querySelectorAll('.tabbar');
+  //  if (tabs !== null) {
+  //    Object.keys(tabs).map((key) => {
+  //      tabs[key].style.transform = 'translateY(56px)';
+  //    });
+  //  } // end if
+  //}
+
+  //ionViewDidLeave() {
+  //  let tabs = document.querySelectorAll('.tabbar');
+  //  if (tabs !== null) {
+  //    Object.keys(tabs).map((key) => {
+  //      tabs[key].style.transform = 'translateY(0)';
+  //    });
+  //  } // end if
+  //}
 
   ionViewDidEnter() {
     setTimeout(() => {

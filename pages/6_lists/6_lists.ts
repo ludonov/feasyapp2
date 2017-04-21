@@ -24,7 +24,7 @@ import { PublicatedListWithShopperPovShopperPage } from '../../pages/11B_publica
 export class ListsPage {
 
   lists: string = "demander";
-
+  
   //public published_lists: Object;
   //public unpublished_lists: Object;
   //public published_lists_db: FirebaseListObservable<any>;
@@ -42,6 +42,8 @@ export class ListsPage {
   private no_pending_lists: boolean = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController, public globals: Globals, public loadingCtrl: LoadingController) {
+
+    this.updateShopperLists();
 
     //this.published_lists_db = af.database.list('/published_lists/' + globals.UID);
     //this.unpublished_lists_db = af.database.list('/unpublished_lists/' + globals.UID);
@@ -142,7 +144,7 @@ export class ListsPage {
   }
 
   // SHOPPER LISTS
-  ionViewDidEnter() {
+  updateShopperLists() {
 
     this.globals.Candidatures_db.$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
       let candidatures: any = snapshot.val() || {};
@@ -195,5 +197,5 @@ export class ListsPage {
     console.log("search on map");
     this.navCtrl.setRoot(DoShoppingPage);    
   }
-
+  
 }
