@@ -77,6 +77,29 @@ export function GetExpiryDateFromEnum(expiryDate: ExpiryDateType): string {
     return "";
 }
 
+
+// FEASY CLOUD FUNCTIONS RESPONSE CLASS
+export class CloudFuncResponse {
+
+    public Error: boolean;
+    public ErrorMessage: string;
+
+    constructor() {
+
+    }
+
+    public static fromString(s: string): CloudFuncResponse {
+        let json = JSON.parse(s);
+        let temp: CloudFuncResponse = new CloudFuncResponse();
+        if (json.error != null)
+            temp.Error = json.error;
+        if (json.errorMessage != null)
+            temp.ErrorMessage = json.errorMessage;
+        return temp;
+    }
+
+}
+
 export class FeasyUser {
   public $key: string;
   public Email: string;
