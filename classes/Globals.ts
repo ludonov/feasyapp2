@@ -33,7 +33,7 @@ export class Globals {
 
   public Candidatures: Object = {};
   public Candidatures_db: FirebaseListObservable<any>;
-  public candidatures_refs: Array<firebase.database.Reference> = new Array();
+  //public candidatures_refs: Array<firebase.database.Reference> = new Array();
 
   public Reviews: Object = {};
   public Reviews_db: FirebaseListObservable<any>;
@@ -173,61 +173,72 @@ export class Globals {
     try {
       
       this.Candidatures_db = this.af.database.list('/candidatures/' + this.UID);
-      this.candidatures_refs.push(this.Candidatures_db.$ref.ref);
+      //this.candidatures_refs.push(this.Candidatures_db.$ref.ref);
 
       this.Candidatures_db.$ref.on("child_removed", (removed_cand: firebase.database.DataSnapshot) => {
         delete this.Candidatures[removed_cand.key];
-        for (let ref_index = 0; ref_index < this.candidatures_refs.length; ref_index++) {
-          if (this.candidatures_refs[ref_index].key == removed_cand.key) {
-            this.candidatures_refs[ref_index].off();
-            this.candidatures_refs.splice(ref_index, 1);
-            break;
-          }
-        }
+        //for (let ref_index = 0; ref_index < this.candidatures_refs.length; ref_index++) {
+        //  if (this.candidatures_refs[ref_index].key == removed_cand.key) {
+        //    this.candidatures_refs[ref_index].off();
+        //    this.candidatures_refs.splice(ref_index, 1);
+        //    break;
+        //  }
+        //}
       });
 
       this.Candidatures_db.$ref.on("child_added", (_candidature: firebase.database.DataSnapshot) => {
         console.log("Globals.LinkCandidaturesWatchers > user has candidated to new list!");
         let candidature: Candidature = _candidature.val();
         this.Candidatures[_candidature.key] = candidature;
-        let ref_cand_accepted: FirebaseObjectObservable<any> = this.af.database.object("/published_lists/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey + "/ChosenCandidatureKey");
-        this.candidates_refs.push(ref_cand_accepted.$ref.ref);
-        ref_cand_accepted.$ref.on("value", (accepted: firebase.database.DataSnapshot) => {
-            let _cand_key: any = accepted.val();
-            if (_cand_key != null && _cand_key == _candidature.key) {
-            candidature.Accepted = true;
-            this.Candidatures_db.update(_candidature.key, candidature).then(() => {
-              if (this.IsWeb) {
-                let alert: Alert = this.alertCtrl.create({
-                  title: "Sei stato accettato!",
-                  subTitle: "Vuoi vedere i dettagli?",
-                  buttons: [
-                    {
-                      text: 'Ok',
-                      handler: () => {
-                        this.navCtrl.push(PublicatedListWithShopperPovShopperPage, { list_owner: candidature.ListOwnerUid, list_key: candidature.ListReferenceKey, candidature_key: _candidature.key, candidature: candidature });
-                      }
-                    }]
-                });
-                alert.present();
-              } else {
-                // Schedule a single notification
-                LocalNotifications.schedule({
-                  id: 1,
-                  title: "Sei stato accettato!",
-                  text: "Clicca per vedere i dettagli",
-                  icon: 'res://icon'
-                });
-                LocalNotifications.on("click", (notification) => {
-                  this.navCtrl.push(PublicatedListWithShopperPovShopperPage, { list_owner: candidature.ListOwnerUid, list_key: candidature.ListReferenceKey, candidature_key: _candidature.key, candidature: candidature });
-                });
-              }
-            }).catch((err: Error) => {
-              console.log("Cannot update 'accepted' on candidature <" + _candidature.key + ">: " + err.message);
+        //let ref_cand_accepted: FirebaseObjectObservable<any> = this.af.database.object("/published_lists/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey + "/ChosenCandidatureKey");
+        //this.candidates_refs.push(ref_cand_accepted.$ref.ref);
+        //ref_cand_accepted.$ref.on("value", (accepted: firebase.database.DataSnapshot) => {
+        //    let _cand_key: any = accepted.val();
+        //    if (_cand_key != null && _cand_key == _candidature.key) {
+        //    candidature.Accepted = true;
+        //    this.Candidatures_db.update(_candidature.key, candidature).then(() => {
+              
+        //    }).catch((err: Error) => {
+        //      console.log("Cannot update 'accepted' on candidature <" + _candidature.key + ">: " + err.message);
+        //    });
+        //  }
+        //});
+      });
+
+
+      this.Candidatures_db.$ref.on("child_changed", (_candidature: firebase.database.DataSnapshot) => {
+        //console.log("Globals.LinkCandidaturesWatchers > user has candidated to new list!");
+        let candidature: Candidature = _candidature.val();
+        this.Candidatures[_candidature.key] = candidature;
+        if (candidature.Accepted == true) {
+          if (this.IsWeb) {
+            let alert: Alert = this.alertCtrl.create({
+              title: "Sei stato accettato!",
+              subTitle: "Vuoi vedere i dettagli?",
+              buttons: [
+                {
+                  text: 'Ok',
+                  handler: () => {
+                    this.navCtrl.push(PublicatedListWithShopperPovShopperPage, { list_owner: candidature.ListOwnerUid, list_key: candidature.ListReferenceKey, candidature_key: _candidature.key, candidature: candidature });
+                  }
+                }]
+            });
+            alert.present();
+          } else {
+            // Schedule a single notification
+            LocalNotifications.schedule({
+              id: 1,
+              title: "Sei stato accettato!",
+              text: "Clicca per vedere i dettagli",
+              icon: 'res://icon'
+            });
+            LocalNotifications.on("click", (notification) => {
+              this.navCtrl.push(PublicatedListWithShopperPovShopperPage, { list_owner: candidature.ListOwnerUid, list_key: candidature.ListReferenceKey, candidature_key: _candidature.key, candidature: candidature });
             });
           }
-        });
+        }
       });
+
     } catch (e) {
       console.log("Globals.LinkCandidaturesWatchers catch err: " + JSON.stringify(e));
     }
@@ -366,10 +377,11 @@ export class Globals {
   }
 
   private UnlinkCandidaturesWatchers(): void {
-    for (let ref of this.candidatures_refs) {
-      ref.off();
-    }
-    this.candidatures_refs.length = 0;
+    this.Candidatures_db.$ref.off();
+    //for (let ref of this.candidatures_refs) {
+    //  ref.off();
+    //}
+    //this.candidatures_refs.length = 0;
   }
 
   private CopyObj(_what: any, _where: any, key: string): void {

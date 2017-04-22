@@ -138,11 +138,14 @@ export class FeasyList {
   public Reward: number;
   public PublishedDate: string;
   public CreatedDate: string;
+  public TerminatedDate: string;
   public ExpiryDate: ExpiryDateType;
   public PreferredShops: string;
   public MaxValue: number;
   public EstimatedWeight: number;
+  public ChosenCandidateKey: string;
   public ChosenCandidatureKey: string;
+  public ChosenShopperUid: string;
   public Comments: string;
   public DeliveryAddresses: Object;
 
