@@ -43,7 +43,7 @@ export class ListsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController, public globals: Globals, public loadingCtrl: LoadingController) {
 
-    this.updateShopperLists();
+    //this.updateShopperLists();
 
     //this.published_lists_db = af.database.list('/published_lists/' + globals.UID);
     //this.unpublished_lists_db = af.database.list('/unpublished_lists/' + globals.UID);

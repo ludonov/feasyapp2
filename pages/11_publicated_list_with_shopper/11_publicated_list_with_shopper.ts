@@ -12,67 +12,67 @@ import { PublicatedListProductsPage } from '../../pages/12_publicated_list_produ
 import { AddressViewStaticPage } from '../../pages/30_address_view_static/30_address_view_static';
 
 @Component({
-    selector: 'page-publicated-with-shopper',
-    templateUrl: '11_publicated_list_with_shopper.html'
+  selector: 'page-publicated-with-shopper',
+  templateUrl: '11_publicated_list_with_shopper.html'
 })
 
 export class PublicatedListWithShopperPage {
 
-    private list_key: string;
-    private ChosenCandidate: FeasyUser = new FeasyUser("", "", "");
-    private ChosenAddress: DeliveryAddress = new DeliveryAddress();
-    private list: FeasyList = new FeasyList("");
-    private candidate: Candidate = new Candidate();
+  private list_key: string;
+  private ChosenCandidate: FeasyUser = new FeasyUser("", "", "");
+  private ChosenAddress: DeliveryAddress = new DeliveryAddress();
+  private list: FeasyList = new FeasyList("");
+  private candidate: Candidate = new Candidate();
 
-    constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
-        this.list_key = navParams.get('list_key');
-        if (this.list_key == undefined || this.list_key == null) {
-            console.warn("PublicatedListWithShopperPage null list_key. Going back.")
-            navCtrl.pop();
-        } else {
-            this.list = globals.PublishedLists[this.list_key];
-            if (globals.Candidates[this.list_key] == null) {
-                console.warn("PublicatedListWithShopperPage null candidate. Going back.")
-                navCtrl.pop();
-            } else {
-                this.candidate = globals.getAcceptedCandidateFromList(this.list_key);
-                this.ChosenAddress = this.list.DeliveryAddresses[this.candidate.AddressKey];
-                af.database.object("/users/" + this.candidate.uid).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
-                    this.ChosenCandidate = snapshot.val() || new FeasyUser("", "", "");
-                });
-            }
-        }
-    }
-
-    goToPayment(): void {
-        console.log("TERMINATING LIST");
-        //this.navCtrl.push(PaymentPage);
-      
-        this.globals.PublishedLists_db.update(this.list_key, { TerminatedDate: (new Date()).toUTCString() }).then( () => {
-            console.log("List terminated!");
-        }).catch((err: Error) => {
-            console.warn("Cannot push list to published lists: " + err.message);
-            this.ShowGenericError();
+  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
+    this.list_key = navParams.get('list_key');
+    if (this.list_key == undefined || this.list_key == null) {
+      console.warn("PublicatedListWithShopperPage null list_key. Going back.")
+      navCtrl.pop();
+    } else {
+      this.list = globals.PublishedLists[this.list_key];
+      this.candidate = globals.getAcceptedCandidateFromList(this.list_key);
+      if (this.candidate == null) {
+        console.warn("PublicatedListWithShopperPage list should have an accepted candidate but non found. Going back.")
+        navCtrl.pop();
+      } else {
+        this.ChosenAddress = this.list.DeliveryAddresses[this.candidate.AddressKey];
+        af.database.object("/users/" + this.candidate.uid).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
+          this.ChosenCandidate = snapshot.val() || new FeasyUser("", "", "");
         });
+      }
     }
+  }
 
-    ShowGenericError() {
-      let alert = this.alertCtrl.create({
-        title: 'Info',
-        subTitle: "C'è stato un errore durante la terminazione della lista. Ritentare nuovamente.",
-        buttons: ['Ok']
-      });
-      alert.present();
-    }
+  goToPayment(): void {
+    console.log("TERMINATING LIST");
+    //this.navCtrl.push(PaymentPage);
 
-    ViewAddress(): void {
-        console.log("Going to AddressViewStaticPage");
-        this.navCtrl.push(AddressViewStaticPage, { address: this.ChosenAddress });
-    }
+    this.globals.PublishedLists_db.update(this.list_key, { TerminatedDate: (new Date()).toUTCString() }).then(() => {
+      console.log("List terminated!");
+    }).catch((err: Error) => {
+      console.warn("Cannot push list to published lists: " + err.message);
+      this.ShowGenericError();
+    });
+  }
 
-    ViewItems(): void {
-        console.log("Going to PublicatedListProductsPage");
-        this.navCtrl.push(PublicatedListProductsPage, { items: this.list.Items });
-    }
+  ShowGenericError() {
+    let alert = this.alertCtrl.create({
+      title: 'Info',
+      subTitle: "C'è stato un errore durante la terminazione della lista. Ritentare nuovamente.",
+      buttons: ['Ok']
+    });
+    alert.present();
+  }
+
+  ViewAddress(): void {
+    console.log("Going to AddressViewStaticPage");
+    this.navCtrl.push(AddressViewStaticPage, { address: this.ChosenAddress });
+  }
+
+  ViewItems(): void {
+    console.log("Going to PublicatedListProductsPage");
+    this.navCtrl.push(PublicatedListProductsPage, { items: this.list.Items });
+  }
 
 }

@@ -26,14 +26,17 @@ export class Globals {
   public UnpublishedLists_db: FirebaseListObservable<any>;
   public NoUnpublishedLists: boolean = true;
 
+  public AcceptedLists: Object = {};
+  public NoAcceptedLists: boolean = true;
+
+  public AppliedLists: Object = {};
+  public NoAppliedLists: boolean = true;
 
   public Candidates: Object = {};
   public Candidates_db: FirebaseListObservable<any>;
-  public candidates_refs: Array<firebase.database.Reference> = new Array();
 
   public Candidatures: Object = {};
   public Candidatures_db: FirebaseListObservable<any>;
-  //public candidatures_refs: Array<firebase.database.Reference> = new Array();
 
   public Reviews: Object = {};
   public Reviews_db: FirebaseListObservable<any>;
@@ -51,12 +54,12 @@ export class Globals {
   }
 
   public getAcceptedCandidateFromList(list_key: string): Candidate {
-      let list: FeasyList = this.PublishedLists[list_key];
-      for (let cand in this.Candidates) {
-          if ((this.Candidates[cand] as Candidate).CandidatureReferenceKey == list.ChosenCandidatureKey)
-              return this.Candidates[cand];
-      }
-      return null;
+    let list: FeasyList = this.PublishedLists[list_key];
+    for (let cand in this.Candidates) {
+      if ((this.Candidates[cand] as Candidate).CandidatureReferenceKey == list.ChosenCandidatureKey)
+        return this.Candidates[cand];
+    }
+    return null;
   }
 
   public LinkAllWatchers(): void {
@@ -111,7 +114,7 @@ export class Globals {
       //  //if (index != -1)
       //  //  old_keys.splice(index, 1);
       //  return false;
-        this.NoPublishedLists = Object.keys(this.PublishedLists).length == 0;
+      this.NoPublishedLists = Object.keys(this.PublishedLists).length == 0;
       //});
       ////for (let key in old_keys)
       ////  delete this.PublishedLists[key];
@@ -168,14 +171,26 @@ export class Globals {
     });
   }
 
+  private updateBooleansAcceptedAndApplied() {
+    this.NoAcceptedLists = Object.keys(this.AcceptedLists).length == 0;
+    this.NoAppliedLists = Object.keys(this.AppliedLists).length == 0;
+  }
+
   private LinkCandidaturesWatchers(): void {
 
     try {
       
       this.Candidatures_db = this.af.database.list('/candidatures/' + this.UID);
+      this.AppliedLists = {};
+      this.AcceptedLists = {};
+      this.NoAcceptedLists = true;
+      this.NoAppliedLists = true;
       //this.candidatures_refs.push(this.Candidatures_db.$ref.ref);
 
       this.Candidatures_db.$ref.on("child_removed", (removed_cand: firebase.database.DataSnapshot) => {
+        let cand: Candidature = this.Candidatures[removed_cand.key];
+        delete this.AppliedLists[cand.ListReferenceKey];
+        delete this.AcceptedLists[cand.ListReferenceKey];
         delete this.Candidatures[removed_cand.key];
         //for (let ref_index = 0; ref_index < this.candidatures_refs.length; ref_index++) {
         //  if (this.candidatures_refs[ref_index].key == removed_cand.key) {
@@ -184,25 +199,24 @@ export class Globals {
         //    break;
         //  }
         //}
+        this.updateBooleansAcceptedAndApplied();
       });
 
       this.Candidatures_db.$ref.on("child_added", (_candidature: firebase.database.DataSnapshot) => {
         console.log("Globals.LinkCandidaturesWatchers > user has candidated to new list!");
         let candidature: Candidature = _candidature.val();
         this.Candidatures[_candidature.key] = candidature;
-        //let ref_cand_accepted: FirebaseObjectObservable<any> = this.af.database.object("/published_lists/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey + "/ChosenCandidatureKey");
-        //this.candidates_refs.push(ref_cand_accepted.$ref.ref);
-        //ref_cand_accepted.$ref.on("value", (accepted: firebase.database.DataSnapshot) => {
-        //    let _cand_key: any = accepted.val();
-        //    if (_cand_key != null && _cand_key == _candidature.key) {
-        //    candidature.Accepted = true;
-        //    this.Candidatures_db.update(_candidature.key, candidature).then(() => {
-              
-        //    }).catch((err: Error) => {
-        //      console.log("Cannot update 'accepted' on candidature <" + _candidature.key + ">: " + err.message);
-        //    });
-        //  }
-        //});
+        this.af.database.object("/published_lists/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
+          let list: FeasyList = snapshot.val();
+          list.ItemsCount = Object.keys(list.Items).length;
+          (list as any).Candidature = candidature;
+          (list as any).ChosenAddress = list.DeliveryAddresses[candidature.AddressKey];
+          if (list != null && list.ChosenShopperUid == this.UID)
+            this.AcceptedLists[snapshot.key] = list;
+          else
+            this.AppliedLists[snapshot.key] = list;
+          this.updateBooleansAcceptedAndApplied();
+        });
       });
 
 
@@ -211,6 +225,12 @@ export class Globals {
         let candidature: Candidature = _candidature.val();
         this.Candidatures[_candidature.key] = candidature;
         if (candidature.Accepted == true) {
+          // moves list from applied to accepted
+          this.AcceptedLists[candidature.ListReferenceKey] = {};
+          Object.assign(this.AcceptedLists[candidature.ListReferenceKey], this.AppliedLists[candidature.ListReferenceKey]);
+          delete this.AppliedLists[candidature.ListReferenceKey];
+          this.updateBooleansAcceptedAndApplied();
+
           if (this.IsWeb) {
             let alert: Alert = this.alertCtrl.create({
               title: "Sei stato accettato!",
@@ -258,18 +278,12 @@ export class Globals {
       if (this.IsAlreadyCandidate(candidature.ListReferenceKey)) {
         reject(new Error("already_candidated"));
       } else {
-        //let cand_db_promise = this.af.database.list("/candidates/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey).push(StripForFirebase(candidate));
-        //cand_db_promise.then((cand_db) => {
-        //  candidature.CandidateReferenceKey = cand_db_promise.key;
           this.Candidatures_db.push(candidature).then(() => {
             console.log("Globals.AddCandidature > new candidature pushed");
             resolve(true);
           }).catch((err: Error) => {
             reject(new Error("cannot add candidature to db: " + err.message));
           });
-        //}).catch((err: Error) => {
-        //  reject(new Error("cannot add candidate to db: " + err.message));
-        //});
       }
     });
   }
@@ -277,35 +291,31 @@ export class Globals {
   private LinkCandidatesWatchers(): void {
     try {
       this.Candidates_db = this.af.database.list("/candidates/" + this.UID);
-      this.candidates_refs.push(this.Candidates_db.$ref.ref);
+      //this.candidates_refs.push(this.Candidates_db.$ref.ref);
 
       this.Candidates_db.$ref.on("child_removed", (removed_list: firebase.database.DataSnapshot) => {
         delete this.Candidates[removed_list.key];
-        for (let ref_index = 0; ref_index < this.candidates_refs.length; ref_index++) {
-          if (this.candidates_refs[ref_index].key == removed_list.key) {
-            this.candidates_refs[ref_index].off();
-            this.candidates_refs.splice(ref_index, 1);
-            break;
-          }
-        }
+        //for (let ref_index = 0; ref_index < this.candidates_refs.length; ref_index++) {
+        //  if (this.candidates_refs[ref_index].key == removed_list.key) {
+        //    this.candidates_refs[ref_index].off();
+        //    this.candidates_refs.splice(ref_index, 1);
+        //    break;
+        //  }
+        //}
       });
 
-      this.Candidates_db.$ref.on("child_added", (list: firebase.database.DataSnapshot) => {
-        let ref_cand: FirebaseListObservable<any> = this.af.database.list("/candidates/" + this.UID + "/" + list.key);
-        this.candidates_refs.push(ref_cand.$ref.ref);
-        ref_cand.$ref.on("value", (candidates: firebase.database.DataSnapshot) => {
-          let candidates_data = candidates.val();
-          this.Candidates[list.key] = candidates_data;
-          let new_candidates_number: number = 0;
-          for (let candidate in candidates_data) {
-            if (candidates_data[candidate] != null && !candidates_data[candidate].Visualised) {
-              new_candidates_number++;
-            }
-          }
-          if (new_candidates_number > 0) {
+      this.Candidates_db.$ref.on("child_added", (_candidate: firebase.database.DataSnapshot) => {
+        //let ref_cand: FirebaseListObservable<any> = this.af.database.list("/candidates/" + this.UID + "/" + list.key);
+        //this.candidates_refs.push(ref_cand.$ref.ref);
+        //ref_cand.$ref.on("value", (candidates: firebase.database.DataSnapshot) => {
+        //  let candidates_data = candidates.val();
+        //  this.Candidates[list.key] = candidates_data;
+        let candidate: Candidate = _candidate.val();
+        this.Candidates[_candidate.key] = candidate;
+        if (!candidate.Visualised) {
             if (this.IsWeb) {
               let alert: Alert = this.alertCtrl.create({
-                title: new_candidates_number == 1 ? 'Nuovo candidato!' : "Nuovi candidati!",
+                title: 'Nuovo candidato!',
                 subTitle: "Vuoi vedere i dettagli?",
                 buttons: [
                   {
@@ -315,7 +325,7 @@ export class Globals {
                   {
                     text: 'Ok',
                     handler: () => {
-                      this.navCtrl.push(PublicatedListCandidatesPage, { list_key: list.key });
+                      this.navCtrl.push(PublicatedListCandidatesPage, { list_key: candidate.ListReferenceKey });
                     }
                   }]
               });
@@ -324,22 +334,38 @@ export class Globals {
               // Schedule a single notification
               LocalNotifications.schedule({
                 id: 1,
-                title: new_candidates_number == 1 ? 'Nuovo candidato!' : "Nuovi candidati!",
+                title: 'Nuovo candidato!',
                 text: "Clicca per vedere i dettagli",
-                data: { list_owner: this.UID, list_key: list.key },
+                data: { list_owner: this.UID, list_key: candidate.ListReferenceKey },
                 icon: 'res://icon'
               });
               LocalNotifications.on("click", (notification) => {
-                this.navCtrl.push(PublicatedListCandidatesPage, { list_key: list.key });
+                this.navCtrl.push(PublicatedListCandidatesPage, { list_key: candidate.ListReferenceKey });
               });
             }
           }
-        });
+        //});
+      });
+
+
+      this.Candidates_db.$ref.on("child_changed", (_candidate: firebase.database.DataSnapshot) => {
+        //console.log("Globals.LinkCandidaturesWatchers > user has candidated to new list!");
+        let candidate: Candidate = _candidate.val();
+        this.Candidates[_candidate.key] = candidate;
       });
 
     } catch (e) {
       console.log("Globals.LinkCandidatesWatchers catch err: " + JSON.stringify(e));
     }
+  }
+
+  public GetAllCandidatesForList(list_key: string): {} {
+    let cands: Object = {};
+    for (let candKey in this.Candidates) {
+      if (this.Candidates[candKey].ListReferenceKey == list_key)
+        cands[candKey] = this.Candidates[candKey];
+    }
+    return cands;
   }
 
   private LinkReviewsWatchers(): void {
@@ -370,10 +396,11 @@ export class Globals {
   }
 
   private UnlinkCandidatesWatchers(): void {
-    for (let ref of this.candidates_refs) {
-      ref.off();
-    }
-    this.candidates_refs.length = 0;
+    this.Candidates_db.$ref.off();
+    //for (let ref of this.candidates_refs) {
+    //  ref.off();
+    //}
+    //this.candidates_refs.length = 0;
   }
 
   private UnlinkCandidaturesWatchers(): void {

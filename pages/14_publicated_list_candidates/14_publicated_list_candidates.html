@@ -9,9 +9,9 @@
 
 <ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
 
-  <h6 class="center" *ngIf="globals.Candidates[list_key] == undefined">Nessun candidato presente, attendi ancora!</h6>
+  <h6 class="center" *ngIf="NoCandidates">Nessun candidato presente, attendi ancora!</h6>
   <ion-list>
-    <ion-item (click)="ViewCandidate(candidate)" *ngFor="let candidate of globals.Candidates[list_key] | keys">
+    <ion-item (click)="ViewCandidate(candidate)" *ngFor="let candidate of cands | keys">
       <ion-avatar item-left>
         <img src="assets/img/Ludovico.jpg">
       </ion-avatar>
