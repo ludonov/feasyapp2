@@ -228,7 +228,7 @@ export class Globals {
           // moves list from applied to accepted
           this.AcceptedLists[candidature.ListReferenceKey] = {};
           Object.assign(this.AcceptedLists[candidature.ListReferenceKey], this.AppliedLists[candidature.ListReferenceKey]);
-          delete this.AcceptedLists[candidature.ListReferenceKey];
+          delete this.AppliedLists[candidature.ListReferenceKey];
           this.updateBooleansAcceptedAndApplied();
 
           if (this.IsWeb) {
