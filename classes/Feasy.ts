@@ -209,21 +209,23 @@ export class Review {
   }
 }
 
-/*export class Review {
-  public $key: string;
-  public ReviewerFirstName: string;           //First name of reviewer
-  public ReviewerLastName: string;            //Last name of reviewer
-  public Title: string;                       //Title of review
-  public Content: string;                     //Content of review 
-  public Vote: number;                        //Vote of commission
-  public CreatedDate: string;                 //Date of review
-  public CommissionDate: string;              //Date the commission took place
-  public CommissionDeliveryAddress: Object;   //Address the commission was delivered to
+// export class ReviewToLeave {
+//   public $key: string;
+//   public DemanderName: string;  
+//   public DemanderUID: string;         
+//   public ShopperName: string;     
+//   public ShopperUID: string;  
+//   public ListKey: string;
+//   public Address: string;
 
-  constructor() {
+//   public DemanderReview: boolean = false;
+//   public ShopperReview: boolean = false;
 
-  }
-}*/
+
+//   constructor() {
+
+//   }
+// }
 
 export class DeliveryAddress {
   public $key: string;
