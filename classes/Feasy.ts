@@ -177,6 +177,7 @@ export class Candidate {
   public AddressKey: string;
   public Comment: string;
   public Visualised: boolean = false;
+  public ListReferenceKey: string;
   public CandidatureReferenceKey: string;
 
   constructor() {
