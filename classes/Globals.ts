@@ -1,16 +1,22 @@
 ﻿
 import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 import { PublicatedListWithShopperPovShopperPage } from '../pages/11B_publicated_list_with_shopper_pov_shopper/11B_publicated_list_with_shopper_pov_shopper';
+import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
+
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { NavController, AlertController, Alert, LoadingController, Loading, Platform } from 'ionic-angular';
 import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { LocalNotifications } from 'ionic-native';
 
-import { FeasyUser, FeasyList, Candidate, Candidature, Review, StripForFirebase } from './Feasy';
+import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, StripForFirebase } from './Feasy';
 
 @Injectable()
 export class Globals {
+
+  public config: Config = new Config();
+  private config_db: FirebaseObjectObservable<any>;
+  public root: any;
 
   public UID: string = "";
   public IsWeb: boolean = true;
@@ -53,13 +59,24 @@ export class Globals {
     this.IsWeb = platform.is("core");
   }
 
-  public getAcceptedCandidateFromList(list_key: string): Candidate {
-    let list: FeasyList = this.PublishedLists[list_key];
-    for (let cand in this.Candidates) {
-      if ((this.Candidates[cand] as Candidate).CandidatureReferenceKey == list.ChosenCandidatureKey)
-        return this.Candidates[cand];
-    }
-    return null;
+  public StartConfigWatcher() {
+    this.config_db = this.af.database.object("/config");
+    this.config_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
+      let old_config: Config = new Config();
+      Object.assign(old_config, this.config);
+      this.config = snapshot.val() || new Config();
+      if (this.config.Maintenance && !old_config.Maintenance) {
+        console.log("APP WENT UNDER MAINTENANCE")
+        this.navCtrl.popToRoot().then(() => {
+          this.navCtrl.setRoot(MaintenancePage);
+        });
+      } else if (!this.config.Maintenance && old_config.Maintenance) {
+        console.log("APP RECOVERED FROM MAINTENANCE")
+        this.navCtrl.popToRoot().then(() => {
+          this.navCtrl.setRoot(this.root);
+        });
+      }
+    });
   }
 
   public LinkAllWatchers(): void {
@@ -357,6 +374,15 @@ export class Globals {
     } catch (e) {
       console.log("Globals.LinkCandidatesWatchers catch err: " + JSON.stringify(e));
     }
+  }
+
+  public getAcceptedCandidateFromList(list_key: string): Candidate {
+    let list: FeasyList = this.PublishedLists[list_key];
+    for (let cand in this.Candidates) {
+      if ((this.Candidates[cand] as Candidate).CandidatureReferenceKey == list.ChosenCandidatureKey)
+        return this.Candidates[cand];
+    }
+    return null;
   }
 
   public GetAllCandidatesForList(list_key: string): {} {

@@ -55,6 +55,8 @@ import { SpecificAddressFromEditProfilePage } from '../pages/37_specific_address
 import { AddNewAddressPage } from '../pages/38_add_new_address/38_add_new_address';
 import { ReviewsToLeavePage } from '../pages/39_reviews_to_leave/39_reviews_to_leave';
 
+import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
+
 import { TabsPage } from '../pages/tabs/tabs';
 
 // Import the AF2 Module
@@ -74,6 +76,7 @@ export const firebaseConfig = {
     MyApp,
     KeysPipe,
     HideTabsDirective,
+    MaintenancePage,
     LoginPage,
     ForgotPassPage, 
     SignupPage,
@@ -134,6 +137,7 @@ export const firebaseConfig = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    MaintenancePage,
     LoginPage,
     ForgotPassPage ,
     SignupPage,
