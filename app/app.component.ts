@@ -5,6 +5,8 @@ import { Platform, NavController, AlertController, Alert, Loading, LoadingContro
 import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { Splashscreen, LocalNotifications } from 'ionic-native';
 import { StatusBar } from '@ionic-native/status-bar';
+//import { Keyboard } from '@ionic-native/keyboard';
+import { Keyboard } from 'ionic-native';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/1_login/1_login';
@@ -18,9 +20,10 @@ import { Globals } from '../classes/Globals';
 
 import { MenuController } from 'ionic-angular';
 
+
 @Component({
   templateUrl: 'app.html',
-  providers: [Globals, StatusBar],
+  providers: [Globals, StatusBar, Keyboard],
 })
 export class MyApp {
   rootPage: any = LoginPage;
@@ -33,6 +36,17 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       //StatusBar.styleDefault();
       Splashscreen.hide();
+      //keyboard.disableScroll(false);
+      //keyboard.hideKeyboardAccessoryBar(true);
+
+      Keyboard.onKeyboardShow().subscribe(() => {
+        document.body.classList.add('keyboard-is-open');
+      });
+
+      Keyboard.onKeyboardHide().subscribe(() => {
+        document.body.classList.remove('keyboard-is-open');
+      });
+
       globals.af = af;
       globals.alertCtrl = alertCtrl;
       globals.navCtrl = this.navCtrl;

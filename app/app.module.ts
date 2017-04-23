@@ -4,6 +4,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { KeysPipe } from '../app/pipes';
+import { HideTabsDirective } from '../app/HideTabsDirective';
 
 import { Globals } from '../classes/Globals';
 
@@ -72,6 +73,7 @@ export const firebaseConfig = {
   declarations: [
     MyApp,
     KeysPipe,
+    HideTabsDirective,
     LoginPage,
     ForgotPassPage, 
     SignupPage,
@@ -120,7 +122,13 @@ export const firebaseConfig = {
     TabsPage
   ],
   imports: [
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+          // These options are available in ionic-angular@2.0.0-beta.2 and up.
+          // http://ionicframework.com/docs/v2/api/config/Config/)
+          scrollAssist: false,    // Valid options appear to be [true, false]
+          autoFocusAssist: 'instant'  // Valid options appear to be ['instant', 'delay', false]
+        }
+      ),
     AngularFireModule.initializeApp(firebaseConfig)
   ],
   bootstrap: [IonicApp],

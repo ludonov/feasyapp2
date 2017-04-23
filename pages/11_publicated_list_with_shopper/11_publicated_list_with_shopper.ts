@@ -45,29 +45,24 @@ export class PublicatedListWithShopperPage {
     }
 
     goToPayment(): void {
-        console.log("REMOVING LIST");
+        console.log("TERMINATING LIST");
         //this.navCtrl.push(PaymentPage);
+      
+        this.globals.PublishedLists_db.update(this.list_key, { TerminatedDate: (new Date()).toUTCString() }).then( () => {
+            console.log("List terminated!");
+        }).catch((err: Error) => {
+            console.warn("Cannot push list to published lists: " + err.message);
+            this.ShowGenericError();
+        });
+    }
 
-        //let list_copy: FeasyList = Object.assign({}, this.list);
-
-        //list_copy.PublishedDate = (new Date()).toUTCString();
-        //this.af.database.list('/published_lists/' + this.globals.UID).push(StripForFirebase(list_copy)).then(res => {
-        //    console.log("List Published! Publishing geopoints...");
-        //    let uid: string = this.globals.UID;
-        //    console.log("Removing list from unpublished_lists...");
-        //    this.af.database.list('/unpublished_lists/' + this.globals.UID).remove(this.list_key).then(res => {
-        //        console.log("Removed list from unpublished lists!");
-        //        loading.dismiss();
-        //        this.navCtrl.popToRoot();
-        //    }).catch((err: Error) => {
-        //        console.warn("Cannot remove list from unpublished lists: " + err.message);
-        //        loading.dismiss();
-        //        this.ShowGenericError();
-        //    });
-        //}).catch((err: Error) => {
-        //    console.warn("Cannot push list to published lists: " + err.message);
-        //    this.ShowGenericError();
-        //});
+    ShowGenericError() {
+      let alert = this.alertCtrl.create({
+        title: 'Info',
+        subTitle: "C'è stato un errore durante la terminazione della lista. Ritentare nuovamente.",
+        buttons: ['Ok']
+      });
+      alert.present();
     }
 
     ViewAddress(): void {

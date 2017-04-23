@@ -38,7 +38,7 @@ export class CandidateInfoUnacceptedPage {
   AcceptShopper(): void {
     //this.af.database.object("/candidates/" + this.globals.UID + "/" + this.list_key + "/" + this.candidate_key).set({ Accepted: true }).then(() => {
       let list_updated: FeasyList = this.globals.PublishedLists[this.list_key];
-      list_updated.ChosenCandidatureKey = this.candidate.CandidatureReferenceKey;
+      list_updated.ChosenCandidateKey = this.candidate_key;
       this.globals.PublishedLists_db.update(this.list_key, StripForFirebase(list_updated)).then(() => {
         let alert: Alert = this.alertCtrl.create({
           title: 'Info',

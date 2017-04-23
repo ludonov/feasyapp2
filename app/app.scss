@@ -1,4 +1,4 @@
-// http://ionicframework.com/docs/v2/theming/
+﻿// http://ionicframework.com/docs/v2/theming/
 
 
 // App Global Sass
@@ -17,4 +17,12 @@
 
 .no-scroll .scroll-content{
      overflow: hidden;
+}
+
+body.keyboard-is-open .tabbar {
+  display: none;
+}
+
+body.keyboard-is-open .scroll-content {
+  margin-bottom: 0 !important;
 }

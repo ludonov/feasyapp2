@@ -31,7 +31,7 @@ export class ListsPage {
   //public unpublished_lists_db: FirebaseListObservable<any>;
   //public no_published_list: boolean = true;
   //public no_unpublished_list: boolean = true;
-  
+
   //SHOPPER LISTS
   public num_items: number = 0;
 
@@ -42,6 +42,8 @@ export class ListsPage {
   private no_pending_lists: boolean = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController, public globals: Globals, public loadingCtrl: LoadingController) {
+
+    this.updateShopperLists();
 
     //this.published_lists_db = af.database.list('/published_lists/' + globals.UID);
     //this.unpublished_lists_db = af.database.list('/unpublished_lists/' + globals.UID);
@@ -131,18 +133,18 @@ export class ListsPage {
   }
 
   goToPublicatedList(list: FeasyList): void {
-      if (list.ChosenCandidatureKey != null && list.ChosenCandidatureKey != "") {
-          console.log("Goto publicated list: " + list.Name);
-          this.navCtrl.push(PublicatedListWithShopperPage, { list_key: list.$key });
-      } else {
-          console.log("Goto publicated list: " + list.Name);
-          this.navCtrl.push(PublicatedListNoShopperPage, { list_key: list.$key });
+    if (list.ChosenCandidatureKey != null && list.ChosenCandidatureKey != "") {
+      console.log("Goto publicated list: " + list.Name);
+      this.navCtrl.push(PublicatedListWithShopperPage, { list_key: list.$key });
+    } else {
+      console.log("Goto publicated list: " + list.Name);
+      this.navCtrl.push(PublicatedListNoShopperPage, { list_key: list.$key });
 
-      }
+    }
   }
 
   // SHOPPER LISTS
-  ionViewDidEnter() {
+  updateShopperLists() {
 
     this.globals.Candidatures_db.$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
       let candidatures: any = snapshot.val() || {};
@@ -156,12 +158,12 @@ export class ListsPage {
           content: 'Please wait...'
         });
         loading.present();
-          for (let cand in candidatures) {
-            let candidature: Candidature = <Candidature>candidatures[cand];
-            counter++;
-            this.af.database.object("/published_lists/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey).$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-                let _list: FeasyList = snapshot.val();
-                if (_list != null && _list.Items != null && _list.DeliveryAddresses != null) {
+        for (let cand in candidatures) {
+          let candidature: Candidature = <Candidature>candidatures[cand];
+          counter++;
+          this.af.database.object("/published_lists/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey).$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
+            let _list: FeasyList = snapshot.val();
+            if (_list != null && _list.Items != null && _list.DeliveryAddresses != null) {
               _list.ItemsCount = Object.keys(_list.Items).length;
               (_list as any).ChosenAddress = _list.DeliveryAddresses[candidature.AddressKey];
               (_list as any).Candidature = candidature;
@@ -170,13 +172,13 @@ export class ListsPage {
               } else {
                 this.pending_lists[snapshot.key] = _list;
               }
-              }
-              if (counter >= cands_count)
-                loading.dismiss();
-              this.no_accepted_lists = Object.keys(this.accepted_lists).length == 0;
-              this.no_pending_lists = Object.keys(this.pending_lists).length == 0;
-            });
-          }
+            }
+            if (counter >= cands_count)
+              loading.dismiss();
+            this.no_accepted_lists = Object.keys(this.accepted_lists).length == 0;
+            this.no_pending_lists = Object.keys(this.pending_lists).length == 0;
+          });
+        }
       }
     });
   }
@@ -193,7 +195,7 @@ export class ListsPage {
 
   map(): void {
     console.log("search on map");
-    this.navCtrl.setRoot(DoShoppingPage);    
+    this.navCtrl.setRoot(DoShoppingPage);
   }
 
 }
