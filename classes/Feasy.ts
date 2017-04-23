@@ -148,11 +148,13 @@ export class FeasyList {
   public ChosenShopperUid: string;
   public Comments: string;
   public DeliveryAddresses: Object;
+  public ReviewDone: boolean;
 
   constructor(name: string) {
     this.Name = name;
     this.Items = {};
     this.DeliveryAddresses = {};
+    this.ReviewDone = false;
   }
 }
 
