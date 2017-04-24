@@ -396,10 +396,29 @@ export class Globals {
 
   private LinkReviewsWatchers(): void {
 
-    this.Reviews_db = this.af.database.list('/reviews/' + this.UID);
-    this.Reviews_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-      this.Reviews = snapshot.val();
-    });
+    try {
+      this.Reviews_db = this.af.database.list('/reviews/' + this.UID);
+
+      this.Reviews_db.$ref.on("child_removed", (removed_review: firebase.database.DataSnapshot) => {
+        delete this.Reviews[removed_review.key];
+
+      });
+
+      this.Reviews_db.$ref.on("child_added", (_review: firebase.database.DataSnapshot) => {
+        let review: Review = _review.val();
+        if (review != null)
+          this.Reviews[_review.key] = review;
+      });
+
+      this.Reviews_db.$ref.on("child_changed", (_review: firebase.database.DataSnapshot) => {
+        let review: Review = _review.val();
+        if (review != null)
+          this.Reviews[_review.key] = review;
+      });
+
+    } catch (e) {
+      console.log("Globals.LinkReviewsWatchers catch err: " + JSON.stringify(e));
+    }
   
   }
 
@@ -410,6 +429,7 @@ export class Globals {
     this.UnlinkListsWatchers();
     this.UnlinkCandidatesWatchers();
     this.UnlinkCandidaturesWatchers();
+    this.UnlinkReviewsWatchers();
   }
 
   private UnlinkUserWatchers(): void {
@@ -431,6 +451,14 @@ export class Globals {
 
   private UnlinkCandidaturesWatchers(): void {
     this.Candidatures_db.$ref.off();
+    //for (let ref of this.candidatures_refs) {
+    //  ref.off();
+    //}
+    //this.candidatures_refs.length = 0;
+  }
+
+  private UnlinkReviewsWatchers(): void {
+    this.Reviews_db.$ref.off();
     //for (let ref of this.candidatures_refs) {
     //  ref.off();
     //}
