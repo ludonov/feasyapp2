@@ -16,8 +16,8 @@ import { Globals } from '../../classes/Globals';
 export class ReviewsToLeavePage {
 
 
-    private ReviewsToLeaveAsDemander: Array<any> = new Array<any>();
-    private ReviewsToLeaveAsShopper: Array<any> = new Array<any>();
+    public ReviewsToLeaveAsDemander: Array<any> = new Array<any>();
+    public ReviewsToLeaveAsShopper: Array<any> = new Array<any>();
     public TerminatedListsAsDemander_db: FirebaseListObservable<any>;
     public TerminatedListsAsShopper_db: FirebaseListObservable<any>;
     public TerminatedListsAsDemander: Object = {};
@@ -34,38 +34,18 @@ export class ReviewsToLeavePage {
             this.TerminatedListsAsShopper=snapshot2.val();
         });
 
-        for (let demander_key in this.TerminatedListsAsDemander_db) {
-            let list: FeasyList = this.TerminatedListsAsDemander_db[demander_key];
-            if(list.ReviewDone == false)
-                this.ReviewsToLeaveAsDemander.push(list);
+        for (let demander_key in this.TerminatedListsAsDemander) {
+            let list_d: FeasyList = this.TerminatedListsAsDemander[demander_key];
+            if(list_d.ReviewDone == false)
+                this.ReviewsToLeaveAsDemander.push(list_d);
         }
 
-        for (let shopper_key in this.TerminatedListsAsShopper_db) {
-            let list: FeasyList = this.TerminatedListsAsShopper_db[shopper_key];
-            if(list.ReviewDone == false)
-                this.ReviewsToLeaveAsShopper.push(list);
+        for (let shopper_key in this.TerminatedListsAsShopper) {
+            let list_s: FeasyList = this.TerminatedListsAsShopper[shopper_key];
+            if(list_s.ReviewDone == false)
+                this.ReviewsToLeaveAsShopper.push(list_s);
         }
 
-        // for (let candidature_key in this.globals.Candidatures) {
-        //     //this.reviewsToLeave.push({ AddressName: "a", OwnerName: "b" });
-        //     let candidature: Candidature = this.globals.Candidatures[candidature_key];
-        //     this.af.database.object("/terminated_lists/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
-        //       //this.reviewsToLeave.push({ AddressName: "a2", OwnerName: "b2" });
-        //       let list: FeasyList = snapshot.val();
-        //         if (list != null) {
-        //             this.af.database.object("/users/" + candidature.ListOwnerUid).$ref.once("value", (snapshot2: firebase.database.DataSnapshot) => {
-        //               //this.reviewsToLeave.push({ AddressName: "a3", OwnerName: "b3" });
-        //               (list as any).OwnerName = snapshot2.val().DisplayName;
-        //                 this.af.database.object("/terminated_lists/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey + "/DeliveryAddresses/" + candidature.AddressKey).$ref.once("value", (snapshot3: firebase.database.DataSnapshot) => {
-        //                     (list as any).AddressName = snapshot3.val().FormattedAddress;
-        //                     this.reviewsToLeave.push(list);
-        //                     this.cd.detectChanges();
-        //                     //this.cd.markForCheck();
-        //                 });
-        //             });
-        //         }
-        //     });
-        // }
     }
 
 }

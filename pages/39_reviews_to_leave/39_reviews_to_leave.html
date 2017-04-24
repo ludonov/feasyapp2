@@ -5,16 +5,34 @@
 </ion-header>
 
 <ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
-	    
+
 	<ion-list>
-		<ion-item *ngFor="let review_waiting of reviewsToLeave">
-			<ion-avatar item-left>
-			<img src="assets/img/17_profilo/Alberto.jpg">
-			</ion-avatar>
-			<h2>{{review_waiting.OwnerName}}</h2>
-			<p>{{review_waiting.AddressName}}</p>
-			<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
-		</ion-item>
-	</ion-list>
+			<ion-item-group>
+				<div class="spacer" style="height: 16px;"></div>
+				<ion-item-divider color="light" class="item-title">SPESE DA DEMANDER</ion-item-divider>
+				<ion-item *ngFor="let reviewD of ReviewsToLeaveAsDemander">
+						<ion-avatar item-left>
+						<img src="assets/img/17_profilo/Alberto.jpg">
+						</ion-avatar>
+						<h2>{{reviewD.Name}}</h2>
+						<p>{{reviewD.Reward}}</p>
+						<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+				</ion-item>
+			</ion-item-group>
+
+			<ion-item-group>
+				<div class="spacer" style="height: 16px;"></div>
+				<ion-item-divider color="light" class="item-title">SPESE DA SHOPPER</ion-item-divider>
+				<ion-item *ngFor="let reviewS of ReviewsToLeaveAsShopper">
+						<ion-avatar item-left>
+						<img src="assets/img/17_profilo/Alberto.jpg">
+						</ion-avatar>
+						<h2>{{reviewS.Name}}</h2>
+						<p>{{reviewS.Reward}}</p>
+						<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+				</ion-item>
+			</ion-item-group>
+
+		</ion-list>
 	
 </ion-content>
