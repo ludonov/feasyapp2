@@ -31,13 +31,13 @@ export class ReviewsToLeavePage {
 
             for (let demander_key in this.TerminatedListsAsDemander) {
                 let list_d: FeasyList = this.TerminatedListsAsDemander[demander_key];
-                if(list_d.ReviewDone == false)
+                if(list_d.ReviewLeft == false)
                     this.ReviewsToLeaveAsDemander.push(list_d);
             }
 
             for (let shopper_key in this.TerminatedListsAsShopper) {
                 let list_s: FeasyList = this.TerminatedListsAsShopper[shopper_key];
-                if(list_s.ReviewDone == false)
+                if(list_s.ReviewLeft == false)
                     this.ReviewsToLeaveAsShopper.push(list_s);
             }
         });
