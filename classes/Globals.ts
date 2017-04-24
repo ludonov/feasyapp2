@@ -3,7 +3,7 @@ import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candid
 import { PublicatedListWithShopperPovShopperPage } from '../pages/11B_publicated_list_with_shopper_pov_shopper/11B_publicated_list_with_shopper_pov_shopper';
 import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
 
-import { Injectable } from '@angular/core';
+import { Injectable, ApplicationRef, ChangeDetectorRef } from '@angular/core';
 import { Http } from '@angular/http';
 import { NavController, AlertController, Alert, LoadingController, Loading, Platform } from 'ionic-angular';
 import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
@@ -32,10 +32,10 @@ export class Globals {
   public UnpublishedLists_db: FirebaseListObservable<any>;
   public NoUnpublishedLists: boolean = true;
 
-  public AcceptedLists: Object = {};
+  public AcceptedLists: Array<FeasyList> = new Array<FeasyList>();
   public NoAcceptedLists: boolean = true;
 
-  public AppliedLists: Object = {};
+  public AppliedLists: Array<FeasyList> = new Array<FeasyList>()
   public NoAppliedLists: boolean = true;
 
   public Candidates: Object = {};
@@ -55,8 +55,14 @@ export class Globals {
   public loadingCtrl: LoadingController;
   public http: Http;
 
-  constructor(platform: Platform) {
+  constructor(platform: Platform, public applicationRef: ApplicationRef, public cd: ChangeDetectorRef) {
     this.IsWeb = platform.is("core");
+  }
+
+  public ForceAppChanges() {
+    this.applicationRef.tick();
+    this.cd.detectChanges();
+    this.cd.markForCheck();
   }
 
   public StartConfigWatcher() {
@@ -198,8 +204,8 @@ export class Globals {
     try {
       
       this.Candidatures_db = this.af.database.list('/candidatures/' + this.UID);
-      this.AppliedLists = {};
-      this.AcceptedLists = {};
+      this.AppliedLists = new Array<FeasyList>()
+      this.AcceptedLists = new Array<FeasyList>()
       this.NoAcceptedLists = true;
       this.NoAppliedLists = true;
       //this.candidatures_refs.push(this.Candidatures_db.$ref.ref);
@@ -217,6 +223,7 @@ export class Globals {
         //  }
         //}
         this.updateBooleansAcceptedAndApplied();
+        this.ForceAppChanges();
       });
 
       this.Candidatures_db.$ref.on("child_added", (_candidature: firebase.database.DataSnapshot) => {
@@ -233,6 +240,7 @@ export class Globals {
           else
             this.AppliedLists[snapshot.key] = list;
           this.updateBooleansAcceptedAndApplied();
+          this.ForceAppChanges();
         });
       });
 
@@ -274,6 +282,7 @@ export class Globals {
             });
           }
         }
+        this.ForceAppChanges();
       });
 
     } catch (e) {

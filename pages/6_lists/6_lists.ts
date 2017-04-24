@@ -1,4 +1,4 @@
-﻿import { Component, Pipe, PipeTransform, Injectable, forwardRef, Inject } from '@angular/core';
+﻿import { Component, Pipe, PipeTransform, Injectable, forwardRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { NavController, AlertController, Alert, NavParams, Loading, LoadingController } from 'ionic-angular';
 
@@ -19,7 +19,8 @@ import { PublicatedListWithShopperPovShopperPage } from '../../pages/11B_publica
 
 @Component({
   selector: 'page-lists',
-  templateUrl: '6_lists.html'
+  templateUrl: '6_lists.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListsPage {
 
@@ -77,6 +78,7 @@ export class ListsPage {
               if (data.name != "") {
                 let new_list: FeasyList = new FeasyList(data.name);
                 new_list.owner = this.globals.UID;
+                new_list.DemanderName = this.globals.User.DisplayName;
                 new_list.CreatedDate = (new Date()).toUTCString();
                 let new_list_promise = this.globals.UnpublishedLists_db.push(new_list);
                 let new_list_key = new_list_promise.key;

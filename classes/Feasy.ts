@@ -158,6 +158,8 @@ export class FeasyList {
   public ChosenCandidateKey: string;
   public ChosenCandidatureKey: string;
   public ChosenShopperUid: string;
+  public ChosenShopperName: string;
+  public DemanderName: string;
   public Comments: string;
   public DeliveryAddresses: Object;
   public ReviewLeft: boolean = false;
