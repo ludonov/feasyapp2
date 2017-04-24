@@ -52,6 +52,9 @@ export class MyApp {
       globals.navCtrl = this.navCtrl;
       globals.loadingCtrl = this.loadingCtrl;
       globals.http = http;
+      globals.root = LoginPage;
+
+      globals.StartConfigWatcher();
 
       af.auth.subscribe(user => {
 
@@ -86,13 +89,13 @@ export class MyApp {
                   .catch((err: Error) => {
                     console.warn("Cannot update fb user data: " + err.message);
                   });
-                this.rootPage = SetPersonalDetailsPage;
+                this.setRoot(SetPersonalDetailsPage);
                 loading.dismiss();
               }
               else {
                 globals.User = userdata;
                 console.log("Redirecting to tab root 1");
-                this.rootPage = TabsPage;
+                this.setRoot(TabsPage);
                 loading.dismiss();
               }
             });
@@ -110,7 +113,7 @@ export class MyApp {
                 displayName: this.globals.User.DisplayName,
                 photoURL: this.globals.User.PhotoURL,
               });
-              this.rootPage = SetPersonalDetailsPage;
+              this.setRoot(SetPersonalDetailsPage);
               loading.dismiss();
             }
             else {
@@ -121,7 +124,7 @@ export class MyApp {
                 });
               }
               console.log("Redirecting to tab root 1");
-              this.rootPage = TabsPage;
+              this.setRoot(TabsPage);
               loading.dismiss();
             }
           }
@@ -130,7 +133,7 @@ export class MyApp {
           console.log("User auth not found, redirecting to Login");
           globals.UID = "";
           globals.User = new FeasyUser("", "", "");
-          this.rootPage = LoginPage;
+          this.setRoot(LoginPage);
           loading.dismiss();
         }
       });
@@ -146,6 +149,12 @@ export class MyApp {
     statusBar.styleLightContent();
     
   }
+
+  private setRoot(rootPage: any) {
+    this.globals.root = rootPage
+    this.rootPage = rootPage;
+  }
+
 
   //SIDE MENU
 

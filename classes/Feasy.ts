@@ -78,6 +78,18 @@ export function GetExpiryDateFromEnum(expiryDate: ExpiryDateType): string {
 }
 
 
+
+// FEASY CLOUD FUNCTIONS RESPONSE CLASS
+export class Config {
+  
+  public Maintenance: boolean = false;
+
+  constructor() {
+  }
+
+}
+
+
 // FEASY CLOUD FUNCTIONS RESPONSE CLASS
 export class CloudFuncResponse {
 
@@ -146,15 +158,16 @@ export class FeasyList {
   public ChosenCandidateKey: string;
   public ChosenCandidatureKey: string;
   public ChosenShopperUid: string;
+  public ChosenShopperName: string;
+  public DemanderName: string;
   public Comments: string;
   public DeliveryAddresses: Object;
-  public ReviewDone: boolean;
+  public ReviewLeft: boolean = false;
 
   constructor(name: string) {
     this.Name = name;
     this.Items = {};
     this.DeliveryAddresses = {};
-    this.ReviewDone = false;
   }
 }
 
@@ -194,7 +207,6 @@ export class Candidature {
   public AddressKey: string;
   public Comment: string;
   public Accepted: boolean = false;
-  public Review: boolean = false;
 
   constructor() {
     this.Accepted = false;

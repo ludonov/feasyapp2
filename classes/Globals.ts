@@ -1,16 +1,22 @@
 ﻿
 import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 import { PublicatedListWithShopperPovShopperPage } from '../pages/11B_publicated_list_with_shopper_pov_shopper/11B_publicated_list_with_shopper_pov_shopper';
-import { Injectable } from '@angular/core';
+import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
+
+import { Injectable, ApplicationRef, ChangeDetectorRef } from '@angular/core';
 import { Http } from '@angular/http';
 import { NavController, AlertController, Alert, LoadingController, Loading, Platform } from 'ionic-angular';
 import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { LocalNotifications } from 'ionic-native';
 
-import { FeasyUser, FeasyList, Candidate, Candidature, Review, StripForFirebase } from './Feasy';
+import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, StripForFirebase } from './Feasy';
 
 @Injectable()
 export class Globals {
+
+  public config: Config = new Config();
+  private config_db: FirebaseObjectObservable<any>;
+  public root: any;
 
   public UID: string = "";
   public IsWeb: boolean = true;
@@ -26,10 +32,10 @@ export class Globals {
   public UnpublishedLists_db: FirebaseListObservable<any>;
   public NoUnpublishedLists: boolean = true;
 
-  public AcceptedLists: Object = {};
+  public AcceptedLists: Array<FeasyList> = new Array<FeasyList>();
   public NoAcceptedLists: boolean = true;
 
-  public AppliedLists: Object = {};
+  public AppliedLists: Array<FeasyList> = new Array<FeasyList>()
   public NoAppliedLists: boolean = true;
 
   public Candidates: Object = {};
@@ -49,17 +55,34 @@ export class Globals {
   public loadingCtrl: LoadingController;
   public http: Http;
 
-  constructor(platform: Platform) {
+  constructor(platform: Platform, public applicationRef: ApplicationRef, public cd: ChangeDetectorRef) {
     this.IsWeb = platform.is("core");
   }
 
-  public getAcceptedCandidateFromList(list_key: string): Candidate {
-    let list: FeasyList = this.PublishedLists[list_key];
-    for (let cand in this.Candidates) {
-      if ((this.Candidates[cand] as Candidate).CandidatureReferenceKey == list.ChosenCandidatureKey)
-        return this.Candidates[cand];
-    }
-    return null;
+  public ForceAppChanges() {
+    this.applicationRef.tick();
+    this.cd.detectChanges();
+    this.cd.markForCheck();
+  }
+
+  public StartConfigWatcher() {
+    this.config_db = this.af.database.object("/config");
+    this.config_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
+      let old_config: Config = new Config();
+      Object.assign(old_config, this.config);
+      this.config = snapshot.val() || new Config();
+      if (this.config.Maintenance && !old_config.Maintenance) {
+        console.log("APP WENT UNDER MAINTENANCE")
+        this.navCtrl.popToRoot().then(() => {
+          this.navCtrl.setRoot(MaintenancePage);
+        });
+      } else if (!this.config.Maintenance && old_config.Maintenance) {
+        console.log("APP RECOVERED FROM MAINTENANCE")
+        this.navCtrl.popToRoot().then(() => {
+          this.navCtrl.setRoot(this.root);
+        });
+      }
+    });
   }
 
   public LinkAllWatchers(): void {
@@ -181,8 +204,8 @@ export class Globals {
     try {
       
       this.Candidatures_db = this.af.database.list('/candidatures/' + this.UID);
-      this.AppliedLists = {};
-      this.AcceptedLists = {};
+      this.AppliedLists = new Array<FeasyList>()
+      this.AcceptedLists = new Array<FeasyList>()
       this.NoAcceptedLists = true;
       this.NoAppliedLists = true;
       //this.candidatures_refs.push(this.Candidatures_db.$ref.ref);
@@ -200,6 +223,7 @@ export class Globals {
         //  }
         //}
         this.updateBooleansAcceptedAndApplied();
+        this.ForceAppChanges();
       });
 
       this.Candidatures_db.$ref.on("child_added", (_candidature: firebase.database.DataSnapshot) => {
@@ -216,6 +240,7 @@ export class Globals {
           else
             this.AppliedLists[snapshot.key] = list;
           this.updateBooleansAcceptedAndApplied();
+          this.ForceAppChanges();
         });
       });
 
@@ -257,6 +282,7 @@ export class Globals {
             });
           }
         }
+        this.ForceAppChanges();
       });
 
     } catch (e) {
@@ -359,6 +385,15 @@ export class Globals {
     }
   }
 
+  public getAcceptedCandidateFromList(list_key: string): Candidate {
+    let list: FeasyList = this.PublishedLists[list_key];
+    for (let cand in this.Candidates) {
+      if ((this.Candidates[cand] as Candidate).CandidatureReferenceKey == list.ChosenCandidatureKey)
+        return this.Candidates[cand];
+    }
+    return null;
+  }
+
   public GetAllCandidatesForList(list_key: string): {} {
     let cands: Object = {};
     for (let candKey in this.Candidates) {
@@ -370,10 +405,29 @@ export class Globals {
 
   private LinkReviewsWatchers(): void {
 
-    this.Reviews_db = this.af.database.list('/reviews/' + this.UID);
-    this.Reviews_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-      this.Reviews = snapshot.val();
-    });
+    try {
+      this.Reviews_db = this.af.database.list('/reviews/' + this.UID);
+
+      this.Reviews_db.$ref.on("child_removed", (removed_review: firebase.database.DataSnapshot) => {
+        delete this.Reviews[removed_review.key];
+
+      });
+
+      this.Reviews_db.$ref.on("child_added", (_review: firebase.database.DataSnapshot) => {
+        let review: Review = _review.val();
+        if (review != null)
+          this.Reviews[_review.key] = review;
+      });
+
+      this.Reviews_db.$ref.on("child_changed", (_review: firebase.database.DataSnapshot) => {
+        let review: Review = _review.val();
+        if (review != null)
+          this.Reviews[_review.key] = review;
+      });
+
+    } catch (e) {
+      console.log("Globals.LinkReviewsWatchers catch err: " + JSON.stringify(e));
+    }
   
   }
 
@@ -384,6 +438,7 @@ export class Globals {
     this.UnlinkListsWatchers();
     this.UnlinkCandidatesWatchers();
     this.UnlinkCandidaturesWatchers();
+    this.UnlinkReviewsWatchers();
   }
 
   private UnlinkUserWatchers(): void {
@@ -405,6 +460,14 @@ export class Globals {
 
   private UnlinkCandidaturesWatchers(): void {
     this.Candidatures_db.$ref.off();
+    //for (let ref of this.candidatures_refs) {
+    //  ref.off();
+    //}
+    //this.candidatures_refs.length = 0;
+  }
+
+  private UnlinkReviewsWatchers(): void {
+    this.Reviews_db.$ref.off();
     //for (let ref of this.candidatures_refs) {
     //  ref.off();
     //}
