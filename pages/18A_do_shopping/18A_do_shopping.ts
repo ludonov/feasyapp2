@@ -10,6 +10,7 @@ import { FeasyUser, FeasyList, GeoPoint } from '../../classes/Feasy';
 import { DoShoppingListsPage } from '../18B_do_shopping_lists/18B_do_shopping_lists';
 import { DoShoppingFiltersPage } from '../18C_do_shopping_filters/18C_do_shopping_filters';
 import { ListFromMapPage } from '../28_list_from_map_details/28_list_from_map_details';
+import { MenuController } from 'ionic-angular';
 
 
 @Component({
@@ -35,7 +36,7 @@ export class DoShoppingPage {
   private geopoints_db: FirebaseListObservable<any>;
   private no_geopoints: boolean = true;
 
-  constructor(public navCtrl: NavController, private platform: Platform, public af: AngularFire, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, private platform: Platform, public af: AngularFire, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public menuCtrl: MenuController) {
     this.is_web = this.platform.is("core");
     this.platform.ready().then(() => {
       if (this.is_web) {
@@ -320,6 +321,11 @@ export class DoShoppingPage {
   lists(): void {
     console.log("my proposed lists");
     this.navCtrl.setRoot(DoShoppingListsPage);    
+  }
 
+  blockMap(): void {
+    console.log("blocking map when menu is toggled");
+    if (this.menuCtrl.isOpen()) 
+      this.map.setClickable(true);
   }
 }

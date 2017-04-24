@@ -151,5 +151,6 @@ export class MyApp {
     console.log("Logging out: removing link to candidate refs");
     this.globals.UnlinkAllWatchers();
     this.af.auth.logout();
+    this.menuCtrl.close();
   }
 }
