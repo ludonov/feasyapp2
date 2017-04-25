@@ -7,6 +7,8 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 import { FeasyUser, FeasyList, FeasyItem, Review, Candidature } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
+import { SingleReviewToLeavePage } from '../pages/40_single_review_to_leave/40_single_review_to_leave';
+
 
 @Component({
     selector: 'page-reviews-to-leave',
@@ -42,4 +44,10 @@ export class ReviewsToLeavePage {
             }
         });
     }
+
+    ViewReviewToLeave(ReviewToLeave: any) {
+        if (ReviewToLeave.value == null)
+            ReviewToLeave.value = {};
+        this.navCtrl.push(SingleReviewToLeavePage, {ReviewToLeave: ReviewToLeave.value});
+  }
 }

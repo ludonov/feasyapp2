@@ -327,6 +327,12 @@ position: absolute;
   padding-right: 16px;
 }
 
+.lateral-bottom-padding {
+  padding-bottom: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
 .primary-button-color {
   background-color: #327eff;
 }
