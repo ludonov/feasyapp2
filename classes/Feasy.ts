@@ -227,24 +227,6 @@ export class Review {
   }
 }
 
-// export class ReviewToLeave {
-//   public $key: string;
-//   public DemanderName: string;  
-//   public DemanderUID: string;         
-//   public ShopperName: string;     
-//   public ShopperUID: string;  
-//   public ListKey: string;
-//   public Address: string;
-
-//   public DemanderReview: boolean = false;
-//   public ShopperReview: boolean = false;
-
-
-//   constructor() {
-
-//   }
-// }
-
 export class DeliveryAddress {
   public $key: string;
   public Name: string;

@@ -10,11 +10,11 @@
 			<ion-item-group>
 				<div class="spacer" style="height: 16px;"></div>
 				<ion-item-divider color="light" class="item-title">SPESE DA DEMANDER</ion-item-divider>
-				<ion-item *ngFor="let reviewD of ReviewsToLeaveAsDemander">
+				<ion-item *ngFor="let reviewD of ReviewsToLeaveAsDemander" (click)="ViewReviewToLeave(reviewD)">
 						<ion-avatar item-left>
 						<img src="assets/img/17_profilo/Alberto.jpg">
 						</ion-avatar>
-						<h2>{{reviewD.OwnerName}}</h2>
+						<h2>{{reviewD.ChosenShopperName}}</h2>
 						<p>{{reviewD.TerminatedDate}}</p>
 						<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 				</ion-item>
@@ -23,11 +23,11 @@
 			<ion-item-group>
 				<div class="spacer" style="height: 16px;"></div>
 				<ion-item-divider color="light" class="item-title">SPESE DA SHOPPER</ion-item-divider>
-				<ion-item *ngFor="let reviewS of ReviewsToLeaveAsShopper">
+				<ion-item *ngFor="let reviewS of ReviewsToLeaveAsShopper" (click)="ViewReviewToLeave(reviewS)">
 						<ion-avatar item-left>
 						<img src="assets/img/17_profilo/Alberto.jpg">
 						</ion-avatar>
-						<h2>{{reviewS.OwnerName}}</h2>
+						<h2>{{reviewS.DemanderName}}</h2>
 						<p>{{reviewS.TerminatedDate}}</p>
 						<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 				</ion-item>

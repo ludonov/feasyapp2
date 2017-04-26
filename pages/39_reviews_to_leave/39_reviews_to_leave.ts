@@ -7,7 +7,7 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 import { FeasyUser, FeasyList, FeasyItem, Review, Candidature } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
-import { SingleReviewToLeavePage } from '../pages/40_single_review_to_leave/40_single_review_to_leave';
+import { SingleReviewToLeavePage } from '../40_single_review_to_leave/40_single_review_to_leave';
 
 
 @Component({
@@ -46,8 +46,17 @@ export class ReviewsToLeavePage {
     }
 
     ViewReviewToLeave(ReviewToLeave: any) {
+        let Demander: boolean;
+        let PersonUnderReview: string;
         if (ReviewToLeave.value == null)
             ReviewToLeave.value = {};
-        this.navCtrl.push(SingleReviewToLeavePage, {ReviewToLeave: ReviewToLeave.value});
+        if (ReviewToLeave.value.owner == this.globals.UID) {
+            Demander = true;
+            PersonUnderReview = ReviewToLeave.value.ChosenShopperName;
+        }else{
+            Demander = false;
+            PersonUnderReview = ReviewToLeave.value.DemanderName;
+        }
+        this.navCtrl.push(SingleReviewToLeavePage, {ReviewToLeave: ReviewToLeave.value, Demander: Demander, PersonUnderReview: PersonUnderReview});
   }
 }

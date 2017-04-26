@@ -7,13 +7,20 @@
 <ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
 
 	<ion-list>
+
 			<ion-item-group>
-				<div class="spacer" style="height: 16px;"></div>
-				<ion-item-divider color="light" class="item-title">SPESE DA DEMANDER</ion-item-divider>
-				<ion-item>
-						
-				</ion-item>
-			</ion-item-group>
+			<div class="spacer" style="height: 16px;"></div>
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">REVIEW INFORMATION</ion-item-divider>
+			<ion-item>
+				User Under Review
+				<ion-note item-right>{{PersonUnderReview}}</ion-note>
+			</ion-item>
+			<ion-item>
+				Data
+				<ion-note item-right>{{ReviewToLeave.TerminatedDate}}</ion-note>
+			</ion-item>
+
+		</ion-item-group>
 
 	</ion-list>
 	
