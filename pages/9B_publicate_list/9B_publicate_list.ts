@@ -42,23 +42,24 @@ export class PublicateListSecondPage {
     });
     loading.present();
 
+    this.list.Publish = true;
     this.globals.UnpublishedLists_db.update(this.list_key, StripForFirebase(this.list)).then(res1 => {
-        let token: string;
-        firebase.auth().currentUser.getToken().then((_token) => {
-            token = _token;
-            this.http.get("https://us-central1-feasy-748cf.cloudfunctions.net/publishList?list_key=" + this.list_key + "&token=" + token).subscribe(res => {
-                console.log("PublicateListSecondPage> Publish Cloud Function reply: " + res);
+        //let token: string;
+        //firebase.auth().currentUser.getToken().then((_token) => {
+        //    token = _token;
+        //    this.http.get("https://us-central1-feasy-748cf.cloudfunctions.net/publishList?list_key=" + this.list_key + "&token=" + token).subscribe(res => {
+        //        console.log("PublicateListSecondPage> Publish Cloud Function reply: " + res);
                 loading.dismiss();
-                let func: CloudFuncResponse = CloudFuncResponse.fromString(res.text());
-                if (func.Error) {
-                    console.log("PublicateListSecondPage> Publish Cloud Function error message: " + func.ErrorMessage);
-                    this.ShowGenericError();
-                } else {
+        //        let func: CloudFuncResponse = CloudFuncResponse.fromString(res.text());
+        //        if (func.Error) {
+        //            console.log("PublicateListSecondPage> Publish Cloud Function error message: " + func.ErrorMessage);
+        //            this.ShowGenericError();
+        //        } else {
                     console.log("PublicateListSecondPage> Publish Cloud Function succeded");
                     this.navCtrl.popToRoot();
-                }
-            });
-        });
+        //        }
+        //    });
+        //});
     });
 
     //this.list_copy.PublishedDate = (new Date()).toUTCString();
