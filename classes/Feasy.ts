@@ -163,6 +163,7 @@ export class FeasyList {
   public Comments: string;
   public DeliveryAddresses: Object;
   public ReviewLeft: boolean = false;
+  public Publish: boolean;
 
   constructor(name: string) {
     this.Name = name;
