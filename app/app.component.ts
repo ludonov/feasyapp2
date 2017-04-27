@@ -153,4 +153,5 @@ export class MyApp {
     this.af.auth.logout();
     this.menuCtrl.close();
   }
+
 }
