@@ -406,7 +406,7 @@ export class Globals {
   private LinkReviewsWatchers(): void {
 
     try {
-      this.Reviews_db = this.af.database.list('/reviews/' + this.UID);
+      this.Reviews_db = this.af.database.list('/reviews/' + this.UID + '/done');
 
       this.Reviews_db.$ref.on("child_removed", (removed_review: firebase.database.DataSnapshot) => {
         delete this.Reviews[removed_review.key];

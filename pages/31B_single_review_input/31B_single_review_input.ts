@@ -21,7 +21,7 @@ export class SingleReviewInputPage {
   public TerminatedList: FeasyList = new FeasyList("");
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public globals: Globals) {
+  constructor(public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public globals: Globals) {
       this.ReviewToLeave = navParams.get('review');
       this.Review_db = af.database.list("reviews/" + globals.UID + "/to_move");
       if (globals.UID == this.ReviewToLeave.owner){
@@ -39,27 +39,49 @@ export class SingleReviewInputPage {
   } 
 
   AddReview(): void {
-    //aggiungere check se ci sono campi vuoti e sputare popup di warning
-    this.review.UID_Writer = this.globals.UID;
-    if (this.globals.UID == this.ReviewToLeave.owner) {
-        this.review.WriterName = this.ReviewToLeave.DemanderName;
-        this.review.RevieweeUid = this.ReviewToLeave.ChosenShopperUid;
+    if (this.review.Title == "") {
+      let alert = this.alertCtrl.create({
+        title: 'Info',
+        subTitle: 'Il titolo non può essere vuoto',
+        buttons: ['Ok']
+      });
+      alert.present();
+    } else if (this.review.Rating < 0 || this.review.Rating > 5) {
+      let alert = this.alertCtrl.create({
+        title: 'Info',
+        subTitle: 'Il voto deve essere tra zero e cinque',
+        buttons: ['Ok']
+      });
+      alert.present();
+    } else if (this.review.Text = "") {
+        let alert = this.alertCtrl.create({
+        title: 'Info',
+        subTitle: 'Il testo non può essere vuoto',
+        buttons: ['Ok']
+        });
+        alert.present();
     } else {
-        this.review.WriterName = this.ReviewToLeave.ChosenShopperName;
-        this.review.RevieweeUid = this.ReviewToLeave.owner;
-    }
-    this.review.ListKey = this.ReviewToLeave.$key;
-    this.review.RevieweeUid = this.ReviewToLeave.ChosenShopperUid;
-    this.TerminatedList.ReviewLeft = true;
-    this.Review_db.push(StripForFirebase(this.review)).then(res => {
-        this.TerminatedList_db.update(StripForFirebase(this.TerminatedList)).then(res => {
-          this.navCtrl.pop();
+        this.review.UID_Writer = this.globals.UID;
+        if (this.globals.UID == this.ReviewToLeave.owner) {
+            this.review.WriterName = this.ReviewToLeave.DemanderName;
+            this.review.RevieweeUid = this.ReviewToLeave.ChosenShopperUid;
+        } else {
+            this.review.WriterName = this.ReviewToLeave.ChosenShopperName;
+            this.review.RevieweeUid = this.ReviewToLeave.owner;
+        }
+        this.review.ListKey = this.ReviewToLeave.$key;
+        this.review.RevieweeUid = this.ReviewToLeave.ChosenShopperUid;
+        this.TerminatedList.ReviewLeft = true;
+        this.Review_db.push(StripForFirebase(this.review)).then(res => {
+            this.TerminatedList_db.update(StripForFirebase(this.TerminatedList)).then(res => {
+              this.navCtrl.pop();
+            }).catch((err: Error) => {
+              console.log("Error: " + err.message);
+            });
         }).catch((err: Error) => {
           console.log("Error: " + err.message);
         });
-    }).catch((err: Error) => {
-      console.log("Error: " + err.message);
-    });
+    }
   }
 
 }
