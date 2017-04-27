@@ -33,30 +33,34 @@ export class ReviewsToLeavePage {
 
             for (let demander_key in this.TerminatedListsAsDemander) {
                 let list_d: FeasyList = this.TerminatedListsAsDemander[demander_key];
-                if(list_d.ReviewLeft == false)
+                if(list_d.ReviewLeft == false) {
+                    list_d.$key = demander_key;
                     this.ReviewsToLeaveAsDemander.push(list_d);
+                }
             }
 
             for (let shopper_key in this.TerminatedListsAsShopper) {
                 let list_s: FeasyList = this.TerminatedListsAsShopper[shopper_key];
-                if(list_s.ReviewLeft == false)
+                if(list_s.ReviewLeft == false){
+                    list_s.$key = shopper_key;
                     this.ReviewsToLeaveAsShopper.push(list_s);
+                }
             }
         });
     }
 
-    ViewReviewToLeave(ReviewToLeave: any) {
+    ViewReviewToLeave(ReviewToLeave: any): void {
         let Demander: boolean;
         let PersonUnderReview: string;
-        if (ReviewToLeave.value == null)
-            ReviewToLeave.value = {};
-        if (ReviewToLeave.value.owner == this.globals.UID) {
+        if (ReviewToLeave == null)
+            ReviewToLeave = {};
+        if (ReviewToLeave.owner == this.globals.UID) {
             Demander = true;
-            PersonUnderReview = ReviewToLeave.value.ChosenShopperName;
+            PersonUnderReview = ReviewToLeave.ChosenShopperName;
         }else{
             Demander = false;
-            PersonUnderReview = ReviewToLeave.value.DemanderName;
+            PersonUnderReview = ReviewToLeave.DemanderName;
         }
-        this.navCtrl.push(SingleReviewToLeavePage, {ReviewToLeave: ReviewToLeave.value, Demander: Demander, PersonUnderReview: PersonUnderReview});
+        this.navCtrl.push(SingleReviewToLeavePage, {ReviewToLeave: ReviewToLeave, Demander: Demander, PersonUnderReview: PersonUnderReview});
   }
 }

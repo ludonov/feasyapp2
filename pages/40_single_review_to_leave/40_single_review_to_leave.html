@@ -19,9 +19,20 @@
 				Data
 				<ion-note item-right>{{ReviewToLeave.TerminatedDate}}</ion-note>
 			</ion-item>
-
+			<ion-item>
+				Ricompensa
+				<ion-note item-right>{{ReviewToLeave.Reward}}</ion-note>
+			</ion-item>
+			<ion-item icon-right (click)="ViewItems()">
+      			Prodotti
+      			<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+    	</ion-item>
 		</ion-item-group>
 
 	</ion-list>
+
+	<div class="lateral-padding">
+      <button ion-button block color="primary" (click)="WriteReview()">Crea Recensione</button>
+  </div>
 	
 </ion-content>

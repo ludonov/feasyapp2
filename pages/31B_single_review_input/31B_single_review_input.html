@@ -2,26 +2,32 @@
   <ion-navbar>
     <ion-title>Single Review</ion-title>
   </ion-navbar>
-</ion-header>
+</ion-header> 
 
 <ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
 
-	<ion-card>
-
-		<ion-item>
-			<ion-avatar item-left>
-				<img src="assets/img/17_profilo/Ludovico.jpg">
-			</ion-avatar>
-			<h2>Ludovico Novelli</h2>
-			<p>@ludonov</p>
-		</ion-item>
-
-		<ion-card-content>
-			<p><ion-icon name="star"></ion-icon><ion-icon name="star-outline"></ion-icon><ion-icon name="star-outline"></ion-icon><ion-icon name="star-outline"></ion-icon><ion-icon name="star-outline"></ion-icon></p>
-			<h2 style="font-weight: bold;">"Na merda"</h2>
-			<p>La spesa fatta da Ludovico è stata una merda, nei dettagli ho specificato di essere vegano e si è presentato con una mucca intera ancora viva caricata sopra la sua Mini</p>
-		</ion-card-content>
+<ion-list>
+	<ion-item-group>
+        <ion-item>
+          <ion-label fixed>Titolo</ion-label>
+          <ion-input type="text" [(ngModel)]="review.Title"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed>Voto</ion-label>
+          <ion-input type="number" [(ngModel)]="review.Rating"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed>Recensione</ion-label>
+          <ion-input type="text" [(ngModel)]="review.Text"></ion-input>
+        </ion-item>
+      </ion-item-group>
 		
-	</ion-card>
+	</ion-list>
+
+	<div class="lateral-padding">
+      <button ion-button block color="primary" (click)="AddReview()">Crea Recensione</button>
+  </div>
 
 </ion-content>
+
+ 

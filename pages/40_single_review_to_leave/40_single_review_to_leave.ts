@@ -6,6 +6,7 @@ import { FeasyUser, FeasyList, FeasyItem, Review, Candidature } from '../../clas
 import { Globals } from '../../classes/Globals';
 
 import { SingleReviewInputPage } from '../31B_single_review_input/31B_single_review_input';
+import { PublicatedListProductsPage } from '../../pages/12_publicated_list_products/12_publicated_list_products';
 
 
 @Component({
@@ -25,11 +26,15 @@ export class SingleReviewToLeavePage {
        this.PersonUnderReview = navParams.get('PersonUnderReview');
     }
 
-    WriteReview() {
-        
-        
-        this.navCtrl.push(SingleReviewInputPage, {});
-  }
+    WriteReview(): void {
+
+        this.navCtrl.push(SingleReviewInputPage, {review: this.ReviewToLeave});
+    }
+
+    ViewItems(): void {
+
+        this.navCtrl.push(PublicatedListProductsPage, { items: this.ReviewToLeave.Items });
+    }
 
     
 }

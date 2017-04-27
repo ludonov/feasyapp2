@@ -221,6 +221,7 @@ export class Review {
   public Text: string;
   public UID_Writer: string;
   public WriterName: string;
+  public RevieweeUid: string;
   public ListKey: string;
 
   constructor() {
