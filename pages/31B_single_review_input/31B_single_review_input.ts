@@ -51,7 +51,6 @@ export class SingleReviewInputPage {
     this.review.ListKey = this.ReviewToLeave.$key;
     this.review.RevieweeUid = this.ReviewToLeave.ChosenShopperUid;
     this.TerminatedList.ReviewLeft = true;
-    this.TerminatedList.
     this.Review_db.push(StripForFirebase(this.review)).then(res => {
         this.TerminatedList_db.update(StripForFirebase(this.TerminatedList)).then(res => {
           this.navCtrl.pop();
