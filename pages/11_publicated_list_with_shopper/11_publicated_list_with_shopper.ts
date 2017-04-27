@@ -1,6 +1,6 @@
 ﻿import { Component } from '@angular/core';
 
-import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Alert, Tabs } from 'ionic-angular';
 
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
@@ -50,6 +50,15 @@ export class PublicatedListWithShopperPage {
 
     this.globals.PublishedLists_db.update(this.list_key, { TerminatedDate: (new Date()).toUTCString() }).then(() => {
       console.log("List terminated!");
+      let alert: Alert = this.alertCtrl.create({
+        title: 'Info',
+        subTitle: "Lista terminata",
+        buttons: ['Ok']
+      });
+      alert.onDidDismiss(() => {
+        this.navCtrl.popToRoot();
+      });
+      alert.present();
     }).catch((err: Error) => {
       console.warn("Cannot push list to published lists: " + err.message);
       this.ShowGenericError();
