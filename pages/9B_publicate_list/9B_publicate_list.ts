@@ -42,8 +42,9 @@ export class PublicateListSecondPage {
     });
     loading.present();
 
-    this.list.Publish = true;
-    this.globals.UnpublishedLists_db.update(this.list_key, StripForFirebase(this.list)).then(res1 => {
+    this.list.PublishedDate = (new Date()).toUTCString();
+    (this.list as any).UnpublishedListKey = this.list_key;
+    this.globals.PublishedLists_db.push(StripForFirebase(this.list)).then(res1 => {
         //let token: string;
         //firebase.auth().currentUser.getToken().then((_token) => {
         //    token = _token;

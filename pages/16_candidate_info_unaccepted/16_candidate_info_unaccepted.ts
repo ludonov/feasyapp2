@@ -46,7 +46,7 @@ export class CandidateInfoUnacceptedPage {
           buttons: ['Ok']
         });
         alert.onDidDismiss(() => {
-          this.navCtrl.pop();
+          this.navCtrl.popToRoot();
         });
         alert.present();
       }).catch((err: Error) => {
