@@ -25,33 +25,39 @@
 	<ion-grid>
   		<ion-row class="center">
     		<ion-col col-4>
-				<ion-card>
+				<ion-card color="secondary">
 					<ion-card-header>
 						Fatte
 					</ion-card-header>
-					<ion-card-content>
-						10
-  					</ion-card-content>
+					<ion-list>
+						<ion-item>
+							<ion-label class="center"> 10 </ion-label>
+						</ion-item>
+  					</ion-list>
 				</ion-card>
 			</ion-col>
 			<ion-col col-4>
-				<ion-card>
+				<ion-card color="secondary">
 					<ion-card-header>
 						Ricevute
 					</ion-card-header>
-					<ion-card-content>
-						10
-  					</ion-card-content>
+					<ion-list>
+						<ion-item>
+							<ion-label class="center"> 25 </ion-label>
+						</ion-item>
+  					</ion-list>
 				</ion-card>
 			</ion-col>
 			<ion-col col-4>
-				<ion-card>
+				<ion-card color="secondary">
 					<ion-card-header>
-						<ion-icon name="ion-star"></ion-icon>
+						Voto
 					</ion-card-header>
-					<ion-card-content>
-						5
-  					</ion-card-content>
+					<ion-list>
+						<ion-item>
+							<ion-label class="center"> 4 </ion-label>
+						</ion-item>
+  					</ion-list>
 				</ion-card>
 			</ion-col>
   		</ion-row>
@@ -59,32 +65,32 @@
 
 	<ion-card>
 		<button ion-item (click)="goToHistory()">
-		<ion-icon name="time" item-left></ion-icon>
+		<ion-icon name="time" item-left color="secondary"></ion-icon>
 		History
 		<ion-note item-right style="font-size: 15px">Ultima commissione: Ieri</ion-note>
 		</button>
 	</ion-card>
 	<ion-card>
 		<button ion-item (click)="goToReviews()">
-		<ion-icon name="podium" item-left></ion-icon>
+		<ion-icon name="podium" item-left color="secondary"></ion-icon>
 		Le mie recensioni
 		<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 		</button>
 	</ion-card>
-	<ion-card>
+	<!--<ion-card>
 		<button ion-item (click)="goToPendingReviews()">
-		<ion-icon name="filing" item-left></ion-icon>
+		<ion-icon name="filing" item-left color="secondary"></ion-icon>
 		Recensioni in attesa
 		<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 		</button>
 	</ion-card>
 	<ion-card>
 		<button ion-item>
-		<ion-icon name="information-circle" item-left></ion-icon>
+		<ion-icon name="information-circle" item-left color="secondary"></ion-icon>
 		Info account
 		<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 		</button>
-	</ion-card>
+	</ion-card>-->
 	
 	<ion-list>
 		<!--<ion-item-group>
@@ -104,15 +110,7 @@
 			</ion-item> 
 		</ion-item-group>-->
 		
-		<ion-item-group>
-			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">ACCOUNT</ion-item-divider>
-			<ion-item>
-				E-mail
-				<ion-note item-right>{{user.Email}}</ion-note>
-			</ion-item>
-		</ion-item-group>
-		
+	
 		<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">INFORMAZIONI PERSONALI</ion-item-divider>
