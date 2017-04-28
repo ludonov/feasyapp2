@@ -9,7 +9,7 @@
 
 <ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
 	    
-	<ion-list>	
+
 		<ion-card>
 			<ion-item class="profile-item">
 				<div class="profile-picture">
@@ -17,9 +17,45 @@
 					<img src="../../assets/img/17_Profilo/Daniele.jpg">
 				</div>
 				<h2 class="profile-name dark">{{user.DisplayName}}</h2>
+				<p class="center">{{user.Email}}</p>
 			</ion-item>
 		</ion-card>
-	</ion-list>
+
+
+	<ion-grid>
+  		<ion-row class="center">
+    		<ion-col col-4>
+				<ion-card>
+					<ion-card-header>
+						Fatte
+					</ion-card-header>
+					<ion-card-content>
+						10
+  					</ion-card-content>
+				</ion-card>
+			</ion-col>
+			<ion-col col-4>
+				<ion-card>
+					<ion-card-header>
+						Ricevute
+					</ion-card-header>
+					<ion-card-content>
+						10
+  					</ion-card-content>
+				</ion-card>
+			</ion-col>
+			<ion-col col-4>
+				<ion-card>
+					<ion-card-header>
+						<ion-icon name="ion-star"></ion-icon>
+					</ion-card-header>
+					<ion-card-content>
+						5
+  					</ion-card-content>
+				</ion-card>
+			</ion-col>
+  		</ion-row>
+	</ion-grid>
 
 	<ion-card>
 		<button ion-item (click)="goToHistory()">
@@ -42,9 +78,16 @@
 		<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 		</button>
 	</ion-card>
+	<ion-card>
+		<button ion-item>
+		<ion-icon name="information-circle" item-left></ion-icon>
+		Info account
+		<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+		</button>
+	</ion-card>
 	
 	<ion-list>
-		<ion-item-group>
+		<!--<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">UTILIZZO</ion-item-divider>
 			<ion-item>
@@ -59,8 +102,7 @@
 				Punteggio
 				<ion-note item-right>{{user.Rating}}</ion-note>
 			</ion-item>
-
-		</ion-item-group>
+		</ion-item-group>-->
 		
 		<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
@@ -68,10 +110,6 @@
 			<ion-item>
 				E-mail
 				<ion-note item-right>{{user.Email}}</ion-note>
-			</ion-item>
-			<ion-item>
-				Username
-				<ion-note item-right>{{user.Username}}</ion-note>
 			</ion-item>
 		</ion-item-group>
 		
