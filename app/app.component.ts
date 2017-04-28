@@ -26,7 +26,12 @@ export class MyApp {
   rootPage: any = LoginPage;
   @ViewChild('mynav') public navCtrl: NavController;
 
+  // Get user to show photo and name in side bar
+  public user_db: FirebaseObjectObservable<any>;
+
   constructor(platform: Platform, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public http: Http, private statusBar: StatusBar, public menuCtrl: MenuController) {
+
+    
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -129,7 +134,8 @@ export class MyApp {
       //}
     });
 
-    statusBar.styleLightContent();
+    statusBar.styleLightContent(); //status bar white
+    this.user_db = af.database.object("users/" + globals.UID); //Photo sidebar
     
   }
 

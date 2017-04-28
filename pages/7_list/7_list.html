@@ -1,6 +1,11 @@
 ﻿<ion-header>
   <ion-navbar>
     <ion-title *ngIf="globals.UnpublishedLists[list_key] != undefined">Lista {{globals.UnpublishedLists[list_key].Name}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addItem()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -18,11 +23,7 @@
       </ion-item>
     </ion-list>
 
-    <div class="lateral-padding center">
-      <button ion-button round color="secondary" (click)="addItem()" class="center" style="width:40%">Aggiungi</button>
-    </div>
-
-    <div class="spacer" style="height: 64px;"></div>
+    <div class="spacer" style="height: 16px;"></div>
 
     <div class="lateral-padding">
       <button ion-button block color="secondary" (click)="publicateList()">Pubblica lista</button>
