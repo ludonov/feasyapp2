@@ -35,7 +35,7 @@ export class ListFromMapPage {
       navCtrl.pop();
     } else {
 
-      af.database.object("/published_lists/" + this.list_owner + "/" + this.list_key).$ref.on("value", (snaphot: firebase.database.DataSnapshot) => {
+      af.database.object("/published_lists/" + this.list_owner + "/" + this.list_key).$ref.once("value", (snaphot: firebase.database.DataSnapshot) => {
         let _val: any = snaphot.val();
         if (_val == null) {
           console.warn("ListFromMapPage: null list data. Going back.");
@@ -143,17 +143,12 @@ export class ListFromMapPage {
               });
 
               this.loading.present();
-              let new_candidate: Candidate = new Candidate();
-              new_candidate.uid = this.globals.UID;
-              new_candidate.DisplayName = this.globals.User.DisplayName;
-              new_candidate.AddressKey = this.address_key;
-              new_candidate.Comment = data.comment || "";
               let new_candidature: Candidature = new Candidature();
               new_candidature.ListOwnerUid = this.list_owner;
               new_candidature.ListReferenceKey = this.list_key;
               new_candidature.AddressKey = this.address_key;
               new_candidature.Comment = data.comment || "";
-              this.globals.AddCandidature(new_candidate, new_candidature).then((res: boolean) => {
+              this.globals.AddCandidature(new_candidature).then((res: boolean) => {
                 console.log("ListFromMapPage: candidate added!");
                 this.loading.dismiss();
                 let alert2: Alert = this.alertCtrl.create({

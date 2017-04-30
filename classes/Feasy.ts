@@ -188,6 +188,7 @@ export class FeasyItem {
 }
 
 export class Candidate {
+  public $key: string;
   public uid: string;
   public DisplayName: string;
   public AddressKey: string;
@@ -402,11 +403,13 @@ export class GeoPoint {
 }
 
 export function StripForFirebase(obj: any): any {
-  for (let p in obj) {
-    if (obj[p.toString()] == undefined || p.indexOf('.') != -1 || p.indexOf('#') != -1 || p.indexOf('$') != -1 || p.indexOf('/') != -1 || p.indexOf('[') != -1 || p.indexOf(']') != -1 || typeof (obj[p.toString()]) == "function")
-      delete obj[p.toString()];
+  let obj2: any = {};
+  Object.assign(obj2, obj);
+  for (let p in obj2) {
+    if (obj2[p.toString()] == undefined || p.indexOf('.') != -1 || p.indexOf('#') != -1 || p.indexOf('$') != -1 || p.indexOf('/') != -1 || p.indexOf('[') != -1 || p.indexOf(']') != -1 || typeof (obj2[p.toString()]) == "function")
+      delete obj2[p.toString()];
   }
-  return obj;
+  return obj2;
 }
 
 export function copyObject<T>(source: T, destination: any): void {

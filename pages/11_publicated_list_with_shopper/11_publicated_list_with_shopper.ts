@@ -30,7 +30,7 @@ export class PublicatedListWithShopperPage {
       console.warn("PublicatedListWithShopperPage null list_key. Going back.")
       navCtrl.pop();
     } else {
-      this.list = globals.PublishedLists[this.list_key];
+      this.list = globals.GetPublishedListByKey(this.list_key);
       this.candidate = globals.getAcceptedCandidateFromList(this.list_key);
       if (this.candidate == null) {
         console.warn("PublicatedListWithShopperPage list should have an accepted candidate but non found. Going back.")
@@ -50,6 +50,7 @@ export class PublicatedListWithShopperPage {
 
     this.globals.PublishedLists_db.update(this.list_key, { TerminatedDate: (new Date()).toUTCString() }).then(() => {
       console.log("List terminated!");
+      this.globals.DeleteFromArrayByKey(this.globals.PublishedLists, this.list_key);
       let alert: Alert = this.alertCtrl.create({
         title: 'Info',
         subTitle: "Lista terminata",

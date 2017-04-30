@@ -1,6 +1,6 @@
 ﻿<ion-header>
   <ion-navbar>
-    <ion-title *ngIf="globals.UnpublishedLists[list_key] != undefined">Lista {{globals.UnpublishedLists[list_key].Name}}</ion-title>
+    <ion-title *ngIf="list != undefined">Lista {{list.Name}}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="addItem()">
         <ion-icon name="add"></ion-icon>
@@ -11,9 +11,9 @@
 
 
 <ion-content scroll="false" style="" class="has-header background-color-body">
-    <h6 class="center" *ngIf="globals.UnpublishedLists[list_key] != undefined && globals.UnpublishedLists[list_key].ItemsCount == 0">Nessun prodotto in lista, aggiungilo!</h6>
-    <ion-list *ngIf="globals.UnpublishedLists[list_key] != undefined">
-      <ion-item (click)="goToItem(item)" *ngFor="let item of globals.UnpublishedLists[list_key].Items | keys">
+    <h6 class="center" *ngIf="list != undefined && list.ItemsCount == 0">Nessun prodotto in lista, aggiungilo!</h6>
+    <ion-list *ngIf="list != undefined">
+      <ion-item (click)="goToItem(item)" *ngFor="let item of list.Items | keys">
         <ion-label>
           {{item.value.Name}}
         </ion-label>

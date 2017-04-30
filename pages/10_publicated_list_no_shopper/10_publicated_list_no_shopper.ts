@@ -20,7 +20,7 @@ import { AddressViewStaticPage } from '../../pages/30_address_view_static/30_add
 export class PublicatedListNoShopperPage {
 
   public list_key: string;
-  //public list: FeasyList = new FeasyList("");
+  public list: FeasyList = new FeasyList("");
   //public DeliveryAddresses: Object = {};
 
   constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
@@ -29,7 +29,7 @@ export class PublicatedListNoShopperPage {
       console.warn("PublicatedListNoShopperPage null list_key. Going back.")
       navCtrl.pop();
     }
-    //this.list = globals.PublishedLists[this.list_key];
+    this.list = globals.GetPublishedListByKey(this.list_key);
     //af.database.object('published_lists/' + globals.UID + '/' + this.list_key).$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
     //  this.list = snapshot.val();
     //});
@@ -43,7 +43,7 @@ export class PublicatedListNoShopperPage {
 
   ViewItems(): void {
     console.log("Going to PublicatedListProductsPage");
-    this.navCtrl.push(PublicatedListProductsPage, { items: this.globals.PublishedLists[this.list_key].Items });
+    this.navCtrl.push(PublicatedListProductsPage, { items: this.list.Items });
   }
 
   ViewCandidates(): void {
@@ -56,7 +56,7 @@ export class PublicatedListNoShopperPage {
   }
 
   RemoveList(): void {
-    console.log("Deleting published list: " + this.globals.PublishedLists[this.list_key].Name);
+    console.log("Deleting published list: " + this.list.Name);
     this.af.database.list('/published_lists/' + this.globals.UID).remove(this.list_key).then(res => {
       console.log("Published list removed");
       this.navCtrl.pop();

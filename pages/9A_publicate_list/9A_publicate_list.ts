@@ -33,7 +33,7 @@ export class PublicateListFirstPage {
     } else {
       //this.published_lists_db = af.database.list('/published_lists/' + globals.UID);
       //this.unpublished_lists_db = af.database.list('/unpublished_lists/' + globals.UID);
-      this.list = globals.UnpublishedLists[this.list_key];
+      this.list = globals.GetUnpublishedListByKey(this.list_key);
       this.no_addresses = Object.keys(this.list.DeliveryAddresses).length == 0;
       this.addresses_db = af.database.list('unpublished_lists/' + globals.UID + '/' + this.list.$key + '/DeliveryAddresses');
       this.addresses_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
@@ -85,11 +85,15 @@ export class PublicateListFirstPage {
 
         this.globals.UnpublishedLists_db.update(this.list_key, StripForFirebase(this.list)).then(res1 => {
             console.log("going to page publicate list 2");
-            loading.dismiss();
+            loading.dismiss().catch((err: Error) => {
+              console.warn("PublicateListFirstPage> LoadingController dismiss: " + err.message);
+            });
             this.navCtrl.push(PublicateListSecondPage, { list_key: this.list_key });
         }).catch((err: Error) => {
             console.warn("PublicateListFirstPage> cannot update list: " + err.message);
-            loading.dismiss();
+            loading.dismiss().catch((err: Error) => {
+              console.warn("PublicateListFirstPage> LoadingController dismiss: " + err.message);
+            });
             this.ShowGenericError();
         });
     }
