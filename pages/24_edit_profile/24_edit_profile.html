@@ -4,76 +4,72 @@
   </ion-navbar>
 </ion-header>
 
-  <ion-content class="has-header has-tabs background-color-body">
+<ion-content class="has-header has-tabs background-color-body">
 
-    <ion-list>	
-		<ion-card>
-			<ion-item class="profile-item">
-				<div class="profile-picture">
-					<img src="assets/img/17_profilo/Ludovico.jpg">
-				</div>
-				<h2 class="profile-name dark">{{user.DisplayName}}</h2>
-				<div class="profile-info">@ludonov</div>
-			</ion-item>
-		</ion-card>
-	</ion-list>
-	
-	<ion-list>
-		
-		<ion-item-group>
-			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">INFORMAZIONI PERSONALI</ion-item-divider>
-			<ion-item>
-				<ion-label fixed>Username</ion-label>
-				<ion-input type="text"></ion-input>
-			</ion-item>
-			<ion-item>
-				<ion-label fixed>Nome</ion-label>
-				<ion-input type="text" [(ngModel)]="user.FirstName"></ion-input>
-			</ion-item>
-			<ion-item>
-				<ion-label fixed>Cognome</ion-label>
-				<ion-input type="text" [(ngModel)]="user.LastName"></ion-input>
-			</ion-item>
-			<ion-item>
-				<ion-label fixed>Nazionalità</ion-label>
-				<ion-input type="text" [(ngModel)]="user.Nationality"></ion-input>
-			</ion-item>
-			<ion-item>
-				<ion-label fixed>Telefono</ion-label>
-				<ion-input type="text" [(ngModel)]="user.MobileNumber"></ion-input>
-			</ion-item>
-			<!--<ion-item>
+  <ion-list>
+    <ion-card>
+      <ion-item class="profile-item">
+        <div class="profile-picture">
+          <img src="{{user.PhotoURL}}">
+        </div>
+        <h2 class="profile-name dark">{{user.FirstName}} {{user.LastName}}</h2>
+        <p class="center">{{user.Email}}</p>
+      </ion-item>
+    </ion-card>
+  </ion-list>
+
+  <ion-list>
+
+    <ion-item-group>
+      <div class="spacer" style="height: 16px;"></div>
+      <ion-item-divider class="item-title" style="border-top-color: transparent;">INFORMAZIONI PERSONALI</ion-item-divider>
+      <ion-item>
+        <ion-label fixed>Nome</ion-label>
+        <ion-input type="text" [(ngModel)]="user.FirstName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label fixed>Cognome</ion-label>
+        <ion-input type="text" [(ngModel)]="user.LastName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label fixed>Nazionalità</ion-label>
+        <ion-input type="text" [(ngModel)]="user.Nationality"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label fixed>Telefono</ion-label>
+        <ion-input type="text" [(ngModel)]="user.MobileNumber"></ion-input>
+      </ion-item>
+      <!--<ion-item>
       <ion-label fixed>Sesso</ion-label>
       <ion-select [(ngModel)]="gender" interface="action-sheet" multiple="false">
         <ion-option value="{{i}}" selected="item.Unit == {{i}}" *ngFor="let Gender of Genders; let i = index">
           {{Gender}}
         </ion-option>
       </ion-select>
-    	</ion-item>-->
-			<ion-item>
-				<ion-label fixed>Sesso</ion-label>
-				<ion-input type="text" [(ngModel)]="gender"></ion-input>
-			</ion-item>
-			<ion-item>
-				<ion-label fixed>Data di nascita</ion-label>
-				<ion-datetime displayFormat="DD MMM YYYY" [(ngModel)]="user.Birthdate"></ion-datetime>
-			</ion-item>
-		</ion-item-group>
+        </ion-item>-->
+      <ion-item>
+        <ion-label fixed>Sesso</ion-label>
+        <ion-input type="text" [(ngModel)]="gender"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label fixed>Data di nascita</ion-label>
+        <ion-datetime displayFormat="DD MMM YYYY" [(ngModel)]="user.Birthdate"></ion-datetime>
+      </ion-item>
+    </ion-item-group>
 
-		<ion-item-group>
-			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZI</ion-item-divider>
-			<ion-item icon-right (click)="MyAddresses()">
-      			Modifica Indirizzi
-      			<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
-    	</ion-item>
-		</ion-item-group>
-		
-	</ion-list>
+    <ion-item-group>
+      <div class="spacer" style="height: 16px;"></div>
+      <ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZI</ion-item-divider>
+      <ion-item icon-right (click)="MyAddresses()">
+        Modifica Indirizzi
+        <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+      </ion-item>
+    </ion-item-group>
+
+  </ion-list>
 
   <div class="lateral-padding">
-      <button ion-button block color="secondary" (click)="changeProfile()">Applica</button>
+    <button ion-button block color="secondary" (click)="changeProfile()">Applica</button>
   </div>
 
-  </ion-content>
+</ion-content>

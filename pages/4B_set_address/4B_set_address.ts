@@ -21,7 +21,7 @@ export class SetAddressPage {
   public address: DeliveryAddress = new DeliveryAddress();
 
     constructor(public navCtrl: NavController, public af: AngularFire, public alertCtrl: AlertController, public globals: Globals) {
-    this.addresses_db = af.database.list("users/" + af.auth.getAuth().uid + "/Addresses"); // aggiunto
+    this.addresses_db = af.database.list("users/" + globals.UID + "/Addresses"); // aggiunto
     
     
     }

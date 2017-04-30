@@ -28,7 +28,7 @@ export class SetPersonalDetailsPage {
     this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
       this.user = snapshot.val();
       if (this.user == null) {
-        this.user = new FeasyUser(af.auth.getAuth().auth.email, "", "");
+        this.user = new FeasyUser(globals.User.Email, "", "");
       }
     });
   }

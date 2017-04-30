@@ -38,7 +38,8 @@ export class PublicatedListWithShopperPage {
       } else {
         this.ChosenAddress = this.list.DeliveryAddresses[this.candidate.AddressKey];
         af.database.object("/users/" + this.candidate.uid).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
-          this.ChosenCandidate = snapshot.val() || new FeasyUser("", "", "");
+          Object.assign(this.ChosenCandidate, snapshot.val());
+          this.ChosenCandidate.SetImageOrDefault();
         });
       }
     }

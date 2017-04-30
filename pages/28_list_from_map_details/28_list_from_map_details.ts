@@ -66,8 +66,8 @@ export class ListFromMapPage {
       //});
 
       af.database.object("/users/" + this.list_owner).$ref.on("value", (snaphot: firebase.database.DataSnapshot) => {
-        let _val: any = snaphot.val();
-        if (_val == null) {
+        let val: any = snaphot.val();
+        if (val == null) {
           console.warn("ListFromMapPage: null owner data. Going back.");
           let alert: Alert = alertCtrl.create({
             title: 'Info',
@@ -79,7 +79,8 @@ export class ListFromMapPage {
           });
           alert.present();
         } else {
-          this.owner = _val;
+          Object.assign(this.owner, val);
+          this.owner.SetImageOrDefault();
         }
       });
       //.catch((err: Error) => {

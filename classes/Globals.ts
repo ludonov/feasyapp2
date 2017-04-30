@@ -9,7 +9,7 @@ import { NavController, AlertController, Alert, LoadingController, Loading, Plat
 import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { LocalNotifications } from 'ionic-native';
 
-import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, StripForFirebase } from './Feasy';
+import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase } from './Feasy';
 
 @Injectable()
 export class Globals {
@@ -101,11 +101,16 @@ export class Globals {
 
   private LinkUserWatchers(): void {
     this.User_db = this.af.database.object('/users/' + this.UID);
-    this.User_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-      let _user = snapshot.val();
-      if (_user != null) {
+    this.User_db.$ref.on("value", (_user: firebase.database.DataSnapshot) => {
+      let u = _user.val();
+      if (u != null) {
+        let user: FeasyUser = new FeasyUser("", "", "");
+        Object.assign(user, u);
+        this.User = user;
         console.log("User data fetched. Name: " + this.User.DisplayName);
-        this.User = _user;
+        if (this.User.Gender == null)
+          this.User.Gender = GenderType.Male;
+        this.User.SetImageOrDefault();
       } else {
         console.log("User data null");
       }

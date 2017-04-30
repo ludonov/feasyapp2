@@ -52,9 +52,10 @@ export class LoginPage {
           provider: AuthProviders.Password,
           method: AuthMethods.Password
         })
-        .catch((error: FirebaseError) => this.showLoginError(error))
         .then(function (user: any) {
           console.log("Normal Login successful");
+        }).catch((error: FirebaseError) => {
+          this.showLoginError(error);
         });
     }
   }
@@ -133,14 +134,16 @@ export class LoginPage {
             this.globals.User.Gender = null;
           this.globals.User.FirstName = extradata.first_name || "";
           this.globals.User.LastName = extradata.last_name || "";
-          this.globals.User.DisplayName = extradata.name || "";
+          this.globals.User.DisplayName = extradata.first_name + " " + extradata.last_name[0] + ".";
           this.globals.User.PhotoURL = extradata.id != null ? "http://graph.facebook.com/" + extradata.id + "/picture?type=square&width=400&height=400" : "";
+          this.globals.JustRegistered = true;
           firebase.auth().signInWithCredential(facebookCredential)
-            .then((success) => {
-              console.log("Firebase fb login success!");
+            .then((user) => {
+              console.log("Firebase fb login success!" + user.DisplayName);
             })
             .catch((error) => {
               console.warn("Firebase fb login failure: " + JSON.stringify(error));
+              this.globals.JustRegistered = false;
             });
         }).catch((err: Error) => {
           console.warn("Cannot read fb graph api: " + err.message);
