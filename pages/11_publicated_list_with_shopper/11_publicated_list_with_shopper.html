@@ -1,4 +1,4 @@
-<ion-header>
+﻿<ion-header>
   <ion-navbar>
     <ion-title>{{list.Name}}</ion-title>
   </ion-navbar>
@@ -13,7 +13,7 @@
     <ion-item-divider color="light" class="item-title">DETTAGLI CANDIDATO SCELTO</ion-item-divider>
     <ion-item>
       <ion-avatar item-left icon-right>
-        <img src="assets/img/11_publicated_list_with_shopper/Ludovico.jpg">
+        <img src="{{ChosenCandidate.PhotoURL}}">
       </ion-avatar>
       <h2>{{ChosenCandidate.DisplayName}}</h2>
       <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
