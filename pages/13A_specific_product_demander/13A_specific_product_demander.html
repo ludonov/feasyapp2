@@ -13,15 +13,15 @@
 <ion-content class="background-color-body">
   <ion-list>
     <ion-item>
-      <ion-label fixed>Prodotto</ion-label>
+      <ion-label floating>Prodotto</ion-label>
       <ion-input #NameInput [(ngModel)]="item.Name" type="text" value="" autofocus></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label fixed>Quantità</ion-label>
+      <ion-label floating>Quantità</ion-label>
       <ion-input [(ngModel)]="item.Qty" type="number" value=""></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label fixed>Unità</ion-label>
+      <ion-label floating>Unità</ion-label>
       <ion-select [(ngModel)]="item.Unit" interface="action-sheet" multiple="false" placeholder="{{GetUnitName(0)}}">
         <ion-option value="{{i}}" selected="item.Unit == {{i}}" *ngFor="let unit of units; let i = index">
           {{unit}}
@@ -29,15 +29,15 @@
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-label fixed>Marca</ion-label>
+      <ion-label floating>Marca</ion-label>
       <ion-input [(ngModel)]="item.Brand" type="text" value=""></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label fixed>Fascia prezzo</ion-label>
+      <ion-label floating>Fascia prezzo</ion-label>
       <ion-input [(ngModel)]="item.PriceRange" type="text" value=""></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label fixed>Altri dettagli</ion-label>
+      <ion-label floating>Altri dettagli</ion-label>
       <ion-input [(ngModel)]="item.Comments" type="text" value=""></ion-input>
     </ion-item>
   </ion-list>

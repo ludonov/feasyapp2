@@ -9,7 +9,7 @@ import { NavController, AlertController, Alert, LoadingController, Loading, Plat
 import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { LocalNotifications } from 'ionic-native';
 
-import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase } from './Feasy';
+import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, ResizeImage } from './Feasy';
 
 @Injectable()
 export class Globals {
@@ -607,6 +607,50 @@ export class Globals {
 
   public GetReviewByKey(key: string): Review {
     return this.GetElementByKey(this.Reviews, key);
+  }
+
+
+
+  public InputFile(): Promise<string> {
+
+    return new Promise((resolve, reject) => {
+
+      try {
+
+
+        // Create an input element
+        var inputElement = document.createElement("input");
+
+        // Set its type to file
+        inputElement.type = "file";
+
+        // Set accept to the file types you want the user to select. 
+        // Include both the file extension and the mime type
+        //inputElement.accept = "*.png|*.jpg";
+
+        // set onchange event to call callback when user has selected file
+        inputElement.addEventListener("change", (event: any) => {
+
+          var fReader = new FileReader();
+          fReader.readAsDataURL(inputElement.files[0]);
+          fReader.onloadend = function (e: any) {
+            return ResizeImage(e.target.result);
+          }
+
+          //var selectedFile = event.target.files[0];
+          //var img = new Image;
+          //img.onload = function () {
+          //  resolve(selectedFile);
+          //}
+          //img.src = selectedFile;
+        });
+
+        // dispatch a click event to open the file dialog
+        inputElement.click();
+      } catch (err) {
+        reject(new Error("Cannot load image: " + JSON.stringify(err))); 
+      }
+    });
   }
 
 }

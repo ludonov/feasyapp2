@@ -9,7 +9,7 @@
   <ion-list>
     <ion-card>
       <ion-item class="profile-item">
-        <div class="profile-picture">
+        <div class="profile-picture" (click)="selectImage()">
           <img src="{{user.PhotoURL}}">
         </div>
         <h2 class="profile-name dark">{{user.FirstName}} {{user.LastName}}</h2>

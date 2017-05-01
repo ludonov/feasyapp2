@@ -54,6 +54,15 @@ export class EditProfilePage {
 
   }
 
+  selectImage() {
+    this.globals.InputFile().then((img: string) => {
+      console.log("OOK");
+      this.globals.User.PhotoURL = img;
+    }).catch((err: Error) => {
+      console.log("err: " + err.message);
+    });
+  }
+
 
 }
 
