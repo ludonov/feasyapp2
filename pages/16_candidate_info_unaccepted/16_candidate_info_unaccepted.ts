@@ -30,43 +30,33 @@ export class CandidateInfoUnacceptedPage {
       console.warn("CandidateInfoUnacceptedPage: null candidate or list_key. Going back.");
       navCtrl.pop();
     } else {
-      this.address = globals.PublishedLists[this.list_key].DeliveryAddresses[this.candidate.AddressKey];
+      this.address = globals.GetPublishedListByKey(this.list_key).DeliveryAddresses[this.candidate.AddressKey];
     }
 
   }
 
   AcceptShopper(): void {
-    //this.af.database.object("/candidates/" + this.globals.UID + "/" + this.list_key + "/" + this.candidate_key).set({ Accepted: true }).then(() => {
-      let list_updated: FeasyList = this.globals.PublishedLists[this.list_key];
-      list_updated.ChosenCandidateKey = this.candidate_key;
-      this.globals.PublishedLists_db.update(this.list_key, StripForFirebase(list_updated)).then(() => {
-        let alert: Alert = this.alertCtrl.create({
-          title: 'Info',
-          subTitle: "Hai accettato !",
-          buttons: ['Ok']
-        });
-        alert.onDidDismiss(() => {
-          this.navCtrl.pop();
-        });
-        alert.present();
-      }).catch((err: Error) => {
-        console.warn("CandidateInfoUnacceptedPage > Cannot update list with candidate key: " + err.message);
-        let alert: Alert = this.alertCtrl.create({
-          title: 'Info',
-          subTitle: "Impossibile candidarsi alla lista. Ritentare.",
-          buttons: ['Ok']
-        });
-        alert.present();
+    let list_updated: FeasyList = this.globals.GetPublishedListByKey(this.list_key);
+    list_updated.ChosenCandidateKey = this.candidate_key;
+    this.globals.PublishedLists_db.update(this.list_key, StripForFirebase(list_updated)).then(() => {
+      let alert: Alert = this.alertCtrl.create({
+        title: 'Info',
+        subTitle: "Hai accettato !",
+        buttons: ['Ok']
       });
-    //}).catch((err: Error) => {
-    //    console.warn("CandidateInfoUnacceptedPage > Cannot accept candidate: " + err.message);
-    //    let alert: Alert = this.alertCtrl.create({
-    //      title: 'Info',
-    //      subTitle: "Impossibile candidarsi alla lista. Ritentare.",
-    //      buttons: ['Ok']
-    //    });
-    //    alert.present();
-    //  });
+      alert.onDidDismiss(() => {
+        this.navCtrl.popToRoot();
+      });
+      alert.present();
+    }).catch((err: Error) => {
+      console.warn("CandidateInfoUnacceptedPage > Cannot update list with candidate key: " + err.message);
+      let alert: Alert = this.alertCtrl.create({
+        title: 'Info',
+        subTitle: "Impossibile candidarsi alla lista. Ritentare.",
+        buttons: ['Ok']
+      });
+      alert.present();
+    });
   }
 
 }

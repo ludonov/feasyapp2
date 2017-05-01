@@ -4,6 +4,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { KeysPipe } from '../app/pipes';
+import { HideTabsDirective } from '../app/HideTabsDirective';
 
 import { Globals } from '../classes/Globals';
 
@@ -52,6 +53,11 @@ import { SpecificAddressFromProfilePage } from '../pages/35_specific_address_fro
 import { AddressesFromEditProfilePage } from '../pages/36_addresses_from_edit_profile/36_addresses_from_edit_profile';
 import { SpecificAddressFromEditProfilePage } from '../pages/37_specific_address_from_edit_profile/37_specific_address_from_edit_profile';
 import { AddNewAddressPage } from '../pages/38_add_new_address/38_add_new_address';
+import { ReviewsToLeavePage } from '../pages/39_reviews_to_leave/39_reviews_to_leave';
+import { SingleReviewToLeavePage } from '../pages/40_single_review_to_leave/40_single_review_to_leave';
+
+
+import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
 
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -71,6 +77,8 @@ export const firebaseConfig = {
   declarations: [
     MyApp,
     KeysPipe,
+    HideTabsDirective,
+    MaintenancePage,
     LoginPage,
     ForgotPassPage, 
     SignupPage,
@@ -115,15 +123,24 @@ export const firebaseConfig = {
     AddressesFromEditProfilePage,
     SpecificAddressFromEditProfilePage,
     AddNewAddressPage,
+    ReviewsToLeavePage,
+    SingleReviewToLeavePage,
     TabsPage
   ],
   imports: [
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+          // These options are available in ionic-angular@2.0.0-beta.2 and up.
+          // http://ionicframework.com/docs/v2/api/config/Config/)
+          scrollAssist: false,    // Valid options appear to be [true, false]
+          autoFocusAssist: 'instant'  // Valid options appear to be ['instant', 'delay', false]
+        }
+      ),
     AngularFireModule.initializeApp(firebaseConfig)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    MaintenancePage,
     LoginPage,
     ForgotPassPage ,
     SignupPage,
@@ -168,6 +185,8 @@ export const firebaseConfig = {
     AddressesFromEditProfilePage,
     SpecificAddressFromEditProfilePage,
     AddNewAddressPage,
+    ReviewsToLeavePage,
+    SingleReviewToLeavePage,
     TabsPage
   ],
   providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, Globals]

@@ -19,9 +19,11 @@ export class AddressViewPage {
   public address: DeliveryAddress;
   public is_new: boolean = true;
   
+  tabBarElement: any;
   @ViewChild('StreetNameInput') StreetNameInput;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController, public globals: Globals) {
+    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.list_key = navParams.get('list_key');
     if (this.list_key == null) {
       console.warn("AddressViewPage null list_key!!");

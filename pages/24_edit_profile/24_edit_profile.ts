@@ -17,22 +17,16 @@ import { AddressesFromEditProfilePage } from "../36_addresses_from_edit_profile/
 export class EditProfilePage {
 
   public user: FeasyUser = new FeasyUser("", "", "");
-  public user_db: FirebaseObjectObservable<any>;
   public addresses: Object = {};
   public addresses_db: FirebaseListObservable<any>;
   public gender: string;
 
   constructor(public navCtrl: NavController, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController) {
-    this.user_db = af.database.object("users/" + globals.UID);
-    this.addresses_db = af.database.list("users/" + globals.UID + "/Addresses");
-    this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-      this.user = snapshot.val();
-      if (this.user == null) {
-        this.user = new FeasyUser(af.auth.getAuth().auth.email, "", "");
-      }
-      this.gender = GetGenderNameFromEnum(this.user.Gender);
-    });
 
+    this.user = globals.User;
+    this.gender = GetGenderNameFromEnum(this.user.Gender);
+
+    this.addresses_db = af.database.list("users/" + globals.UID + "/Addresses");
     this.addresses_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
       this.addresses = {};
       snapshot.forEach( (address: any) => {
@@ -47,7 +41,7 @@ export class EditProfilePage {
     console.log("personal address set");
     //this.user.Address = this.address; 
     this.user.Gender=GetEnumFromGenderName(this.gender);
-    this.user_db.update(StripForFirebase(this.user)).then(res => {
+    this.globals.User_db.update(StripForFirebase(this.user)).then(res => {
     this.navCtrl.pop();
     }).catch((err: Error) => {
       console.log("Error: " + err.message);
@@ -58,6 +52,15 @@ export class EditProfilePage {
 
     this.navCtrl.push(AddressesFromEditProfilePage);
 
+  }
+
+  selectImage() {
+    this.globals.InputFile().then((img: string) => {
+      console.log("OOK");
+      this.globals.User.PhotoURL = img;
+    }).catch((err: Error) => {
+      console.log("err: " + err.message);
+    });
   }
 
 

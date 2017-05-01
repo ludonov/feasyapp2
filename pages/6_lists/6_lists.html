@@ -22,7 +22,7 @@
 	</ion-toolbar>
 </ion-header>
 
-<ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
+<ion-content scroll="false" class="background-color-body">
 	
 	<div [ngSwitch]="lists">
 		<!-- DEMANDER -->
@@ -32,17 +32,19 @@
 					PUBBLICATE
 				</ion-card-header>
 
+
 				<ion-list>
 					<ion-item detail-none *ngIf="globals.NoPublishedLists">
 						<ion-label class="center">Nessuna lista attiva</ion-label>
 					</ion-item>
 
-					<ion-item *ngFor="let list of globals.PublishedLists_db | async" (click)="goToPublicatedList(list)">
+
+					<ion-item *ngFor="let list of globals.PublishedLists" (click)="goToPublicatedList(list)">
 						<ion-label>
 							{{list.Name}}
 						</ion-label>
 						<ion-note item-right>
-							{{GetItemsCount(list)}} pezzi
+							{{list.ItemsCount}} pezzi
 						</ion-note>
 					</ion-item>
 				</ion-list>
@@ -56,12 +58,13 @@
 						<ion-label class="center" >Nessuna lista da pubblicare</ion-label>
 					</ion-item>
 
-					<ion-item *ngFor="let list of globals.UnpublishedLists_db | async" (click)="goToList(list)">
+
+					<ion-item *ngFor="let list of globals.UnpublishedLists" (click)="goToList(list)">
 						<ion-label>
 							{{list.Name}}
 						</ion-label>
 						<ion-note item-right>
-							{{GetItemsCount(list)}} pezzi
+							{{list.ItemsCount}} pezzi
 						</ion-note>
 					</ion-item>
 				</ion-list>
@@ -75,12 +78,12 @@
 					CONFERMATE
 				</ion-card-header>
 				<ion-list>
-					<ion-item detail-none *ngIf="no_accepted_lists">
+					<ion-item detail-none *ngIf="globals.NoAcceptedLists">
 						<ion-label class="center">Nessun lista accettata, attendi ancora!</ion-label>
 					</ion-item>
-					<ion-item (click)="goToAcceptedList(list)" *ngFor="let list of accepted_lists | keys">
-						{{list.value.ChosenAddress.FormattedAddress}}
-						<ion-note item-right>{{list.value.ItemsCount}} pezzi</ion-note>
+					<ion-item (click)="goToAcceptedList(list)" *ngFor="let list of globals.AcceptedLists">
+						{{list.ChosenAddress.FormattedAddress}}
+						<ion-note item-right>{{list.ItemsCount}} pezzi</ion-note>
 					</ion-item>
 				</ion-list>
 			</ion-card>
@@ -89,16 +92,17 @@
 					PROPOSTE
 				</ion-card-header>
 				<ion-list>
-					<ion-item detail-none *ngIf="no_pending_lists">
+					<ion-item detail-none *ngIf="globals.NoAppliedLists">
 						<ion-label class="center">Nessuna lista in sospeso</ion-label>
 					</ion-item>
-					<ion-item (click)="goToPendingList(list)" *ngFor="let list of pending_lists | keys">
-						{{list.value.ChosenAddress.FormattedAddress}}
-						<ion-note item-right>{{list.value.ItemsCount}} pezzi</ion-note>
+					<ion-item (click)="goToPendingList(list)" *ngFor="let list of globals.AppliedLists">
+						{{list.ChosenAddress.FormattedAddress}}
+						<ion-note item-right>{{list.ItemsCount}} pezzi</ion-note>
 					</ion-item>
 				</ion-list>
 			</ion-card>
 		</div>
+
 	</div>
 
 </ion-content>

@@ -30,11 +30,11 @@ export class PublicateListSecondPage {
     } else {
       //this.published_lists_db = af.database.list('/published_lists/' + globals.UID);
       //this.unpublished_lists_db = af.database.list('/unpublished_lists/' + globals.UID);
-      this.list = globals.UnpublishedLists[this.list_key];
+      this.list = globals.GetUnpublishedListByKey(this.list_key);
     }
   }
 
-  PublicateList(): void {  
+  PublicateList(): void {
 
     let loading: Loading = this.loadingCtrl.create({
       spinner: 'dots',
@@ -42,23 +42,34 @@ export class PublicateListSecondPage {
     });
     loading.present();
 
-    this.globals.UnpublishedLists_db.update(this.list_key, StripForFirebase(this.list)).then(res1 => {
-        let token: string;
-        firebase.auth().currentUser.getToken().then((_token) => {
-            token = _token;
-            this.http.get("https://us-central1-feasy-748cf.cloudfunctions.net/publishList?list_key=" + this.list_key + "&token=" + token).subscribe(res => {
-                console.log("PublicateListSecondPage> Publish Cloud Function reply: " + res);
-                loading.dismiss();
-                let func: CloudFuncResponse = CloudFuncResponse.fromString(res.text());
-                if (func.Error) {
-                    console.log("PublicateListSecondPage> Publish Cloud Function error message: " + func.ErrorMessage);
-                    this.ShowGenericError();
-                } else {
-                    console.log("PublicateListSecondPage> Publish Cloud Function succeded");
-                    this.navCtrl.popToRoot();
-                }
-            });
-        });
+    this.list.PublishedDate = (new Date()).toUTCString();
+    (this.list as any).UnpublishedListKey = this.list_key;
+    this.globals.PublishedLists_db.push(StripForFirebase(this.list)).then(res1 => {
+      this.globals.DeleteFromArrayByKey(this.globals.UnpublishedLists, this.list_key);
+      //let token: string;
+      //firebase.auth().currentUser.getToken().then((_token) => {
+      //    token = _token;
+      //    this.http.get("https://us-central1-feasy-748cf.cloudfunctions.net/publishList?list_key=" + this.list_key + "&token=" + token).subscribe(res => {
+      //        console.log("PublicateListSecondPage> Publish Cloud Function reply: " + res);
+      loading.dismiss().catch((err: Error) => {
+        console.warn("PublicateListSecondPage> LoadingController dismiss: " + err.message);
+      });
+      //        let func: CloudFuncResponse = CloudFuncResponse.fromString(res.text());
+      //        if (func.Error) {
+      //            console.log("PublicateListSecondPage> Publish Cloud Function error message: " + func.ErrorMessage);
+      //            this.ShowGenericError();
+      //        } else {
+      console.log("PublicateListSecondPage> Publish Cloud Function succeded");
+      this.navCtrl.popToRoot();
+      //        }
+      //    });
+      //});
+    }).catch((err: Error) => {
+      console.warn("PublicateListSecondPage> Cannot publish geopoint: " + err.message);
+      loading.dismiss().catch((err: Error) => {
+        console.warn("PublicateListSecondPage> LoadingController dismiss: " + err.message);
+      });
+      this.ShowGenericError();
     });
 
     //this.list_copy.PublishedDate = (new Date()).toUTCString();
@@ -103,7 +114,7 @@ export class PublicateListSecondPage {
   ShowGenericError() {
     let alert = this.alertCtrl.create({
       title: 'Info',
-      subTitle: "C'è stato un errore durante la pubblicazione della lista. Controllare sulla mappa se la lista è visualizzata correttamente.",
+      subTitle: "Non è stato possibile pubblicare la lista. Ritentare nuovamente.",
       buttons: ['Ok']
     });
     alert.present();

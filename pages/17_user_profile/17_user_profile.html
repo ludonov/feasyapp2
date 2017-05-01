@@ -1,50 +1,121 @@
 ﻿<ion-header>
-  <ion-navbar>
-    <ion-title>Profilo</ion-title>
+	<ion-navbar>
+		<ion-title>Profilo</ion-title>
 		<ion-buttons end>
-      		<button ion-button item-right (click)="editProfile()">MODIFICA</button>
-    	</ion-buttons>
-  </ion-navbar>
+			<button ion-button item-right (click)="editProfile()">MODIFICA</button>
+		</ion-buttons>
+	</ion-navbar>
 </ion-header>
 
 <ion-content scroll="false" style="right:0; bottom:0; left:0; position:absolute;" class="has-header has-tabs background-color-body">
-	    
-	<ion-list>	
-		<ion-card>
-			<ion-item class="profile-item">
-				<div class="profile-picture">
-					<img src="{{user.PhotoURL}}">
-				</div>
-				<h2 class="profile-name dark">{{user.DisplayName}}</h2>
-				<div class="profile-info">@{{user.Username}}</div>
-			</ion-item>
-		</ion-card>
-	</ion-list>
+
+
+	<ion-card>
+		<ion-item class="profile-item">
+			<div class="profile-picture">
+				<img src="{{user.PhotoURL}}">
+			</div>
+			<h2 class="profile-name dark">{{user.FirstName}} {{user.LastName}}</h2>
+			<p class="center">{{user.Email}}</p>
+		</ion-item>
+	</ion-card>
+
+	<ion-grid>
+		<ion-row>
+			<ion-col>
+				<ion-card color="secondary">
+					<ion-card-header>
+						Fatte
+					</ion-card-header>
+					<ion-card-content>
+						10
+					</ion-card-content>
+				</ion-card>
+			</ion-col>
+			<ion-col>
+				<ion-card color="secondary">
+					<ion-card-header>
+						Ricevute
+					</ion-card-header>
+					<ion-card-content>
+						10
+					</ion-card-content>
+				</ion-card>
+			</ion-col>
+			<ion-col>
+				<ion-card>
+						<div style="height: 30px;" class="center" color="secondary">
+							Voto
+						</div>
+						<div style="background-color: white; height: 30px;" class="center">
+							Voto
+						</div>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
 
 	<ion-card>
 		<button ion-item (click)="goToHistory()">
-		<ion-icon name="time" item-left></ion-icon>
+						<ion-icon name="time" item-left color="secondary"></ion-icon>
+						History
+						<ion-note item-right style="font-size: 15px">Ultima commissione: Ieri</ion-note>
+					</button>
+	</ion-card>
+	<ion-card>
+		<button ion-item (click)="goToReviews()">
+						<ion-icon name="podium" item-left color="secondary"></ion-icon>
+							Le mie recensioni
+						<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+					</button>
+	</ion-card>
+
+
+
+	<!--<ion-row class="center">
+    		<ion-col col-12>
+				<ion-card>
+					<button ion-item (click)="goToReviews()">
+						<ion-icon name="podium" item-left color="secondary"></ion-icon>
+							Le mie recensioni
+						<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+					</button>
+				</ion-card>
+			</ion-col>
+		</ion-row>-->
+
+
+	<!--<ion-card>
+		<button ion-item (click)="goToHistory()">
+		<ion-icon name="time" item-left color="secondary"></ion-icon>
 		History
 		<ion-note item-right style="font-size: 15px">Ultima commissione: Ieri</ion-note>
 		</button>
 	</ion-card>
 	<ion-card>
 		<button ion-item (click)="goToReviews()">
-		<ion-icon name="podium" item-left></ion-icon>
+		<ion-icon name="podium" item-left color="secondary"></ion-icon>
 		Le mie recensioni
+		<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+		</button>
+	</ion-card>-->
+	<ion-card>
+		<button ion-item (click)="goToPendingReviews()">
+		<ion-icon name="filing" item-left color="secondary"></ion-icon>
+		Recensioni in attesa
 		<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 		</button>
 	</ion-card>
 	<ion-card>
 		<button ion-item>
-		<ion-icon name="filing" item-left></ion-icon>
-		Recensioni in attesa
+		<ion-icon name="information-circle" item-left color="secondary"></ion-icon>
+		Info account
 		<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 		</button>
 	</ion-card>
-	
 	<ion-list>
-		<ion-item-group>
+		<!--<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">UTILIZZO</ion-item-divider>
 			<ion-item>
@@ -58,23 +129,10 @@
 			<ion-item>
 				Punteggio
 				<ion-note item-right>{{user.Rating}}</ion-note>
-			</ion-item>
+			</ion-item> 
+		</ion-item-group>-->
 
-		</ion-item-group>
-		
-		<ion-item-group>
-			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">ACCOUNT</ion-item-divider>
-			<ion-item>
-				E-mail
-				<ion-note item-right>{{user.Email}}</ion-note>
-			</ion-item>
-			<ion-item>
-				Username
-				<ion-note item-right>{{user.Username}}</ion-note>
-			</ion-item>
-		</ion-item-group>
-		
+
 		<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">INFORMAZIONI PERSONALI</ion-item-divider>
@@ -108,9 +166,11 @@
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZI</ion-item-divider>
 			<ion-item icon-right (click)="MyAddresses()">
-      			I Miei Indirizzi
-      			<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
-    		</ion-item>
+				I Miei Indirizzi
+				<ion-note item-right>
+					<ion-icon name="arrow-forward"></ion-icon>
+				</ion-note>
+			</ion-item>
 		</ion-item-group>
 
 		<!--<ion-item-group>
@@ -152,4 +212,4 @@
 		</ion-item-group>-->
 
 	</ion-list>
-	</ion-content>
+</ion-content>

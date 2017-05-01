@@ -1,16 +1,22 @@
 ﻿
 import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 import { PublicatedListWithShopperPovShopperPage } from '../pages/11B_publicated_list_with_shopper_pov_shopper/11B_publicated_list_with_shopper_pov_shopper';
-import { Injectable } from '@angular/core';
+import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
+
+import { Injectable, ApplicationRef, ChangeDetectorRef } from '@angular/core';
 import { Http } from '@angular/http';
 import { NavController, AlertController, Alert, LoadingController, Loading, Platform } from 'ionic-angular';
 import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { LocalNotifications } from 'ionic-native';
 
-import { FeasyUser, FeasyList, Candidate, Candidature, Review, StripForFirebase } from './Feasy';
+import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, ResizeImage } from './Feasy';
 
 @Injectable()
 export class Globals {
+
+  public config: Config = new Config();
+  private config_db: FirebaseObjectObservable<any>;
+  public root: any;
 
   public UID: string = "";
   public IsWeb: boolean = true;
@@ -18,24 +24,35 @@ export class Globals {
   public User: FeasyUser = new FeasyUser("", "", "");
   public User_db: FirebaseObjectObservable<any>;
 
-  public PublishedLists: Object = {};
+  public PublishedLists: Array<FeasyList> = new Array<FeasyList>();
   public PublishedLists_db: FirebaseListObservable<any>;
   public NoPublishedLists: boolean = true;
 
-  public UnpublishedLists: Object = {};
+  public UnpublishedLists: Array<FeasyList> = new Array<FeasyList>();
   public UnpublishedLists_db: FirebaseListObservable<any>;
   public NoUnpublishedLists: boolean = true;
 
+  public TerminatedListsAsDemander: Array<FeasyList> = new Array<FeasyList>();
+  public TerminatedListsAsDemander_db: FirebaseListObservable<any>;
+  public NoTerminatedListsAsDemander: boolean = true;
 
-  public Candidates: Object = {};
+  public TerminatedListsAsShopper: Array<FeasyList> = new Array<FeasyList>();
+  public TerminatedListsAsShopper_db: FirebaseListObservable<any>;
+  public NoTerminatedListsAsShopper: boolean = true;
+
+  public AcceptedLists: Array<FeasyList> = new Array<FeasyList>();
+  public NoAcceptedLists: boolean = true;
+
+  public AppliedLists: Array<FeasyList> = new Array<FeasyList>();
+  public NoAppliedLists: boolean = true;
+
+  public Candidates: Array<Candidate> = new Array<Candidate>();
   public Candidates_db: FirebaseListObservable<any>;
-  public candidates_refs: Array<firebase.database.Reference> = new Array();
 
-  public Candidatures: Object = {};
+  public Candidatures: Array<Candidature> = new Array<Candidature>();
   public Candidatures_db: FirebaseListObservable<any>;
-  public candidatures_refs: Array<firebase.database.Reference> = new Array();
 
-  public Reviews: Object = {};
+  public Reviews: Array<Review> = new Array<Review>();
   public Reviews_db: FirebaseListObservable<any>;
 
   public JustRegistered: boolean = false;
@@ -46,10 +63,30 @@ export class Globals {
   public loadingCtrl: LoadingController;
   public http: Http;
 
-  constructor(platform: Platform) {
+  constructor(platform: Platform, public applicationRef: ApplicationRef, public cd: ChangeDetectorRef) {
     this.IsWeb = platform.is("core");
   }
 
+
+  public StartConfigWatcher() {
+    this.config_db = this.af.database.object("/config");
+    this.config_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
+      let old_config: Config = new Config();
+      Object.assign(old_config, this.config);
+      this.config = snapshot.val() || new Config();
+      if (this.config.Maintenance && !old_config.Maintenance) {
+        console.log("APP WENT UNDER MAINTENANCE")
+        this.navCtrl.popToRoot().then(() => {
+          this.navCtrl.setRoot(MaintenancePage);
+        });
+      } else if (!this.config.Maintenance && old_config.Maintenance) {
+        console.log("APP RECOVERED FROM MAINTENANCE")
+        this.navCtrl.popToRoot().then(() => {
+          this.navCtrl.setRoot(this.root);
+        });
+      }
+    });
+  }
 
   public LinkAllWatchers(): void {
     this.LinkUserWatchers();
@@ -64,100 +101,149 @@ export class Globals {
 
   private LinkUserWatchers(): void {
     this.User_db = this.af.database.object('/users/' + this.UID);
-    this.User_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-      let _user = snapshot.val();
-      if (_user != null) {
+    this.User_db.$ref.on("value", (_user: firebase.database.DataSnapshot) => {
+      let u = _user.val();
+      if (u != null) {
+        let user: FeasyUser = new FeasyUser("", "", "");
+        Object.assign(user, u);
+        this.User = user;
         console.log("User data fetched. Name: " + this.User.DisplayName);
-        this.User = _user;
+        if (this.User.Gender == null)
+          this.User.Gender = GenderType.Male;
+        this.User.SetImageOrDefault();
       } else {
         console.log("User data null");
       }
     });
   }
 
-  private copy_snapshot_list(list: firebase.database.DataSnapshot): FeasyList {
-    let _list: FeasyList = new FeasyList("");
-    Object.assign(_list, list.val());
-    _list.$key = list.key;
-    _list.Items = _list.Items || {};
-    _list.DeliveryAddresses = _list.DeliveryAddresses || {};
-    _list.ItemsCount = Object.keys(_list.Items).length;
-    return _list;
-  }
-
   private LinkListsWatchers(): void {
-
-    //let loading: Loading = this.loadingCtrl.create({
-    //  spinner: 'dots',
-    //  content: 'Please wait...'
-    //});
-    //loading.present();
+    
+    // PUBLISHED LISTS WATCHERS
 
     this.PublishedLists_db = this.af.database.list('/published_lists/' + this.UID);
     this.PublishedLists_db.$ref.on("child_added", (list: firebase.database.DataSnapshot) => {
-      //this.PublishedLists = {};
-      ////let old_keys: string[] = Object.keys(this.PublishedLists);
-      this.PublishedLists[list.key] = this.copy_snapshot_list(list);
-      //  //this.CopyObj(_list, this.PublishedLists, list.key);
-      //  //let index: number = old_keys.indexOf(list.key);
-      //  //if (index != -1)
-      //  //  old_keys.splice(index, 1);
-      //  return false;
-        this.NoPublishedLists = Object.keys(this.PublishedLists).length == 0;
-      //});
-      ////for (let key in old_keys)
-      ////  delete this.PublishedLists[key];
-      ////loading.dismiss();
+      this.PublishedLists.push(this.copy_new_snapshot_list(list));
+      this.NoPublishedLists = this.PublishedLists.length == 0;
+      //this.PublishedLists[list.key] = this.copy_snapshot_list(list);
+      //this.NoPublishedLists = Object.keys(this.PublishedLists).length == 0;
+      this.ForceAppChanges();
     });
 
     this.PublishedLists_db.$ref.on("child_changed", (list: firebase.database.DataSnapshot) => {
-      this.PublishedLists[list.key] = this.copy_snapshot_list(list);
+      let i: number = this.GetIndexByKey(this.PublishedLists, list.key);
+      if (i != -1)
+        this.copy_snapshot_list(list, this.PublishedLists[i]);
+      else
+        console.warn("Globals.LinkListsWatchers> Cannot find index for key <" + list.key + "> in PublishedLists:child_changed");
+      //this.PublishedLists[list.key] = this.copy_snapshot_list(list);
+      this.ForceAppChanges();
     });
+
     this.PublishedLists_db.$ref.on("child_removed", (list: firebase.database.DataSnapshot) => {
-      delete this.PublishedLists[list.key];
-      this.NoPublishedLists = Object.keys(this.PublishedLists).length == 0;
+      this.DeleteFromArrayByKey(this.PublishedLists, list.key);
+      this.NoPublishedLists = this.PublishedLists.length == 0;
+      //delete this.PublishedLists[list.key];
+      //this.NoPublishedLists = Object.keys(this.PublishedLists).length == 0;
+      this.ForceAppChanges();
     });
 
 
-    //let loading2: Loading = this.loadingCtrl.create({
-    //  spinner: 'dots',
-    //  content: 'Please wait...'
-    //});
-    //loading2.present();
+    // UNPUBLISHED LISTS WATCHERS
 
     this.UnpublishedLists_db = this.af.database.list('/unpublished_lists/' + this.UID);
     this.UnpublishedLists_db.$ref.on("child_added", (list: firebase.database.DataSnapshot) => {
-      this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
-
-      //this.UnpublishedLists = {};
-      ////let old_keys: string[] = Object.keys(this.UnpublishedLists);
-      //snapshot.forEach(list => {
-      //  let _list: FeasyList = new FeasyList("");
-      //  Object.assign(_list, list.val());
-      //  _list.$key = list.key;
-      //  _list.Items = _list.Items || {};
-      //  _list.DeliveryAddresses = _list.DeliveryAddresses || {};
-      //  _list.ItemsCount = list.hasChild("Items") ? list.child("Items").numChildren() : 0;
-      //  this.UnpublishedLists[list.key] = _list;
-      //  //this.CopyObj(_list, this.UnpublishedLists, list.key);
-      //  //let index: number = old_keys.indexOf(list.key);
-      //  //if (index != -1)
-      //  //  old_keys.splice(index, 1);
-      //  return false;
-      //});
-      ////for (let key in old_keys)
-      ////  delete this.UnpublishedLists[key];
-      this.NoUnpublishedLists = Object.keys(this.UnpublishedLists).length == 0;
-      ////loading2.dismiss();
+      this.UnpublishedLists.push(this.copy_new_snapshot_list(list));
+      this.NoUnpublishedLists = this.UnpublishedLists.length == 0;
+      //this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
+      //this.NoPublishedLists = Object.keys(this.PublishedLists).length == 0;
+      this.ForceAppChanges();
     });
 
     this.UnpublishedLists_db.$ref.on("child_changed", (list: firebase.database.DataSnapshot) => {
-      this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
+      let i: number = this.GetIndexByKey(this.UnpublishedLists, list.key);
+      if (i != -1)
+        this.copy_snapshot_list(list, this.UnpublishedLists[i]);
+      else
+        console.warn("Globals.LinkListsWatchers> Cannot find index for key <" + list.key + "> in UnpublishedLists_db:child_changed");
+      //this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
+      this.ForceAppChanges();
     });
+
     this.UnpublishedLists_db.$ref.on("child_removed", (list: firebase.database.DataSnapshot) => {
-      delete this.UnpublishedLists[list.key];
-      this.NoUnpublishedLists = Object.keys(this.UnpublishedLists).length == 0;
+      this.DeleteFromArrayByKey(this.UnpublishedLists, list.key);
+      this.NoUnpublishedLists = this.UnpublishedLists.length == 0;
+      //delete this.UnpublishedLists[list.key];
+      //this.NoUnpublishedLists = Object.keys(this.UnpublishedLists).length == 0;
+      this.ForceAppChanges();
     });
+
+
+    // TERMINATED LISTS AS DEMANDER WATCHERS
+
+    this.TerminatedListsAsDemander_db = this.af.database.list('/terminated_lists/' + this.UID + '/as_demander');
+    this.TerminatedListsAsDemander_db.$ref.on("child_added", (list: firebase.database.DataSnapshot) => {
+      this.TerminatedListsAsDemander.push(this.copy_new_snapshot_list(list));
+      this.NoTerminatedListsAsDemander = this.TerminatedListsAsDemander.length == 0;
+      //this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
+      //this.NoPublishedLists = Object.keys(this.PublishedLists).length == 0;
+      this.ForceAppChanges();
+    });
+
+    this.TerminatedListsAsDemander_db.$ref.on("child_changed", (list: firebase.database.DataSnapshot) => {
+      let i: number = this.GetIndexByKey(this.TerminatedListsAsDemander, list.key);
+      if (i != -1)
+        this.copy_snapshot_list(list, this.TerminatedListsAsDemander[i]);
+      else
+        console.warn("Globals.LinkListsWatchers> Cannot find index for key <" + list.key + "> in TerminatedLists_db:child_changed");
+      //this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
+      this.ForceAppChanges();
+    });
+
+    this.TerminatedListsAsDemander_db.$ref.on("child_removed", (list: firebase.database.DataSnapshot) => {
+      this.DeleteFromArrayByKey(this.TerminatedListsAsDemander, list.key);
+      this.NoTerminatedListsAsDemander = this.TerminatedListsAsDemander.length == 0;
+      //delete this.UnpublishedLists[list.key];
+      //this.NoUnpublishedLists = Object.keys(this.UnpublishedLists).length == 0;
+      this.ForceAppChanges();
+    });
+
+
+    // TERMINATED LISTS AS SHOPPER WATCHERS
+
+    this.TerminatedListsAsShopper_db = this.af.database.list('/terminated_lists/' + this.UID + '/as_shopper');
+    this.TerminatedListsAsShopper_db.$ref.on("child_added", (list: firebase.database.DataSnapshot) => {
+      this.TerminatedListsAsShopper.push(this.copy_new_snapshot_list(list));
+      this.NoTerminatedListsAsShopper = this.TerminatedListsAsShopper.length == 0;
+      //this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
+      //this.NoPublishedLists = Object.keys(this.PublishedLists).length == 0;
+      this.ForceAppChanges();
+    });
+
+    this.TerminatedListsAsShopper_db.$ref.on("child_changed", (list: firebase.database.DataSnapshot) => {
+      let i: number = this.GetIndexByKey(this.TerminatedListsAsShopper, list.key);
+      if (i != -1)
+        this.copy_snapshot_list(list, this.TerminatedListsAsShopper[i]);
+      else
+        console.warn("Globals.LinkListsWatchers> Cannot find index for key <" + list.key + "> in TerminatedLists_db:child_changed");
+      //this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
+      this.ForceAppChanges();
+    });
+
+    this.TerminatedListsAsShopper_db.$ref.on("child_removed", (list: firebase.database.DataSnapshot) => {
+      this.DeleteFromArrayByKey(this.TerminatedListsAsShopper, list.key);
+      this.NoTerminatedListsAsShopper = this.TerminatedListsAsShopper.length == 0;
+      //delete this.UnpublishedLists[list.key];
+      //this.NoUnpublishedLists = Object.keys(this.UnpublishedLists).length == 0;
+      this.ForceAppChanges();
+    });
+  }
+
+  private updateBooleansAcceptedAndApplied() {
+    //this.NoAcceptedLists = Object.keys(this.AcceptedLists).length == 0;
+    //this.NoAppliedLists = Object.keys(this.AppliedLists).length == 0;
+    this.NoAcceptedLists = this.AcceptedLists.length == 0;
+    this.NoAppliedLists = this.AppliedLists.length == 0;
   }
 
   private LinkCandidaturesWatchers(): void {
@@ -165,92 +251,112 @@ export class Globals {
     try {
       
       this.Candidatures_db = this.af.database.list('/candidatures/' + this.UID);
-      this.candidatures_refs.push(this.Candidatures_db.$ref.ref);
+      this.AppliedLists = new Array<FeasyList>();
+      this.AcceptedLists = new Array<FeasyList>();
+      this.NoAcceptedLists = true;
+      this.NoAppliedLists = true;
 
       this.Candidatures_db.$ref.on("child_removed", (removed_cand: firebase.database.DataSnapshot) => {
-        delete this.Candidatures[removed_cand.key];
-        for (let ref_index = 0; ref_index < this.candidatures_refs.length; ref_index++) {
-          if (this.candidatures_refs[ref_index].key == removed_cand.key) {
-            this.candidatures_refs[ref_index].off();
-            this.candidatures_refs.splice(ref_index, 1);
-            break;
-          }
-        }
+        let cand: Candidature = this.GetCandidatureByKey(removed_cand.key);
+        this.DeleteFromArrayByKey(this.AppliedLists, cand.ListReferenceKey);
+        this.DeleteFromArrayByKey(this.AcceptedLists, cand.ListReferenceKey);
+        //delete this.AppliedLists[cand.ListReferenceKey];
+        //delete this.AcceptedLists[cand.ListReferenceKey];
+        this.DeleteFromArrayByKey(this.Candidatures, removed_cand.key);
+        this.updateBooleansAcceptedAndApplied();
+        this.ForceAppChanges();
       });
 
       this.Candidatures_db.$ref.on("child_added", (_candidature: firebase.database.DataSnapshot) => {
         console.log("Globals.LinkCandidaturesWatchers > user has candidated to new list!");
         let candidature: Candidature = _candidature.val();
-        this.Candidatures[_candidature.key] = candidature;
-        let ref_cand_accepted: FirebaseObjectObservable<any> = this.af.database.object("/published_lists/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey + "/ChosenCandidateKey");
-        this.candidates_refs.push(ref_cand_accepted.$ref.ref);
-        ref_cand_accepted.$ref.on("value", (accepted: firebase.database.DataSnapshot) => {
-          let _cand_key: any = accepted.val();
-          if (_cand_key != null && _cand_key == candidature.CandidateReferenceKey) {
-            candidature.Accepted = true;
-            this.Candidatures_db.update(_candidature.key, candidature).then(() => {
-              if (this.IsWeb) {
-                let alert: Alert = this.alertCtrl.create({
-                  title: "Sei stato accettato!",
-                  subTitle: "Vuoi vedere i dettagli?",
-                  buttons: [
-                    {
-                      text: 'Ok',
-                      handler: () => {
-                        this.navCtrl.push(PublicatedListWithShopperPovShopperPage, { list_owner: candidature.ListOwnerUid, list_key: candidature.ListReferenceKey, candidature_key: _candidature.key, candidature: candidature });
-                      }
-                    }]
-                });
-                alert.present();
-              } else {
-                // Schedule a single notification
-                LocalNotifications.schedule({
-                  id: 1,
-                  title: "Sei stato accettato!",
-                  text: "Clicca per vedere i dettagli",
-                  icon: 'res://icon'
-                });
-                LocalNotifications.on("click", (notification) => {
-                  this.navCtrl.push(PublicatedListWithShopperPovShopperPage, { list_owner: candidature.ListOwnerUid, list_key: candidature.ListReferenceKey, candidature_key: _candidature.key, candidature: candidature });
-                });
-              }
-            }).catch((err: Error) => {
-              console.log("Cannot update 'accepted' on candidature <" + _candidature.key + ">: " + err.message);
+        candidature.$key = _candidature.key;
+        this.Candidatures.push(candidature);
+        this.af.database.object("/published_lists/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey).$ref.once("value", (_list: firebase.database.DataSnapshot) => {
+          let list: FeasyList = this.copy_new_snapshot_list(_list);
+          (list as any).Candidature = candidature;
+          (list as any).ChosenAddress = list.DeliveryAddresses[candidature.AddressKey];
+          if (list != null && list.ChosenShopperUid == this.UID)
+            this.AcceptedLists.push(list);
+          else
+            this.AppliedLists.push(list);
+          this.updateBooleansAcceptedAndApplied();
+        });
+        this.ForceAppChanges();
+      });
+
+
+      this.Candidatures_db.$ref.on("child_changed", (_candidature: firebase.database.DataSnapshot) => {
+        //console.log("Globals.LinkCandidaturesWatchers > user has candidated to new list!");
+        let candidature: Candidature = _candidature.val();
+        let i: number = this.GetIndexByKey(this.Candidatures, _candidature.key);
+        if (i != -1)
+          Object.assign(this.Candidatures[i], candidature);
+        else
+          console.warn("Globals.LinkCandidaturesWatchers> Cannot find index for key <" + _candidature.key + "> in child_changed");
+        if (candidature.Accepted == true) {
+          // moves list from applied to accepted
+          this.AcceptedLists.push(this.GetElementByKey(this.AppliedLists, candidature.ListReferenceKey));
+          this.DeleteFromArrayByKey(this.AppliedLists, candidature.ListReferenceKey);
+          //this.AcceptedLists[candidature.ListReferenceKey] = {};
+          //Object.assign(this.AcceptedLists[candidature.ListReferenceKey], this.AppliedLists[candidature.ListReferenceKey]);
+          //delete this.AppliedLists[candidature.ListReferenceKey];
+          this.updateBooleansAcceptedAndApplied();
+
+          if (this.IsWeb) {
+            let alert: Alert = this.alertCtrl.create({
+              title: "Sei stato accettato!",
+              subTitle: "Vuoi vedere i dettagli?",
+              buttons: [
+                {
+                  text: 'Ok',
+                  handler: () => {
+                    this.navCtrl.push(PublicatedListWithShopperPovShopperPage, { list_owner: candidature.ListOwnerUid, list_key: candidature.ListReferenceKey, candidature_key: _candidature.key, candidature: candidature });
+                  }
+                }]
+            });
+            alert.present();
+          } else {
+            // Schedule a single notification
+            LocalNotifications.schedule({
+              id: 1,
+              title: "Sei stato accettato!",
+              text: "Clicca per vedere i dettagli",
+              icon: 'res://icon'
+            });
+            LocalNotifications.on("click", (notification) => {
+              this.navCtrl.push(PublicatedListWithShopperPovShopperPage, { list_owner: candidature.ListOwnerUid, list_key: candidature.ListReferenceKey, candidature_key: _candidature.key, candidature: candidature });
             });
           }
-        });
+        }
+        this.ForceAppChanges();
       });
+
     } catch (e) {
       console.log("Globals.LinkCandidaturesWatchers catch err: " + JSON.stringify(e));
     }
   }
 
   public IsAlreadyCandidate(list_key: string): boolean {
-    for (let candidature_key in this.Candidatures)
-      if ((<Candidature>this.Candidatures[candidature_key]).ListReferenceKey == list_key)
+    for (let candidature of this.Candidatures)
+      if (candidature.ListReferenceKey == list_key)
         return true;
     return false;
   }
 
-  public AddCandidature(candidate: Candidate, candidature: Candidature): Promise<boolean> {
+  public AddCandidature(candidature: Candidature): Promise<boolean> {
     console.log("Globals.AddCandidature > adding candidature to list " + candidature.ListReferenceKey);
 
     return new Promise((resolve, reject) => {
       if (this.IsAlreadyCandidate(candidature.ListReferenceKey)) {
         reject(new Error("already_candidated"));
       } else {
-        let cand_db_promise = this.af.database.list("/candidates/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey).push(StripForFirebase(candidate));
-        cand_db_promise.then((cand_db) => {
-          candidature.CandidateReferenceKey = cand_db_promise.key;
           this.Candidatures_db.push(candidature).then(() => {
             console.log("Globals.AddCandidature > new candidature pushed");
             resolve(true);
           }).catch((err: Error) => {
             reject(new Error("cannot add candidature to db: " + err.message));
           });
-        }).catch((err: Error) => {
-          reject(new Error("cannot add candidate to db: " + err.message));
-        });
       }
     });
   }
@@ -258,35 +364,22 @@ export class Globals {
   private LinkCandidatesWatchers(): void {
     try {
       this.Candidates_db = this.af.database.list("/candidates/" + this.UID);
-      this.candidates_refs.push(this.Candidates_db.$ref.ref);
+      //this.candidates_refs.push(this.Candidates_db.$ref.ref);
 
       this.Candidates_db.$ref.on("child_removed", (removed_list: firebase.database.DataSnapshot) => {
-        delete this.Candidates[removed_list.key];
-        for (let ref_index = 0; ref_index < this.candidates_refs.length; ref_index++) {
-          if (this.candidates_refs[ref_index].key == removed_list.key) {
-            this.candidates_refs[ref_index].off();
-            this.candidates_refs.splice(ref_index, 1);
-            break;
-          }
-        }
+        this.DeleteFromArrayByKey(this.Candidates, removed_list.key);
+        this.ForceAppChanges();
       });
 
-      this.Candidates_db.$ref.on("child_added", (list: firebase.database.DataSnapshot) => {
-        let ref_cand: FirebaseListObservable<any> = this.af.database.list("/candidates/" + this.UID + "/" + list.key);
-        this.candidates_refs.push(ref_cand.$ref.ref);
-        ref_cand.$ref.on("value", (candidates: firebase.database.DataSnapshot) => {
-          let candidates_data = candidates.val();
-          this.Candidates[list.key] = candidates_data;
-          let new_candidates_number: number = 0;
-          for (let candidate in candidates_data) {
-            if (candidates_data[candidate] != null && !candidates_data[candidate].Visualised) {
-              new_candidates_number++;
-            }
-          }
-          if (new_candidates_number > 0) {
+      this.Candidates_db.$ref.on("child_added", (_candidate: firebase.database.DataSnapshot) => {
+
+        let candidate: Candidate = _candidate.val();
+        candidate.$key = _candidate.key;
+        this.Candidates.push(candidate);
+        if (!candidate.Visualised) {
             if (this.IsWeb) {
               let alert: Alert = this.alertCtrl.create({
-                title: new_candidates_number == 1 ? 'Nuovo candidato!' : "Nuovi candidati!",
+                title: 'Nuovo candidato!',
                 subTitle: "Vuoi vedere i dettagli?",
                 buttons: [
                   {
@@ -296,7 +389,7 @@ export class Globals {
                   {
                     text: 'Ok',
                     handler: () => {
-                      this.navCtrl.push(PublicatedListCandidatesPage, { list_key: list.key });
+                      this.navCtrl.push(PublicatedListCandidatesPage, { list_key: candidate.ListReferenceKey });
                     }
                   }]
               });
@@ -305,17 +398,33 @@ export class Globals {
               // Schedule a single notification
               LocalNotifications.schedule({
                 id: 1,
-                title: new_candidates_number == 1 ? 'Nuovo candidato!' : "Nuovi candidati!",
+                title: 'Nuovo candidato!',
                 text: "Clicca per vedere i dettagli",
-                data: { list_owner: this.UID, list_key: list.key },
+                data: { list_owner: this.UID, list_key: candidate.ListReferenceKey },
                 icon: 'res://icon'
               });
               LocalNotifications.on("click", (notification) => {
-                this.navCtrl.push(PublicatedListCandidatesPage, { list_key: list.key });
+                this.navCtrl.push(PublicatedListCandidatesPage, { list_key: candidate.ListReferenceKey });
               });
             }
-          }
-        });
+        }
+        this.ForceAppChanges();
+        //});
+      });
+
+
+      this.Candidates_db.$ref.on("child_changed", (_candidate: firebase.database.DataSnapshot) => {
+        //console.log("Globals.LinkCandidaturesWatchers > user has candidated to new list!");
+        let candidate: Candidate = _candidate.val();
+        //this.Candidates[_candidate.key] = candidate;
+
+        let i: number = this.GetIndexByKey(this.Candidates, _candidate.key);
+        if (i != -1)
+          Object.assign(this.Candidates[i], candidate);
+        else
+          console.warn("Globals.LinkCandidatesWatchers> Cannot find index for key <" + _candidate.key + "> in child_changed");
+
+        this.ForceAppChanges();
       });
 
     } catch (e) {
@@ -323,14 +432,57 @@ export class Globals {
     }
   }
 
-    private LinkReviewsWatchers(): void {
-
-    this.Reviews_db = this.af.database.list('/reviews/' + this.UID);
-    this.Reviews_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-      this.Reviews = snapshot.val();
-    });
-    
+  public getAcceptedCandidateFromList(list_key: string): Candidate {
+    let list: FeasyList = this.GetPublishedListByKey(list_key);
+    for (let cand of this.Candidates) {
+      if (cand.CandidatureReferenceKey == list.ChosenCandidatureKey)
+        return cand;
     }
+    return null;
+  }
+
+  public GetAllCandidatesForList(list_key: string): Array<Candidate> {
+    let cands: Array<Candidate> = new Array<Candidate>();
+    for (let cand of this.Candidates) {
+      if (cand.ListReferenceKey == list_key)
+        cands.push(cand);
+    }
+    return cands;
+  }
+
+  private LinkReviewsWatchers(): void {
+
+    try {
+      this.Reviews_db = this.af.database.list('/reviews/' + this.UID + '/done');
+
+      this.Reviews_db.$ref.on("child_removed", (removed_review: firebase.database.DataSnapshot) => {
+        this.DeleteFromArrayByKey(this.Reviews, removed_review.key);
+        this.ForceAppChanges();
+      });
+
+      this.Reviews_db.$ref.on("child_added", (_review: firebase.database.DataSnapshot) => {
+        let review: Review = _review.val();
+        if (review != null)
+          this.Reviews.push(review);
+        this.ForceAppChanges();
+      });
+
+      this.Reviews_db.$ref.on("child_changed", (_review: firebase.database.DataSnapshot) => {
+        let review: Review = _review.val();
+        let i: number = this.GetIndexByKey(this.Reviews, _review.key);
+        if (i != -1)
+          Object.assign(this.Reviews[i], review);
+        else
+          console.warn("Globals.LinkReviewsWatchers> Cannot find index for key <" + _review.key + "> in child_changed");
+
+        this.ForceAppChanges();
+      });
+
+    } catch (e) {
+      console.log("Globals.LinkReviewsWatchers catch err: " + JSON.stringify(e));
+    }
+  
+  }
 
   // UNLINK WATCHERS SECTION
 
@@ -339,6 +491,7 @@ export class Globals {
     this.UnlinkListsWatchers();
     this.UnlinkCandidatesWatchers();
     this.UnlinkCandidaturesWatchers();
+    this.UnlinkReviewsWatchers();
   }
 
   private UnlinkUserWatchers(): void {
@@ -348,20 +501,20 @@ export class Globals {
   private UnlinkListsWatchers(): void {
     this.PublishedLists_db.$ref.off();
     this.UnpublishedLists_db.$ref.off();
+    this.TerminatedListsAsDemander_db.$ref.off();
+    this.TerminatedListsAsShopper_db.$ref.off();
   }
 
   private UnlinkCandidatesWatchers(): void {
-    for (let ref of this.candidates_refs) {
-      ref.off();
-    }
-    this.candidates_refs.length = 0;
+    this.Candidates_db.$ref.off();
   }
 
   private UnlinkCandidaturesWatchers(): void {
-    for (let ref of this.candidatures_refs) {
-      ref.off();
-    }
-    this.candidatures_refs.length = 0;
+    this.Candidatures_db.$ref.off();
+  }
+
+  private UnlinkReviewsWatchers(): void {
+    this.Reviews_db.$ref.off();
   }
 
   private CopyObj(_what: any, _where: any, key: string): void {
@@ -375,6 +528,129 @@ export class Globals {
       else
         this.CopyObj(_what[newkey], _where[key], newkey);
     }
+  }
+
+  public ForceAppChanges() {
+    //this.applicationRef.tick();
+    this.cd.detectChanges();
+    //this.cd.markForCheck();
+  }
+
+  private copy_new_snapshot_list(list: firebase.database.DataSnapshot): FeasyList {
+    let _list: FeasyList = new FeasyList("");
+    Object.assign(_list, list.val());
+    _list.$key = list.key;
+    _list.Name = _list.Name || "";
+    _list.Items = _list.Items || {};
+    _list.DeliveryAddresses = _list.DeliveryAddresses || {};
+    _list.ItemsCount = Object.keys(_list.Items).length;
+    return _list;
+  }
+
+  private copy_snapshot_list(list: firebase.database.DataSnapshot, _list: FeasyList): void {
+    Object.assign(_list, list.val());
+    _list.$key = list.key;
+    _list.Name = _list.Name || "";
+    _list.Items = _list.Items || {};
+    _list.DeliveryAddresses = _list.DeliveryAddresses || {};
+    _list.ItemsCount = Object.keys(_list.Items).length;
+  }
+
+
+  public GetIndexByKey(array: Array<any>, key: string): number {
+    for (let i: number = 0; i < array.length; i++) {
+      if (array[i].$key == key) {
+        return i;
+      }
+    }
+    return - 1;
+  }
+
+  public DeleteFromArrayByKey(array: Array<any>, key: string): number {
+    let index: number = this.GetIndexByKey(array, key);
+    if (index != -1)
+      array.splice(index, 1);
+    return index;
+  }
+
+  public GetElementByKey(array: Array<any>, key: string): any {
+    let index: number = this.GetIndexByKey(array, key);
+    if (index != -1)
+      return array[index];
+    else
+      return null;
+  }
+
+  public GetPublishedListByKey(key: string): FeasyList {
+    return this.GetElementByKey(this.PublishedLists, key);
+  }
+
+  public GetUnpublishedListByKey(key: string): FeasyList {
+    return this.GetElementByKey(this.UnpublishedLists, key);
+  }
+
+  public GetTerminatedListAsDemanderByKey(key: string): FeasyList {
+    return this.GetElementByKey(this.TerminatedListsAsDemander, key);
+  }
+
+  public GetTerminatedListAsShopperByKey(key: string): FeasyList {
+    return this.GetElementByKey(this.TerminatedListsAsShopper, key);
+  }
+
+  public GetCandidateByKey(key: string): Candidate {
+    return this.GetElementByKey(this.Candidates, key);
+  }
+
+  public GetCandidatureByKey(key: string): Candidature {
+    return this.GetElementByKey(this.Candidatures, key);
+  }
+
+  public GetReviewByKey(key: string): Review {
+    return this.GetElementByKey(this.Reviews, key);
+  }
+
+
+
+  public InputFile(): Promise<string> {
+
+    return new Promise((resolve, reject) => {
+
+      try {
+
+
+        // Create an input element
+        var inputElement = document.createElement("input");
+
+        // Set its type to file
+        inputElement.type = "file";
+
+        // Set accept to the file types you want the user to select. 
+        // Include both the file extension and the mime type
+        //inputElement.accept = "*.png|*.jpg";
+
+        // set onchange event to call callback when user has selected file
+        inputElement.addEventListener("change", (event: any) => {
+
+          var fReader = new FileReader();
+          fReader.readAsDataURL(inputElement.files[0]);
+          fReader.onloadend = function (e: any) {
+            return ResizeImage(e.target.result);
+          }
+
+          //var selectedFile = event.target.files[0];
+          //var img = new Image;
+          //img.onload = function () {
+          //  resolve(selectedFile);
+          //}
+          //img.src = selectedFile;
+        });
+
+        // dispatch a click event to open the file dialog
+        inputElement.click();
+      } catch (err) {
+        reject(new Error("Cannot load image: " + JSON.stringify(err))); 
+      }
+    });
   }
 
 }
