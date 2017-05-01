@@ -12,7 +12,7 @@
         <div class="profile-picture">
           <img src="{{globals.PhotoURL}}">
         </div>
-        <h2 class="profile-name dark">{{user_db.Email}}</h2>
+        <h2 class="profile-name dark">{{globals.User.FirstName}} {{globals.User.LastName}}</h2>
       </ion-item>
 
       <ion-item ion-item (click)="goToProfile()">
