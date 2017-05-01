@@ -39,21 +39,21 @@ export class SingleReviewInputPage {
   } 
 
   AddReview(): void {
-    if (this.review.Title == "") {
+    if (this.review.Title == "" || this.review.Title == null) {
       let alert = this.alertCtrl.create({
         title: 'Info',
         subTitle: 'Il titolo non può essere vuoto',
         buttons: ['Ok']
       });
       alert.present();
-    } else if (this.review.Rating < 0 || this.review.Rating > 5) {
+    } else if (this.review.Rating < 0 || this.review.Rating > 5 || this.review.Rating == null) {
       let alert = this.alertCtrl.create({
         title: 'Info',
         subTitle: 'Il voto deve essere tra zero e cinque',
         buttons: ['Ok']
       });
       alert.present();
-    } else if (this.review.Text = "") {
+    } else if (this.review.Text == "" || this.review.Text == null) {
         let alert = this.alertCtrl.create({
         title: 'Info',
         subTitle: 'Il testo non può essere vuoto',
@@ -74,7 +74,7 @@ export class SingleReviewInputPage {
         this.TerminatedList.ReviewLeft = true;
         this.Review_db.push(StripForFirebase(this.review)).then(res => {
             this.TerminatedList_db.update(StripForFirebase(this.TerminatedList)).then(res => {
-              this.navCtrl.pop();
+              this.navCtrl.popToRoot();
             }).catch((err: Error) => {
               console.log("Error: " + err.message);
             });
