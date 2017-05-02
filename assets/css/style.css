@@ -325,4 +325,9 @@ position: absolute;
   background-color: #327eff;
 }
 
+.center-vertically-grid-rows {
+  height: 100%; 
+  justify-content: center;
+}
+
 
