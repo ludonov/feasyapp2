@@ -13,6 +13,7 @@ import { EditProfilePage } from '../../pages/24_edit_profile/24_edit_profile';
 import { ReviewsPage } from '../../pages/30_reviews/30_reviews';
 import { AddressesFromProfilePage } from "../34_addresses_from_profile/34_addresses_from_profile";
 import { ReviewsToLeavePage } from "../39_reviews_to_leave/39_reviews_to_leave";
+import { TabsPage } from '../tabs/tabs';
 
 @Component({
   selector: 'page-user-profile',

@@ -229,6 +229,21 @@ export class Review {
   }
 }
 
+export class Chat {
+  public $key: string;
+  public Rating: number;
+  public DemanderName: string;
+  public ShopperName: string;
+  public DemanderUid: string;
+  public ShopperUid: string;
+  public LastMessage: string;
+  public ListKey: string;
+
+  constructor() {
+
+  }
+}
+
 export class DeliveryAddress {
   public $key: string;
   public Name: string;

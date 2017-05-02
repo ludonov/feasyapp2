@@ -9,7 +9,7 @@ import { NavController, AlertController, Alert, LoadingController, Loading, Plat
 import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { LocalNotifications } from 'ionic-native';
 
-import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, StripForFirebase } from './Feasy';
+import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, StripForFirebase, Chat } from './Feasy';
 
 @Injectable()
 export class Globals {
@@ -47,6 +47,12 @@ export class Globals {
   public Reviews: Object = {};
   public Reviews_db: FirebaseListObservable<any>;
 
+  public UserChats: Object = {};
+  public UserChats_db: FirebaseListObservable<any>;
+
+  public Chats: Array<Chat> = new Array();
+  public Chats_db: FirebaseListObservable<any>;
+  
   public JustRegistered: boolean = false;
 
   public af: AngularFire;
@@ -91,6 +97,8 @@ export class Globals {
     this.LinkCandidatesWatchers();
     this.LinkCandidaturesWatchers();
     this.LinkReviewsWatchers();
+    this.LinkUserChatsWatchers();
+    this.LinkChatsWatchers();
   }
 
 
@@ -304,12 +312,12 @@ export class Globals {
       if (this.IsAlreadyCandidate(candidature.ListReferenceKey)) {
         reject(new Error("already_candidated"));
       } else {
-          this.Candidatures_db.push(candidature).then(() => {
-            console.log("Globals.AddCandidature > new candidature pushed");
-            resolve(true);
-          }).catch((err: Error) => {
-            reject(new Error("cannot add candidature to db: " + err.message));
-          });
+        this.Candidatures_db.push(candidature).then(() => {
+          console.log("Globals.AddCandidature > new candidature pushed");
+          resolve(true);
+        }).catch((err: Error) => {
+          reject(new Error("cannot add candidature to db: " + err.message));
+        });
       }
     });
   }
@@ -339,37 +347,37 @@ export class Globals {
         let candidate: Candidate = _candidate.val();
         this.Candidates[_candidate.key] = candidate;
         if (!candidate.Visualised) {
-            if (this.IsWeb) {
-              let alert: Alert = this.alertCtrl.create({
-                title: 'Nuovo candidato!',
-                subTitle: "Vuoi vedere i dettagli?",
-                buttons: [
-                  {
-                    text: 'Cancel',
-                    role: 'cancel'
-                  },
-                  {
-                    text: 'Ok',
-                    handler: () => {
-                      this.navCtrl.push(PublicatedListCandidatesPage, { list_key: candidate.ListReferenceKey });
-                    }
-                  }]
-              });
-              alert.present();
-            } else {
-              // Schedule a single notification
-              LocalNotifications.schedule({
-                id: 1,
-                title: 'Nuovo candidato!',
-                text: "Clicca per vedere i dettagli",
-                data: { list_owner: this.UID, list_key: candidate.ListReferenceKey },
-                icon: 'res://icon'
-              });
-              LocalNotifications.on("click", (notification) => {
-                this.navCtrl.push(PublicatedListCandidatesPage, { list_key: candidate.ListReferenceKey });
-              });
-            }
+          if (this.IsWeb) {
+            let alert: Alert = this.alertCtrl.create({
+              title: 'Nuovo candidato!',
+              subTitle: "Vuoi vedere i dettagli?",
+              buttons: [
+                {
+                  text: 'Cancel',
+                  role: 'cancel'
+                },
+                {
+                  text: 'Ok',
+                  handler: () => {
+                    this.navCtrl.push(PublicatedListCandidatesPage, { list_key: candidate.ListReferenceKey });
+                  }
+                }]
+            });
+            alert.present();
+          } else {
+            // Schedule a single notification
+            LocalNotifications.schedule({
+              id: 1,
+              title: 'Nuovo candidato!',
+              text: "Clicca per vedere i dettagli",
+              data: { list_owner: this.UID, list_key: candidate.ListReferenceKey },
+              icon: 'res://icon'
+            });
+            LocalNotifications.on("click", (notification) => {
+              this.navCtrl.push(PublicatedListCandidatesPage, { list_key: candidate.ListReferenceKey });
+            });
           }
+        }
         //});
       });
 
@@ -410,7 +418,6 @@ export class Globals {
 
       this.Reviews_db.$ref.on("child_removed", (removed_review: firebase.database.DataSnapshot) => {
         delete this.Reviews[removed_review.key];
-
       });
 
       this.Reviews_db.$ref.on("child_added", (_review: firebase.database.DataSnapshot) => {
@@ -430,6 +437,67 @@ export class Globals {
     }
   
   }
+
+  private LinkUserChatsWatchers(): void {
+    
+    this.UserChats_db = this.af.database.list("/user_chats/" + this.UID);
+    this.UserChats_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
+      this.UserChats = snapshot.val();
+    });
+    
+    // try {
+      // this.UserChats_db = this.af.database.list("user_chats/" + this.UID);
+      // this.UserChats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
+      //   delete this.UserChats[removed_chat.key];
+      // });
+
+      // this.UserChats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {
+      //   let chat: string = _chat.val();
+      //   if (chat != null)
+      //     this.UserChats[_chat.key] = chat;
+      // });
+
+      // this.UserChats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
+      //   let chat: string = _chat.val();
+      //   if (chat != null)
+      //     this.UserChats[_chat.key] = chat;
+      // });
+
+    // } catch(e) {
+    //   console.log("Globals.LinkUserChatsWatchers catch err: " + JSON.stringify(e));
+    // }
+  }
+
+  private LinkChatsWatchers(): void {
+    
+    this.Chats_db = this.af.database.list("/chats");
+    this.Chats_db.$ref.on("value", (_chat: firebase.database.DataSnapshot) => {
+      let chat: Chat = _chat.val();
+      this.Chats[_chat.key] = chat;
+    });
+    
+    // try {
+      // this.Chats_db = this.af.database.list("chats/");
+      // this.Chats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
+      //   delete this.Chats[removed_chat.key];
+      // });
+
+      // this.Chats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {
+      //   let chat: string = _chat.val();
+      //   if (chat != null)
+      //     this.Chats[_chat.key] = chat;
+      // });
+
+      // this.Chats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
+      //   let chat: string = _chat.val();
+      //   if (chat != null)
+      //     this.Chats[_chat.key] = chat;
+      // });
+
+    // } catch (e) {
+    //   console.log("Globals.LinkChatsWatchers catch err: " + JSON.stringify(e));
+    // }
+  }  
 
   // UNLINK WATCHERS SECTION
 
