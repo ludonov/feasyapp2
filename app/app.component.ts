@@ -178,6 +178,24 @@ export class MyApp {
     this.menuCtrl.close();
   }
 
+  goToLists(): void {
+    console.log("going to lists page");
+    //this.navCtrl.push();
+    this.menuCtrl.close();
+  }
+
+  goToFind(): void {
+    console.log("going to find page");
+    //this.navCtrl.push();
+    this.menuCtrl.close();
+  }
+
+  goToChats(): void {
+    console.log("going to chats page");
+    //this.navCtrl.push();
+    this.menuCtrl.close();
+  }
+
   logout(): void {
     console.log("Logging out: removing link to candidate refs");
     this.globals.UnlinkAllWatchers();

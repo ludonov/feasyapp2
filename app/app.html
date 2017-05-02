@@ -4,31 +4,53 @@
       <ion-title>Menu</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-content>
+  <ion-content class="side-bar-background">
     <ion-list>
 
       <div class="spacer" style="height: 16px;"></div>
-      <ion-item class="profile-item">
+      <ion-item class="profile-item" style="border-bottom-color: white">
         <div class="profile-picture">
           <img src="{{globals.User.PhotoURL}}">
-          <!--<img src="../assets/img/17_Profilo/Daniele.jpg">-->
         </div>
-        <h2 class="profile-name dark">{{globals.User.FirstName}} {{globals.User.LastName}}</h2>
+        <h2 class="side-bar-name" color="secondary">{{globals.User.FirstName}} {{globals.User.LastName}}</h2>
       </ion-item>
+    </ion-list>
 
-      <ion-item ion-item (click)="goToProfile()">
+    <ion-list>
+      <ion-item-divider>UTENTE</ion-item-divider>
+      <ion-item (click)="goToProfile()">
+        <ion-icon name="person" item-left color="secondary"></ion-icon>
         Profilo
       </ion-item>
-      <ion-item ion-item (click)="goToSettings()">
+      <ion-item (click)="goToSettings()">
+        <ion-icon name="settings" item-left color="secondary"></ion-icon>
         Impostazioni
       </ion-item>
     </ion-list>
-    <div class="spacer" style="height: 16px;"></div>
+    
     <ion-list>
-      <ion-item ion-item (click)="logout()" style="color:red">
+      <ion-item-divider>UTILIZZO</ion-item-divider>
+      <ion-item (click)="goToLists()">
+        <ion-icon name="search" item-left color="secondary"></ion-icon>
+        Liste
+      </ion-item>
+      <ion-item (click)="goToFind()">
+        <ion-icon name="list" item-left color="secondary"></ion-icon>
+        Trova
+      </ion-item>
+      <ion-item (click)="goToChats()">
+        <ion-icon name="chatbubbles" item-left color="secondary"></ion-icon>
+        Chat
+      </ion-item>
+    </ion-list>
+   
+    <ion-list>
+      <ion-item (click)="logout()" style="color:red">
         Log Out
       </ion-item>
     </ion-list>
+
+
   </ion-content>
 </ion-menu>
 
