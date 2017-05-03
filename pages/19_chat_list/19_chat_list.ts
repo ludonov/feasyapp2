@@ -22,9 +22,9 @@ export class ChatListPage {
 
   ionViewDidEnter() {
     console.log("jhl2");
-    for (let userchat_key in this.globals.UserChats) {
+    for (let userchat of this.globals.UserChats) {
       console.log("jhl3");
-      let chat: Chat = this.globals.Chats[userchat_key];
+      let chat: Chat = this.globals.GetChatByKey(userchat.$key);
       this.SingleChat = chat;
       if (chat.DemanderUid == this.globals.UID) {
         this.SingleChat.OtherPerson = chat.ShopperName;

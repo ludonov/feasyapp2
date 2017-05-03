@@ -12,7 +12,7 @@ import { ImagePicker } from '@ionic-native/image-picker';
 import { Observable } from 'rxjs/Observable';
 
 
-import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, ResizeImage, Chat } from './Feasy';
+import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, ResizeImage, Chat, GenericWithKey } from './Feasy';
 
 
 @Injectable()
@@ -59,10 +59,10 @@ export class Globals {
   public Reviews: Array<Review> = new Array<Review>();
   public Reviews_db: FirebaseListObservable<any>;
 
-  public UserChats: Array<Chat> = new Array();
+  public UserChats: Array<GenericWithKey> = new Array<GenericWithKey>();
   public UserChats_db: FirebaseListObservable<any>;
 
-  public Chats: Array<Chat> = new Array();
+  public Chats: Array<Chat> = new Array<Chat>();
   public Chats_db: FirebaseListObservable<any>;
   
   public JustRegistered: boolean = false;
@@ -518,20 +518,28 @@ export class Globals {
     try {
       this.UserChats_db = this.af.database.list("user_chats/" + this.UID);
       this.UserChats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
-        delete this.UserChats[removed_chat.key];
+        this.DeleteFromArrayByKey(this.UserChats, removed_chat.key);
+        this.ForceAppChanges();
       });
 
-      this.UserChats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {
-        let chat: string = _chat.val();
+      this.UserChats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {     
+        let chat: GenericWithKey = new GenericWithKey();
+        chat.$key = _chat.key;
         if (chat != null)
-          this.UserChats[_chat.key] = chat;
+          this.UserChats.push(chat);
+        this.ForceAppChanges();
       });
 
-      this.UserChats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
-        let chat: string = _chat.val();
-        if (chat != null)
-          this.UserChats[_chat.key] = chat;
-      });
+      // this.UserChats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
+      //   //let chat: Chat = _chat.val();
+      //   let i: number = this.GetIndexByKey(this.UserChats, _chat.key);
+      //   if (i != -1)
+      //     Object.assign(this.Chats[i], chat);
+      //   else
+      //     console.warn("Globals.LinkReviewsWatchers> Cannot find index for key <" + _chat.key + "> in child_changed");
+
+      //   this.ForceAppChanges();
+      // });
 
     } catch(e) {
       console.log("Globals.LinkUserChatsWatchers catch err: " + JSON.stringify(e));
@@ -549,19 +557,27 @@ export class Globals {
     try {
       this.Chats_db = this.af.database.list("/chats");
       this.Chats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
-        delete this.Chats[removed_chat.key];
+        this.DeleteFromArrayByKey(this.Chats, removed_chat.key);
+        this.ForceAppChanges();
       });
 
       this.Chats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {
-        let chat: string = _chat.val();
+        let chat: Chat = _chat.val();
+        chat.$key = _chat.key;
         if (chat != null)
-          this.Chats[_chat.key] = chat;
+          this.Chats.push(chat);
+        this.ForceAppChanges();
       });
 
       this.Chats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
-        let chat: string = _chat.val();
-        if (chat != null)
-          this.Chats[_chat.key] = chat;
+        let chat: Chat = _chat.val();
+        let i: number = this.GetIndexByKey(this.Chats, _chat.key);
+        if (i != -1)
+          Object.assign(this.Chats[i], chat);
+        else
+          console.warn("Globals.LinkReviewsWatchers> Cannot find index for key <" + _chat.key + "> in child_changed");
+
+        this.ForceAppChanges();
       });
 
     } catch (e) {
@@ -704,6 +720,14 @@ export class Globals {
 
   public GetReviewByKey(key: string): Review {
     return this.GetElementByKey(this.Reviews, key);
+  }
+
+  public GetUserChatByKey(key: string): GenericWithKey {
+    return this.GetElementByKey(this.UserChats, key);
+  }
+
+  public GetChatByKey(key: string): Chat {
+    return this.GetElementByKey(this.Chats, key);
   }
 
 

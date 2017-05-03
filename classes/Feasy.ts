@@ -148,6 +148,13 @@ export class FeasyUser {
   }
 }
 
+export class GenericWithKey {
+  public $key: string;
+  constructor() {
+    
+  }
+}
+
 
 export class FeasyList {
   public $key: string;
