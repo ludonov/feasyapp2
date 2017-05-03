@@ -472,6 +472,7 @@ export class Globals {
 
       this.Reviews_db.$ref.on("child_added", (_review: firebase.database.DataSnapshot) => {
         let review: Review = _review.val();
+        review.$key = _review.key;
         if (review != null)
           this.Reviews.push(review);
         this.ForceAppChanges();
@@ -505,19 +506,29 @@ export class Globals {
     try {
       this.UserChats_db = this.af.database.list("user_chats/" + this.UID);
       this.UserChats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
-        delete this.UserChats[removed_chat.key];
+        this.DeleteFromArrayByKey(this.UserChats, removed_chat.key);
+        this.ForceAppChanges();
       });
 
-      this.UserChats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {
-        let chat: string = _chat.val();
+      this.UserChats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {     
+        let chat: Chat = _chat.val();
+        chat.$key = _chat.key;
         if (chat != null)
-          this.UserChats[_chat.key] = chat;
+          this.UserChats.push(chat);
+        this.ForceAppChanges();
       });
+
+
 
       this.UserChats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
-        let chat: string = _chat.val();
-        if (chat != null)
-          this.UserChats[_chat.key] = chat;
+        let chat: Chat = _chat.val();
+        let i: number = this.GetIndexByKey(this.UserChats, _chat.key);
+        if (i != -1)
+          Object.assign(this.Chats[i], chat);
+        else
+          console.warn("Globals.LinkReviewsWatchers> Cannot find index for key <" + _chat.key + "> in child_changed");
+
+        this.ForceAppChanges();
       });
 
     } catch(e) {
@@ -536,19 +547,27 @@ export class Globals {
     try {
       this.Chats_db = this.af.database.list("/chats");
       this.Chats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
-        delete this.Chats[removed_chat.key];
+        this.DeleteFromArrayByKey(this.Chats, removed_chat.key);
+        this.ForceAppChanges();
       });
 
       this.Chats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {
-        let chat: string = _chat.val();
+        let chat: Chat = _chat.val();
+        chat.$key = _chat.key;
         if (chat != null)
-          this.Chats[_chat.key] = chat;
+          this.Chats.push(chat);
+        this.ForceAppChanges();
       });
 
       this.Chats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
-        let chat: string = _chat.val();
-        if (chat != null)
-          this.Chats[_chat.key] = chat;
+        let chat: Chat = _chat.val();
+        let i: number = this.GetIndexByKey(this.Chats, _chat.key);
+        if (i != -1)
+          Object.assign(this.Chats[i], chat);
+        else
+          console.warn("Globals.LinkReviewsWatchers> Cannot find index for key <" + _chat.key + "> in child_changed");
+
+        this.ForceAppChanges();
       });
 
     } catch (e) {
@@ -679,6 +698,14 @@ export class Globals {
 
   public GetReviewByKey(key: string): Review {
     return this.GetElementByKey(this.Reviews, key);
+  }
+
+  public GetUserChatByKey(key: string): Chat {
+    return this.GetElementByKey(this.UserChats, key);
+  }
+
+  public GetChatByKey(key: string): Chat {
+    return this.GetElementByKey(this.Chats, key);
   }
 
 
