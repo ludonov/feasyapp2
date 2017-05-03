@@ -8,8 +8,10 @@ import { Http } from '@angular/http';
 import { NavController, AlertController, Alert, LoadingController, Loading, Platform } from 'ionic-angular';
 import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { LocalNotifications } from 'ionic-native';
+import { ImagePicker } from '@ionic-native/image-picker';
+import { Observable } from 'rxjs/Observable';
 
-import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, ResizeImage } from './Feasy';
+import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase } from './Feasy';
 
 @Injectable()
 export class Globals {
@@ -62,6 +64,7 @@ export class Globals {
   public alertCtrl: AlertController;
   public loadingCtrl: LoadingController;
   public http: Http;
+  public imagePicker: ImagePicker;
 
   constructor(platform: Platform, public applicationRef: ApplicationRef, public cd: ChangeDetectorRef) {
     this.IsWeb = platform.is("core");
@@ -86,6 +89,15 @@ export class Globals {
         });
       }
     });
+  }
+
+  public updateUser(): void {
+    if (this.User_db != null)
+      this.User_db.update(StripForFirebase(this.User)).then(() => {
+        console.log("Globals.updateUser> User data updated");
+      }).catch((err: Error) => {
+        console.warn("Globals.updateUser> Cannot update user data: " + err.message);
+      });
   }
 
   public LinkAllWatchers(): void {
@@ -118,7 +130,7 @@ export class Globals {
   }
 
   private LinkListsWatchers(): void {
-    
+
     // PUBLISHED LISTS WATCHERS
 
     this.PublishedLists_db = this.af.database.list('/published_lists/' + this.UID);
@@ -249,7 +261,7 @@ export class Globals {
   private LinkCandidaturesWatchers(): void {
 
     try {
-      
+
       this.Candidatures_db = this.af.database.list('/candidatures/' + this.UID);
       this.AppliedLists = new Array<FeasyList>();
       this.AcceptedLists = new Array<FeasyList>();
@@ -351,12 +363,12 @@ export class Globals {
       if (this.IsAlreadyCandidate(candidature.ListReferenceKey)) {
         reject(new Error("already_candidated"));
       } else {
-          this.Candidatures_db.push(candidature).then(() => {
-            console.log("Globals.AddCandidature > new candidature pushed");
-            resolve(true);
-          }).catch((err: Error) => {
-            reject(new Error("cannot add candidature to db: " + err.message));
-          });
+        this.Candidatures_db.push(candidature).then(() => {
+          console.log("Globals.AddCandidature > new candidature pushed");
+          resolve(true);
+        }).catch((err: Error) => {
+          reject(new Error("cannot add candidature to db: " + err.message));
+        });
       }
     });
   }
@@ -377,36 +389,36 @@ export class Globals {
         candidate.$key = _candidate.key;
         this.Candidates.push(candidate);
         if (!candidate.Visualised) {
-            if (this.IsWeb) {
-              let alert: Alert = this.alertCtrl.create({
-                title: 'Nuovo candidato!',
-                subTitle: "Vuoi vedere i dettagli?",
-                buttons: [
-                  {
-                    text: 'Cancel',
-                    role: 'cancel'
-                  },
-                  {
-                    text: 'Ok',
-                    handler: () => {
-                      this.navCtrl.push(PublicatedListCandidatesPage, { list_key: candidate.ListReferenceKey });
-                    }
-                  }]
-              });
-              alert.present();
-            } else {
-              // Schedule a single notification
-              LocalNotifications.schedule({
-                id: 1,
-                title: 'Nuovo candidato!',
-                text: "Clicca per vedere i dettagli",
-                data: { list_owner: this.UID, list_key: candidate.ListReferenceKey },
-                icon: 'res://icon'
-              });
-              LocalNotifications.on("click", (notification) => {
-                this.navCtrl.push(PublicatedListCandidatesPage, { list_key: candidate.ListReferenceKey });
-              });
-            }
+          if (this.IsWeb) {
+            let alert: Alert = this.alertCtrl.create({
+              title: 'Nuovo candidato!',
+              subTitle: "Vuoi vedere i dettagli?",
+              buttons: [
+                {
+                  text: 'Cancel',
+                  role: 'cancel'
+                },
+                {
+                  text: 'Ok',
+                  handler: () => {
+                    this.navCtrl.push(PublicatedListCandidatesPage, { list_key: candidate.ListReferenceKey });
+                  }
+                }]
+            });
+            alert.present();
+          } else {
+            // Schedule a single notification
+            LocalNotifications.schedule({
+              id: 1,
+              title: 'Nuovo candidato!',
+              text: "Clicca per vedere i dettagli",
+              data: { list_owner: this.UID, list_key: candidate.ListReferenceKey },
+              icon: 'res://icon'
+            });
+            LocalNotifications.on("click", (notification) => {
+              this.navCtrl.push(PublicatedListCandidatesPage, { list_key: candidate.ListReferenceKey });
+            });
+          }
         }
         this.ForceAppChanges();
         //});
@@ -481,7 +493,7 @@ export class Globals {
     } catch (e) {
       console.log("Globals.LinkReviewsWatchers catch err: " + JSON.stringify(e));
     }
-  
+
   }
 
   // UNLINK WATCHERS SECTION
@@ -496,6 +508,7 @@ export class Globals {
 
   private UnlinkUserWatchers(): void {
     this.User_db.$ref.off();
+    this.User_db = null;
   }
 
   private UnlinkListsWatchers(): void {
@@ -503,18 +516,25 @@ export class Globals {
     this.UnpublishedLists_db.$ref.off();
     this.TerminatedListsAsDemander_db.$ref.off();
     this.TerminatedListsAsShopper_db.$ref.off();
+    this.PublishedLists_db = null;
+    this.UnpublishedLists_db = null;
+    this.TerminatedListsAsDemander_db = null;
+    this.TerminatedListsAsShopper_db = null;
   }
 
   private UnlinkCandidatesWatchers(): void {
     this.Candidates_db.$ref.off();
+    this.Candidates_db = null;
   }
 
   private UnlinkCandidaturesWatchers(): void {
     this.Candidatures_db.$ref.off();
+    this.Candidatures_db = null;
   }
 
   private UnlinkReviewsWatchers(): void {
     this.Reviews_db.$ref.off();
+    this.Reviews_db = null;
   }
 
   private CopyObj(_what: any, _where: any, key: string): void {
@@ -532,8 +552,8 @@ export class Globals {
 
   public ForceAppChanges() {
     //this.applicationRef.tick();
-    this.cd.detectChanges();
-    //this.cd.markForCheck();
+    //this.cd.detectChanges();
+    this.cd.markForCheck();
   }
 
   private copy_new_snapshot_list(list: firebase.database.DataSnapshot): FeasyList {
@@ -611,44 +631,118 @@ export class Globals {
 
 
 
-  public InputFile(): Promise<string> {
+
+
+  public ResizeImage(imgSrc: string): Promise<string> {
 
     return new Promise((resolve, reject) => {
-
       try {
 
+        // create an off-screen canvas
+        var canvas = document.createElement('canvas'),
+          ctx = canvas.getContext('2d');
+        var cw = canvas.width;
+        var ch = canvas.height;
 
-        // Create an input element
-        var inputElement = document.createElement("input");
+        // limit the image size
+        var maxW = 500;
+        var maxH = 500;
 
-        // Set its type to file
-        inputElement.type = "file";
+        var img = new Image;
+        img.onload = function () {
+          var iw = img.width;
+          var ih = img.height;
+          var scale = Math.min((maxW / iw), (maxH / ih));
+          var iwScaled = iw * scale;
+          var ihScaled = ih * scale;
+          canvas.width = iwScaled;
+          canvas.height = ihScaled;
+          ctx.drawImage(img, 0, 0, iwScaled, ihScaled);
+          resolve(canvas.toDataURL());
+        }
+        img.onerror = function () {
+          reject(new Error("Invalid image"));
+        }
+        img.src = imgSrc;
 
-        // Set accept to the file types you want the user to select. 
-        // Include both the file extension and the mime type
-        //inputElement.accept = "*.png|*.jpg";
+      } catch (e) {
+        let err: Error = new Error("Error resizing image: " + e);
+        reject(err);
+      }
+    });
+  }
 
-        // set onchange event to call callback when user has selected file
-        inputElement.addEventListener("change", (event: any) => {
 
-          var fReader = new FileReader();
-          fReader.readAsDataURL(inputElement.files[0]);
-          fReader.onloadend = function (e: any) {
-            return ResizeImage(e.target.result);
-          }
 
-          //var selectedFile = event.target.files[0];
-          //var img = new Image;
-          //img.onload = function () {
-          //  resolve(selectedFile);
-          //}
-          //img.src = selectedFile;
-        });
+  public InputImage(): Promise<string> {
 
-        // dispatch a click event to open the file dialog
-        inputElement.click();
+    return new Promise((resolve, reject) => {
+      try {
+
+        if (this.IsWeb) {
+
+          // Create an input element
+          var inputElement = document.createElement("input");
+
+          // Set its type to file
+          inputElement.type = "file";
+
+          // set onchange event to call callback when user has selected file
+          inputElement.addEventListener("change", (event: any) => {
+
+            var fReader = new FileReader();
+            fReader.readAsDataURL(inputElement.files[0]);
+            fReader.onloadend = (e: any) => {
+              this.ResizeImage(e.target.result).then(img => {
+                resolve(img);
+              }).catch((err: Error) => {
+                reject(err);
+              });
+            }
+            fReader.onerror = () => {
+              reject(new Error("Cannot read file"));
+            }
+          });
+
+          // dispatch a click event to open the file dialog
+          inputElement.click();
+        }
+        else {
+          let options = {
+            // Android only. Max images to be selected, defaults to 15. If this is set to 1, upon
+            // selection of a single image, the plugin will return it.
+            maximumImagesCount: 1,
+
+            // max width and height to allow the images to be.  Will keep aspect
+            // ratio no matter what.  So if both are 800, the returned image
+            // will be at most 800 pixels wide and 800 pixels tall.  If the width is
+            // 800 and height 0 the image will be 800 pixels wide if the source
+            // is at least that wide.
+            width: 500,
+            height: 500,
+
+            // quality of resized image, defaults to 100
+            quality: 90,
+
+            // output type, defaults to FILE_URIs.
+            // available options are 
+            // window.imagePicker.OutputType.FILE_URI (0) or 
+            // window.imagePicker.OutputType.BASE64_STRING (1)
+            outputType: 1
+          };
+
+          this.imagePicker.getPictures(options).then((results) => {
+            if (results == null || results.lenght == 0 || results[0] == null || results[0] == "")
+              reject(new Error("No image selected"));
+            else
+              resolve('data:image/jpeg;base64,' + results[0]);
+          }, (err) => { reject(err)});
+        }
+
       } catch (err) {
-        reject(new Error("Cannot load image: " + JSON.stringify(err))); 
+        reject(new Error(JSON.stringify(err)));
+        //      observer.throw(new Error("Cannot load image: " + JSON.stringify(err)));
+        //observer.complete();
       }
     });
   }

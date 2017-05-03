@@ -7,6 +7,7 @@ import { Splashscreen, LocalNotifications } from 'ionic-native';
 import { StatusBar } from '@ionic-native/status-bar';
 //import { Keyboard } from '@ionic-native/keyboard';
 import { Keyboard } from 'ionic-native';
+import { ImagePicker } from '@ionic-native/image-picker';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/1_login/1_login';
@@ -32,7 +33,7 @@ export class MyApp {
   // Get user to show photo and name in side bar
   public user_db: FirebaseObjectObservable<any>;
 
-  constructor(platform: Platform, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public http: Http, private statusBar: StatusBar, public menuCtrl: MenuController) {
+  constructor(platform: Platform, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public http: Http, private statusBar: StatusBar, public menuCtrl: MenuController, private imagePicker: ImagePicker) {
 
     
 
@@ -57,6 +58,7 @@ export class MyApp {
       globals.navCtrl = this.navCtrl;
       globals.loadingCtrl = this.loadingCtrl;
       globals.http = http;
+      globals.imagePicker = imagePicker;
       globals.root = LoginPage;
 
       globals.StartConfigWatcher();

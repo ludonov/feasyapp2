@@ -65,22 +65,18 @@ export class ListPage {
 
 
   deleteList(): void {
-    //console.log("Deleting list: " + this.list.Name);
-    //this.af.database.list('/unpublished_lists/' + this.globals.UID).remove(this.list_key).then(res => {
-    //  console.log("List removed");
-    //  this.navCtrl.pop();
-    //}).catch((res: Error) => {
-    //  console.warn("Cannot remove list: " + res.message);
-    //  let alert = this.alertCtrl.create({
-    //    title: 'Info',
-    //    subTitle: "Impossibile rimuovere la lista",
-    //    buttons: ['Ok']
-    //  });
-    //  alert.present();
-    //});
-    this.globals.InputFile().then(img => {
-      console.log(img);
-      alert(img);
+    console.log("Deleting list: " + this.list.Name);
+    this.af.database.list('/unpublished_lists/' + this.globals.UID).remove(this.list_key).then(res => {
+      console.log("List removed");
+      this.navCtrl.pop();
+    }).catch((res: Error) => {
+      console.warn("Cannot remove list: " + res.message);
+      let alert = this.alertCtrl.create({
+        title: 'Info',
+        subTitle: "Impossibile rimuovere la lista",
+        buttons: ['Ok']
+      });
+      alert.present();
     });
   }
 

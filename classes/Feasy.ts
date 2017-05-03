@@ -444,39 +444,3 @@ export function GetRealExpiryDate(expdate: ExpiryDateType): string {
   else
     return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 3, 23, 59, 59).toUTCString();
 }
-
-export function ResizeImage(imgSrc: string): Promise<string> {
-
-  return new Promise((resolve, reject) => {
-    try {
-
-      // create an off-screen canvas
-      var canvas = document.createElement('canvas'),
-        ctx = canvas.getContext('2d');
-      var cw = canvas.width;
-      var ch = canvas.height;
-
-      // limit the image size
-      var maxW = 500;
-      var maxH = 500;
-
-      var img = new Image;
-      img.onload = function () {
-        var iw = img.width;
-        var ih = img.height;
-        var scale = Math.min((maxW / iw), (maxH / ih));
-        var iwScaled = iw * scale;
-        var ihScaled = ih * scale;
-        canvas.width = iwScaled;
-        canvas.height = ihScaled;
-        ctx.drawImage(img, 0, 0, iwScaled, ihScaled);
-        resolve(canvas.toDataURL());
-      }
-      img.src = imgSrc;
-
-    } catch (e) {
-      let err: Error = new Error("Error resizing image: " + e);
-      reject(err);
-    }
-  });
-}

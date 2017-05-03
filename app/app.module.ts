@@ -8,6 +8,8 @@ import { HideTabsDirective } from '../app/HideTabsDirective';
 
 import { Globals } from '../classes/Globals';
 
+import { ImagePicker } from '@ionic-native/image-picker';
+
 import { LoginPage } from '../pages/1_login/1_login';
 import { ForgotPassPage } from '../pages/2_forgot_pass/2_forgot_pass';
 import { SignupPage } from '../pages/3_signup/3_signup';
@@ -189,7 +191,7 @@ export const firebaseConfig = {
     SingleReviewToLeavePage,
     TabsPage
   ],
-  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, Globals]
+  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, Globals, ImagePicker ]
 })
 export class AppModule {
 
