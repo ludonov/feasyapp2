@@ -139,7 +139,7 @@ export class Globals {
       this.NoPublishedLists = this.PublishedLists.length == 0;
       //this.PublishedLists[list.key] = this.copy_snapshot_list(list);
       //this.NoPublishedLists = Object.keys(this.PublishedLists).length == 0;
-      this.ForceAppChanges();
+      this.RecopyArray(this.PublishedLists);
     });
 
     this.PublishedLists_db.$ref.on("child_changed", (list: firebase.database.DataSnapshot) => {
@@ -149,7 +149,7 @@ export class Globals {
       else
         console.warn("Globals.LinkListsWatchers> Cannot find index for key <" + list.key + "> in PublishedLists:child_changed");
       //this.PublishedLists[list.key] = this.copy_snapshot_list(list);
-      this.ForceAppChanges();
+      this.RecopyArray(this.PublishedLists);
     });
 
     this.PublishedLists_db.$ref.on("child_removed", (list: firebase.database.DataSnapshot) => {
@@ -157,7 +157,7 @@ export class Globals {
       this.NoPublishedLists = this.PublishedLists.length == 0;
       //delete this.PublishedLists[list.key];
       //this.NoPublishedLists = Object.keys(this.PublishedLists).length == 0;
-      this.ForceAppChanges();
+      this.RecopyArray(this.PublishedLists);
     });
 
 
@@ -169,7 +169,7 @@ export class Globals {
       this.NoUnpublishedLists = this.UnpublishedLists.length == 0;
       //this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
       //this.NoPublishedLists = Object.keys(this.PublishedLists).length == 0;
-      this.ForceAppChanges();
+      this.RecopyArray(this.UnpublishedLists);
     });
 
     this.UnpublishedLists_db.$ref.on("child_changed", (list: firebase.database.DataSnapshot) => {
@@ -179,7 +179,7 @@ export class Globals {
       else
         console.warn("Globals.LinkListsWatchers> Cannot find index for key <" + list.key + "> in UnpublishedLists_db:child_changed");
       //this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
-      this.ForceAppChanges();
+      this.RecopyArray(this.UnpublishedLists);
     });
 
     this.UnpublishedLists_db.$ref.on("child_removed", (list: firebase.database.DataSnapshot) => {
@@ -187,7 +187,7 @@ export class Globals {
       this.NoUnpublishedLists = this.UnpublishedLists.length == 0;
       //delete this.UnpublishedLists[list.key];
       //this.NoUnpublishedLists = Object.keys(this.UnpublishedLists).length == 0;
-      this.ForceAppChanges();
+      this.RecopyArray(this.UnpublishedLists);
     });
 
 
@@ -199,7 +199,7 @@ export class Globals {
       this.NoTerminatedListsAsDemander = this.TerminatedListsAsDemander.length == 0;
       //this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
       //this.NoPublishedLists = Object.keys(this.PublishedLists).length == 0;
-      this.ForceAppChanges();
+      this.RecopyArray(this.TerminatedListsAsDemander);
     });
 
     this.TerminatedListsAsDemander_db.$ref.on("child_changed", (list: firebase.database.DataSnapshot) => {
@@ -209,7 +209,7 @@ export class Globals {
       else
         console.warn("Globals.LinkListsWatchers> Cannot find index for key <" + list.key + "> in TerminatedLists_db:child_changed");
       //this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
-      this.ForceAppChanges();
+      this.RecopyArray(this.TerminatedListsAsDemander);
     });
 
     this.TerminatedListsAsDemander_db.$ref.on("child_removed", (list: firebase.database.DataSnapshot) => {
@@ -217,7 +217,7 @@ export class Globals {
       this.NoTerminatedListsAsDemander = this.TerminatedListsAsDemander.length == 0;
       //delete this.UnpublishedLists[list.key];
       //this.NoUnpublishedLists = Object.keys(this.UnpublishedLists).length == 0;
-      this.ForceAppChanges();
+      this.RecopyArray(this.TerminatedListsAsDemander);
     });
 
 
@@ -229,7 +229,7 @@ export class Globals {
       this.NoTerminatedListsAsShopper = this.TerminatedListsAsShopper.length == 0;
       //this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
       //this.NoPublishedLists = Object.keys(this.PublishedLists).length == 0;
-      this.ForceAppChanges();
+      this.RecopyArray(this.TerminatedListsAsShopper);
     });
 
     this.TerminatedListsAsShopper_db.$ref.on("child_changed", (list: firebase.database.DataSnapshot) => {
@@ -239,7 +239,7 @@ export class Globals {
       else
         console.warn("Globals.LinkListsWatchers> Cannot find index for key <" + list.key + "> in TerminatedLists_db:child_changed");
       //this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
-      this.ForceAppChanges();
+      this.RecopyArray(this.TerminatedListsAsShopper);
     });
 
     this.TerminatedListsAsShopper_db.$ref.on("child_removed", (list: firebase.database.DataSnapshot) => {
@@ -247,7 +247,7 @@ export class Globals {
       this.NoTerminatedListsAsShopper = this.TerminatedListsAsShopper.length == 0;
       //delete this.UnpublishedLists[list.key];
       //this.NoUnpublishedLists = Object.keys(this.UnpublishedLists).length == 0;
-      this.ForceAppChanges();
+      this.RecopyArray(this.TerminatedListsAsShopper);
     });
   }
 
@@ -276,7 +276,7 @@ export class Globals {
         //delete this.AcceptedLists[cand.ListReferenceKey];
         this.DeleteFromArrayByKey(this.Candidatures, removed_cand.key);
         this.updateBooleansAcceptedAndApplied();
-        this.ForceAppChanges();
+        this.RecopyArray(this.Candidatures);
       });
 
       this.Candidatures_db.$ref.on("child_added", (_candidature: firebase.database.DataSnapshot) => {
@@ -294,7 +294,7 @@ export class Globals {
             this.AppliedLists.push(list);
           this.updateBooleansAcceptedAndApplied();
         });
-        this.ForceAppChanges();
+        this.RecopyArray(this.Candidatures);
       });
 
 
@@ -341,7 +341,7 @@ export class Globals {
             });
           }
         }
-        this.ForceAppChanges();
+        this.RecopyArray(this.Candidatures);
       });
 
     } catch (e) {
@@ -380,7 +380,7 @@ export class Globals {
 
       this.Candidates_db.$ref.on("child_removed", (removed_list: firebase.database.DataSnapshot) => {
         this.DeleteFromArrayByKey(this.Candidates, removed_list.key);
-        this.ForceAppChanges();
+        this.RecopyArray(this.Candidates);
       });
 
       this.Candidates_db.$ref.on("child_added", (_candidate: firebase.database.DataSnapshot) => {
@@ -420,7 +420,7 @@ export class Globals {
             });
           }
         }
-        this.ForceAppChanges();
+        this.RecopyArray(this.Candidates);
         //});
       });
 
@@ -436,7 +436,7 @@ export class Globals {
         else
           console.warn("Globals.LinkCandidatesWatchers> Cannot find index for key <" + _candidate.key + "> in child_changed");
 
-        this.ForceAppChanges();
+        this.RecopyArray(this.Candidates);
       });
 
     } catch (e) {
@@ -469,14 +469,15 @@ export class Globals {
 
       this.Reviews_db.$ref.on("child_removed", (removed_review: firebase.database.DataSnapshot) => {
         this.DeleteFromArrayByKey(this.Reviews, removed_review.key);
-        this.ForceAppChanges();
+        this.RecopyArray(this.Reviews);
       });
 
       this.Reviews_db.$ref.on("child_added", (_review: firebase.database.DataSnapshot) => {
         let review: Review = _review.val();
+        review.$key = _review.key;
         if (review != null)
           this.Reviews.push(review);
-        this.ForceAppChanges();
+        this.RecopyArray(this.Reviews);
       });
 
       this.Reviews_db.$ref.on("child_changed", (_review: firebase.database.DataSnapshot) => {
@@ -487,7 +488,7 @@ export class Globals {
         else
           console.warn("Globals.LinkReviewsWatchers> Cannot find index for key <" + _review.key + "> in child_changed");
 
-        this.ForceAppChanges();
+        this.RecopyArray(this.Reviews);
       });
 
     } catch (e) {
@@ -554,6 +555,10 @@ export class Globals {
     //this.applicationRef.tick();
     //this.cd.detectChanges();
     this.cd.markForCheck();
+  }
+
+  public RecopyArray(arr: Array<any>) {
+    arr = arr.slice();
   }
 
   private copy_new_snapshot_list(list: firebase.database.DataSnapshot): FeasyList {

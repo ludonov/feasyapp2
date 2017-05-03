@@ -46,6 +46,9 @@ export class PublicateListSecondPage {
     (this.list as any).UnpublishedListKey = this.list_key;
     this.globals.PublishedLists_db.push(StripForFirebase(this.list)).then(res1 => {
       this.globals.DeleteFromArrayByKey(this.globals.UnpublishedLists, this.list_key);
+      this.globals.NoUnpublishedLists = this.globals.UnpublishedLists.length == 0;
+      this.globals.RecopyArray(this.globals.UnpublishedLists);
+
       //let token: string;
       //firebase.auth().currentUser.getToken().then((_token) => {
       //    token = _token;
