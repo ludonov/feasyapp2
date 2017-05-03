@@ -8,8 +8,12 @@ ionic plugin add cordova.plugins.diagnostic
 ionic plugin add cordova-plugin-facebook4 --variable APP_ID="167576887016557" --variable APP_NAME="Feasy"
 ionic plugin add de.appplant.cordova.plugin.local-notification
 ionic plugin add cordova-plugin-statusbar
+ionic plugin add --save https://github.com/Telerik-Verified-Plugins/ImagePicker
 npm install --save @ionic-native/core
 npm install --save @ionic-native/status-bar
+npm install --save @ionic-native/image-picker
+
+
 
 ALTRI COMANDI UTILI:
 npm install firebase angularfire2 --save
@@ -20,3 +24,7 @@ adb connect 192.168.1.116:5555
 PREFERENCES (in config.xml):
 
   <preference name="loadUrlTimeoutValue" value="700000" />
+
+
+  SE IL PROGETTO ANDROID NON COMPILA:
+  provare a rimuovere dal "project.properties" le righe agguinte dai plugin (si notano, sono diverse ed in genere sono alla fine del file)

@@ -40,7 +40,7 @@ export class EditProfilePage {
   changeProfile(): void {
     console.log("personal address set");
     //this.user.Address = this.address; 
-    this.user.Gender=GetEnumFromGenderName(this.gender);
+    this.user.Gender = GetEnumFromGenderName(this.gender);
     this.globals.User_db.update(StripForFirebase(this.user)).then(res => {
     this.navCtrl.pop();
     }).catch((err: Error) => {
@@ -55,11 +55,14 @@ export class EditProfilePage {
   }
 
   selectImage() {
-    this.globals.InputFile().then((img: string) => {
-      console.log("OOK");
-      this.globals.User.PhotoURL = img;
+    this.globals.InputImage().then(img => {
+      if (img != null) {
+        console.log("Selected image");
+        this.globals.User.PhotoURL = img;
+        this.globals.updateUser();
+      }
     }).catch((err: Error) => {
-      console.log("err: " + err.message);
+      console.log("Err selecting image: " + err.message);
     });
   }
 

@@ -1,15 +1,20 @@
 ﻿import { Component, ViewChild } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { Platform, NavController, AlertController, Alert, Loading, LoadingController } from 'ionic-angular';
+import { Platform, NavController, Tabs, AlertController, Alert, Loading, LoadingController } from 'ionic-angular';
 import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { Splashscreen, LocalNotifications } from 'ionic-native';
 import { StatusBar } from '@ionic-native/status-bar';
 //import { Keyboard } from '@ionic-native/keyboard';
 import { Keyboard } from 'ionic-native';
+import { ImagePicker } from '@ionic-native/image-picker';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/1_login/1_login';
+import { ListsPage } from '../pages/6_lists/6_lists';
+import { DoShoppingPage } from '../pages/18A_do_shopping/18A_do_shopping';
+import { ChatListPage } from '../pages/19_chat_list/19_chat_list';
+
 import { SetPersonalDetailsPage } from '../pages/4A_set_personal_details/4A_set_personal_details';
 import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 import { SettingsPage } from '../pages/23_settings/23_settings';
@@ -28,11 +33,10 @@ import { MenuController } from 'ionic-angular';
 export class MyApp {
   rootPage: any = LoginPage;
   @ViewChild('mynav') public navCtrl: NavController;
+  @ViewChild("footerTabs") footerTabs: Tabs;
 
-  // Get user to show photo and name in side bar
-  public user_db: FirebaseObjectObservable<any>;
 
-  constructor(platform: Platform, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public http: Http, private statusBar: StatusBar, public menuCtrl: MenuController) {
+  constructor(platform: Platform, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public http: Http, private statusBar: StatusBar, public menuCtrl: MenuController, private imagePicker: ImagePicker) {
 
     
 
@@ -57,6 +61,7 @@ export class MyApp {
       globals.navCtrl = this.navCtrl;
       globals.loadingCtrl = this.loadingCtrl;
       globals.http = http;
+      globals.imagePicker = imagePicker;
       globals.root = LoginPage;
 
       globals.StartConfigWatcher();
@@ -157,8 +162,7 @@ export class MyApp {
       //}
     });
 
-    statusBar.styleLightContent(); //status bar white
-    this.user_db = af.database.object("users/" + globals.UID); //Photo sidebar
+    statusBar.styleLightContent();
     
   }
 
@@ -179,6 +183,26 @@ export class MyApp {
   goToSettings(): void {
     console.log("going to settings page");
     this.navCtrl.push(SettingsPage);
+    this.menuCtrl.close();
+  }
+
+  goToLists(): void {
+    console.log("going to lists page");
+    //this.navCtrl.push();
+    this.menuCtrl.close();
+  }
+
+  goToFind(): void {
+    console.log("going to find page");
+    //this.navCtrl.push();
+    this.menuCtrl.close();
+  }
+
+  goToChats(): void {
+    console.log("going to chats page");
+    //this.navCtrl.push();
+    // this.navCtrl.select(1);
+    // this.footerTabs.select(1);
     this.menuCtrl.close();
   }
 

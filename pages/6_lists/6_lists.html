@@ -4,7 +4,7 @@
       <ion-icon name='menu'></ion-icon>
     </button>
     <ion-title>Liste</ion-title>
-    <ion-buttons end>
+    <ion-buttons *ngIf="lists == 'demander'" end>
       <button ion-button icon-only (click)="addList()">
         <ion-icon name="add"></ion-icon>
       </button>
@@ -22,7 +22,7 @@
 	</ion-toolbar>
 </ion-header>
 
-<ion-content scroll="false" class="background-color-body">
+<ion-content>
 	
 	<div [ngSwitch]="lists">
 		<!-- DEMANDER -->
