@@ -11,7 +11,9 @@ import { LocalNotifications } from 'ionic-native';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Observable } from 'rxjs/Observable';
 
-import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase } from './Feasy';
+
+import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, ResizeImage, Chat } from './Feasy';
+
 
 @Injectable()
 export class Globals {
@@ -57,6 +59,12 @@ export class Globals {
   public Reviews: Array<Review> = new Array<Review>();
   public Reviews_db: FirebaseListObservable<any>;
 
+  public UserChats: Array<Chat> = new Array();
+  public UserChats_db: FirebaseListObservable<any>;
+
+  public Chats: Array<Chat> = new Array();
+  public Chats_db: FirebaseListObservable<any>;
+  
   public JustRegistered: boolean = false;
 
   public af: AngularFire;
@@ -106,6 +114,8 @@ export class Globals {
     this.LinkCandidatesWatchers();
     this.LinkCandidaturesWatchers();
     this.LinkReviewsWatchers();
+    this.LinkUserChatsWatchers();
+    this.LinkChatsWatchers();
   }
 
 
@@ -494,8 +504,70 @@ export class Globals {
     } catch (e) {
       console.log("Globals.LinkReviewsWatchers catch err: " + JSON.stringify(e));
     }
-
+  
   }
+
+  private LinkUserChatsWatchers(): void {
+    
+    // this.UserChats_db = this.af.database.list("/user_chats/" + this.UID);
+    // this.UserChats_db.$ref.on("value", (_userchat: firebase.database.DataSnapshot) => {
+    //   let userchat: Chat = _userchat.val();
+    //   this.UserChats[_userchat.key] = userchat;
+    // });
+    
+    try {
+      this.UserChats_db = this.af.database.list("user_chats/" + this.UID);
+      this.UserChats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
+        delete this.UserChats[removed_chat.key];
+      });
+
+      this.UserChats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {
+        let chat: string = _chat.val();
+        if (chat != null)
+          this.UserChats[_chat.key] = chat;
+      });
+
+      this.UserChats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
+        let chat: string = _chat.val();
+        if (chat != null)
+          this.UserChats[_chat.key] = chat;
+      });
+
+    } catch(e) {
+      console.log("Globals.LinkUserChatsWatchers catch err: " + JSON.stringify(e));
+    }
+  }
+
+  private LinkChatsWatchers(): void {
+    
+    // this.Chats_db = this.af.database.list("/chats");
+    // this.Chats_db.$ref.on("value", (_chat: firebase.database.DataSnapshot) => {
+    //   let chat: Chat = _chat.val();
+    //   this.Chats[_chat.key] = chat;
+    // });
+    
+    try {
+      this.Chats_db = this.af.database.list("/chats");
+      this.Chats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
+        delete this.Chats[removed_chat.key];
+      });
+
+      this.Chats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {
+        let chat: string = _chat.val();
+        if (chat != null)
+          this.Chats[_chat.key] = chat;
+      });
+
+      this.Chats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
+        let chat: string = _chat.val();
+        if (chat != null)
+          this.Chats[_chat.key] = chat;
+      });
+
+    } catch (e) {
+      console.log("Globals.LinkChatsWatchers catch err: " + JSON.stringify(e));
+    }
+  }  
 
   // UNLINK WATCHERS SECTION
 

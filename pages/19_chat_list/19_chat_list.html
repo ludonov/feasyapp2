@@ -11,28 +11,12 @@
 
     <ion-list>
 
-      <ion-item>
+      <ion-item *ngFor="let chat1 of MyChats">
       <ion-avatar item-left>
         <img src="img/Daniele.png">
        </ion-avatar>
-        <h2>Daniele Pettenuzzo</h2>
-        <p style="font-color:#8e8f92">Lista supermercato</p>
-      </ion-item>
-
-      <ion-item>
-      <ion-avatar item-left>
-        <img src="img/Alberto.png">
-       </ion-avatar>
-        <h2>Alberto Arrighi</h2>
-        <p style="font-color:#8e8f92">Lista supermercato</p>
-      </ion-item>
-
-      <ion-item>
-      <ion-avatar item-left>
-        <img src="img/Ludovico.png">
-       </ion-avatar>
-        <h2>Ludovico Novelli</h2>
-        <p style="font-color:#8e8f92">Lista supermercato</p>
+        <h2>{{chat1.OtherPerson}}</h2>
+        <p>Lista supermercato</p>
       </ion-item>
 
     </ion-list>
