@@ -1,7 +1,7 @@
 ﻿import { Component, ViewChild } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { Platform, NavController, AlertController, Alert, Loading, LoadingController } from 'ionic-angular';
+import { Platform, NavController, Tabs, AlertController, Alert, Loading, LoadingController } from 'ionic-angular';
 import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
 import { Splashscreen, LocalNotifications } from 'ionic-native';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -10,6 +10,10 @@ import { Keyboard } from 'ionic-native';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/1_login/1_login';
+import { ListsPage } from '../pages/6_lists/6_lists';
+import { DoShoppingPage } from '../pages/18A_do_shopping/18A_do_shopping';
+import { ChatListPage } from '../pages/19_chat_list/19_chat_list';
+
 import { SetPersonalDetailsPage } from '../pages/4A_set_personal_details/4A_set_personal_details';
 import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 import { SettingsPage } from '../pages/23_settings/23_settings';
@@ -28,6 +32,8 @@ import { MenuController } from 'ionic-angular';
 export class MyApp {
   rootPage: any = LoginPage;
   @ViewChild('mynav') public navCtrl: NavController;
+  @ViewChild("footerTabs") footerTabs: Tabs;
+
 
   constructor(platform: Platform, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public http: Http, private statusBar: StatusBar, public menuCtrl: MenuController) {
 
@@ -193,6 +199,8 @@ export class MyApp {
   goToChats(): void {
     console.log("going to chats page");
     //this.navCtrl.push();
+    // this.navCtrl.select(1);
+    // this.footerTabs.select(1);
     this.menuCtrl.close();
   }
 
