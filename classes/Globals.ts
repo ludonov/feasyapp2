@@ -598,6 +598,7 @@ export class Globals {
   private UnlinkUserWatchers(): void {
     this.User_db.$ref.off();
     this.User_db = null;
+    this.User = new FeasyUser("", "", "");
   }
 
   private UnlinkListsWatchers(): void {
@@ -605,7 +606,9 @@ export class Globals {
     this.UnpublishedLists_db.$ref.off();
     this.TerminatedListsAsDemander_db.$ref.off();
     this.TerminatedListsAsShopper_db.$ref.off();
+    this.PublishedLists = [];
     this.PublishedLists_db = null;
+    this.UnpublishedLists = [];
     this.UnpublishedLists_db = null;
     this.TerminatedListsAsDemander_db = null;
     this.TerminatedListsAsShopper_db = null;
@@ -614,16 +617,19 @@ export class Globals {
   private UnlinkCandidatesWatchers(): void {
     this.Candidates_db.$ref.off();
     this.Candidates_db = null;
+    this.Candidates = [];
   }
 
   private UnlinkCandidaturesWatchers(): void {
     this.Candidatures_db.$ref.off();
     this.Candidatures_db = null;
+    this.Candidatures = [];
   }
 
   private UnlinkReviewsWatchers(): void {
     this.Reviews_db.$ref.off();
     this.Reviews_db = null;
+    this.Reviews = [];
   }
 
   private CopyObj(_what: any, _where: any, key: string): void {
