@@ -10,7 +10,7 @@ import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObser
 import { LocalNotifications } from 'ionic-native';
 
 
-import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, ResizeImage, Chat } from './Feasy';
+import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, ResizeImage, Chat, GenericWithKey } from './Feasy';
 
 
 @Injectable()
@@ -57,10 +57,10 @@ export class Globals {
   public Reviews: Array<Review> = new Array<Review>();
   public Reviews_db: FirebaseListObservable<any>;
 
-  public UserChats: Array<Chat> = new Array();
+  public UserChats: Array<GenericWithKey> = new Array<GenericWithKey>();
   public UserChats_db: FirebaseListObservable<any>;
 
-  public Chats: Array<Chat> = new Array();
+  public Chats: Array<Chat> = new Array<Chat>();
   public Chats_db: FirebaseListObservable<any>;
   
   public JustRegistered: boolean = false;
@@ -511,25 +511,23 @@ export class Globals {
       });
 
       this.UserChats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {     
-        let chat: Chat = _chat.val();
+        let chat: GenericWithKey = new GenericWithKey();
         chat.$key = _chat.key;
         if (chat != null)
           this.UserChats.push(chat);
         this.ForceAppChanges();
       });
 
+      // this.UserChats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
+      //   //let chat: Chat = _chat.val();
+      //   let i: number = this.GetIndexByKey(this.UserChats, _chat.key);
+      //   if (i != -1)
+      //     Object.assign(this.Chats[i], chat);
+      //   else
+      //     console.warn("Globals.LinkReviewsWatchers> Cannot find index for key <" + _chat.key + "> in child_changed");
 
-
-      this.UserChats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
-        let chat: Chat = _chat.val();
-        let i: number = this.GetIndexByKey(this.UserChats, _chat.key);
-        if (i != -1)
-          Object.assign(this.Chats[i], chat);
-        else
-          console.warn("Globals.LinkReviewsWatchers> Cannot find index for key <" + _chat.key + "> in child_changed");
-
-        this.ForceAppChanges();
-      });
+      //   this.ForceAppChanges();
+      // });
 
     } catch(e) {
       console.log("Globals.LinkUserChatsWatchers catch err: " + JSON.stringify(e));
@@ -700,7 +698,7 @@ export class Globals {
     return this.GetElementByKey(this.Reviews, key);
   }
 
-  public GetUserChatByKey(key: string): Chat {
+  public GetUserChatByKey(key: string): GenericWithKey {
     return this.GetElementByKey(this.UserChats, key);
   }
 
