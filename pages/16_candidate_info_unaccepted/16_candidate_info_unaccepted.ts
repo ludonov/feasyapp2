@@ -2,7 +2,7 @@
 
 import { NavController, NavParams, AlertController, LoadingController, Loading, LoadingOptions, Alert } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+
 
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, Candidate, StripForFirebase } from '../../classes/Feasy';
 
@@ -21,7 +21,7 @@ export class CandidateInfoUnacceptedPage {
   private candidate: Candidate;
   private address: DeliveryAddress;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, @Inject(forwardRef(() => Globals)) public globals: Globals, public loadingCtrl: LoadingController, public af: AngularFire, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, @Inject(forwardRef(() => Globals)) public globals: Globals, public loadingCtrl: LoadingController,  public alertCtrl: AlertController) {
     this.candidate_key = navParams.get("candidate_key");
     this.list_key = navParams.get("list_key");
     this.candidate = navParams.get("candidate");

@@ -2,8 +2,6 @@
 
 import { NavController, NavParams, AlertController, Tabs, LoadingController, Loading, LoadingOptions, Alert } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
-
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, Candidate, Candidature, StripForFirebase } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
@@ -24,7 +22,7 @@ export class ListFromMapPage {
   private owner: FeasyUser = new FeasyUser("", "", "");
   private loading: Loading;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public globals: Globals) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public globals: Globals) {
 
     this.list_key = navParams.get("list_key");
     this.list_owner = navParams.get("list_owner");
@@ -35,7 +33,7 @@ export class ListFromMapPage {
       navCtrl.pop();
     } else {
 
-      af.database.object("/published_lists/" + this.list_owner + "/" + this.list_key).$ref.once("value", (snaphot: firebase.database.DataSnapshot) => {
+      globals.af.object("/published_lists/" + this.list_owner + "/" + this.list_key).$ref.once("value", (snaphot: firebase.database.DataSnapshot) => {
         let _val: any = snaphot.val();
         if (_val == null) {
           console.warn("ListFromMapPage: null list data. Going back.");
@@ -65,7 +63,7 @@ export class ListFromMapPage {
       //  alert.present();
       //});
 
-      af.database.object("/users/" + this.list_owner).$ref.on("value", (snaphot: firebase.database.DataSnapshot) => {
+      globals.af.object("/users/" + this.list_owner).$ref.on("value", (snaphot: firebase.database.DataSnapshot) => {
         let val: any = snaphot.val();
         if (val == null) {
           console.warn("ListFromMapPage: null owner data. Going back.");

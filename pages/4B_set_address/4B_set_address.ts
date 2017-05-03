@@ -3,7 +3,7 @@
 import { Component } from '@angular/core';
 
 import { NavController, AlertController } from 'ionic-angular';
-import { AngularFire, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { FirebaseError } from 'firebase';
 
 import { TabsPage } from '../../pages/tabs/tabs';
@@ -20,8 +20,8 @@ export class SetAddressPage {
   public addresses_db: FirebaseListObservable<any>;
   public address: DeliveryAddress = new DeliveryAddress();
 
-    constructor(public navCtrl: NavController, public af: AngularFire, public alertCtrl: AlertController, public globals: Globals) {
-    this.addresses_db = af.database.list("users/" + globals.UID + "/Addresses"); // aggiunto
+    constructor(public navCtrl: NavController,  public alertCtrl: AlertController, public globals: Globals) {
+    this.addresses_db = globals.af.list("users/" + globals.UID + "/Addresses"); // aggiunto
     
     
     }

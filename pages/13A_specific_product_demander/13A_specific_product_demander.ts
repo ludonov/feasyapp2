@@ -2,7 +2,8 @@
 
 import { NavController, NavParams, AlertController, Loading, LoadingController } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+
 
 import { StripForFirebase, UnitType, GetUnits, GetUnitNameFromEnum, FeasyUser, FeasyList, FeasyItem } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
@@ -23,7 +24,7 @@ export class AddOrShowItemPage {
   tabBarElement: any;
   @ViewChild('NameInput') NameInputField;
 
-  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, af: AngularFire, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.list_key = navParams.get('list_key');
     this.item_key = navParams.get('item_key');
@@ -43,7 +44,7 @@ export class AddOrShowItemPage {
         this.units = [];
         this.units = GetUnits();
       }
-      this.items_db = af.database.list('unpublished_lists/' + globals.UID + '/' + this.list_key + '/Items');
+      this.items_db = globals.af.list('unpublished_lists/' + globals.UID + '/' + this.list_key + '/Items');
     }
   }
   

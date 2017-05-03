@@ -2,7 +2,7 @@
 
 import { NavController, NavParams, AlertController } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
@@ -22,14 +22,14 @@ export class AddressViewPage {
   tabBarElement: any;
   @ViewChild('StreetNameInput') StreetNameInput;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController, public globals: Globals) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,  public alertCtrl: AlertController, public globals: Globals) {
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.list_key = navParams.get('list_key');
     if (this.list_key == null) {
       console.warn("AddressViewPage null list_key!!");
       navCtrl.pop();
     } else {
-      this.addresses_db = af.database.list('unpublished_lists/' + globals.UID + '/' + this.list_key + '/DeliveryAddresses');
+      this.addresses_db = globals.af.list('unpublished_lists/' + globals.UID + '/' + this.list_key + '/DeliveryAddresses');
       this.address_key = navParams.get('address_key');
       let address: DeliveryAddress = navParams.get('address');
       this.is_new = address == undefined || address == null;

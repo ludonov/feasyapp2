@@ -2,7 +2,7 @@
 
 import { NavController, NavParams, AlertController, Alert, Loading, LoadingController } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+
 
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, Candidate, Candidature } from '../../classes/Feasy';
 
@@ -25,7 +25,7 @@ export class DoShoppingListsPage {
   private no_accepted_lists: boolean = true;
   private no_pending_lists: boolean = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public globals: Globals, public af: AngularFire, public loadingCtrl: LoadingController, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public globals: Globals,  public loadingCtrl: LoadingController, public alertCtrl: AlertController) {
     
   }
 
@@ -48,7 +48,7 @@ export class DoShoppingListsPage {
           for (let cand in candidatures) {
             let candidature: Candidature = <Candidature>candidatures[cand];
             counter++;
-            this.af.database.object("/published_lists/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey).$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
+            this.globals.af.object("/published_lists/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey).$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
               let _list: FeasyList = snapshot.val();
               _list.ItemsCount = Object.keys(_list.Items).length;
               (_list as any).ChosenAddress = _list.DeliveryAddresses[candidature.AddressKey];

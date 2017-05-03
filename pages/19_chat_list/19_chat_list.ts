@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 
 import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+
 
 import { FeasyUser, FeasyList, FeasyItem, Review, StripForFirebase, Chat } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
@@ -16,7 +16,7 @@ export class ChatListPage {
   public MyChats: Array<any> = new Array<any>();
   public SingleChat: any;
 
-  constructor(public navCtrl: NavController, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController,  public globals: Globals, public alertCtrl: AlertController) {
     console.log("jhl");
   }
 

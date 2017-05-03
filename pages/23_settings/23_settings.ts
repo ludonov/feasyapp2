@@ -1,7 +1,6 @@
 ﻿import { Component } from '@angular/core';
 
 import { NavController} from 'ionic-angular';
-import { AngularFire } from 'angularfire2';
 
 import { Globals } from '../../classes/Globals';
 
@@ -16,14 +15,13 @@ import { TermsAndConditionsPage } from '../../pages/26_terms_and_conditions/26_t
 })
 export class SettingsPage {
 
-  constructor(public navCtrl: NavController, public af: AngularFire, public globals: Globals) {
+  constructor(public navCtrl: NavController,  public globals: Globals) {
   
   }
 
   logout(): void {
     console.log("Logging out: removing link to candidate refs");
-    this.globals.UnlinkAllWatchers();
-    this.af.auth.logout();
+    this.globals.afAuth.auth.signOut();
   }
 
   editProfile(): void {

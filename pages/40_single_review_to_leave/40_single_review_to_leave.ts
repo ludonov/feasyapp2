@@ -1,6 +1,6 @@
-import { Component, ApplicationRef, ChangeDetectorRef } from '@angular/core';
+﻿import { Component, ApplicationRef, ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+
 
 import { FeasyUser, FeasyList, FeasyItem, Review, Candidature } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
@@ -20,7 +20,7 @@ export class SingleReviewToLeavePage {
     public Demander: boolean;
     public PersonUnderReview: string;
 
-    constructor(public navParams: NavParams, public cd: ChangeDetectorRef, public navCtrl: NavController, public globals: Globals, public af: AngularFire, public alertCtrl: AlertController) {
+    constructor(public navParams: NavParams, public cd: ChangeDetectorRef, public navCtrl: NavController, public globals: Globals,  public alertCtrl: AlertController) {
        this.ReviewToLeave = navParams.get('ReviewToLeave');
        this.Demander = navParams.get('Demander');
        this.PersonUnderReview = navParams.get('PersonUnderReview');

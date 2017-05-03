@@ -2,7 +2,7 @@
 
 import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+
 
 import { FeasyUser, FeasyList, FeasyItem } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
@@ -23,14 +23,14 @@ export class PublicatedListNoShopperPage {
   public list: FeasyList = new FeasyList("");
   //public DeliveryAddresses: Object = {};
 
-  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, public alertCtrl: AlertController) {
     this.list_key = navParams.get('list_key');
     if (this.list_key == undefined || this.list_key == null) {
       console.warn("PublicatedListNoShopperPage null list_key. Going back.")
       navCtrl.pop();
     }
     this.list = globals.GetPublishedListByKey(this.list_key);
-    //af.database.object('published_lists/' + globals.UID + '/' + this.list_key).$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
+    //globals.af.object('published_lists/' + globals.UID + '/' + this.list_key).$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
     //  this.list = snapshot.val();
     //});
 
@@ -57,7 +57,7 @@ export class PublicatedListNoShopperPage {
 
   RemoveList(): void {
     console.log("Deleting published list: " + this.list.Name);
-    this.af.database.list('/published_lists/' + this.globals.UID).remove(this.list_key).then(res => {
+    this.globals.PublishedLists_db.remove(this.list_key).then(res => {
       console.log("Published list removed");
       this.navCtrl.pop();
     }).catch((res: Error) => {

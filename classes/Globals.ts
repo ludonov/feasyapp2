@@ -1,15 +1,17 @@
 ﻿
-import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candidates/14_publicated_list_candidates';
-import { PublicatedListWithShopperPovShopperPage } from '../pages/11B_publicated_list_with_shopper_pov_shopper/11B_publicated_list_with_shopper_pov_shopper';
-import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
-
 import { Injectable, ApplicationRef, ChangeDetectorRef } from '@angular/core';
 import { Http } from '@angular/http';
 import { NavController, AlertController, Alert, LoadingController, Loading, Platform } from 'ionic-angular';
-import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
-import { LocalNotifications } from 'ionic-native';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Observable } from 'rxjs/Observable';
+
+import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candidates/14_publicated_list_candidates';
+import { PublicatedListWithShopperPovShopperPage } from '../pages/11B_publicated_list_with_shopper_pov_shopper/11B_publicated_list_with_shopper_pov_shopper';
+import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
 
 
 import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, Chat, GenericWithKey } from './Feasy';
@@ -67,11 +69,13 @@ export class Globals {
   
   public JustRegistered: boolean = false;
 
-  public af: AngularFire;
+  public af: AngularFireDatabase;
+  public afAuth: AngularFireAuth;
   public navCtrl: NavController;
   public alertCtrl: AlertController;
   public loadingCtrl: LoadingController;
   public http: Http;
+  public localNotifications: LocalNotifications;
   public imagePicker: ImagePicker;
 
   constructor(platform: Platform, public applicationRef: ApplicationRef, public cd: ChangeDetectorRef) {
@@ -80,7 +84,7 @@ export class Globals {
 
 
   public StartConfigWatcher() {
-    this.config_db = this.af.database.object("/config");
+    this.config_db = this.af.object("/config");
     this.config_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
       let old_config: Config = new Config();
       Object.assign(old_config, this.config);
@@ -122,7 +126,7 @@ export class Globals {
   //LINK WATCHERS SECTION
 
   private LinkUserWatchers(): void {
-    this.User_db = this.af.database.object('/users/' + this.UID);
+    this.User_db = this.af.object('/users/' + this.UID);
     this.User_db.$ref.on("value", (_user: firebase.database.DataSnapshot) => {
       let u = _user.val();
       if (u != null) {
@@ -143,7 +147,7 @@ export class Globals {
 
     // PUBLISHED LISTS WATCHERS
 
-    this.PublishedLists_db = this.af.database.list('/published_lists/' + this.UID);
+    this.PublishedLists_db = this.af.list('/published_lists/' + this.UID);
     this.PublishedLists_db.$ref.on("child_added", (list: firebase.database.DataSnapshot) => {
       this.PublishedLists.push(this.copy_new_snapshot_list(list));
       this.NoPublishedLists = this.PublishedLists.length == 0;
@@ -173,7 +177,7 @@ export class Globals {
 
     // UNPUBLISHED LISTS WATCHERS
 
-    this.UnpublishedLists_db = this.af.database.list('/unpublished_lists/' + this.UID);
+    this.UnpublishedLists_db = this.af.list('/unpublished_lists/' + this.UID);
     this.UnpublishedLists_db.$ref.on("child_added", (list: firebase.database.DataSnapshot) => {
       this.UnpublishedLists.push(this.copy_new_snapshot_list(list));
       this.NoUnpublishedLists = this.UnpublishedLists.length == 0;
@@ -203,7 +207,7 @@ export class Globals {
 
     // TERMINATED LISTS AS DEMANDER WATCHERS
 
-    this.TerminatedListsAsDemander_db = this.af.database.list('/terminated_lists/' + this.UID + '/as_demander');
+    this.TerminatedListsAsDemander_db = this.af.list('/terminated_lists/' + this.UID + '/as_demander');
     this.TerminatedListsAsDemander_db.$ref.on("child_added", (list: firebase.database.DataSnapshot) => {
       this.TerminatedListsAsDemander.push(this.copy_new_snapshot_list(list));
       this.NoTerminatedListsAsDemander = this.TerminatedListsAsDemander.length == 0;
@@ -233,7 +237,7 @@ export class Globals {
 
     // TERMINATED LISTS AS SHOPPER WATCHERS
 
-    this.TerminatedListsAsShopper_db = this.af.database.list('/terminated_lists/' + this.UID + '/as_shopper');
+    this.TerminatedListsAsShopper_db = this.af.list('/terminated_lists/' + this.UID + '/as_shopper');
     this.TerminatedListsAsShopper_db.$ref.on("child_added", (list: firebase.database.DataSnapshot) => {
       this.TerminatedListsAsShopper.push(this.copy_new_snapshot_list(list));
       this.NoTerminatedListsAsShopper = this.TerminatedListsAsShopper.length == 0;
@@ -272,7 +276,7 @@ export class Globals {
 
     try {
 
-      this.Candidatures_db = this.af.database.list('/candidatures/' + this.UID);
+      this.Candidatures_db = this.af.list('/candidatures/' + this.UID);
       this.AppliedLists = new Array<FeasyList>();
       this.AcceptedLists = new Array<FeasyList>();
       this.NoAcceptedLists = true;
@@ -294,7 +298,7 @@ export class Globals {
         let candidature: Candidature = _candidature.val();
         candidature.$key = _candidature.key;
         this.Candidatures.push(candidature);
-        this.af.database.object("/published_lists/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey).$ref.once("value", (_list: firebase.database.DataSnapshot) => {
+        this.af.object("/published_lists/" + candidature.ListOwnerUid + "/" + candidature.ListReferenceKey).$ref.once("value", (_list: firebase.database.DataSnapshot) => {
           let list: FeasyList = this.copy_new_snapshot_list(_list);
           (list as any).Candidature = candidature;
           (list as any).ChosenAddress = list.DeliveryAddresses[candidature.AddressKey];
@@ -340,13 +344,13 @@ export class Globals {
             alert.present();
           } else {
             // Schedule a single notification
-            LocalNotifications.schedule({
+            this.localNotifications.schedule({
               id: 1,
               title: "Sei stato accettato!",
               text: "Clicca per vedere i dettagli",
               icon: 'res://icon'
             });
-            LocalNotifications.on("click", (notification) => {
+            this.localNotifications.on("click", (notification) => {
               this.navCtrl.push(PublicatedListWithShopperPovShopperPage, { list_owner: candidature.ListOwnerUid, list_key: candidature.ListReferenceKey, candidature_key: _candidature.key, candidature: candidature });
             });
           }
@@ -385,7 +389,7 @@ export class Globals {
 
   private LinkCandidatesWatchers(): void {
     try {
-      this.Candidates_db = this.af.database.list("/candidates/" + this.UID);
+      this.Candidates_db = this.af.list("/candidates/" + this.UID);
       //this.candidates_refs.push(this.Candidates_db.$ref.ref);
 
       this.Candidates_db.$ref.on("child_removed", (removed_list: firebase.database.DataSnapshot) => {
@@ -418,14 +422,14 @@ export class Globals {
             alert.present();
           } else {
             // Schedule a single notification
-            LocalNotifications.schedule({
+            this.localNotifications.schedule({
               id: 1,
               title: 'Nuovo candidato!',
               text: "Clicca per vedere i dettagli",
               data: { list_owner: this.UID, list_key: candidate.ListReferenceKey },
               icon: 'res://icon'
             });
-            LocalNotifications.on("click", (notification) => {
+            this.localNotifications.on("click", (notification) => {
               this.navCtrl.push(PublicatedListCandidatesPage, { list_key: candidate.ListReferenceKey });
             });
           }
@@ -475,7 +479,7 @@ export class Globals {
   private LinkReviewsWatchers(): void {
 
     try {
-      this.Reviews_db = this.af.database.list('/reviews/' + this.UID + '/done');
+      this.Reviews_db = this.af.list('/reviews/' + this.UID + '/done');
 
       this.Reviews_db.$ref.on("child_removed", (removed_review: firebase.database.DataSnapshot) => {
         this.DeleteFromArrayByKey(this.Reviews, removed_review.key);
@@ -509,14 +513,14 @@ export class Globals {
 
   private LinkUserChatsWatchers(): void {
     
-    // this.UserChats_db = this.af.database.list("/user_chats/" + this.UID);
+    // this.UserChats_db = this.af.list("/user_chats/" + this.UID);
     // this.UserChats_db.$ref.on("value", (_userchat: firebase.database.DataSnapshot) => {
     //   let userchat: Chat = _userchat.val();
     //   this.UserChats[_userchat.key] = userchat;
     // });
     
     try {
-      this.UserChats_db = this.af.database.list("user_chats/" + this.UID);
+      this.UserChats_db = this.af.list("user_chats/" + this.UID);
       this.UserChats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
         this.DeleteFromArrayByKey(this.UserChats, removed_chat.key);
         this.ForceAppChanges();
@@ -548,14 +552,14 @@ export class Globals {
 
   private LinkChatsWatchers(): void {
     
-    // this.Chats_db = this.af.database.list("/chats");
+    // this.Chats_db = this.af.list("/chats");
     // this.Chats_db.$ref.on("value", (_chat: firebase.database.DataSnapshot) => {
     //   let chat: Chat = _chat.val();
     //   this.Chats[_chat.key] = chat;
     // });
     
     try {
-      this.Chats_db = this.af.database.list("/chats");
+      this.Chats_db = this.af.list("/chats");
       this.Chats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
         this.DeleteFromArrayByKey(this.Chats, removed_chat.key);
         this.ForceAppChanges();

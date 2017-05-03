@@ -2,8 +2,6 @@
 
 import { NavController, NavParams, AlertController, Tabs, LoadingController, Loading, LoadingOptions, Alert } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
-
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, Candidate, StripForFirebase } from '../../classes/Feasy';
 
 import { Globals } from '../../classes/Globals';
@@ -22,7 +20,7 @@ export class PublicatedListCandidatesPage {
   private cands: Array<Candidate> = new Array<Candidate>();
   //private NoCandidates: boolean = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, @Inject(forwardRef(() => Globals)) public globals: Globals, public loadingCtrl: LoadingController, public af: AngularFire, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, @Inject(forwardRef(() => Globals)) public globals: Globals, public loadingCtrl: LoadingController, public alertCtrl: AlertController) {
     this.list_key = navParams.get("list_key");
 
     if (this.list_key == null) {
@@ -43,7 +41,7 @@ export class PublicatedListCandidatesPage {
         }
       }
       if (Object.keys(unvisualisedCandidates).length > 0) {
-        globals.af.database.list("/candidates").update(globals.UID, StripForFirebase(unvisualisedCandidates));
+        globals.af.list("/candidates").update(globals.UID, StripForFirebase(unvisualisedCandidates));
       }
     }
   }
