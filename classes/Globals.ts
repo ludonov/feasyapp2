@@ -47,7 +47,7 @@ export class Globals {
   public Reviews: Object = {};
   public Reviews_db: FirebaseListObservable<any>;
 
-  public UserChats: Object = {};
+  public UserChats: Array<Chat> = new Array();
   public UserChats_db: FirebaseListObservable<any>;
 
   public Chats: Array<Chat> = new Array();
@@ -440,63 +440,64 @@ export class Globals {
 
   private LinkUserChatsWatchers(): void {
     
-    this.UserChats_db = this.af.database.list("/user_chats/" + this.UID);
-    this.UserChats_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-      this.UserChats = snapshot.val();
-    });
+    // this.UserChats_db = this.af.database.list("/user_chats/" + this.UID);
+    // this.UserChats_db.$ref.on("value", (_userchat: firebase.database.DataSnapshot) => {
+    //   let userchat: Chat = _userchat.val();
+    //   this.UserChats[_userchat.key] = userchat;
+    // });
     
-    // try {
-      // this.UserChats_db = this.af.database.list("user_chats/" + this.UID);
-      // this.UserChats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
-      //   delete this.UserChats[removed_chat.key];
-      // });
+    try {
+      this.UserChats_db = this.af.database.list("user_chats/" + this.UID);
+      this.UserChats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
+        delete this.UserChats[removed_chat.key];
+      });
 
-      // this.UserChats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {
-      //   let chat: string = _chat.val();
-      //   if (chat != null)
-      //     this.UserChats[_chat.key] = chat;
-      // });
+      this.UserChats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {
+        let chat: string = _chat.val();
+        if (chat != null)
+          this.UserChats[_chat.key] = chat;
+      });
 
-      // this.UserChats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
-      //   let chat: string = _chat.val();
-      //   if (chat != null)
-      //     this.UserChats[_chat.key] = chat;
-      // });
+      this.UserChats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
+        let chat: string = _chat.val();
+        if (chat != null)
+          this.UserChats[_chat.key] = chat;
+      });
 
-    // } catch(e) {
-    //   console.log("Globals.LinkUserChatsWatchers catch err: " + JSON.stringify(e));
-    // }
+    } catch(e) {
+      console.log("Globals.LinkUserChatsWatchers catch err: " + JSON.stringify(e));
+    }
   }
 
   private LinkChatsWatchers(): void {
     
-    this.Chats_db = this.af.database.list("/chats");
-    this.Chats_db.$ref.on("value", (_chat: firebase.database.DataSnapshot) => {
-      let chat: Chat = _chat.val();
-      this.Chats[_chat.key] = chat;
-    });
+    // this.Chats_db = this.af.database.list("/chats");
+    // this.Chats_db.$ref.on("value", (_chat: firebase.database.DataSnapshot) => {
+    //   let chat: Chat = _chat.val();
+    //   this.Chats[_chat.key] = chat;
+    // });
     
-    // try {
-      // this.Chats_db = this.af.database.list("chats/");
-      // this.Chats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
-      //   delete this.Chats[removed_chat.key];
-      // });
+    try {
+      this.Chats_db = this.af.database.list("/chats");
+      this.Chats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
+        delete this.Chats[removed_chat.key];
+      });
 
-      // this.Chats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {
-      //   let chat: string = _chat.val();
-      //   if (chat != null)
-      //     this.Chats[_chat.key] = chat;
-      // });
+      this.Chats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {
+        let chat: string = _chat.val();
+        if (chat != null)
+          this.Chats[_chat.key] = chat;
+      });
 
-      // this.Chats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
-      //   let chat: string = _chat.val();
-      //   if (chat != null)
-      //     this.Chats[_chat.key] = chat;
-      // });
+      this.Chats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
+        let chat: string = _chat.val();
+        if (chat != null)
+          this.Chats[_chat.key] = chat;
+      });
 
-    // } catch (e) {
-    //   console.log("Globals.LinkChatsWatchers catch err: " + JSON.stringify(e));
-    // }
+    } catch (e) {
+      console.log("Globals.LinkChatsWatchers catch err: " + JSON.stringify(e));
+    }
   }  
 
   // UNLINK WATCHERS SECTION

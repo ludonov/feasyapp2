@@ -22,7 +22,7 @@ export class ChatListPage {
 
   ionViewDidEnter() {
     console.log("jhl2");
-    for (let userchat_key in this.globals.UserChats_db) {
+    for (let userchat_key in this.globals.UserChats) {
       console.log("jhl3");
       let chat: Chat = this.globals.Chats[userchat_key];
       this.SingleChat = chat;
