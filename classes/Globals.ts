@@ -12,7 +12,7 @@ import { ImagePicker } from '@ionic-native/image-picker';
 import { Observable } from 'rxjs/Observable';
 
 
-import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, ResizeImage, Chat, GenericWithKey } from './Feasy';
+import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, Chat, GenericWithKey } from './Feasy';
 
 
 @Injectable()
