@@ -35,7 +35,8 @@ export class PublicatedListWithShopperPovShopperPage {
       navCtrl.pop();
     } else {
       this.af.database.object("/users/" + this.list_owner).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
-        this.demander = snapshot.val() || new FeasyUser("", "", "");
+        Object.assign(this.demander, snapshot.val());
+        this.demander.SetImageOrDefault();
       });
       this.af.database.object("/published_lists/" + this.list_owner + "/" + this.list_key).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
         let _val = snapshot.val();

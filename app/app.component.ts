@@ -78,61 +78,67 @@ export class MyApp {
           globals.User.Email = user.auth.email;
 
           //FACEBOOK
-          if (user.provider == AuthProviders.Facebook) {
-            globals.User.DisplayName = user.auth.displayName;
-            //globals.User.PhotoURL = user.auth.photoURL;
-            let user_db: FirebaseObjectObservable<any> = af.database.object("users/" + user.uid);
-            user_db.$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
-              console.log("Found FB user. Checking if user exists and updating user data...");
-              let userdata: FeasyUser = snapshot.val();
-              if (userdata == null) {
-                console.log("Just registered! Updating FB user data and Redirecting to Personal details");
-                user_db.set(StripForFirebase(globals.User))
-                  .then(res => {
-                    console.log("FB user data updated");
-                  })
-                  .catch((err: Error) => {
-                    console.warn("Cannot update fb user data: " + err.message);
-                  });
-                this.setRoot(SetPersonalDetailsPage);
-                loading.dismiss();
-              }
-              else {
-                globals.User = userdata;
-                console.log("Redirecting to tab root 1");
-                this.setRoot(TabsPage);
-                loading.dismiss();
-              }
-            });
-            console.log("Name: " + this.globals.User.DisplayName);
+          //if (user.provider == AuthProviders.Facebook) {
+          //  globals.User.DisplayName = user.auth.displayName;
+          //  //globals.User.PhotoURL = user.auth.photoURL;
+          //  let user_db: FirebaseObjectObservable<any> = af.database.object("users/" + user.uid);
+          //  user_db.$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
+          //    console.log("Found FB user. Checking if user exists and updating user data...");
+          //    let userdata: FeasyUser = snapshot.val();
+          //    if (userdata == null) {
+          //      console.log("Just registered! Updating FB user data and Redirecting to Personal details");
+          //      //user_db.set(StripForFirebase(globals.User))
+          //      //  .then(res => {
+          //      //    console.log("FB user data updated");
+          //      //  })
+          //      //  .catch((err: Error) => {
+          //      //    console.warn("Cannot update fb user data: " + err.message);
+          //      //  });
+          //      this.setRoot(SetPersonalDetailsPage);
+          //      loading.dismiss();
+          //    }
+          //    else {
+          //      globals.User = userdata;
+          //      console.log("Redirecting to tab root 1");
+          //      this.setRoot(TabsPage);
+          //      loading.dismiss();
+          //    }
+          //  });
+          //  console.log("Name: " + this.globals.User.DisplayName);
 
 
-          //NORMAL
-          } else {
-            console.log("Found normal User");
-            globals.User.PhotoURL = "assets/img/unknown_man.png";
+          ////NORMAL
+          //} else {
+
+            //console.log("Found normal User");
+            //globals.User.PhotoURL = "assets/img/unknown_man.png";
             if (globals.JustRegistered) {
               globals.JustRegistered = false;
-              console.log("Just registered! Redirecting to Personal details");
-              user.auth.updateProfile({
-                displayName: this.globals.User.DisplayName,
-                photoURL: this.globals.User.PhotoURL,
+              console.log("Just registered! Updating userdata and Redirecting to Personal details");
+              //user.auth.updateProfile({
+              //  displayName: this.globals.User.DisplayName,
+              //  photoURL: this.globals.User.PhotoURL
+              //});
+              this.af.database.object("users/" + user.uid).update(this.globals.User).then((res) => {
+                console.log("User data updated");
+              }).catch((err: Error) => {
+                console.warn("Cannot update user data: " + err.message);
               });
               this.setRoot(SetPersonalDetailsPage);
               loading.dismiss();
             }
             else {
-              if (user.auth.displayName == null) {
-                user.auth.updateProfile({
-                  displayName: this.globals.User.DisplayName,
-                  photoURL: this.globals.User.PhotoURL,
-                });
-              }
-              console.log("Redirecting to tab root 1");
+              //if (user.auth.displayName == null) {
+              //  user.auth.updateProfile({
+              //    displayName: this.globals.User.DisplayName,
+              //    photoURL: this.globals.User.PhotoURL
+              //  });
+              //}
+              console.log("Redirecting to homepage");
               this.setRoot(TabsPage);
               loading.dismiss();
             }
-          }
+          //}
           globals.LinkAllWatchers();
         } else {
           console.log("User auth not found, redirecting to Login");
@@ -180,6 +186,7 @@ export class MyApp {
     console.log("Logging out: removing link to candidate refs");
     this.globals.UnlinkAllWatchers();
     this.af.auth.logout();
+    this.globals.User = new FeasyUser("", "", "");
     this.menuCtrl.close();
   }
 

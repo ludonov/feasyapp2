@@ -19,8 +19,7 @@ import { PublicatedListWithShopperPovShopperPage } from '../../pages/11B_publica
 
 @Component({
   selector: 'page-lists',
-  templateUrl: '6_lists.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: '6_lists.html'
 })
 export class ListsPage {
 
@@ -37,10 +36,8 @@ export class ListsPage {
   public num_items: number = 0;
 
   //DEMANDER LISTS
-  private accepted_lists: Object = {};
-  private pending_lists: Object = {};
-  private no_accepted_lists: boolean = true;
-  private no_pending_lists: boolean = true;
+  //private accepted_lists: Array<FeasyList> = new Array<FeasyList>();
+  //private pending_lists: Array<FeasyList> = new Array<FeasyList>();
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController, @Inject(forwardRef(() => Globals)) public globals: Globals, public loadingCtrl: LoadingController) {
 
@@ -132,12 +129,12 @@ export class ListsPage {
 
   goToAcceptedList(list: any): void {
     console.log("going to accepted list");
-    this.navCtrl.push(PublicatedListWithShopperPovShopperPage, { list_owner: list.value.Candidature.ListOwnerUid, list_key: list.value.Candidature.ListReferenceKey, candidature: list.value.Candidature });
+    this.navCtrl.push(PublicatedListWithShopperPovShopperPage, { list_owner: list.Candidature.ListOwnerUid, list_key: list.Candidature.ListReferenceKey, candidature: list.Candidature });
   }
 
   goToPendingList(list: any): void {
     console.log("going to pending list");
-    this.navCtrl.push(ListFromMapPage, { list_owner: list.value.Candidature.ListOwnerUid, list_key: list.value.Candidature.ListReferenceKey, address_key: list.value.Candidature.AddressKey });
+    this.navCtrl.push(ListFromMapPage, { list_owner: list.Candidature.ListOwnerUid, list_key: list.Candidature.ListReferenceKey, address_key: list.Candidature.AddressKey });
   }
 
   map(): void {

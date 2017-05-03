@@ -1,6 +1,6 @@
 ﻿<ion-header>
   <ion-navbar>
-    <ion-title>{{globals.PublishedLists[this.list_key].Name}}</ion-title>
+    <ion-title>{{list.Name}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -11,7 +11,7 @@
       <ion-list>
         <ion-item-divider color="light" class="item-title">DETTAGLI CONSEGNA</ion-item-divider>
 
-        <ion-item class="item-icon-right"  type="item-text-wrap"  (click)="ViewAddress(address)" *ngFor="let address of globals.PublishedLists[this.list_key].DeliveryAddresses | keys">
+        <ion-item class="item-icon-right"  type="item-text-wrap"  (click)="ViewAddress(address)" *ngFor="let address of list.DeliveryAddresses | keys">
           <h2>{{address.value.FormattedAddress}}</h2>
           <p>dalle {{address.value.From}} &nbsp; alle {{address.value.To}}</p>
           <i class="icon ion-chevron-right icon-accessory"></i>
@@ -22,23 +22,23 @@
 
         <ion-item>
           Mancia (€)
-          <ion-note item-right>{{globals.PublishedLists[this.list_key].Reward}}</ion-note>
+          <ion-note item-right>{{list.Reward}}</ion-note>
 			  </ion-item>
         <ion-item>
           Negozio
-          <ion-note item-right>{{globals.PublishedLists[this.list_key].PreferredShops}}</ion-note>
+          <ion-note item-right>{{list.PreferredShops}}</ion-note>
 			  </ion-item>
         <ion-item>
           Peso stimato (kg)
-          <ion-note item-right>{{globals.PublishedLists[this.list_key].EstimatedWeight}}</ion-note>
+          <ion-note item-right>{{list.EstimatedWeight}}</ion-note>
         </ion-item>
         <ion-item>
           Tetto massimo (€)
-          <ion-note item-right>{{globals.PublishedLists[this.list_key].MaxValue}}</ion-note>
+          <ion-note item-right>{{list.MaxValue}}</ion-note>
         </ion-item>
         <ion-item>
           Commenti
-          <ion-note item-right>{{globals.PublishedLists[this.list_key].Comments}}</ion-note>
+          <ion-note item-right>{{list.Comments}}</ion-note>
 			  </ion-item>
 
         <div class="spacer" style="height: 32px;"></div>

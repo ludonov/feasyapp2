@@ -10,10 +10,10 @@
       <div class="spacer" style="height: 16px;"></div>
       <ion-item class="profile-item">
         <div class="profile-picture">
-          <!--<img src="{{globals.PhotoURL}}">-->
-            <img src="../assets/img/17_Profilo/Daniele.jpg">
+          <img src="{{globals.User.PhotoURL}}">
+          <!--<img src="../assets/img/17_Profilo/Daniele.jpg">-->
         </div>
-        <h2 class="profile-name dark">{{user_db.Email}}</h2>
+        <h2 class="profile-name dark">{{globals.User.FirstName}} {{globals.User.LastName}}</h2>
       </ion-item>
 
       <ion-item ion-item (click)="goToProfile()">

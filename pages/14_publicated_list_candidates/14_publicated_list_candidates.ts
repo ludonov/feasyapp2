@@ -4,7 +4,7 @@ import { NavController, NavParams, AlertController, Tabs, LoadingController, Loa
 
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
-import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, Candidate } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, Candidate, StripForFirebase } from '../../classes/Feasy';
 
 import { Globals } from '../../classes/Globals';
 
@@ -19,8 +19,8 @@ export class PublicatedListCandidatesPage {
   //private candidates_db: FirebaseListObservable<any>;
   private candidates: Object = {};
   private list_key: string;
-  private cands: Object = {};
-  private NoCandidates: boolean = true;
+  private cands: Array<Candidate> = new Array<Candidate>();
+  //private NoCandidates: boolean = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, @Inject(forwardRef(() => Globals)) public globals: Globals, public loadingCtrl: LoadingController, public af: AngularFire, public alertCtrl: AlertController) {
     this.list_key = navParams.get("list_key");
@@ -35,22 +35,21 @@ export class PublicatedListCandidatesPage {
       // imposta già tutti i candidates come già visti, perché ho aperto la pagina
       console.log("Setting all candidates as visualised");
       this.cands = globals.GetAllCandidatesForList(this.list_key);
-      for (let cand in this.cands) {
-        if (!this.cands[cand].Visualised) {
-          unvisualisedCandidates[cand] = {};
-          Object.assign(unvisualisedCandidates[cand], this.cands[cand]);
-          unvisualisedCandidates[cand].Visualised = true;
+      for (let cand of this.cands) {
+        if (!cand.Visualised) {
+          unvisualisedCandidates[cand.$key] = {};
+          Object.assign(unvisualisedCandidates[cand.$key], StripForFirebase(cand));
+          unvisualisedCandidates[cand.$key].Visualised = true;
         }
       }
-      this.NoCandidates = Object.keys(this.cands).length == 0;
       if (Object.keys(unvisualisedCandidates).length > 0) {
-        globals.af.database.list("/candidates").update(globals.UID, unvisualisedCandidates);
+        globals.af.database.list("/candidates").update(globals.UID, StripForFirebase(unvisualisedCandidates));
       }
     }
   }
 
   ViewCandidate(candidate): void {
-    this.navCtrl.push(CandidateInfoUnacceptedPage, { candidate: candidate.value, candidate_key: candidate.key, list_key: this.list_key })
+    this.navCtrl.push(CandidateInfoUnacceptedPage, { candidate: candidate, candidate_key: candidate.$key, list_key: this.list_key })
   }
 
 }

@@ -47,9 +47,6 @@ export class SignupPage {
     } else {
       console.log("Normal logging...");
       this.globals.JustRegistered = true;
-      this.globals.User.DisplayName = this.userdata.FirstName + " " + this.userdata.LastName;
-      this.globals.User.Email = this.userdata.Email;
-      this.globals.User.PhotoURL = "";
       this.af.auth.createUser(
         {
           email: this.userdata.Email,
@@ -59,12 +56,8 @@ export class SignupPage {
           if (user != undefined && user.uid != undefined) {
             console.log("User successfully created. ID: " + user.uid);
             delete this.userdata.Password;
-            this.userdata.DisplayName = this.userdata.FirstName + " " + this.userdata.LastName;
-            this.af.database.object("users/" + user.uid).set(this.userdata).then((res) => {
-              console.log("User data updated");
-            }).catch((err: Error) => {
-              console.warn("Cannot update user data: " + err.message);
-            });
+            this.userdata.DisplayName = this.userdata.FirstName + " " + this.userdata.LastName[0] + ".";
+            this.globals.User = this.userdata;
           }
         })
         .catch((error: FirebaseError) => {
