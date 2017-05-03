@@ -10,7 +10,7 @@
 </ion-header>
 
 
-<ion-content scroll="false" style="" class="has-header background-color-body">
+<ion-content>
     <h6 class="center" *ngIf="list != undefined && list.ItemsCount == 0">Nessun prodotto in lista, aggiungilo!</h6>
     <ion-list *ngIf="list != undefined">
       <ion-item (click)="goToItem(item)" *ngFor="let item of list.Items | keys">
@@ -30,7 +30,7 @@
     </div>
 
     <div class="spacer" style="height: 16px;"></div>
-    <div class="lateral-padding">
+    <div class="lateral-bottom-padding">
       <button ion-button block outline color="secondary" (click)="deleteList()">Elimina lista</button>
     </div>
 

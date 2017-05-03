@@ -5,56 +5,48 @@
 </ion-header>
 
 
-<ion-content style="right:0; bottom:0; left:0; position:absolute;" class="has-header background-color-body no-scroll">
-  
-  <ion-list class="center">
+<ion-content class="no-scroll">
+  <ion-grid class="center-vertically-grid-rows">
+    <ion-list class="center">
 
-  <ion-item-group>
-    <div class="spacer" style="height: 64px;"></div>
-    <ion-item class="center">
-      <ion-label fixed>Email</ion-label>
-      <ion-input [(ngModel)]="userdata.Email" type="text" value=""></ion-input>
-    </ion-item>
+        <ion-item-group>
+          <ion-item>
+            <ion-input [(ngModel)]="userdata.Email" type="text" placeholder="Email"></ion-input>
+          </ion-item>
 
-    <ion-item class="center">
-      <ion-label fixed>Password</ion-label>
-      <ion-input [(ngModel)]="userdata.Password" type="password" value=""></ion-input>
-    </ion-item>
-  </ion-item-group>
+          <ion-item>
+            <ion-input [(ngModel)]="userdata.Password" type="password" placeholder="Password"></ion-input>
+          </ion-item>
+        </ion-item-group>
+        
+        <div class="spacer" style="height: 16px;"></div>
 
-    <div class="spacer" style="height: 32px;"></div>
-    <div class="lateral-padding">
-      <button ion-button block color="secondary" (click)="normalSignIn()">Accedi</button>
-    </div>
+        <div class="lateral-padding">
+          <button ion-button block color="secondary" (click)="normalSignIn()">Accedi</button>
+        </div>
 
-    <p>
-      <a (click)="recoverPass()">Password dimenticata?</a>
-    </p>
+        <p><a (click)="recoverPass()" color="secondary">Password dimenticata?</a></p>
 
-    <div class="spacer" style="height: 16px;"></div>
+        <p padding class="or-separator">O<p>
 
-    <p padding class="or-separator">OR<p>
+        <p class="center">Non hai ancora un account? Iscriviti!</p>
 
-    <div class="spacer" style="height: 16px;"></div>
+        <div class="lateral-padding">
+          <button ion-button block icon-left style="background-color:#3b5998" (click)="facebookSignIn()">
+            <ion-icon name="logo-facebook"></ion-icon>
+            Accedi con Facebook
+          </button>
+        </div>
 
-    <p padding class="center">Non hai ancora un account? Iscriviti!</p>
+        <div class="spacer" style="height: 16px;"></div>
 
-    <div class="lateral-padding">
-      <button ion-button block icon-left style="background-color:#3b5998" (click)="facebookSignIn()">
-        <ion-icon name="logo-facebook"></ion-icon>
-        Accedi con Facebook
-      </button>
-    </div>
+        <div class="lateral-bottom-padding">
+          <button ion-button block icon-left color="secondary" (click)="signUp()">
+            <ion-icon name="mail"></ion-icon>
+            Iscriviti con Email
+          </button>
+        </div>
 
-    <div class="spacer" style="height: 20px;"></div>
-
-    <div class="lateral-padding">
-      <button ion-button block icon-left color="secondary" (click)="signUp()">
-        <ion-icon name="mail"></ion-icon>
-        Iscriviti con Email
-      </button>
-    </div>
-
-  </ion-list>
-
+    </ion-list>
+  </ion-grid>
 </ion-content>
