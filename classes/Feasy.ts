@@ -247,13 +247,24 @@ export class Review {
 
 export class Chat {
   public $key: string;
-  public Rating: number;
   public DemanderName: string;
   public ShopperName: string;
   public DemanderUid: string;
   public ShopperUid: string;
   public LastMessage: string;
   public ListKey: string;
+  public Messages: Object;
+
+  constructor() {
+
+  }
+}
+
+export class Message {
+  public $key: string;
+  public Text: string;
+  public Date: string;
+  public isMine: boolean;
 
   constructor() {
 

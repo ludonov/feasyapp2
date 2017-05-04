@@ -11,13 +11,16 @@
 
     <ion-list>
 
-      <ion-item *ngFor="let chat1 of MyChats">
+      <ion-item *ngFor="let chat1 of MyChats" (click)="GoToChat(chat1.$key)">
       <ion-avatar item-left>
-        <!--<img src="img/Daniele.png">-->
+        <!--<img src="{{Chat.PhotoURL}}">-->
        </ion-avatar>
         <h2>{{chat1.OtherPerson}}</h2>
-        <p>Lista supermercato</p>
       </ion-item>
 
-    </ion-list>
-  </ion-content>
+</ion-list>
+
+</ion-content>
+
+
+    

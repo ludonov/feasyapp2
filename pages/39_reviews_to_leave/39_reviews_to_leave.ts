@@ -22,7 +22,7 @@ export class ReviewsToLeavePage {
     public ReviewsToLeaveAsShopper: Array<any> = new Array<any>();
 
     public TerminatedLists_db: FirebaseListObservable<any>; 
-    public TerminatedListsAsDemander: Object = {};
+    public TerminatedListsAsDemander: Object = {}; 
     public TerminatedListsAsShopper: Object = {};
 
     constructor(public cd: ChangeDetectorRef, public navCtrl: NavController, public globals: Globals,  public alertCtrl: AlertController) {

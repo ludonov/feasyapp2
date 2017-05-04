@@ -1,11 +1,22 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Chat</ion-title>
+    <ion-title>{{PersonInContact}}</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content scroll="false" class="has-header has-tabs background-color-body">
+<ion-content padding class="background-color-body">
 
-
+ <div class="chat">
+  <div class="bubble me" *ngFor="let mess of Messages | keys">{{mess.value.Text}}</div>
+</div>
 
 </ion-content>
+
+<ion-footer>
+  <ion-grid>
+    <ion-row>
+      <ion-input type="text" #input placeholder="" [(ngModel)]="new_message"></ion-input>
+      <button ion-fab mini class="send" (click)="SendMessage(input)"><ion-icon name="send"></ion-icon></button>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
