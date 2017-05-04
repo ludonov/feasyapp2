@@ -27,6 +27,8 @@ export class Globals {
   public UID: string = "";
   public IsWeb: boolean = true;
 
+  public WatchersLinked: boolean = false;
+
   public User: FeasyUser = new FeasyUser("", "", "");
   public User_db: FirebaseObjectObservable<any>;
 
@@ -113,13 +115,16 @@ export class Globals {
   }
 
   public LinkAllWatchers(): void {
-    this.LinkUserWatchers();
-    this.LinkListsWatchers();
-    this.LinkCandidatesWatchers();
-    this.LinkCandidaturesWatchers();
-    this.LinkReviewsWatchers();
-    this.LinkUserChatsWatchers();
-    this.LinkChatsWatchers();
+    if (!this.WatchersLinked) {
+      this.LinkUserWatchers();
+      this.LinkListsWatchers();
+      this.LinkCandidatesWatchers();
+      this.LinkCandidaturesWatchers();
+      this.LinkReviewsWatchers();
+      this.LinkUserChatsWatchers();
+      this.LinkChatsWatchers();
+      this.WatchersLinked = true;
+    }
   }
 
 
@@ -592,11 +597,14 @@ export class Globals {
   // UNLINK WATCHERS SECTION
 
   public UnlinkAllWatchers(): void {
-    this.UnlinkUserWatchers();
-    this.UnlinkListsWatchers();
-    this.UnlinkCandidatesWatchers();
-    this.UnlinkCandidaturesWatchers();
-    this.UnlinkReviewsWatchers();
+    if (this.WatchersLinked) {
+      this.UnlinkUserWatchers();
+      this.UnlinkListsWatchers();
+      this.UnlinkCandidatesWatchers();
+      this.UnlinkCandidaturesWatchers();
+      this.UnlinkReviewsWatchers();
+      this.WatchersLinked = false;
+    }
   }
 
   private UnlinkUserWatchers(): void {
