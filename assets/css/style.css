@@ -290,6 +290,7 @@ position: absolute;
 
 .profile-picture img {
   width: 128px;
+  height: 128px; /*Prova per non ovalizzare, togliere se necessario*/
   border-radius: 100%;
 }
 

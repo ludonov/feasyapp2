@@ -15,7 +15,7 @@
 			<div class="profile-picture">
 				<img src="{{user.PhotoURL}}">
 			</div>
-			<h2 class="profile-name dark">{{user.FirstName}} {{user.LastName}}</h2>
+			<h2 class="profile-name" color="secondary">{{user.FirstName}} {{user.LastName}}</h2>
 			<p class="center">{{user.Email}}</p>
 		</ion-item>
 	</ion-card>
@@ -24,10 +24,10 @@
 		<ion-row>
 			<ion-col>
 				<ion-card color="secondary">
-					<ion-card-header>
+					<ion-card-header clas="center">
 						Fatte
 					</ion-card-header>
-					<ion-card-content>
+					<ion-card-content clas="center">
 						10
 					</ion-card-content>
 				</ion-card>
@@ -43,13 +43,13 @@
 				</ion-card>
 			</ion-col>
 			<ion-col>
-				<ion-card>
-						<div style="height: 30px;" class="center" color="secondary">
-							Voto
-						</div>
-						<div style="background-color: white; height: 30px;" class="center">
-							Voto
-						</div>
+				<ion-card color="secondary">
+					<ion-card-header>
+						Voto
+					</ion-card-header>
+					<ion-card-content>
+						Voto
+					</ion-card-content>
 				</ion-card>
 			</ion-col>
 		</ion-row>
