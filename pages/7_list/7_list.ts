@@ -2,8 +2,6 @@
 
 import { NavController, NavParams, AlertController } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
-
 import { FeasyUser, FeasyList, FeasyItem, GetUnitNameFromEnum } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
@@ -17,11 +15,10 @@ import { PublicateListFirstPage } from '../../pages/9A_publicate_list/9A_publica
 export class ListPage {
 
   public list_key: string;
-  public items_db: FirebaseListObservable<any>;
   public no_items: boolean = true;
   private list: FeasyList = new FeasyList("");
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController, public globals: Globals) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public globals: Globals) {
     this.list_key = navParams.get('list_key');
     if (this.list_key == null) {
       console.warn("ListPage null list_key!!");
@@ -29,7 +26,7 @@ export class ListPage {
     } else {
       this.list = globals.GetUnpublishedListByKey(this.list_key);
       this.no_items = Object.keys(this.list.Items).length == 0;
-      //this.items_db = af.database.list('unpublished_lists/' + globals.UID + '/' + this.list.$key + '/Items');
+      //this.items_db = globals.af.list('unpublished_lists/' + globals.UID + '/' + this.list.$key + '/Items');
       //this.items_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
       //  console.log("VALUE ITEMS!");
       //  this.no_items = !snapshot.hasChildren();
@@ -66,7 +63,7 @@ export class ListPage {
 
   deleteList(): void {
     console.log("Deleting list: " + this.list.Name);
-    this.af.database.list('/unpublished_lists/' + this.globals.UID).remove(this.list_key).then(res => {
+    this.globals.af.list('/unpublished_lists/' + this.globals.UID).remove(this.list_key).then(res => {
       console.log("List removed");
       this.navCtrl.pop();
     }).catch((res: Error) => {

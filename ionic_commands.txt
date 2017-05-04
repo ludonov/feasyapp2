@@ -2,15 +2,24 @@
 typings install dt~google.maps --global --save
 ionic platform add android
 ionic platform add ios
+ionic plugin add --save cordova-plugin-splashscreen
+ionic plugin add --save cordova-plugin-statusbar
+ionic plugin add --save cordova.plugins.diagnostic
+ionic plugin add --save ionic-plugin-keyboard
+ionic plugin add --save de.appplant.cordova.plugin.local-notification
 ionic plugin add cordova-plugin-googlemaps --variable API_KEY_FOR_ANDROID="AIzaSyAoHAO7Lg7OyuV21KCgneFC-A4C2ZYD33M" --variable API_KEY_FOR_IOS="AIzaSyA2uhJ0V0x9E1Ch33_3OXOPsaZCD0b5Jds"
-ionic plugin add cordova-plugin-geolocation
-ionic plugin add cordova.plugins.diagnostic
+ionic plugin add --save cordova-plugin-geolocation
 ionic plugin add cordova-plugin-facebook4 --variable APP_ID="167576887016557" --variable APP_NAME="Feasy"
-ionic plugin add de.appplant.cordova.plugin.local-notification
-ionic plugin add cordova-plugin-statusbar
 ionic plugin add --save https://github.com/Telerik-Verified-Plugins/ImagePicker
 npm install --save @ionic-native/core
 npm install --save @ionic-native/status-bar
+npm install --save @ionic-native/diagnostic
+npm install --save @ionic-native/keyboard
+npm install --save @ionic-native/local-notifications
+npm install --save @ionic-native/google-maps
+npm install --save @ionic-native/geolocation
+npm install --save @ionic-native/facebook
+npm install --save @ionic-native/splash-screen
 npm install --save @ionic-native/image-picker
 
 

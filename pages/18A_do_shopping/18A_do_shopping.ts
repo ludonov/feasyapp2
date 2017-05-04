@@ -1,15 +1,21 @@
-﻿/// <reference path="./../../../typings/globals/google.maps/index.d.ts" />
-
+﻿
 ﻿import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, Alert, AlertController, LoadingController, Loading, Platform } from 'ionic-angular';
-import { Diagnostic, Geolocation, Geoposition, GoogleMap, GoogleMapsEvent, GoogleMapsLatLng, GoogleMapsMarker, GoogleMapsMarkerOptions, GoogleMapsAnimation } from 'ionic-native';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { Geolocation } from '@ionic-native/geolocation';
+
+import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition, MarkerOptions, Marker, GoogleMapsAnimation } from '@ionic-native/google-maps';
+
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
 import { FeasyUser, FeasyList, GeoPoint } from '../../classes/Feasy';
 
 import { DoShoppingListsPage } from '../18B_do_shopping_lists/18B_do_shopping_lists';
 import { DoShoppingFiltersPage } from '../18C_do_shopping_filters/18C_do_shopping_filters';
 import { ListFromMapPage } from '../28_list_from_map_details/28_list_from_map_details';
+
+import { Globals } from '../../classes/Globals';
 
 
 @Component({
@@ -25,9 +31,9 @@ export class DoShoppingPage {
   public map_browser: google.maps.Map;
   public map_ready: boolean = false;
   public is_web: boolean = true;
-  private markers: Array<GoogleMapsMarker> = [];
+  private markers: Array<Marker> = [];
   private markers_browser: Array<google.maps.Marker> = [];
-  private marker_position: GoogleMapsMarker;
+  private marker_position: Marker;
   private marker_position_browser: google.maps.Marker;
   private infoWindow = new google.maps.InfoWindow({content: ""});
 
@@ -35,13 +41,13 @@ export class DoShoppingPage {
   private geopoints_db: FirebaseListObservable<any>;
   private no_geopoints: boolean = true;
 
-  constructor(public navCtrl: NavController, private platform: Platform, public af: AngularFire, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, private platform: Platform, public geolocation: Geolocation, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public globals: Globals, public diagnostic: Diagnostic) {
     this.is_web = this.platform.is("core");
     this.platform.ready().then(() => {
       if (this.is_web) {
         this.geolocate();
       } else {
-        Diagnostic.isLocationEnabled().then((data) => {
+        diagnostic.isLocationEnabled().then((data) => {
           this.geolocate();
         }).catch((err: Error) => {
           console.log('Geolocation seems not enabled: ' + err.message);
@@ -57,7 +63,7 @@ export class DoShoppingPage {
         });
       }
     });
-    this.geopoints_db = af.database.list('/geopoints');
+    this.geopoints_db = globals.af.list('/geopoints');
     this.geopoints_db.subscribe(snapshots => {
       this.geopoints = {};
       snapshots.forEach( (geo: GeoPoint) => {
@@ -77,7 +83,7 @@ export class DoShoppingPage {
     });
     loading.present();
 
-    Geolocation.getCurrentPosition({
+    this.geolocation.getCurrentPosition({
       timeout: 5000
     }).then(pos => {
       console.log('POSITION OK: lat: ' + pos.coords.latitude + ', lon: ' + pos.coords.longitude);
@@ -100,7 +106,7 @@ export class DoShoppingPage {
 
   loadMap(lat: number, lng: number, far: boolean = false) {
 
-    let location = new GoogleMapsLatLng(lat, lng);
+    let location = new LatLng(lat, lng);
 
     if (this.is_web) {
 
@@ -166,7 +172,7 @@ export class DoShoppingPage {
 
   }
 
-  addMarkerPosition(pos: GoogleMapsLatLng): void {
+  addMarkerPosition(pos: LatLng): void {
 
     let marker = new google.maps.Marker({
       map: this.map_browser,
@@ -181,7 +187,7 @@ export class DoShoppingPage {
     this.marker_position_browser = marker;
   }
 
-  addMarker(pos: GoogleMapsLatLng, key: string, listowner: string): void {
+  addMarker(pos: LatLng, key: string, listowner: string): void {
 
     if (this.is_web) {
 
@@ -199,13 +205,13 @@ export class DoShoppingPage {
 
     } else {
 
-      let markerOptions: GoogleMapsMarkerOptions = {
+      let markerOptions: MarkerOptions = {
         position: pos,
         animation: GoogleMapsAnimation.DROP
       };
 
       this.map.addMarker(markerOptions)
-        .then((marker: GoogleMapsMarker) => {
+        .then((marker: Marker) => {
           //marker.showInfoWindow();
           this.markers.push(marker);
           marker.set("firebase_key", key);
@@ -224,7 +230,7 @@ export class DoShoppingPage {
       this.RemoveAllMarkers();
       Object.keys(this.geopoints).forEach((key: string) => {
         let geo: GeoPoint = this.geopoints[key];
-        this.addMarker(new GoogleMapsLatLng(geo.lat, geo.lng), key, geo.own);
+        this.addMarker(new LatLng(geo.lat, geo.lng), key, geo.own);
       });
     }
   }
@@ -237,7 +243,7 @@ export class DoShoppingPage {
       });
       this.markers_browser.length = 0;
     } else {
-      this.markers.forEach((marker: GoogleMapsMarker) => {
+      this.markers.forEach((marker: Marker) => {
         marker.remove();
       });
       this.markers.length = 0;

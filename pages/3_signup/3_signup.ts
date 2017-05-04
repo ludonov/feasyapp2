@@ -1,7 +1,6 @@
 ﻿import { Component } from '@angular/core';
 
 import { NavController, AlertController } from 'ionic-angular';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { FirebaseError } from 'firebase';
 
 import { FeasyUser } from '../../classes/Feasy';
@@ -16,7 +15,7 @@ export class SignupPage {
   public terms_accepted: boolean = false;
   public userdata: FeasyUser = new FeasyUser("", "", "");
 
-  constructor(public navCtrl: NavController, public af: AngularFire, public alertCtrl: AlertController, public globals: Globals) {
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public globals: Globals) {
     console.log("NAV> signup page");
     //this.user = Backendless.UserService.login("ludovico.novelli@gmail.com", "prova", true);
     //console.log(this.user);
@@ -47,11 +46,7 @@ export class SignupPage {
     } else {
       console.log("Normal logging...");
       this.globals.JustRegistered = true;
-      this.af.auth.createUser(
-        {
-          email: this.userdata.Email,
-          password: this.userdata.Password
-        })
+      this.globals.afAuth.auth.createUserWithEmailAndPassword(this.userdata.Email, this.userdata.Password)
         .then((user: any) => {
           if (user != undefined && user.uid != undefined) {
             console.log("User successfully created. ID: " + user.uid);

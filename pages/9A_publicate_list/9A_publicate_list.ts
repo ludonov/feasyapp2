@@ -2,7 +2,8 @@
 
 import { NavController, NavParams, NavOptions, AlertController, Loading, LoadingController } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+
 
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, GeoPoint, StripForFirebase, copyObject, ExpiryDateType, GetExpiryDates, GetRealExpiryDate } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
@@ -25,17 +26,17 @@ export class PublicateListFirstPage {
   public no_addresses: boolean = true;
   public expirydates: string[] = GetExpiryDates();
 
-  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams,  public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
     this.list_key = navParams.get('list_key');
     if (this.list_key == undefined || this.list_key == null) {
       console.warn("PublicateListPage null list_key!!");
       navCtrl.pop();
     } else {
-      //this.published_lists_db = af.database.list('/published_lists/' + globals.UID);
-      //this.unpublished_lists_db = af.database.list('/unpublished_lists/' + globals.UID);
+      //this.published_lists_db = globals.af.list('/published_lists/' + globals.UID);
+      //this.unpublished_lists_db = globals.af.list('/unpublished_lists/' + globals.UID);
       this.list = globals.GetUnpublishedListByKey(this.list_key);
       this.no_addresses = Object.keys(this.list.DeliveryAddresses).length == 0;
-      this.addresses_db = af.database.list('unpublished_lists/' + globals.UID + '/' + this.list.$key + '/DeliveryAddresses');
+      this.addresses_db = globals.af.list('unpublished_lists/' + globals.UID + '/' + this.list.$key + '/DeliveryAddresses');
       this.addresses_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
         this.no_addresses = !snapshot.hasChildren();
         //this.list = globals.UnpublishedLists[this.list_key];

@@ -2,7 +2,7 @@
 
 import { NavController, NavParams, AlertController, Alert } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+
 
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, Candidate } from '../../classes/Feasy';
 
@@ -25,7 +25,7 @@ export class PublicatedListWithShopperPovShopperPage {
   private candidature: Candidate = new Candidate();
   private address: DeliveryAddress = new DeliveryAddress();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, @Inject(forwardRef(() => Globals)) public globals: Globals, public af: AngularFire, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, @Inject(forwardRef(() => Globals)) public globals: Globals,  public alertCtrl: AlertController) {
     this.list_key = navParams.get("list_key");
     this.list_owner = navParams.get("list_owner");
     this.candidature = navParams.get("candidature");
@@ -34,11 +34,11 @@ export class PublicatedListWithShopperPovShopperPage {
       console.warn("PublicatedListCandidatesPage: null listkeylist_owner/candidature_key/candidature. Going back.");
       navCtrl.pop();
     } else {
-      this.af.database.object("/users/" + this.list_owner).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
+      this.globals.af.object("/users/" + this.list_owner).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
         Object.assign(this.demander, snapshot.val());
         this.demander.SetImageOrDefault();
       });
-      this.af.database.object("/published_lists/" + this.list_owner + "/" + this.list_key).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
+      this.globals.af.object("/published_lists/" + this.list_owner + "/" + this.list_key).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
         let _val = snapshot.val();
         if (_val != null) {
           this.list = _val;

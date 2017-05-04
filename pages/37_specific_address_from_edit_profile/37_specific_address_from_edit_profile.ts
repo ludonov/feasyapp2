@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, copyObject } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
@@ -18,10 +19,10 @@ export class SpecificAddressFromEditProfilePage {
   public addresses_db: FirebaseListObservable<any>;
   //public addresses: Object = {};
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,  public af: AngularFire, public globals: Globals, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,   public globals: Globals, public alertCtrl: AlertController) {
     this.address = navParams.get('address');
     this.address_key = navParams.get('address_key');
-    this.addresses_db = af.database.list("users/" + globals.UID + "/Addresses");
+    this.addresses_db = globals.af.list("users/" + globals.UID + "/Addresses");
     } 
 
 changeAddress(): void {

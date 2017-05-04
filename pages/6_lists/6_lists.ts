@@ -2,8 +2,6 @@
 
 import { NavController, AlertController, Alert, NavParams, Loading, LoadingController } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
-
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, Candidate, Candidature } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
@@ -39,7 +37,7 @@ export class ListsPage {
   //private accepted_lists: Array<FeasyList> = new Array<FeasyList>();
   //private pending_lists: Array<FeasyList> = new Array<FeasyList>();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController, @Inject(forwardRef(() => Globals)) public globals: Globals, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, @Inject(forwardRef(() => Globals)) public globals: Globals, public loadingCtrl: LoadingController) {
 
   }
 

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 
 import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+
 
 import { FeasyUser, FeasyList, FeasyItem, Review, StripForFirebase } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
@@ -21,16 +22,16 @@ export class SingleReviewInputPage {
   public TerminatedList: FeasyList = new FeasyList("");
 
 
-  constructor(public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public af: AngularFire, public globals: Globals) {
+  constructor(public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams,  public globals: Globals) {
       this.ReviewToLeave = navParams.get('review');
-      this.Review_db = af.database.list("reviews/" + globals.UID + "/to_move");
+      this.Review_db = globals.af.list("reviews/" + globals.UID + "/to_move");
       if (globals.UID == this.ReviewToLeave.owner){
-          this.TerminatedList_db = af.database.object("terminated_lists/" + globals.UID + "/as_demander/" + this.ReviewToLeave.$key);
+          this.TerminatedList_db = globals.af.object("terminated_lists/" + globals.UID + "/as_demander/" + this.ReviewToLeave.$key);
           this.TerminatedList_db.$ref.on("value", (snapshot1: firebase.database.DataSnapshot) => {
             this.TerminatedList = snapshot1.val();
           });
       }else{
-        this.TerminatedList_db = af.database.object("terminated_lists/" + globals.UID + "/as_shopper/" + this.ReviewToLeave.$key);
+        this.TerminatedList_db = globals.af.object("terminated_lists/" + globals.UID + "/as_shopper/" + this.ReviewToLeave.$key);
         this.TerminatedList_db.$ref.on("value", (snapshot2: firebase.database.DataSnapshot) => {
             this.TerminatedList = snapshot2.val();
         });
