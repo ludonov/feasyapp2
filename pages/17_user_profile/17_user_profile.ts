@@ -2,7 +2,7 @@
 
 import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
 import { FeasyUser, FeasyList, FeasyItem, GetGenderNameFromEnum } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
@@ -13,6 +13,7 @@ import { EditProfilePage } from '../../pages/24_edit_profile/24_edit_profile';
 import { ReviewsPage } from '../../pages/30_reviews/30_reviews';
 import { AddressesFromProfilePage } from "../34_addresses_from_profile/34_addresses_from_profile";
 import { ReviewsToLeavePage } from "../39_reviews_to_leave/39_reviews_to_leave";
+import { TabsPage } from '../tabs/tabs';
 
 @Component({
   selector: 'page-user-profile',
@@ -28,9 +29,9 @@ export class UserProfilePage {
   public addresses_db: FirebaseListObservable<any>;
   public gender: string;
 
-  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
-    this.user_db = af.database.object("users/" + globals.UID);
-    this.addresses_db = af.database.list("users/" + globals.UID + "/Addresses");
+  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams,  public alertCtrl: AlertController) {
+    this.user_db = globals.af.object("users/" + globals.UID);
+    this.addresses_db = globals.af.list("users/" + globals.UID + "/Addresses");
     this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
       this.user = snapshot.val();
       this.gender = GetGenderNameFromEnum(this.user.Gender);

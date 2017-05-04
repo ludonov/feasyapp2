@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
@@ -18,8 +19,8 @@ export class AddressesFromEditProfilePage {
   public addresses: Object = {};
   public addresses_db: FirebaseListObservable<any>;
 
-  constructor(public navCtrl: NavController, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController) {
-    this.addresses_db = af.database.list("users/" + globals.UID + "/Addresses");
+  constructor(public navCtrl: NavController,  public globals: Globals, public alertCtrl: AlertController) {
+    this.addresses_db = globals.af.list("users/" + globals.UID + "/Addresses");
     this.addresses_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
         this.addresses=snapshot.val();
       /*this.addresses = {};

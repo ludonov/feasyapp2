@@ -1,7 +1,7 @@
 ﻿import { Component } from '@angular/core';
 
 import { NavController, Tabs } from 'ionic-angular';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+
 
 import { FeasyUser, FeasyList } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
@@ -37,9 +37,8 @@ import { PublicatedListWithShopperPovShopperPage } from '../../pages/11B_publica
 export class HomePage {
 
   public tab: Tabs;
-  public candidates: FirebaseListObservable<any>;
 
-  constructor(public navCtrl: NavController, public af: AngularFire, public globals: Globals) {
+  constructor(public navCtrl: NavController,  public globals: Globals) {
     console.log("NAV> home page");
     this.tab = this.navCtrl.parent;
   }

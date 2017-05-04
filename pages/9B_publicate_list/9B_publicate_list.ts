@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 
 import { NavController, NavParams, NavOptions, AlertController, Loading, LoadingController } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+
 
 import { CloudFuncResponse, FeasyUser, FeasyList, FeasyItem, DeliveryAddress, GeoPoint, StripForFirebase, copyObject, ExpiryDateType, GetExpiryDates, GetRealExpiryDate } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
@@ -22,14 +22,14 @@ export class PublicateListSecondPage {
   //public published_lists_db: FirebaseListObservable<any>;
   //public unpublished_lists_db: FirebaseListObservable<any>;
 
-  constructor(public navCtrl: NavController, public http: Http, public globals: Globals, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public http: Http, public globals: Globals, public navParams: NavParams,  public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
     this.list_key = navParams.get('list_key');
     if (this.list_key == undefined || this.list_key == null) {
       console.warn("PublicateListPage null list_key!!");
       navCtrl.pop();
     } else {
-      //this.published_lists_db = af.database.list('/published_lists/' + globals.UID);
-      //this.unpublished_lists_db = af.database.list('/unpublished_lists/' + globals.UID);
+      //this.published_lists_db = globals.af.list('/published_lists/' + globals.UID);
+      //this.unpublished_lists_db = globals.af.list('/unpublished_lists/' + globals.UID);
       this.list = globals.GetUnpublishedListByKey(this.list_key);
     }
   }
@@ -46,6 +46,9 @@ export class PublicateListSecondPage {
     (this.list as any).UnpublishedListKey = this.list_key;
     this.globals.PublishedLists_db.push(StripForFirebase(this.list)).then(res1 => {
       this.globals.DeleteFromArrayByKey(this.globals.UnpublishedLists, this.list_key);
+      this.globals.NoUnpublishedLists = this.globals.UnpublishedLists.length == 0;
+      this.globals.RecopyArray(this.globals.UnpublishedLists);
+
       //let token: string;
       //firebase.auth().currentUser.getToken().then((_token) => {
       //    token = _token;
@@ -73,7 +76,7 @@ export class PublicateListSecondPage {
     });
 
     //this.list_copy.PublishedDate = (new Date()).toUTCString();
-    //this.af.database.list('/published_lists/' + this.globals.UID).push(StripForFirebase(this.list_copy)).then(res => {
+    //this.globals.af.list('/published_lists/' + this.globals.UID).push(StripForFirebase(this.list_copy)).then(res => {
     //  console.log("List Published! Publishing geopoints...");
     //  let uid: string = this.globals.UID;
     //  for (let address_key in this.list_copy.DeliveryAddresses) {
@@ -87,7 +90,7 @@ export class PublicateListSecondPage {
     //    geo.lng = this.list_copy.DeliveryAddresses[address_key].Longitude;
     //    geo.com = this.list_copy.DeliveryAddresses[address_key].Comments;
     //    geo.cnt = Object.keys(this.list_copy.Items).length;
-    //    this.af.database.list("geopoints").push(StripForFirebase(geo)).then(() => {
+    //    this.globals.af.list("geopoints").push(StripForFirebase(geo)).then(() => {
     //      console.log("Geopoint published");
     //    }).catch((err: Error) => {
     //      console.warn("Cannot publish geopoint: " + err.message);
@@ -95,7 +98,7 @@ export class PublicateListSecondPage {
     //    });
     //  }
     //  console.log("Removing list from unpublished_lists...");
-    //  this.af.database.list('/unpublished_lists/' + this.globals.UID).remove(this.list_key).then(res => {
+    //  this.globals.af.list('/unpublished_lists/' + this.globals.UID).remove(this.list_key).then(res => {
     //    console.log("Removed list from unpublished lists!");
     //    loading.dismiss();
     //    this.navCtrl.popToRoot();

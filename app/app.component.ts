@@ -2,11 +2,16 @@
 import { Http } from '@angular/http';
 
 import { Platform, NavController, Tabs, AlertController, Alert, Loading, LoadingController } from 'ionic-angular';
-import { AngularFire, AuthProviders, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2';
-import { Splashscreen, LocalNotifications } from 'ionic-native';
+
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+import { AngularFireAuth } from 'angularfire2/auth';
+
+import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-//import { Keyboard } from '@ionic-native/keyboard';
-import { Keyboard } from 'ionic-native';
+import { Keyboard } from '@ionic-native/keyboard';
+import { ImagePicker } from '@ionic-native/image-picker';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/1_login/1_login';
@@ -24,6 +29,8 @@ import { Globals } from '../classes/Globals';
 
 import { MenuController } from 'ionic-angular';
 
+import { Observable } from 'rxjs/Observable';
+
 
 @Component({
   templateUrl: 'app.html',
@@ -34,57 +41,63 @@ export class MyApp {
   @ViewChild('mynav') public navCtrl: NavController;
   @ViewChild("footerTabs") footerTabs: Tabs;
 
+  _user: Observable<firebase.User>;
 
-  constructor(platform: Platform, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public http: Http, private statusBar: StatusBar, public menuCtrl: MenuController) {
 
-    
-
+  constructor(platform: Platform, public af: AngularFireDatabase, public afAuth: AngularFireAuth, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public http: Http, private splashScreen: SplashScreen, private keyboard: Keyboard,  private statusBar: StatusBar, public menuCtrl: MenuController, private localNotifications: LocalNotifications, private imagePicker: ImagePicker) {
+   
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       //StatusBar.styleDefault();
-      Splashscreen.hide();
+      splashScreen.hide();
       //keyboard.disableScroll(false);
       //keyboard.hideKeyboardAccessoryBar(true);
 
-      Keyboard.onKeyboardShow().subscribe(() => {
+      keyboard.onKeyboardShow().subscribe(() => {
         document.body.classList.add('keyboard-is-open');
       });
 
-      Keyboard.onKeyboardHide().subscribe(() => {
+      keyboard.onKeyboardHide().subscribe(() => {
         document.body.classList.remove('keyboard-is-open');
       });
 
       globals.af = af;
+      globals.afAuth = afAuth;
       globals.alertCtrl = alertCtrl;
       globals.navCtrl = this.navCtrl;
       globals.loadingCtrl = this.loadingCtrl;
       globals.http = http;
+      globals.localNotifications = localNotifications;
+      globals.imagePicker = imagePicker;
       globals.root = LoginPage;
 
       globals.StartConfigWatcher();
 
-      af.auth.subscribe(user => {
+      this._user = afAuth.authState;
+
+      this._user.subscribe( (user: firebase.User) => {
 
         console.log("AUTH STATE CHANGED!");
         console.log(user);
 
-        let loading: Loading = this.loadingCtrl.create({
-          spinner: 'dots',
-          content: 'Please wait...'
-        });
-        loading.present();
 
         if (user) {
 
+          let loading: Loading = this.loadingCtrl.create({
+            spinner: 'dots',
+            content: 'Please wait...'
+          });
+          loading.present();
+
           globals.UID = user.uid;
-          globals.User.Email = user.auth.email;
+          globals.User.Email = user.email;
 
           //FACEBOOK
           //if (user.provider == AuthProviders.Facebook) {
           //  globals.User.DisplayName = user.auth.displayName;
           //  //globals.User.PhotoURL = user.auth.photoURL;
-          //  let user_db: FirebaseObjectObservable<any> = af.database.object("users/" + user.uid);
+          //  let user_db: FirebaseObjectObservable<any> = globals.af.object("users/" + user.uid);
           //  user_db.$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
           //    console.log("Found FB user. Checking if user exists and updating user data...");
           //    let userdata: FeasyUser = snapshot.val();
@@ -122,7 +135,7 @@ export class MyApp {
               //  displayName: this.globals.User.DisplayName,
               //  photoURL: this.globals.User.PhotoURL
               //});
-              this.af.database.object("users/" + user.uid).update(this.globals.User).then((res) => {
+              this.af.object("users/" + user.uid).update(this.globals.User).then((res) => {
                 console.log("User data updated");
               }).catch((err: Error) => {
                 console.warn("Cannot update user data: " + err.message);
@@ -145,10 +158,9 @@ export class MyApp {
           globals.LinkAllWatchers();
         } else {
           console.log("User auth not found, redirecting to Login");
-          globals.UID = "";
-          globals.User = new FeasyUser("", "", "");
-          this.setRoot(LoginPage);
-          loading.dismiss();
+          if (globals.UID != null && globals.UID != "") {
+            this.logout();
+          }
         }
       });
       //if (this.globals.UID != null) {
@@ -204,12 +216,21 @@ export class MyApp {
     this.menuCtrl.close();
   }
 
-  logout(): void {
+  //triggered after auth().signOut()
+  private logout(): void {
+
+    let loading: Loading = this.loadingCtrl.create({
+      spinner: 'dots',
+      content: 'Please wait...'
+    });
+    loading.present();
+
     console.log("Logging out: removing link to candidate refs");
     this.globals.UnlinkAllWatchers();
-    this.af.auth.logout();
-    this.globals.User = new FeasyUser("", "", "");
-    this.menuCtrl.close();
+    this.globals.UID = "";
+    this.setRoot(LoginPage);
+
+    loading.dismiss();
   }
 
 }

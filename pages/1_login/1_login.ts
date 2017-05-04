@@ -1,7 +1,6 @@
 ﻿import { Component } from '@angular/core';
-import { Facebook } from 'ionic-native';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { Platform, NavController, AlertController } from 'ionic-angular';
-import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
 import { FirebaseError } from 'firebase';
 
 import { FeasyUser, GenderType } from '../../classes/Feasy';
@@ -19,7 +18,7 @@ export class LoginPage {
   public userdata: FeasyUser = new FeasyUser("", "", "");
   public is_web: boolean = false;
 
-  constructor(public navCtrl: NavController, private platform: Platform, public af: AngularFire, public globals: Globals, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, private platform: Platform, public globals: Globals, public alertCtrl: AlertController, public facebook: Facebook) {
     console.log("NAV> login page");
     this.is_web = this.platform.is("core");
     //this.user = Backendless.UserService.login("ludovico.novelli@gmail.com", "prova", true);
@@ -43,15 +42,7 @@ export class LoginPage {
       alert.present();
     } else {
       console.log("Normal logging...");
-      this.af.auth.login(
-        {
-          email: this.userdata.Email,
-          password: this.userdata.Password
-        },
-        {
-          provider: AuthProviders.Password,
-          method: AuthMethods.Password
-        })
+      this.globals.afAuth.auth.signInWithEmailAndPassword(this.userdata.Email, this.userdata.Password)
         .then(function (user: any) {
           console.log("Normal Login successful");
         }).catch((error: FirebaseError) => {
@@ -117,13 +108,13 @@ export class LoginPage {
       //  console.warn("Facebook login error: " + res);
       //});
     } else {
-      Facebook.login(["public_profile", "user_birthday", "user_hometown", "email"]).then((response) => {
+      this.facebook.login(["public_profile", "user_birthday", "user_hometown", "email"]).then((response) => {
 
         const facebookCredential = firebase.auth.FacebookAuthProvider.credential(response.authResponse.accessToken);
 
         // get extra fb data from FB Graph API
         console.log("Getting extra user data from FB Graph API...");
-        Facebook.api("/me?fields=id,birthday,gender,first_name,last_name,name", ["public_profile", "user_birthday", "user_hometown", "email"]).then((extradata) => {
+        this.facebook.api("/me?fields=id,birthday,gender,first_name,last_name,name", ["public_profile", "user_birthday", "user_hometown", "email"]).then((extradata) => {
           console.log("Extra data retrieved. Signing to firebase...");
           this.globals.User.Birthdate = extradata.birthday || "";
           if (extradata.gender == "male")

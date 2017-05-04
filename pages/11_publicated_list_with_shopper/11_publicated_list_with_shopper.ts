@@ -2,7 +2,7 @@
 
 import { NavController, NavParams, AlertController, Alert, Tabs } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+
 
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, Candidate, StripForFirebase } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
@@ -24,7 +24,7 @@ export class PublicatedListWithShopperPage {
   private list: FeasyList = new FeasyList("");
   private candidate: Candidate = new Candidate();
 
-  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, public af: AngularFire, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams,  public alertCtrl: AlertController) {
     this.list_key = navParams.get('list_key');
     if (this.list_key == undefined || this.list_key == null) {
       console.warn("PublicatedListWithShopperPage null list_key. Going back.")
@@ -37,7 +37,7 @@ export class PublicatedListWithShopperPage {
         navCtrl.pop();
       } else {
         this.ChosenAddress = this.list.DeliveryAddresses[this.candidate.AddressKey];
-        af.database.object("/users/" + this.candidate.uid).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
+        globals.af.object("/users/" + this.candidate.uid).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
           Object.assign(this.ChosenCandidate, snapshot.val());
           this.ChosenCandidate.SetImageOrDefault();
         });

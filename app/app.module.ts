@@ -1,12 +1,29 @@
 ﻿
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { Http, HttpModule } from '@angular/http';
+import { BrowserModule } from '@angular/platform-browser';
+
 import { MyApp } from './app.component';
+
+// Import the AF2 Module
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 import { KeysPipe } from '../app/pipes';
 import { HideTabsDirective } from '../app/HideTabsDirective';
 
 import { Globals } from '../classes/Globals';
+
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
+import { Keyboard } from '@ionic-native/keyboard';
+import { ImagePicker } from '@ionic-native/image-picker';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { Geolocation } from '@ionic-native/geolocation';
+import { Diagnostic } from '@ionic-native/diagnostic';
 
 import { LoginPage } from '../pages/1_login/1_login';
 import { ForgotPassPage } from '../pages/2_forgot_pass/2_forgot_pass';
@@ -60,9 +77,6 @@ import { SingleReviewToLeavePage } from '../pages/40_single_review_to_leave/40_s
 import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
 
 import { TabsPage } from '../pages/tabs/tabs';
-
-// Import the AF2 Module
-import { AngularFireModule } from 'angularfire2';
 
 // AF2 Settings
 export const firebaseConfig = {
@@ -128,6 +142,8 @@ export const firebaseConfig = {
     TabsPage
   ],
   imports: [
+    BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp, {
           // These options are available in ionic-angular@2.0.0-beta.2 and up.
           // http://ionicframework.com/docs/v2/api/config/Config/)
@@ -189,7 +205,7 @@ export const firebaseConfig = {
     SingleReviewToLeavePage,
     TabsPage
   ],
-  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, Globals]
+  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, AngularFireDatabase, AngularFireAuth, Globals, ImagePicker, SplashScreen, LocalNotifications, Facebook, Geolocation, Diagnostic]
 })
 export class AppModule {
 

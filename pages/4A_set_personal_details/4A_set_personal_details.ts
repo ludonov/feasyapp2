@@ -2,7 +2,6 @@
 import { Component } from '@angular/core';
 
 import { NavController, AlertController } from 'ionic-angular';
-import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
 import { FirebaseError } from 'firebase';
 
 import { SetAddressPage } from '../../pages/4B_set_address/4B_set_address';
@@ -19,18 +18,11 @@ import { Globals } from '../../classes/Globals';
 export class SetPersonalDetailsPage {
 
   public user: FeasyUser = new FeasyUser("", "", "");
-  public user_db: FirebaseObjectObservable<any>;
   //public gender: string;
   public genders: string[] = GetGenders();
 
-  constructor(public navCtrl: NavController, public globals: Globals, public af: AngularFire, public alertCtrl: AlertController) {
-    this.user_db = af.database.object("users/" + globals.UID);
-    this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-      this.user = snapshot.val();
-      if (this.user == null) {
-        this.user = new FeasyUser(globals.User.Email, "", "");
-      }
-    });
+  constructor(public navCtrl: NavController, public globals: Globals,  public alertCtrl: AlertController) {
+
   }
 
   skip(): void {
@@ -41,7 +33,7 @@ export class SetPersonalDetailsPage {
   setPersonalDetails(): void {
     console.log("personal details set");
     //this.user.Gender=GetEnumFromGenderName(this.gender);
-    this.user_db.update(StripForFirebase(this.user)).then(res => {
+    this.globals.User_db.update(StripForFirebase(this.user)).then(res => {
       this.navCtrl.push(SetAddressPage);
     }).catch((err: Error) => {
       console.log("Error: " + err.message);

@@ -2,7 +2,8 @@
 
 import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+
 
 import { FeasyUser, FeasyList, FeasyItem, Review, Candidature } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
@@ -24,8 +25,8 @@ export class ReviewsToLeavePage {
     public TerminatedListsAsDemander: Object = {};
     public TerminatedListsAsShopper: Object = {};
 
-    constructor(public cd: ChangeDetectorRef, public navCtrl: NavController, public globals: Globals, public af: AngularFire, public alertCtrl: AlertController) {
-        this.TerminatedLists_db = af.database.list("terminated_lists/" + globals.UID); 
+    constructor(public cd: ChangeDetectorRef, public navCtrl: NavController, public globals: Globals,  public alertCtrl: AlertController) {
+        this.TerminatedLists_db = globals.af.list("terminated_lists/" + globals.UID); 
         this.TerminatedLists_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
             let lists: any = snapshot.val();
             this.TerminatedListsAsDemander=lists["as_demander"];

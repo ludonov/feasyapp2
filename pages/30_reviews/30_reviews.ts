@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 
 import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+
 
 import { FeasyUser, FeasyList, FeasyItem, Review } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
@@ -17,7 +17,7 @@ import { SingleReviewDisplayPage } from '../../pages/31A_single_review_display/3
 export class ReviewsPage {
 
 
-  constructor(public navCtrl: NavController, public af: AngularFire, public globals: Globals) {
+  constructor(public navCtrl: NavController,  public globals: Globals) {
 
   }
 
