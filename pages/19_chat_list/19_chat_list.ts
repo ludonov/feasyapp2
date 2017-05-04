@@ -16,7 +16,7 @@ export class ChatListPage {
   public SingleChat: any;
 
   constructor(public navCtrl: NavController,  public globals: Globals, public alertCtrl: AlertController) {
-    console.log("jhl");
+    
   }
 
   ionViewDidEnter() {

@@ -7,7 +7,7 @@
 <ion-content padding class="background-color-body">
 
  <div class="chat">
-  <div class="bubble me" *ngFor="let mess of Messages | keys">{{mess.value.Text}}</div>
+  <div class="bubble {{mess.isMine ? 'me' : 'you'}}" *ngFor="let mess of Messages">{{mess.Text}}</div>
 </div>
 
 </ion-content>

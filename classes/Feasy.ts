@@ -264,7 +264,7 @@ export class Message {
   public $key: string;
   public Text: string;
   public Date: string;
-  public isMine: boolean;
+  public OwnerUid: string;
 
   constructor() {
 
