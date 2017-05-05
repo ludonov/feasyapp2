@@ -1,6 +1,11 @@
 ﻿<ion-header>
   <ion-navbar>
-    <ion-title>{{PersonInContact}}</ion-title>
+    <ion-title>
+      <!--<ion-avatar item-left>
+        <img src="{{chat.PhotoURL}}">
+      </ion-avatar>-->
+      {{PersonInContact}}
+    </ion-title>
     <ion-buttons right>
       <button ion-button icon-only (click)="GoToList()">
           <ion-icon name="information-circle"></ion-icon>
@@ -12,7 +17,7 @@
 <ion-content padding class="background-color-body">
 
  <div class="chat">
-  <div class="bubble {{mess.OwnerUid == globals.UID ? 'me' : 'you'}}" *ngFor="let mess of chat.MessagesInOrder | keys">{{mess.value.Text}}</div>
+  <div class="bubble {{mess.OwnerUid == globals.UID ? 'me' : 'you'}}" *ngFor="let mess of chat.Messages">{{mess.Text}}</div>
 </div>
 
 </ion-content>

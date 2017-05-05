@@ -16,9 +16,9 @@ export class ChatPage {
 
     public chat_key: string;
     public chat: Chat = new Chat();
-    public MessagesFromDB: Object = {};
-    public Messages: Array<Message> = new Array<Message>();
-    public MessagesInOrder: Array<Message> = new Array<Message>();
+    //public MessagesFromDB: Object = {};
+    //public Messages: Array<Message> = new Array<Message>();
+    //public MessagesInOrder: Array<Message> = new Array<Message>();
     public PersonInContact: string;
     public new_message: string;
 
@@ -30,7 +30,6 @@ export class ChatPage {
         } else {
             this.PersonInContact = this.chat.DemanderName;
         }
-        this.SortMessageArrayByDate();
     }
 
     SendMessage(input: any): void {
@@ -45,25 +44,6 @@ export class ChatPage {
             console.log("Error: " + err.message);
         });
     }  
-
-    SortMessageArrayByDate(): void {
-        for (let i = 0; i < this.Messages.length; i++) {
-            if (this.Messages[i] != null) {
-                if (i == 0) {
-                    this.MessagesInOrder.push(this.Messages[i]);
-                } else {
-                    for (let j = 0; j < this.MessagesInOrder.length; j++){
-                        if (this.Messages[i].Date > this.MessagesInOrder[j].Date) {
-                            this.MessagesInOrder.splice((this.Messages.length - j), 0, this.Messages[i]);
-                            break;
-                        }
-                    }
-                }
-            } else {
-                return;
-            }
-        }    
-    }
 
     GoToList(): void{
         this.navCtrl.push(PublicatedListWithShopperPage, { list_key: this.chat.ListKey });
