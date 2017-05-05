@@ -14,7 +14,7 @@ import { PublicatedListWithShopperPovShopperPage } from '../pages/11B_publicated
 import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
 
 
-import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, Chat, GenericWithKey } from './Feasy';
+import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, Chat, Message, GenericWithKey } from './Feasy';
 
 
 @Injectable()

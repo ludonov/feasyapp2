@@ -13,26 +13,10 @@ import { ChatPage } from '../20_chat/20_chat';
 })
 export class ChatListPage {
 
-  public MyChats: Array<any> = new Array<any>();
-  public SingleChat: any;
+  
+  constructor(public navCtrl: NavController,  public globals: Globals, public alertCtrl: AlertController) {
 
 
-  constructor(public navCtrl: NavController,  public globals: Globals, public alertCtrl: AlertController, public af: AngularFireDatabase) {
-
-    
-  }
-
-  ionViewDidEnter() {
-    for (let userchat of this.globals.UserChats) {
-      let chat: Chat = this.globals.GetChatByKey(userchat.$key);
-      this.SingleChat = chat;
-      if (chat.DemanderUid == this.globals.UID) {
-        this.SingleChat.OtherPerson = chat.ShopperName;
-      } else {
-        this.SingleChat.OtherPerson = chat.DemanderName;
-      }
-      this.MyChats.push(this.SingleChat);
-    }
   }  
 
   GoToChat(_chat_key: any): void {
