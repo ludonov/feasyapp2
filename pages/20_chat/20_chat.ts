@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 
 import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 import { FeasyUser, FeasyList, FeasyItem, Review, StripForFirebase, Chat, Message } from '../../classes/Feasy';
@@ -14,7 +14,6 @@ export class ChatPage {
 
     public chat_key: string;
     public chat: Chat = new Chat();
-    public Messages: Object = {};
     public PersonInContact: string;
 
     public new_message: string;
@@ -22,7 +21,6 @@ export class ChatPage {
     constructor(public navCtrl: NavController, public globals: Globals, public alertCtrl: AlertController, public navParams: NavParams, public af: AngularFireDatabase) {
         this.chat_key = navParams.get('chat_key');
         this.chat = this.globals.GetChatByKey(this.chat_key);
-        this.Messages = this.chat["Messages"];
         if (this.chat.DemanderUid == globals.UID) {
             this.PersonInContact = this.chat.ShopperName;
         } else {
