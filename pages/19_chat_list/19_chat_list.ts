@@ -16,7 +16,9 @@ export class ChatListPage {
   public MyChats: Array<any> = new Array<any>();
   public SingleChat: any;
 
+
   constructor(public navCtrl: NavController,  public globals: Globals, public alertCtrl: AlertController, public af: AngularFireDatabase) {
+
     
   }
 

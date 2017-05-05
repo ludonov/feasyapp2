@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 
 import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 import { FeasyUser, FeasyList, FeasyItem, Review, StripForFirebase, Chat, Message } from '../../classes/Feasy';
@@ -26,8 +26,8 @@ export class ChatPage {
         this.chat_key = navParams.get('chat_key');
         this.chat = this.globals.GetChatByKey(this.chat_key);
         this.MessagesFromDB = this.chat["Messages"];
-        for (let _message in this.MessagesFromDB) {
-            let message: any = this.MessagesFromDB[_message];
+        for (let _message in this.chat["Messages"]) {
+          let message: any = this.chat["Messages"][_message];
             if (message.OwnerUid == globals.UID) {
                 message.isMine = true;
             } else {
