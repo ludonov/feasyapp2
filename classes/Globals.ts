@@ -25,6 +25,7 @@ export class Globals {
   public root: any;
 
   public UID: string = "";
+  public _user: firebase.User;
   public IsWeb: boolean = true;
 
   public WatchersLinked: boolean = false;

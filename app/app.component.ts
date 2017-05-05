@@ -81,6 +81,7 @@ export class MyApp {
         console.log("AUTH STATE CHANGED!");
         console.log(user);
 
+        globals._user = user;
 
         if (user) {
 

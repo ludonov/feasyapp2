@@ -35,13 +35,15 @@ export class ChatPage {
     SendMessage(input: any): void {
         let mess: Message = new Message();
         mess.Text = this.new_message;
-        (mess as any).Token = this.globals.afAuth.auth.currentUser.getToken();
-        mess.Date = (new Date()).toUTCString();
-        this.af.list("/chats/" + this.chat_key + "/Messages").push(StripForFirebase(mess)).then(res => {
+        this.globals._user.getToken().then((_token) => {
+          (mess as any).Token = _token;
+          mess.Date = (new Date()).toUTCString();
+          this.af.list("/chats/" + this.chat_key + "/Messages").push(StripForFirebase(mess)).then(res => {
             this.new_message = null;
             input.setFocus();
-        }).catch((err: Error) => {
+          }).catch((err: Error) => {
             console.log("Error: " + err.message);
+          });
         });
     }  
 
