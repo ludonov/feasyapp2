@@ -848,8 +848,8 @@ export class Globals {
             // will be at most 800 pixels wide and 800 pixels tall.  If the width is
             // 800 and height 0 the image will be 800 pixels wide if the source
             // is at least that wide.
-            width: 500,
-            height: 500,
+            width: 100,
+            height: 100,
 
             // quality of resized image, defaults to 100
             quality: 90,

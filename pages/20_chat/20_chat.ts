@@ -35,7 +35,7 @@ export class ChatPage {
     SendMessage(input: any): void {
         let mess: Message = new Message();
         mess.Text = this.new_message;
-        mess.OwnerUid = this.globals.UID;
+        (mess as any).Token = this.globals.afAuth.auth.currentUser.getToken();
         mess.Date = (new Date()).toUTCString();
         this.af.list("/chats/" + this.chat_key + "/Messages").push(StripForFirebase(mess)).then(res => {
             this.new_message = null;
