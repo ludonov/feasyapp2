@@ -16,6 +16,7 @@ export class ChatPage {
     public chat: Chat = new Chat();
     public MessagesFromDB: Object = {};
     public Messages: Array<Message> = new Array<Message>();
+    public MessagesInOrder: Array<Message> = new Array<Message>();
     public PersonInContact: string;
     public new_message: string;
 
@@ -37,20 +38,42 @@ export class ChatPage {
         } else {
             this.PersonInContact = this.chat.DemanderName;
         }
+        this.OrderMessageArrayByDate();
+        
     }
 
     SendMessage(input: any): void {
         let mess: Message = new Message();
         mess.Text = this.new_message;
         mess.OwnerUid = this.globals.UID;
+        mess.Date = (new Date()).toUTCString();
         this.af.list("/chats/" + this.chat_key + "/Messages").push(StripForFirebase(mess)).then(res => {
             this.new_message = null;
             input.setFocus();
         }).catch((err: Error) => {
             console.log("Error: " + err.message);
         });
-        
     }  
+
+    OrderMessageArrayByDate(): void {
+        
+        for (let i = 0; i < this.Messages.length; i++) {
+            if (this.Messages[i] != null) {
+                if (i == 0) {
+                    this.MessagesInOrder.push(this.Messages[i]);
+                } else {
+                    for (let j = 0; j < this.MessagesInOrder.length; j++){
+                        if (this.Messages[i].Date > this.MessagesInOrder[j].Date) {
+                            this.MessagesInOrder.splice((this.Messages.length - j), 0, this.Messages[i]);
+                            break;
+                        }
+                    }
+                }
+            } else {
+                return;
+            }
+        }    
+    }
 
 
 }

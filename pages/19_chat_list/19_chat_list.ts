@@ -1,6 +1,7 @@
 ﻿import { Component } from '@angular/core';
 
 import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { FeasyUser, FeasyList, FeasyItem, Review, StripForFirebase, Chat } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
@@ -15,7 +16,7 @@ export class ChatListPage {
   public MyChats: Array<any> = new Array<any>();
   public SingleChat: any;
 
-  constructor(public navCtrl: NavController,  public globals: Globals, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController,  public globals: Globals, public alertCtrl: AlertController, public af: AngularFireDatabase) {
     
   }
 
