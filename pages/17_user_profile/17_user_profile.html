@@ -9,53 +9,70 @@
 
 <ion-content>
 
-
 	<ion-card>
 		<ion-item class="profile-item">
 			<div class="profile-picture">
 				<img src="{{user.PhotoURL}}">
 			</div>
-			<h2 class="profile-name" color="secondary">{{user.FirstName}} {{user.LastName}}</h2>
+			<h2 class="profile-name">{{user.FirstName}} {{user.LastName}}</h2>
 			<p class="center">{{user.Email}}</p>
 		</ion-item>
 	</ion-card>
+	<ion-card>
+		<ion-item>
+			<ion-icon name="cart" color="secondary" item-left></ion-icon>
+			Commissioni fatte
+			<ion-badge item-right color="secondary">20</ion-badge>
+		</ion-item>
+		<ion-item>
+			<ion-icon name="home" color="secondary" item-left></ion-icon>
+			Commissioni ricevute
+			<ion-badge item-right color="secondary">8</ion-badge>
+		</ion-item>
+		<ion-item>
+			<ion-icon name="star" color="secondary" item-left></ion-icon>
+			Voto
+			<ion-badge item-right color="secondary">4.5</ion-badge>
+		</ion-item>
+	</ion-card>
 
-	<ion-grid>
+	<!--<ion-grid>
 		<ion-row>
 			<ion-col>
-				<ion-card color="secondary">
-					<ion-card-header clas="center">
+				<ion-card color="secondary" class="center">
+					<ion-card-header>
 						Fatte
 					</ion-card-header>
-					<ion-card-content clas="center">
+					<ion-card-content style="background-color:white">
 						10
 					</ion-card-content>
 				</ion-card>
 			</ion-col>
 			<ion-col>
-				<ion-card color="secondary">
+				<ion-card color="secondary" class="center">
 					<ion-card-header>
 						Ricevute
 					</ion-card-header>
-					<ion-card-content>
+					<ion-card-content style="background-color:white">
 						10
 					</ion-card-content>
 				</ion-card>
 			</ion-col>
 			<ion-col>
-				<ion-card color="secondary">
+				<ion-card color="secondary" class="center">
 					<ion-card-header>
 						Voto
 					</ion-card-header>
-					<ion-card-content>
+					<ion-card-content style="background-color:white">
 						Voto
 					</ion-card-content>
 				</ion-card>
 			</ion-col>
 		</ion-row>
-	</ion-grid>
+	</ion-grid>-->
 
 
+	<!--
 	<ion-card>
 		<button ion-item (click)="goToHistory()">
 						<ion-icon name="time" item-left color="secondary"></ion-icon>
@@ -69,7 +86,7 @@
 							Le mie recensioni
 						<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 					</button>
-	</ion-card>
+	</ion-card>-->
 
 
 
@@ -100,6 +117,7 @@
 		<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 		</button>
 	</ion-card>-->
+	<!--
 	<ion-card>
 		<button ion-item (click)="goToPendingReviews()">
 		<ion-icon name="filing" item-left color="secondary"></ion-icon>
@@ -113,7 +131,7 @@
 		Info account
 		<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 		</button>
-	</ion-card>
+	</ion-card>-->
 	<ion-list>
 		<!--<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
@@ -134,7 +152,7 @@
 
 
 		<ion-item-group>
-			<div class="spacer" style="height: 16px;"></div>
+			<!--<div class="spacer" style="height: 16px;"></div>-->
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">INFORMAZIONI PERSONALI</ion-item-divider>
 			<ion-item>
 				Nome

@@ -90,6 +90,7 @@ body.keyboard-is-open .scroll-content {
   font-size: x-large !important;
   font-weight: bold !important;
   text-transform: capitalize;
+  color: color($colors, secondary);
 }
 
 .image-circle { // to be removed because the profile of another user is OLD
