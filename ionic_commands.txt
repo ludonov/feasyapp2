@@ -1,8 +1,9 @@
-﻿
+
 typings install dt~google.maps --global --save
 ionic platform add android
 ionic platform add ios
 ionic plugin add --save cordova-plugin-splashscreen
+
 ionic plugin add --save cordova-plugin-statusbar
 ionic plugin add --save cordova.plugins.diagnostic
 ionic plugin add --save ionic-plugin-keyboard

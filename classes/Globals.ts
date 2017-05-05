@@ -14,7 +14,7 @@ import { PublicatedListWithShopperPovShopperPage } from '../pages/11B_publicated
 import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
 
 
-import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, Chat, GenericWithKey } from './Feasy';
+import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, Chat, Message, GenericWithKey, UnknownMan, UnknownWoman} from './Feasy';
 
 
 @Injectable()
@@ -517,13 +517,8 @@ export class Globals {
   }
 
   private LinkUserChatsWatchers(): void {
-    
-    // this.UserChats_db = this.af.list("/user_chats/" + this.UID);
-    // this.UserChats_db.$ref.on("value", (_userchat: firebase.database.DataSnapshot) => {
-    //   let userchat: Chat = _userchat.val();
-    //   this.UserChats[_userchat.key] = userchat;
-    // });
-    
+  
+  
     try {
       this.UserChats_db = this.af.list("user_chats/" + this.UID);
       this.UserChats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
@@ -538,17 +533,6 @@ export class Globals {
           this.UserChats.push(chat);
         this.ForceAppChanges();
       });
-
-      // this.UserChats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
-      //   //let chat: Chat = _chat.val();
-      //   let i: number = this.GetIndexByKey(this.UserChats, _chat.key);
-      //   if (i != -1)
-      //     Object.assign(this.Chats[i], chat);
-      //   else
-      //     console.warn("Globals.LinkReviewsWatchers> Cannot find index for key <" + _chat.key + "> in child_changed");
-
-      //   this.ForceAppChanges();
-      // });
 
     } catch(e) {
       console.log("Globals.LinkUserChatsWatchers catch err: " + JSON.stringify(e));
@@ -573,8 +557,16 @@ export class Globals {
       this.Chats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {
         let chat: Chat = _chat.val();
         chat.$key = _chat.key;
-        if (chat != null)
+        if (chat != null) {
+          chat.Messages = chat.Messages || {};
           this.Chats.push(chat);
+        }
+        this.af.object("/users/" + (chat.DemanderUid == this.UID ? chat.ShopperUid : chat.DemanderUid)).$ref.once("value", (_user: firebase.database.DataSnapshot) => {
+          let user: FeasyUser = _user.val();
+          if (user != null)
+            (this.GetChatByKey(_chat.key) as any).PhotoURL = user.PhotoURL || (user.Gender == GenderType.Male ? UnknownMan : UnknownWoman);
+        });
+        this.SortMessageArrayByDate(_chat.key);
         this.ForceAppChanges();
       });
 
@@ -585,7 +577,7 @@ export class Globals {
           Object.assign(this.Chats[i], chat);
         else
           console.warn("Globals.LinkReviewsWatchers> Cannot find index for key <" + _chat.key + "> in child_changed");
-
+        this.SortMessageArrayByDate(_chat.key);
         this.ForceAppChanges();
       });
 
@@ -593,6 +585,25 @@ export class Globals {
       console.log("Globals.LinkChatsWatchers catch err: " + JSON.stringify(e));
     }
   }  
+
+  private SortMessageArrayByDate(_chat_key: string): void {
+    let _chat: Chat = this.GetChatByKey(_chat_key);
+    let _keys: Array<string> = Object.keys(_chat.Messages);
+    let MessagesInOrder: Array<Message> = new Array<Message>();
+    for (let i = 0; i < _keys.length; i++) {
+        if (i == 0) {
+          MessagesInOrder.push(_chat.Messages[_keys[i]]);
+        } else {
+          for (let j = 0; j < MessagesInOrder.length; j++) {
+            if (_chat.Messages[_keys[i]].Date > MessagesInOrder[j].Date) {
+              MessagesInOrder.splice((_keys.length - j), 0, _chat.Messages[_keys[i]]);
+              break;
+            }
+          }
+        }
+    }
+    _chat.Messages = MessagesInOrder;
+  }
 
   // UNLINK WATCHERS SECTION
 
