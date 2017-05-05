@@ -17,6 +17,10 @@ export class ChatListPage {
 
   constructor(public navCtrl: NavController,  public globals: Globals, public alertCtrl: AlertController) {
     console.log("jhl");
+    
+  }
+
+  ionViewDidEnter() {
     for (let userchat of this.globals.UserChats) {
       let chat: Chat = this.globals.GetChatByKey(userchat.$key);
       this.SingleChat = chat;
