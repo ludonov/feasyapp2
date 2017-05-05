@@ -6,6 +6,8 @@ import { Globals } from '../../classes/Globals';
 
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
+import { PublicatedListWithShopperPage } from '../11_publicated_list_with_shopper/11_publicated_list_with_shopper';
+
 @Component({
     selector: 'page-chat',
     templateUrl: '20_chat.html'
@@ -38,8 +40,7 @@ export class ChatPage {
         } else {
             this.PersonInContact = this.chat.DemanderName;
         }
-        this.OrderMessageArrayByDate();
-        
+        this.SortMessageArrayByDate();
     }
 
     SendMessage(input: any): void {
@@ -55,8 +56,7 @@ export class ChatPage {
         });
     }  
 
-    OrderMessageArrayByDate(): void {
-        
+    SortMessageArrayByDate(): void {
         for (let i = 0; i < this.Messages.length; i++) {
             if (this.Messages[i] != null) {
                 if (i == 0) {
@@ -75,5 +75,8 @@ export class ChatPage {
         }    
     }
 
+    GoToList(): void{
+        this.navCtrl.push(PublicatedListWithShopperPage, { list_key: this.chat.ListKey });
+    }
 
 }
