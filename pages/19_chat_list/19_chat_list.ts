@@ -11,26 +11,9 @@ import { ChatPage } from '../20_chat/20_chat';
   templateUrl: '19_chat_list.html'
 })
 export class ChatListPage {
-
-  public MyChats: Array<any> = new Array<any>();
-  public SingleChat: any;
-
+  
   constructor(public navCtrl: NavController,  public globals: Globals, public alertCtrl: AlertController) {
-    console.log("jhl");
-    
-  }
 
-  ionViewDidEnter() {
-    for (let userchat of this.globals.UserChats) {
-      let chat: Chat = this.globals.GetChatByKey(userchat.$key);
-      this.SingleChat = chat;
-      if (chat.DemanderUid == this.globals.UID) {
-        this.SingleChat.OtherPerson = chat.ShopperName;
-      } else {
-        this.SingleChat.OtherPerson = chat.DemanderName;
-      }
-      this.MyChats.push(this.SingleChat);
-    }
   }  
 
   GoToChat(_chat_key: any): void {

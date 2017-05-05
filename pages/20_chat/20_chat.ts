@@ -20,16 +20,6 @@ export class ChatPage {
     constructor(public navCtrl: NavController, public globals: Globals, public alertCtrl: AlertController, public navParams: NavParams, public af: AngularFireDatabase) {
         this.chat_key = navParams.get('chat_key');
         this.chat = this.globals.GetChatByKey(this.chat_key);
-        this.MessagesFromDB = this.chat["Messages"];
-        for (let _message in this.chat["Messages"]) {
-          let message: any = this.chat["Messages"][_message];
-            if (message.OwnerUid == globals.UID) {
-                message.isMine = true;
-            } else {
-                message.isMine = false;
-            }
-            this.Messages.push(message);
-        }
         if (this.chat.DemanderUid == globals.UID) {
             this.PersonInContact = this.chat.ShopperName;
         } else {
