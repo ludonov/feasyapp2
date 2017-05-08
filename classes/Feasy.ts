@@ -10,20 +10,35 @@ export const UnknownWoman: string = "data:image/png;base64,iVBORw0KGgoAAAANSUhEU
 export enum UnitType { Pieces, Grams, Hectograms, Kilograms, Liters };
 
 export function GetUnits(): string[] {
-  return ["Pezzi", "Grammi", "Ettogrammi", "Kilogrammi", "Litri"];
+  return ["Pieces", "Grams", "Ettogrammi", "Kilograms", "Liters"];
 }
+
+// export function GetUnitNameFromEnum(unit: UnitType): string {
+//   if (unit == UnitType.Pieces)
+//     return "Pezzi";
+//   else if (unit == UnitType.Grams)
+//     return "Grammi";
+//   else if (unit == UnitType.Hectograms)
+//     return "Ettogrammi";
+//   else if (unit == UnitType.Kilograms)
+//     return "Kilogrammi";
+//   else if (unit == UnitType.Liters)
+//     return "Litri";
+//   else
+//     return "";
+// }
 
 export function GetUnitNameFromEnum(unit: UnitType): string {
   if (unit == UnitType.Pieces)
-    return "Pezzi";
+    return "Pieces";
   else if (unit == UnitType.Grams)
-    return "Grammi";
+    return "Grams";
   else if (unit == UnitType.Hectograms)
     return "Ettogrammi";
   else if (unit == UnitType.Kilograms)
-    return "Kilogrammi";
+    return "Kilograms";
   else if (unit == UnitType.Liters)
-    return "Litri";
+    return "Liters";
   else
     return "";
 }

@@ -192,6 +192,7 @@ export class DoShoppingPage {
     if (this.is_web) {
 
       let marker = new google.maps.Marker({
+        icon: 'assets/img/Map_marker.png',
         map: this.map_browser,
         animation: google.maps.Animation.DROP,
         position: new google.maps.LatLng(pos.lat, pos.lng)
