@@ -35,8 +35,9 @@ export class ChatPage {
     SendMessage(input: any): void {
         let mess: Message = new Message();
         mess.Text = this.new_message;
-        this.globals._user.getToken().then((_token) => {
-          (mess as any).Token = _token;
+        //this.globals._user.getToken(true).then((_token) => {
+          //(mess as any).Token = _token;
+          mess.OwnerUid = this.globals.UID;
           mess.Date = (new Date()).toUTCString();
           this.af.list("/chats/" + this.chat_key + "/Messages").push(StripForFirebase(mess)).then(res => {
             this.new_message = null;
@@ -44,7 +45,7 @@ export class ChatPage {
           }).catch((err: Error) => {
             console.log("Error: " + err.message);
           });
-        });
+        //});
     }  
 
     GoToList(): void{
