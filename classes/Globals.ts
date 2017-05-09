@@ -25,7 +25,10 @@ export class Globals {
   public root: any;
 
   public UID: string = "";
+  public _user: firebase.User;
   public IsWeb: boolean = true;
+
+  public WatchersLinked: boolean = false;
 
   public User: FeasyUser = new FeasyUser("", "", "");
   public User_db: FirebaseObjectObservable<any>;
@@ -113,13 +116,16 @@ export class Globals {
   }
 
   public LinkAllWatchers(): void {
-    this.LinkUserWatchers();
-    this.LinkListsWatchers();
-    this.LinkCandidatesWatchers();
-    this.LinkCandidaturesWatchers();
-    this.LinkReviewsWatchers();
-    this.LinkUserChatsWatchers();
-    this.LinkChatsWatchers();
+    if (!this.WatchersLinked) {
+      this.LinkUserWatchers();
+      this.LinkListsWatchers();
+      this.LinkCandidatesWatchers();
+      this.LinkCandidaturesWatchers();
+      this.LinkReviewsWatchers();
+      this.LinkUserChatsWatchers();
+      this.LinkChatsWatchers();
+      this.WatchersLinked = true;
+    }
   }
 
 
@@ -603,11 +609,14 @@ export class Globals {
   // UNLINK WATCHERS SECTION
 
   public UnlinkAllWatchers(): void {
-    this.UnlinkUserWatchers();
-    this.UnlinkListsWatchers();
-    this.UnlinkCandidatesWatchers();
-    this.UnlinkCandidaturesWatchers();
-    this.UnlinkReviewsWatchers();
+    if (this.WatchersLinked) {
+      this.UnlinkUserWatchers();
+      this.UnlinkListsWatchers();
+      this.UnlinkCandidatesWatchers();
+      this.UnlinkCandidaturesWatchers();
+      this.UnlinkReviewsWatchers();
+      this.WatchersLinked = false;
+    }
   }
 
   private UnlinkUserWatchers(): void {
@@ -840,8 +849,8 @@ export class Globals {
             // will be at most 800 pixels wide and 800 pixels tall.  If the width is
             // 800 and height 0 the image will be 800 pixels wide if the source
             // is at least that wide.
-            width: 500,
-            height: 500,
+            width: 100,
+            height: 100,
 
             // quality of resized image, defaults to 100
             quality: 90,

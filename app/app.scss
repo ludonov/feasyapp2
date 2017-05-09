@@ -15,9 +15,22 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
+
+// General
+// --------------------------------------------------
+
 .no-scroll .scroll-content{
      overflow: hidden;
 }
+
+.center{
+	text-align: center; 	/* accentra elemento orizzontalmente rispetto alla pagina */
+}
+
+
+
+// Keyboard
+// --------------------------------------------------
 
 body.keyboard-is-open .tabbar {
   display: none;
@@ -25,6 +38,197 @@ body.keyboard-is-open .tabbar {
 
 body.keyboard-is-open .scroll-content {
   margin-bottom: 0 !important;
+}
+
+
+
+// Side bar
+// --------------------------------------------------
+
+.side-bar-name {
+  padding-top: 20px;
+  font-size: x-large !important;
+  font-weight: bold !important;
+  text-transform: capitalize;
+  color: color($colors, secondary);
+}
+
+.side-bar-background {
+  background-color: white;
+}
+
+
+
+// Profile
+// --------------------------------------------------
+
+.profile-item {
+  text-align: center;
+}
+
+.profile-picture {
+  border: 3px solid rgba(0, 0, 0, 0.25);
+  padding: 3px;
+  border-radius: 100%;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  margin: 0 auto;
+  width: 128px;
+  height: 128px;
+  overflow: hidden;
+  background-size: cover;
+}
+
+.profile-picture img {
+  display: block;
+  max-width: 128px;
+  max-height: 128px;
+  width: auto;
+  height: auto;
+  border-radius: 100%;
+}
+
+.profile-name {
+  padding-top: 20px;
+  font-size: x-large !important;
+  font-weight: bold !important;
+  text-transform: capitalize;
+  color: color($colors, secondary);
+}
+
+.image-circle { // to be removed because the profile of another user is OLD
+    border-radius: 50%;
+}
+
+
+
+// Map
+// --------------------------------------------------
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+._gmaps_cdv_ .nav-decor {
+  background-color: transparent !important;
+}
+
+.center-map {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.row, .scroll {
+    height: 100%;
+}
+
+.init_loading .scroll-content {
+  display: table !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+.init_loading .scroll {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.page-top {
+top: 0;
+position: absolute;
+  margin: 0 auto;
+}
+
+
+
+// Position
+// --------------------------------------------------
+
+.center-vertically-grid-rows {
+  height: 100%; 
+  justify-content: center;
+}
+
+
+
+// Login
+// --------------------------------------------------
+
+.or-separator {
+    overflow: hidden;
+    text-align: center;
+}
+.or-separator:before,
+.or-separator:after {
+    background-color: #6d6d72;
+    content: "";
+    display: inline-block;
+    height: 1px;
+    position: relative;
+    vertical-align: middle;
+    width: 40%;
+}
+.or-separator:before {
+    right: 0.5em;
+    margin-left: -50%;
+}
+.or-separator:after {
+    left: 0.5em;
+    margin-right: -50%;
+}
+
+
+
+// Button
+// --------------------------------------------------
+
+button.button-block,
+input.button.button-block {
+    width: 95%;
+    margin: auto;
+}
+
+
+
+// Padding
+// --------------------------------------------------
+
+.lateral-padding {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.lateral-bottom-padding {
+  padding-bottom: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+
+
+// Hyperlinks
+// --------------------------------------------------
+
+a:link {
+	color: black;
+	text-decoration: none;
+}
+
+a:active {
+	color: black;
+	text-decoration: none;
+}
+
+a:visited {
+	color: black;
+	text-decoration: none;
+}
+
+a:hover {
+	color: black;
+	text-decoration: none;
 }
 
 /* CHAT CLASSES */
