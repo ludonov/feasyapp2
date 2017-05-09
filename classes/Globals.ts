@@ -558,17 +558,19 @@ export class Globals {
       this.Chats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {
         let chat: Chat = _chat.val();
         chat.$key = _chat.key;
-        if (chat != null) {
-          chat.Messages = chat.Messages || {};
-          this.Chats.push(chat);
+        if (chat.DemanderUid == this.UID || chat.ShopperUid == this.UID) {
+          if (chat != null) {
+            chat.Messages = chat.Messages || {};
+            this.Chats.push(chat);
+          }
+          this.af.object("/users/" + (chat.DemanderUid == this.UID ? chat.ShopperUid : chat.DemanderUid)).$ref.once("value", (_user: firebase.database.DataSnapshot) => {
+            let user: FeasyUser = _user.val();
+            if (user != null)
+              (this.GetChatByKey(_chat.key) as any).PhotoURL = user.PhotoURL || (user.Gender == GenderType.Male ? UnknownMan : UnknownWoman);
+          });
+          this.SortMessageArrayByDate(_chat.key);
+          this.ForceAppChanges();
         }
-        this.af.object("/users/" + (chat.DemanderUid == this.UID ? chat.ShopperUid : chat.DemanderUid)).$ref.once("value", (_user: firebase.database.DataSnapshot) => {
-          let user: FeasyUser = _user.val();
-          if (user != null)
-            (this.GetChatByKey(_chat.key) as any).PhotoURL = user.PhotoURL || (user.Gender == GenderType.Male ? UnknownMan : UnknownWoman);
-        });
-        this.SortMessageArrayByDate(_chat.key);
-        this.ForceAppChanges();
       });
 
       this.Chats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
@@ -632,10 +634,21 @@ export class Globals {
     this.TerminatedListsAsShopper_db.$ref.off();
     this.PublishedLists = [];
     this.PublishedLists_db = null;
+    this.NoPublishedLists = true;
     this.UnpublishedLists = [];
     this.UnpublishedLists_db = null;
+    this.NoUnpublishedLists = true;
+    this.TerminatedListsAsDemander = [];
     this.TerminatedListsAsDemander_db = null;
+    this.NoTerminatedListsAsDemander = true;
+    this.TerminatedListsAsShopper = [];
     this.TerminatedListsAsShopper_db = null;
+    this.NoTerminatedListsAsShopper = true;
+    this.AcceptedLists = [];
+    this.NoAcceptedLists = true;
+    this.AppliedLists = [];
+    this.NoAppliedLists = true;
+
   }
 
   private UnlinkCandidatesWatchers(): void {
