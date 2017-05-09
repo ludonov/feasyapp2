@@ -145,6 +145,9 @@ export class FeasyUser {
   public CommissionsDone: number;
   public CommissionsReceived: number;
   public Candidatures: Object = {};
+  public RegistrationDate: string;
+  public DoneAsDemander: number = 0;
+  public DoneAsShopper: number = 0;
 
   constructor(email: string, firstName: string, lastName: string) {
     this.Email = email;

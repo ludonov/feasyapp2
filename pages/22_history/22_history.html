@@ -6,35 +6,34 @@
 
 <ion-content>
   
-  <ion-card>
+  <ion-card color="secondary">
     <ion-card-header>
-      Ultimi movimenti
+      SPESE DA DEMANDER
     </ion-card-header>
 
     <ion-list>
-      <ion-item>
-        <ion-avatar item-left (click)="goToProfileOtherUser()">
+      <ion-item *ngFor="let listD of globals.TerminatedListsAsDemander" (click)="goToListDetails()">
+        <ion-avatar item-left (click)="goToProfileOtherUser(listD.ChosenShopperUid)">
           <img src="assets/img/17_profilo/Alberto.jpg">
         </ion-avatar>
-        <h2>Alberto Arrighi</h2>
-        <p>@albi</p>
-        <ion-note item-right>FATTA - 16:00 - 22/07/2016</ion-note>
+        <ion-label>{{listD.ChosenShopperName}}</ion-label>
+        <ion-note item-right>{{listD.TerminatedDate}}</ion-note>
       </ion-item>
-      <ion-item>
-        <ion-avatar item-left (click)="goToProfileOtherUser()">
-          <img src="assets/img/17_profilo/Daniele.jpg">
+    </ion-list>
+  </ion-card>
+
+  <ion-card color="secondary">
+    <ion-card-header>
+       SPESE DA SHOPPER
+    </ion-card-header>
+
+    <ion-list>
+      <ion-item *ngFor="let listS of globals.TerminatedListsAsShopper" (click)="goToListDetails()">
+        <ion-avatar item-left (click)="goToProfileOtherUser(listS.owner)">
+          <img src="assets/img/17_profilo/Alberto.jpg">
         </ion-avatar>
-        <h2>Daniele Pettenuzzo</h2>
-        <p>@pette</p>
-        <ion-note item-right>FATTA - 14:36 - 22/07/2016</ion-note>
-      </ion-item>
-      <ion-item>
-        <ion-avatar item-left (click)="goToProfileOtherUser()">
-          <img src="assets/img/17_profilo/Ludovico.jpg">
-        </ion-avatar>
-        <h2>Ludovico Novelli</h2>
-        <p>@ludonov</p>
-        <ion-note item-right>RICEVUTA - 18:02 - 21/07/2016</ion-note>
+        <ion-label>{{listS.DemanderName}}</ion-label>
+        <ion-note item-right>{{listS.TerminatedDate}}</ion-note>
       </ion-item>
 
     </ion-list>
