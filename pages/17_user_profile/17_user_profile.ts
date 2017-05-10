@@ -38,9 +38,9 @@ export class UserProfilePage {
     });
   }
 
-  goToHistory(): void {
+  GoToHistory(demander: boolean): void {
     console.log("going to history page");
-    this.navCtrl.push(HistoryPage);
+    this.navCtrl.push(HistoryPage, {demander: demander});
   }
 
   editProfile(): void {

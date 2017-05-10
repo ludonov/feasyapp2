@@ -18,12 +18,12 @@
 		</ion-item>
 	</ion-card>
 	<ion-card>
-		<ion-item>
+		<ion-item (click)="GoToHistory(false)">
 			<ion-icon name="cart" color="secondary" item-left></ion-icon>
 			Commissioni fatte
 			<ion-badge item-right color="secondary">20</ion-badge>
 		</ion-item>
-		<ion-item>
+		<ion-item (click)="GoToHistory(true)">
 			<ion-icon name="home" color="secondary" item-left></ion-icon>
 			Commissioni ricevute
 			<ion-badge item-right color="secondary">8</ion-badge>

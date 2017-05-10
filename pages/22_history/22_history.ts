@@ -17,11 +17,10 @@ import { UserProfilePovOtherUsersPage } from '../../pages/17B_user_profile_pov_o
 
 export class HistoryPage {
 
-  public HistoryUsers_db: FirebaseListObservable<any>;
-  public HistoryUsers: Array<FeasyUser> = new Array<FeasyUser>();   
+  public Demander: boolean = false;
   
-  constructor(public navCtrl: NavController, public globals: Globals, public af: AngularFireDatabase) {
-
+  constructor(public navCtrl: NavController, public navParams: NavParams, public globals: Globals, public af: AngularFireDatabase) {
+    this.Demander = navParams.get('demander');
   }
 
   goToProfileOtherUser(userUID: string): void {
