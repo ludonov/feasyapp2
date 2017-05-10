@@ -22,7 +22,7 @@
 
 </ion-content>
 
-<ion-footer style="background-color: white">
+<!--<ion-footer style="background-color: white">
   <ion-toolbar style="background-color: white">
     <ion-input left type="text" #input style="background-color: white" [(ngModel)]="new_message"></ion-input>
     <ion-buttons end style="background-color: white">
@@ -31,15 +31,13 @@
       </button>
     </ion-buttons>
   </ion-toolbar>
-</ion-footer>
-
-<!--<ion-footer>
-    <ion-toolbar>
-      <ion-item>
-        <ion-input left type="text" #input placeholder="" [(ngModel)]="new_message"></ion-input>
-        <ion-buttons end>
-        <button right ion-fab mini class="send" (click)="SendMessage(input)"><ion-icon name="send"></ion-icon></button> 
-        </ion-buttons>
-      </ion-item>
-    </ion-toolbar>
 </ion-footer>-->
+
+<ion-footer>
+  
+    <ion-row>
+      <ion-input type="text" #input placeholder="" [(ngModel)]="new_message"></ion-input>
+      <button ion-fab mini class="send" (click)="SendMessage(input)"><ion-icon name="send"></ion-icon></button>
+    </ion-row>
+  
+</ion-footer>

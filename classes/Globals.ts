@@ -71,6 +71,7 @@ export class Globals {
   public Chats_db: FirebaseListObservable<any>;
   
   public JustRegistered: boolean = false;
+  public NotificationCounter: number = 0;
 
   public af: AngularFireDatabase;
   public afAuth: AngularFireAuth;
@@ -351,13 +352,15 @@ export class Globals {
           } else {
             // Schedule a single notification
             this.localNotifications.schedule({
-              id: 1,
+              id: this.NotificationCounter++,
               title: "Sei stato accettato!",
               text: "Clicca per vedere i dettagli",
               icon: 'res://icon'
             });
             this.localNotifications.on("click", (notification) => {
               this.navCtrl.push(PublicatedListWithShopperPovShopperPage, { list_owner: candidature.ListOwnerUid, list_key: candidature.ListReferenceKey, candidature_key: _candidature.key, candidature: candidature });
+              this.localNotifications.clearAll();
+              console.log(JSON.stringify(notification));  
             });
           }
         }
@@ -429,14 +432,17 @@ export class Globals {
           } else {
             // Schedule a single notification
             this.localNotifications.schedule({
-              id: 1,
+              id: this.NotificationCounter++,
               title: 'Nuovo candidato!',
               text: "Clicca per vedere i dettagli",
               data: { list_owner: this.UID, list_key: candidate.ListReferenceKey },
-              icon: 'res://icon'
+              icon: 'res://icon',
+              at: new Date(new Date().getTime() + 10)
             });
             this.localNotifications.on("click", (notification) => {
+              this.localNotifications.clearAll();
               this.navCtrl.push(PublicatedListCandidatesPage, { list_key: candidate.ListReferenceKey });
+              console.log(JSON.stringify(notification));
             });
           }
         }

@@ -62,6 +62,10 @@ export class MyApp {
         document.body.classList.remove('keyboard-is-open');
       });
 
+      localNotifications.registerPermission().then(function (granted) {
+        console.log("local notification permission: " + granted);
+      });
+
       globals.af = af;
       globals.afAuth = afAuth;
       globals.alertCtrl = alertCtrl;
