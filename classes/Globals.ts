@@ -581,13 +581,15 @@ export class Globals {
 
       this.Chats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
         let chat: Chat = _chat.val();
-        let i: number = this.GetIndexByKey(this.Chats, _chat.key);
-        if (i != -1)
-          Object.assign(this.Chats[i], chat);
-        else
-          console.warn("Globals.LinkReviewsWatchers> Cannot find index for key <" + _chat.key + "> in child_changed");
-        this.SortMessageArrayByDate(_chat.key);
-        this.ForceAppChanges();
+        if (chat.DemanderUid == this.UID || chat.ShopperUid == this.UID) {
+          let i: number = this.GetIndexByKey(this.Chats, _chat.key);
+          if (i != -1)
+            Object.assign(this.Chats[i], chat);
+          else
+            console.warn("Globals.LinkReviewsWatchers> Cannot find index for key <" + _chat.key + "> in child_changed");
+          this.SortMessageArrayByDate(_chat.key);
+          this.ForceAppChanges();
+        }
       });
 
     } catch (e) {
@@ -600,18 +602,20 @@ export class Globals {
     let _keys: Array<string> = Object.keys(_chat.Messages);
     let MessagesInOrder: Array<Message> = new Array<Message>();
     for (let i = 0; i < _keys.length; i++) {
-        if (i == 0) {
-          MessagesInOrder.push(_chat.Messages[_keys[i]]);
-        } else {
-          for (let j = 0; j < MessagesInOrder.length; j++) {
-            if (_chat.Messages[_keys[i]].Date > MessagesInOrder[j].Date) {
-              MessagesInOrder.splice((_keys.length - j), 0, _chat.Messages[_keys[i]]);
-              break;
-            }
+      _chat.Messages[_keys[i]].Date = new Date(_chat.Messages[_keys[i]].Date);
+      if (i == 0) {
+        MessagesInOrder.push(_chat.Messages[_keys[i]]);
+      } else {
+        for (let j = 0; j < MessagesInOrder.length; j++) {
+          if (_chat.Messages[_keys[i]].Date > MessagesInOrder[j].Date) {
+            MessagesInOrder.splice((_keys.length - j), 0, _chat.Messages[_keys[i]]);
+            break;
           }
         }
+      }
     }
-    _chat.Messages = MessagesInOrder;
+    _chat.MessagesInOrder = MessagesInOrder;
+    _chat.LastMessage = MessagesInOrder[MessagesInOrder.length - 1];
   }
 
   // UNLINK WATCHERS SECTION

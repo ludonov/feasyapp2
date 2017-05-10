@@ -270,19 +270,21 @@ export class Chat {
   public ShopperName: string;
   public DemanderUid: string;
   public ShopperUid: string;
-  public LastMessage: string;
+  public LastMessage: Message;
   public ListKey: string;
   public Messages: Object;
+  public MessagesInOrder: Array<Message>;
 
   constructor() {
-
+    this.Messages = {};
+    this.MessagesInOrder = new Array<Message>();
   }
 }
 
 export class Message {
   public $key: string;
   public Text: string;
-  public Date: string;
+  public Date: Date;
   public OwnerUid: string;
 
   constructor() {
