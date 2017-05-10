@@ -176,11 +176,11 @@ export class GenericWithKey {
 
 
 export class FeasyList {
-  public $key: string;
+  public $key: string;  // runtime
   public owner: string;
   public Name: string;
   public Items: Object;
-  public ItemsCount: number;
+  public ItemsCount: number;  // runtime
   public Reward: number;
   public PublishedDate: string;
   public CreatedDate: string;
@@ -207,7 +207,7 @@ export class FeasyList {
 }
 
 export class FeasyItem {
-  public $key: string;
+  public $key: string;  // runtime
   public Name: string;
   public Qty: number;
   public Brand: string;
@@ -222,7 +222,7 @@ export class FeasyItem {
 }
 
 export class Candidate {
-  public $key: string;
+  public $key: string;  // runtime
   public uid: string;
   public DisplayName: string;
   public AddressKey: string;
@@ -237,7 +237,7 @@ export class Candidate {
 }
 
 export class Candidature {
-  public $key: string;
+  public $key: string;  // runtime
   public ListOwnerUid: string;
   public ListReferenceKey: string;
   public AddressKey: string;
@@ -250,7 +250,7 @@ export class Candidature {
 }
 
 export class Review {
-  public $key: string;
+  public $key: string;  // runtime
   public Rating: number;
   public Title: string;
   public Text: string;
@@ -265,15 +265,15 @@ export class Review {
 }
 
 export class Chat {
-  public $key: string;
+  public $key: string;  // runtime
   public DemanderName: string;
   public ShopperName: string;
   public DemanderUid: string;
   public ShopperUid: string;
-  public LastMessage: Message;
+  public LastMessage: Message;   // runtime
   public ListKey: string;
   public Messages: Object;
-  public MessagesInOrder: Array<Message>;
+  public MessagesInOrder: Array<Message>;   // runtime
 
   constructor() {
     this.Messages = {};
@@ -282,9 +282,10 @@ export class Chat {
 }
 
 export class Message {
-  public $key: string;
+  public $key: string;  // runtime
   public Text: string;
-  public Date: Date;
+  public Date: Date;  // runtime
+  public timestamp: number;
   public OwnerUid: string;
 
   constructor() {
@@ -293,7 +294,7 @@ export class Message {
 }
 
 export class DeliveryAddress {
-  public $key: string;
+  public $key: string;  // runtime
   public Name: string;
   public FormattedAddress: string;
   public Nation: string;
