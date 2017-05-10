@@ -596,7 +596,7 @@ export class Globals {
     let _keys: Array<string> = Object.keys(_chat.Messages);
     let MessagesInOrder: Array<Message> = new Array<Message>();
     for (let i = 0; i < _keys.length; i++) {
-      _chat.Messages[_keys[i]].Date = new Date(_chat.Messages[_keys[i]].Date);
+      _chat.Messages[_keys[i]].Date = new Date(_chat.Messages[_keys[i]].timestamp);
       if (i == 0) {
         MessagesInOrder.push(_chat.Messages[_keys[i]]);
       } else {
