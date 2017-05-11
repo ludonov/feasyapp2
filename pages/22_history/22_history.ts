@@ -6,9 +6,8 @@ import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable }
 import { FeasyUser, FeasyList, FeasyItem, Review, StripForFirebase, Chat } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
-import { UserProfilePage } from '../../pages/17_user_profile/17_user_profile';
 import { UserProfilePovOtherUsersPage } from '../../pages/17B_user_profile_pov_other_users/17B_user_profile_pov_other_users';
-
+import { TerminatedListInfoPage } from '../../pages/21_terminated_list_info/21_terminated_list_info';
 
 @Component({
   selector: 'page-history',
@@ -28,8 +27,12 @@ export class HistoryPage {
     this.navCtrl.push(UserProfilePovOtherUsersPage, {userUID: userUID});
   }
 
-  goToListDetails(): void {
-    //this.navCtrl.push(UserProfilePovOtherUsersPage);
+  goToListDetailsAsDemander(listKey: string): void {
+    this.navCtrl.push(TerminatedListInfoPage, {list_key: listKey, demander: this.Demander});
+  }
+
+  goToListDetailsAsShopper(listKey: string): void {
+    this.navCtrl.push(TerminatedListInfoPage, { list_key: listKey, demander: this.Demander });
   }
 
 }

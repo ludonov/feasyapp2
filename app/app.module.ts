@@ -52,6 +52,7 @@ import { DoShoppingListsPage } from '../pages/18B_do_shopping_lists/18B_do_shopp
 import { DoShoppingFiltersPage } from '../pages/18C_do_shopping_filters/18C_do_shopping_filters';
 import { ChatListPage } from '../pages/19_chat_list/19_chat_list';
 import { ChatPage } from '../pages/20_chat/20_chat';
+import { TerminatedListInfoPage } from '../pages/21_terminated_list_info/21_terminated_list_info';
 import { SettingsPage } from '../pages/23_settings/23_settings';
 import { EditProfilePage } from '../pages/24_edit_profile/24_edit_profile';
 import { PasswordResetPage } from '../pages/25_password_reset/25_password_reset';
@@ -123,6 +124,7 @@ export const firebaseConfig = {
     ListFromMapPage,
     ChatListPage,
     ChatPage,
+    TerminatedListInfoPage,
     SettingsPage,
     EditProfilePage,
     PasswordResetPage,
@@ -188,6 +190,7 @@ export const firebaseConfig = {
     DoShoppingFiltersPage,
     ChatListPage,
     ChatPage,
+    TerminatedListInfoPage,
     ListFromMapPage,
     SettingsPage,
     EditProfilePage,

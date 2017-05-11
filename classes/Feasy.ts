@@ -198,6 +198,7 @@ export class FeasyList {
   public DeliveryAddresses: Object;
   public ReviewLeft: boolean = false;
   public Publish: boolean;
+  public ChatKey: string;
 
   constructor(name: string) {
     this.Name = name;

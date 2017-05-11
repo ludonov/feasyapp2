@@ -1,0 +1,84 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>LISTA</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+    <div class="spacer" style="height: 16px;"></div>
+
+    <ion-list>
+
+        <ion-item-divider color="light" class="item-title">DETTAGLI CANDIDATO SCELTO</ion-item-divider>
+        <ion-item>
+            <ion-avatar item-left icon-right>
+                <img src="{{ChosenCandidate.PhotoURL}}">
+            </ion-avatar>
+            <h2>{{OtherUser.DisplayName}}</h2>
+            <ion-note item-right>
+                <ion-icon name="arrow-forward"></ion-icon>
+            </ion-note>
+        </ion-item>
+        <ion-item>
+            Punteggio
+            <ion-note item-right>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star-half"></ion-icon>
+                <ion-icon name="star-outline"></ion-icon>
+            </ion-note>
+        </ion-item>
+        <ion-item>
+            Commissioni Fatte
+            <ion-note item-right>{{OtherUser.CommissionsDone}}</ion-note>
+        </ion-item>
+
+
+        <div class="spacer" style="height: 16px;"></div>
+        <ion-item-divider color="light" class="item-title">DETTAGLI CONSEGNA</ion-item-divider>
+        <ion-item class="item-icon-right" type="item-text-wrap" (click)="ViewAddress()">
+            <h2>{{ChosenAddress.FormattedAddress}}</h2>
+            <p>dalle {{ChosenAddress.From}} &nbsp; alle {{ChosenAddress.To}}</p>
+            <i class="icon ion-chevron-right icon-accessory"></i>
+        </ion-item>
+
+        <div class="spacer" style="height: 16px;"></div>
+        <ion-item-divider color="light" class="item-title">DETTAGLI COMMISSIONE</ion-item-divider>
+
+        <ion-item>
+            Mancia (€)
+            <ion-note item-right>{{list.Reward}}</ion-note>
+        </ion-item>
+        <ion-item>
+            Negozio
+            <ion-note item-right>{{list.PreferredShops}}</ion-note>
+        </ion-item>
+        <ion-item>
+            Peso stimato (kg)
+            <ion-note item-right>{{list.EstimatedWeight}}</ion-note>
+        </ion-item>
+        <ion-item>
+            Tetto massimo (€)
+            <ion-note item-right>{{list.MaxValue}}</ion-note>
+        </ion-item>
+        <ion-item>
+            Commenti
+            <ion-note item-right>{{list.Comments}}</ion-note>
+        </ion-item>
+
+        <div class="spacer" style="height: 32px;"></div>
+
+        <div class="spacer" style="height: 16px;"></div>
+        <ion-item icon-left icon-right (click)="ViewItems()">
+            <ion-icon name="list"></ion-icon>
+            Lista prodotti
+            <ion-note item-right>
+                <ion-icon name="arrow-forward"></ion-icon>
+            </ion-note>
+        </ion-item>
+
+    </ion-list>
+
+</ion-content>

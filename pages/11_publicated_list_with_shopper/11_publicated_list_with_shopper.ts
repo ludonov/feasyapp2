@@ -2,8 +2,6 @@
 
 import { NavController, NavParams, AlertController, Alert, Tabs } from 'ionic-angular';
 
-
-
 import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, Candidate, StripForFirebase } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 

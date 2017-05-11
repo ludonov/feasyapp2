@@ -13,7 +13,7 @@
     </ion-card-header>
 
     <ion-list>
-      <ion-item *ngFor="let listD of globals.TerminatedListsAsDemander" (click)="goToListDetails()">
+      <ion-item *ngFor="let listD of globals.TerminatedListsAsDemander" (click)="goToListDetailsAsDemander(listD.$key)">
         <ion-avatar item-left (click)="goToProfileOtherUser(listD.ChosenShopperUid)">
           <img src="assets/img/17_profilo/Alberto.jpg">
         </ion-avatar>
@@ -31,7 +31,7 @@
     </ion-card-header>
 
     <ion-list>
-      <ion-item *ngFor="let listS of globals.TerminatedListsAsShopper" (click)="goToListDetails()">
+      <ion-item *ngFor="let listS of globals.TerminatedListsAsShopper" (click)="goToListDetailsAsShopper(listS.$key)">
         <ion-avatar item-left (click)="goToProfileOtherUser(listS.owner)">
           <img src="assets/img/17_profilo/Alberto.jpg">
         </ion-avatar>
