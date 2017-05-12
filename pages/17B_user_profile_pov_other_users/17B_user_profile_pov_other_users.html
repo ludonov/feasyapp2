@@ -6,16 +6,33 @@
 
 <ion-content>
 	    
-	<ion-list>	
+	<ion-list>
 		<ion-card>
 			<ion-item class="profile-item">
-				<div class="profile-picture">
-					<img src="{{UserInfo.PhotoURL}}">
+				<div class="profile-picture" (click)="goToBigImage()" [ngStyle]="{'background-image': 'url(' + UserInfo.PhotoURL + ')'}">
 				</div>
 				<h2 class="profile-name dark">{{UserInfo.DisplayName}}</h2>
 			</ion-item>
 		</ion-card>
 	</ion-list>
+
+	<ion-card>
+		<ion-item>
+			<ion-icon name="cart" color="secondary" item-left></ion-icon>
+			Commissioni fatte
+			<ion-badge item-right color="secondary">20</ion-badge>
+		</ion-item>
+		<ion-item>
+			<ion-icon name="home" color="secondary" item-left></ion-icon>
+			Commissioni ricevute
+			<ion-badge item-right color="secondary">8</ion-badge>
+		</ion-item>
+		<ion-item>
+			<ion-icon name="star" color="secondary" item-left></ion-icon>
+			Voto
+			<ion-badge item-right color="secondary">4.5</ion-badge>
+		</ion-item>
+	</ion-card>
 
 	<ion-card>
 		<button ion-item (click)="goToReviews()">
@@ -26,7 +43,7 @@
 	</ion-card>
 	
 	<ion-list>
-		<ion-item-group>
+		<!--<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">UTILIZZO</ion-item-divider>
 			<ion-item>
@@ -46,12 +63,16 @@
 				<ion-note item-right><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon></ion-note>
 			</ion-item>
 
-		</ion-item-group>
+		</ion-item-group>-->
 
 		
 		<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">INFORMAZIONI PERSONALI</ion-item-divider>
+			<ion-item-divider class="item-title" style="border-top-color: transparent;">INFORMAZIONI</ion-item-divider>
+			<ion-item>
+				Iscritto dal
+				<ion-note item-right>DA AGGIUNGERE</ion-note>
+			</ion-item>
 			<ion-item>
 				Nazionalità
 				<ion-note item-right>{{UserInfo.Nationality}}</ion-note>
