@@ -1,6 +1,6 @@
 ﻿import { Component } from '@angular/core';
 
-import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Tabs, Loading, LoadingController } from 'ionic-angular';
 
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
@@ -13,6 +13,7 @@ import { EditProfilePage } from '../../pages/24_edit_profile/24_edit_profile';
 import { ReviewsPage } from '../../pages/30_reviews/30_reviews';
 import { AddressesFromProfilePage } from "../34_addresses_from_profile/34_addresses_from_profile";
 import { ReviewsToLeavePage } from "../39_reviews_to_leave/39_reviews_to_leave";
+import { ViewBigImage } from "../42_view_big_picture/42_view_big_picture";
 import { TabsPage } from '../tabs/tabs';
 
 @Component({
@@ -29,7 +30,7 @@ export class UserProfilePage {
   public addresses_db: FirebaseListObservable<any>;
   public gender: string;
 
-  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams,  public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
     this.user_db = globals.af.object("users/" + globals.UID);
     this.addresses_db = globals.af.list("users/" + globals.UID + "/Addresses");
     this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
@@ -61,6 +62,22 @@ export class UserProfilePage {
   goToPendingReviews(): void {
     console.log("going to pending reviews page");
     this.navCtrl.push(ReviewsToLeavePage);
+  }
+
+  goToBigImage(): void {
+    console.log("going to big image page");
+
+    //let loading: Loading = this.loadingCtrl.create({
+    //  spinner: 'dots',
+    //  content: 'Please wait...'
+    //});
+    //loading.present();
+
+    //this.globals.af.object("/pics/" + this.globals.UID + "/Big").$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
+      //loading.dismiss();
+      this.navCtrl.push(ViewBigImage, { image_content: this.globals.UserPicBig });
+    //});
+
   }
 
 }

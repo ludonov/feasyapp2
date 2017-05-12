@@ -11,7 +11,7 @@
 
 	<ion-card>
 		<ion-item class="profile-item">
-			<div class="profile-picture" [ngStyle]="{'background-image': 'url(' + user.PhotoURL + ')'}">
+			<div class="profile-picture" (click)="goToBigImage()" [ngStyle]="{'background-image': 'url(' + user.PhotoURL + ')'}">
 			</div>
 			<h2 class="profile-name">{{user.FirstName}} {{user.LastName}}</h2>
 			<p class="center">{{user.Email}}</p>

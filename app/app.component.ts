@@ -12,6 +12,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { Keyboard } from '@ionic-native/keyboard';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { LocalNotifications } from '@ionic-native/local-notifications';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/1_login/1_login';
@@ -23,6 +24,8 @@ import { SetPersonalDetailsPage } from '../pages/4A_set_personal_details/4A_set_
 import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 import { SettingsPage } from '../pages/23_settings/23_settings';
 import { UserProfilePage } from '../pages/17_user_profile/17_user_profile';
+
+import { ViewBigImage } from "../pages/42_view_big_picture/42_view_big_picture";
 
 import { Candidate, FeasyUser, StripForFirebase } from '../classes/Feasy';
 import { Globals } from '../classes/Globals';
@@ -44,7 +47,7 @@ export class MyApp {
   _user: Observable<firebase.User>;
 
 
-  constructor(platform: Platform, public af: AngularFireDatabase, public afAuth: AngularFireAuth, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public http: Http, private splashScreen: SplashScreen, private keyboard: Keyboard,  private statusBar: StatusBar, public menuCtrl: MenuController, private localNotifications: LocalNotifications, private imagePicker: ImagePicker) {
+  constructor(platform: Platform, public af: AngularFireDatabase, public afAuth: AngularFireAuth, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public http: Http, private splashScreen: SplashScreen, private keyboard: Keyboard, private statusBar: StatusBar, public menuCtrl: MenuController, private localNotifications: LocalNotifications, private imagePicker: ImagePicker, public camera: Camera) {
    
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -70,6 +73,7 @@ export class MyApp {
       globals.http = http;
       globals.localNotifications = localNotifications;
       globals.imagePicker = imagePicker;
+      globals.camera = camera;
       globals.root = LoginPage;
 
       globals.StartConfigWatcher();
@@ -136,15 +140,34 @@ export class MyApp {
               //  displayName: this.globals.User.DisplayName,
               //  photoURL: this.globals.User.PhotoURL
               //});
-              this.af.object("users/" + user.uid).update(this.globals.User).then((res) => {
-                console.log("User data updated");
-              }).catch((err: Error) => {
-                console.warn("Cannot update user data: " + err.message);
+
+              // update profile
+              this.af.object("users/" + user.uid).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
+                let _user: FeasyUser = snapshot.val();
+                if (_user == null || _user.RegisterDate == null) {
+                  this.globals.User.RegisterDate == (new Date()).toUTCString();
+                }
+                this.af.object("users/" + user.uid).update(this.globals.User).then((res) => {
+                  console.log("User data updated");
+                }).catch((err: Error) => {
+                  console.warn("Cannot update user data: " + err.message);
+                });
               });
               this.setRoot(SetPersonalDetailsPage);
               loading.dismiss();
             }
             else {
+              //check if RegisterDate is present, otherwise set it
+              this.af.object("users/" + user.uid).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
+                let _user: FeasyUser = snapshot.val();
+                if (_user != null && _user.RegisterDate == null) {
+                  this.af.object("users/" + user.uid + "/RegisterDate").set((new Date()).toUTCString()).then((res) => {
+                    console.log("User register date set");
+                  }).catch((err: Error) => {
+                    console.warn("Cannot update user register date: " + err.message);
+                  });
+                }
+              });
               //if (user.auth.displayName == null) {
               //  user.auth.updateProfile({
               //    displayName: this.globals.User.DisplayName,
@@ -199,21 +222,25 @@ export class MyApp {
 
   goToLists(): void {
     console.log("going to lists page");
-    //this.navCtrl.push();
+    this.navCtrl.setRoot(TabsPage, { tabIndex: 0 });
     this.menuCtrl.close();
   }
 
   goToFind(): void {
     console.log("going to find page");
-    //this.navCtrl.push();
+    this.navCtrl.setRoot(TabsPage, { tabIndex: 1 });
     this.menuCtrl.close();
   }
 
   goToChats(): void {
     console.log("going to chats page");
-    //this.navCtrl.push();
-    // this.navCtrl.select(1);
-    // this.footerTabs.select(1);
+    this.navCtrl.setRoot(TabsPage, { tabIndex: 2 });
+    this.menuCtrl.close();
+  }
+
+  goToBigImage(): void {
+    console.log("going to big image page");
+    this.navCtrl.push(ViewBigImage, { image_content: this.globals.UserPicBig });
     this.menuCtrl.close();
   }
 

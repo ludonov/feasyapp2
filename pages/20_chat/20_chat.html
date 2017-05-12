@@ -8,8 +8,13 @@
     </ion-title>
     <ion-buttons right>
       <button ion-button icon-only (click)="GoToList()">
-          <ion-icon name="information-circle"></ion-icon>
-        </button>
+        <ion-icon name="information-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons left>
+      <button ion-button icon-only (click)="SendImage()">
+        <ion-icon name="information-circle"></ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -17,7 +22,10 @@
 <ion-content padding class="background-color-body">
 
  <div class="chat">
-  <div class="bubble {{mess.OwnerUid == globals.UID ? 'me' : 'you'}}" *ngFor="let mess of chat.MessagesInOrder">{{mess.Text}}</div>
+  <div class="bubble {{mess.OwnerUid == globals.UID ? 'me' : 'you'}}" *ngFor="let mess of chat.MessagesInOrder">
+    <img class="chat_image" src="{{mess.Text}}" *ngIf="mess.Type == 1" />
+    <div *ngIf="mess.Type == 0">{{mess.Text}}</div>
+  </div>
 </div>
 
 </ion-content>

@@ -1,5 +1,7 @@
 ﻿import { Component } from '@angular/core';
 
+import { NavController, Tabs, NavParams } from 'ionic-angular';
+
 import { LoginPage } from '../1_login/1_login';
 import { ListsPage } from '../6_lists/6_lists';
 import { DoShoppingPage } from '../18A_do_shopping/18A_do_shopping';
@@ -15,7 +17,9 @@ export class TabsPage {
   tab2Root: any = DoShoppingPage;
   tab3Root: any = ChatListPage;
 
-  constructor() {
+  mySelectedIndex: number;
 
+  constructor(public navParams: NavParams) {
+    this.mySelectedIndex = navParams.data.tabIndex || 0;
   }
 }

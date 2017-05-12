@@ -1,4 +1,4 @@
-
+﻿
 typings install dt~google.maps --global --save
 ionic platform add android
 ionic platform add ios
@@ -12,6 +12,7 @@ ionic plugin add cordova-plugin-googlemaps --variable API_KEY_FOR_ANDROID="AIzaS
 ionic plugin add --save cordova-plugin-geolocation
 ionic plugin add cordova-plugin-facebook4 --variable APP_ID="167576887016557" --variable APP_NAME="Feasy"
 ionic plugin add --save https://github.com/Telerik-Verified-Plugins/ImagePicker
+ionic plugin add --save cordova-plugin-camera
 npm install --save @ionic-native/core
 npm install --save @ionic-native/status-bar
 npm install --save @ionic-native/diagnostic
@@ -22,6 +23,7 @@ npm install --save @ionic-native/geolocation
 npm install --save @ionic-native/facebook
 npm install --save @ionic-native/splash-screen
 npm install --save @ionic-native/image-picker
+npm install --save @ionic-native/camera
 
 
 

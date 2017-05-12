@@ -1,7 +1,7 @@
 ﻿import { Component } from '@angular/core';
 
 import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
-import { FeasyUser, FeasyList, FeasyItem, Review, StripForFirebase, Chat, Message } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, FeasyItem, Review, StripForFirebase, Chat, Message, ChatMessageType } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
@@ -33,23 +33,37 @@ export class ChatPage {
     }
 
     SendMessage(input: any): void {
-        let mess: Message = new Message();
-        mess.Text = this.new_message;
-        //this.globals._user.getToken(true).then((_token) => {
-          //(mess as any).Token = _token;
-          mess.OwnerUid = this.globals.UID;
-          mess.timestamp = (new Date()).getTime();
-          this.af.list("/chats/" + this.chat_key + "/Messages").push(StripForFirebase(mess)).then(res => {
-            this.new_message = null;
-            input.setFocus();
-          }).catch((err: Error) => {
-            console.log("Error: " + err.message);
-          });
-        //});
+      let mess: Message = new Message();
+      mess.Text = this.new_message;
+      mess.OwnerUid = this.globals.UID;
+      mess.timestamp = (new Date()).getTime();
+      this.af.list("/chats/" + this.chat_key + "/Messages").push(StripForFirebase(mess)).then(res => {
+        this.new_message = null;
+        input.setFocus();
+      }).catch((err: Error) => {
+        console.warn("ChatPage.SendMessage> Error: " + err.message);
+      });
     }  
 
     GoToList(): void{
         this.navCtrl.push(PublicatedListWithShopperPage, { list_key: this.chat.ListKey });
+    }
+
+    SendImage(): void {
+      this.globals.InputImage(1024, 1024).then(img => {
+        let mess: Message = new Message();
+        mess.Text = img;
+        mess.OwnerUid = this.globals.UID;
+        mess.timestamp = (new Date()).getTime();
+        mess.Type = ChatMessageType.Image;
+        this.af.list("/chats/" + this.chat_key + "/Messages").push(StripForFirebase(mess)).then(res => {
+          console.log("ChatPage.SendImage> image uploaded");
+        }).catch((err: Error) => {
+          console.warn("ChatPage.SendImage> error: " + err.message);
+        });
+      }).catch((err: Error) => {
+        console.warn("ChatPage.SendImage> error: " + err.message);
+      });
     }
 
 }
