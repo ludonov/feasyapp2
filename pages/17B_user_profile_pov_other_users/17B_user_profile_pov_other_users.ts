@@ -21,6 +21,7 @@ export class UserProfilePovOtherUsersPage {
   public UserInfo_db: FirebaseObjectObservable<any>;
   public UserInfo: FeasyUser = new FeasyUser("", "", "");
   public gender: string;
+  public Demander: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public globals: Globals, public af: AngularFireDatabase) {
     this.userUID = navParams.get('userUID');

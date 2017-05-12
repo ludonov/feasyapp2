@@ -7,6 +7,7 @@ import { Globals } from '../../classes/Globals';
 
 import { PublicatedListProductsPage } from '../../pages/12_publicated_list_products/12_publicated_list_products';
 import { AddressViewStaticPage } from '../../pages/30_address_view_static/30_address_view_static';
+import { UserProfilePovOtherUsersPage } from "../17B_user_profile_pov_other_users/17B_user_profile_pov_other_users";
 
 @Component({
     selector: 'page-terminated-list-info',
@@ -72,6 +73,11 @@ export class TerminatedListInfoPage {
     ViewItems(): void {
         console.log("Going to PublicatedListProductsPage");
         this.navCtrl.push(PublicatedListProductsPage, { items: this.list.Items });
+    }
+
+    goToProfileOtherUser(): void {
+        console.log("going to profile page of another user");
+        this.navCtrl.push(UserProfilePovOtherUsersPage, { userUID: this.OtherUserUid });
     }
 
 }

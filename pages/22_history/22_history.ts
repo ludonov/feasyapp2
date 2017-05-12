@@ -17,14 +17,23 @@ import { TerminatedListInfoPage } from '../../pages/21_terminated_list_info/21_t
 export class HistoryPage {
 
   public Demander: boolean = false;
+  public HistoryListsDemander: Array<FeasyList> = new Array<FeasyList>();
+  public HistoryListsShopper: Array<FeasyList> = new Array<FeasyList>();
   
   constructor(public navCtrl: NavController, public navParams: NavParams, public globals: Globals, public af: AngularFireDatabase) {
     this.Demander = navParams.get('demander');
-  }
-
-  goToProfileOtherUser(userUID: string): void {
-    console.log("going to profile page of another user");
-    this.navCtrl.push(UserProfilePovOtherUsersPage, {userUID: userUID});
+    for (let list_d of globals.TerminatedListsAsDemander) {
+      af.object("users/" + list_d.ChosenShopperUid + "/PhotoURL").$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
+        (list_d as any).PhotoURL = snapshot.val();
+        this.HistoryListsDemander.push(list_d);
+      });
+    }
+    for (let list_s of globals.TerminatedListsAsShopper) {
+      af.object("users/" + list_s.owner + "/PhotoURL").$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
+        (list_s as any).PhotoURL = snapshot.val();
+        this.HistoryListsShopper.push(list_s);
+      });
+    }
   }
 
   goToListDetailsAsDemander(listKey: string): void {

@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>LISTA</ion-title>
+        <ion-title>Info Lista</ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -11,9 +11,9 @@
     <ion-list>
 
         <ion-item-divider color="light" class="item-title">DETTAGLI CANDIDATO SCELTO</ion-item-divider>
-        <ion-item>
+        <ion-item (click)="goToProfileOtherUser()">
             <ion-avatar item-left icon-right>
-                <img src="{{ChosenCandidate.PhotoURL}}">
+                <img src="{{OtherUser.PhotoURL}}">
             </ion-avatar>
             <h2>{{OtherUser.DisplayName}}</h2>
             <ion-note item-right>
