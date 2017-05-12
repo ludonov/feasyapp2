@@ -287,3 +287,20 @@ a:hover {
     .send{
         margin: 0 8px 0 0 !important;
     }
+
+
+
+    // BIG IMAGE
+
+.big_image img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.chat_image {
+  max-width: 80%;
+}
