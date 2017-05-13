@@ -35,6 +35,23 @@
 		</ion-item>
 	</ion-card>
 
+	<ion-card>
+		<ion-item (click)="goToReviews()">
+			<ion-icon name="podium" item-left></ion-icon>
+			Recensioni
+			<ion-note item-right>
+				<ion-icon name="arrow-forward"></ion-icon>
+			</ion-note>
+		</ion-item>
+		<ion-item (click)="goToPendingReviews()">
+			<ion-icon name="podium" item-left></ion-icon>
+			Recensioni da Fare
+			<ion-note item-right>
+				<ion-icon name="arrow-forward"></ion-icon>
+			</ion-note>
+		</ion-item>
+	</ion-card>
+
 	<!--<ion-grid>
 		<ion-row>
 			<ion-col>

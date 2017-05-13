@@ -9,9 +9,8 @@
 	<ion-list>	
 		<ion-card>
 			<ion-item class="profile-item">
-				<div class="profile-picture">
-					<img src="assets/img/16_candidate_info_unaccepted/Ludovico.jpg">
-				</div>
+					<div class="profile-picture" (click)="goToBigImage()" [ngStyle]="{'background-image': 'url(' + candidate.PhotoURL + ')'}">
+					</div>
 				<h2 class="profile-name dark">{{candidate.DisplayName}}</h2>
 			</ion-item>
 		</ion-card>

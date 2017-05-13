@@ -147,8 +147,8 @@ export class FeasyUser {
   public Gender: GenderType = GenderType.Male;
   public Rating: number;
   public Addresses: Object;
-  public CommissionsDone: number;
-  public CommissionsReceived: number;
+  public CommissionsDone: number = 0;
+  public CommissionsReceived: number = 0;
   public Candidatures: Object = {};
   public RegisterDate: string;
 
@@ -169,7 +169,11 @@ export class FeasyUser {
         this.PhotoURL = UnknownWoman;
     }
   }
+
 }
+
+
+
 
 export class GenericWithKey {
   public $key: string;
@@ -504,4 +508,17 @@ export function GetRealExpiryDate(expdate: ExpiryDateType): string {
     return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 14, 23, 59, 59).toUTCString();
   else
     return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 3, 23, 59, 59).toUTCString();
+}
+
+export function SetImageOrDefaultOtherUser(user_gender: number, photo_url: string): string {
+  let _photo_url: string;
+  if (photo_url == null || photo_url == "") {
+    if (user_gender == GenderType.Male)
+      _photo_url = UnknownMan;
+    else
+      _photo_url = UnknownWoman;
+  } else {
+    _photo_url = photo_url;
+  }
+  return _photo_url;
 }
