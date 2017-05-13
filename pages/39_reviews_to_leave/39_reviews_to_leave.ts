@@ -22,7 +22,7 @@ export class ReviewsToLeavePage {
     public ReviewsToLeaveAsShopper: Array<any> = new Array<any>();
 
     public TerminatedLists_db: FirebaseListObservable<any>; 
-    public TerminatedListsAsDemander: Object = {};
+    public TerminatedListsAsDemander: Object = {}; 
     public TerminatedListsAsShopper: Object = {};
 
     constructor(public cd: ChangeDetectorRef, public navCtrl: NavController, public globals: Globals,  public alertCtrl: AlertController) {
@@ -36,15 +36,25 @@ export class ReviewsToLeavePage {
                 let list_d: FeasyList = this.TerminatedListsAsDemander[demander_key];
                 if(list_d.ReviewLeft == false) {
                     list_d.$key = demander_key;
-                    this.ReviewsToLeaveAsDemander.push(list_d);
+                    this.globals.af.object('/users/' + list_d.ChosenShopperUid).$ref.on("value", (_user: firebase.database.DataSnapshot) => {
+                        let user: FeasyUser = _user.val();
+                        if (user != null && user.PhotoURL != null)
+                            (list_d as any).PhotoURL = user.PhotoURL;
+                        this.ReviewsToLeaveAsDemander.push(list_d);
+                    });
                 }
-            }
+            } 
 
             for (let shopper_key in this.TerminatedListsAsShopper) {
                 let list_s: FeasyList = this.TerminatedListsAsShopper[shopper_key];
                 if(list_s.ReviewLeft == false){
                     list_s.$key = shopper_key;
-                    this.ReviewsToLeaveAsShopper.push(list_s);
+                    this.globals.af.object('/users/' + list_s.owner).$ref.on("value", (_user: firebase.database.DataSnapshot) => {
+                        let user: FeasyUser = _user.val();
+                        if (user != null && user.PhotoURL != null)
+                            (list_s as any).PhotoURL = user.PhotoURL;
+                        this.ReviewsToLeaveAsShopper.push(list_s);
+                    });
                 }
             }
         });

@@ -1,4 +1,4 @@
-<ion-header>
+﻿<ion-header>
   <ion-navbar>
     <button ion-button menuToggle icon-only>
       <ion-icon name='menu'></ion-icon>
@@ -11,13 +11,20 @@
 
     <ion-list>
 
-      <ion-item *ngFor="let chat1 of MyChats">
-      <ion-avatar item-left>
-        <!--<img src="img/Daniele.png">-->
-       </ion-avatar>
-        <h2>{{chat1.OtherPerson}}</h2>
-        <p>Lista supermercato</p>
+      <ion-item *ngFor="let chat of globals.Chats" (click)="GoToChat(chat.$key)">
+          <ion-avatar item-left>
+            <img src="{{chat.PhotoURL}}">
+          </ion-avatar>
+          <h2>{{chat.DemanderUid == this.globals.UID ? chat.ShopperName : chat.DemanderName}}</h2>
+          <p>{{chat.LastMessage == undefined ? "" : (chat.LastMessage.Type == null || chat.LastMessage.Type == 0 ? chat.LastMessage.Text : "Immagine")}}</p>
+        <ion-note item-right>
+          {{chat.LastMessage == undefined ? "" : chat.LastMessage.Date.getHours() + ":" + chat.LastMessage.Date.getMinutes()}}
+        </ion-note>
       </ion-item>
 
-    </ion-list>
-  </ion-content>
+</ion-list>
+
+</ion-content>
+
+
+    

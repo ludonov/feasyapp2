@@ -1,11 +1,51 @@
-<ion-header>
+﻿<ion-header>
   <ion-navbar>
-    <ion-title>Chat</ion-title>
+    <ion-title>
+      <!--<ion-avatar item-left>
+        <img src="{{chat.PhotoURL}}">
+      </ion-avatar>-->
+      Chat con {{PersonInContact}}
+    </ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only (click)="GoToList()">
+        <ion-icon name="information-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons left>
+      <button ion-button icon-only (click)="SendImage()">
+        <ion-icon name="information-circle"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content scroll="false" class="has-header has-tabs background-color-body">
+<ion-content hideTabs padding class="background-color-body">
 
-
+ <div class="chat">
+  <div class="bubble {{mess.OwnerUid == globals.UID ? 'me' : 'you'}}" *ngFor="let mess of chat.MessagesInOrder">
+    <img class="chat_image" src="{{mess.Text}}" *ngIf="mess.Type == 1" />
+    <div *ngIf="mess.Type == 0">{{mess.Text}}</div>
+  </div>
+</div>
 
 </ion-content>
+
+<!--<ion-footer style="background-color: white">
+  <ion-toolbar style="background-color: white">
+    <ion-input left type="text" #input style="background-color: white" [(ngModel)]="new_message"></ion-input>
+    <ion-buttons end style="background-color: white">
+      <button ion-fab mini class="send" (click)="SendMessage(input)">
+        <ion-icon name="send"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>-->
+
+<ion-footer>
+  
+    <ion-row>
+      <ion-input type="text" #input placeholder="" [(ngModel)]="new_message"></ion-input>
+      <button ion-fab mini class="send" (click)="SendMessage(input)"><ion-icon name="send"></ion-icon></button>
+    </ion-row>
+  
+</ion-footer>

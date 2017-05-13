@@ -6,10 +6,10 @@
 
 <ion-content>
 	    
-	<ion-list>
-		<ion-item *ngFor="let review of globals.Reviews_db | async"  (click)="goToSingleReview(review)">
+	<ion-list> 
+		<ion-item *ngFor="let review of ReviewsForDisplay"  (click)="goToSingleReview(review, review.PhotoURL)">
 			<ion-avatar item-left>
-			<img src="assets/img/17_profilo/Alberto.jpg">
+			<img src="{{review.PhotoURL}}">
 			</ion-avatar>
 			<h2>{{review.WriterName}}</h2>
 			<h2>{{review.Title}}</h2>

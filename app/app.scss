@@ -67,7 +67,7 @@ body.keyboard-is-open .scroll-content {
 }
 
 .profile-picture {
-  border: 1px solid rgba(0, 0, 0, 0.25);
+  border: 3px solid rgba(0, 0, 0, 0.25);
   padding: 3px;
   border-radius: 100%;
   -webkit-box-sizing: content-box;
@@ -77,11 +77,15 @@ body.keyboard-is-open .scroll-content {
   width: 128px;
   height: 128px;
   overflow: hidden;
+  background-size: cover;
 }
 
 .profile-picture img {
-  width: 128px;
-  height: 128px; /*Prova per non ovalizzare, togliere se necessario*/
+  display: block;
+  max-width: 128px;
+  max-height: 128px;
+  width: auto;
+  height: auto;
   border-radius: 100%;
 }
 
@@ -225,4 +229,78 @@ a:visited {
 a:hover {
 	color: black;
 	text-decoration: none;
+}
+
+/* CHAT CLASSES */
+
+.chat {
+        width: 100%;
+    }
+    .bubble {
+        background-color: #F2F2F2;
+        border-radius: 5px;
+        box-shadow: 0 0 6px #B2B2B2;
+        display: inline-block;
+        padding: 10px 18px;
+        position: relative;
+        vertical-align: top;
+        min-width: 50%;
+    }
+    /*.bubble::before {
+        background-color: #F2F2F2;
+        content: "\00a0";
+        display: block;
+        height: 16px;
+        position: absolute;
+        top: 11px;
+        transform: rotate( 29deg) skew( -35deg);
+        -moz-transform: rotate( 29deg) skew( -35deg);
+        -ms-transform: rotate( 29deg) skew( -35deg);
+        -o-transform: rotate( 29deg) skew( -35deg);
+        -webkit-transform: rotate( 29deg) skew( -35deg);
+        width: 20px;
+    }*/
+    .you {
+        background-color: white; 
+        color: black;
+        float: left;
+        margin: 5px 45px 5px 20px;
+    }
+    .you::before {
+        background-color: white; 
+        box-shadow: -2px 2px 2px 0 rgba( 178, 178, 178, .4);
+        left: -9px;
+    }
+    .me {
+        background-color: #00bcd4; 
+        color: white;
+        text-align: right;
+        float: right;
+        margin: 5px 20px 5px 45px;
+    }
+    .me::before {
+      background-color: #00bcd4; 
+        box-shadow: 2px -2px 2px 0 rgba( 178, 178, 178, .4);
+        right: -9px;
+    }
+
+    .send{
+        margin: 0 8px 0 0 !important;
+    }
+
+
+
+    // BIG IMAGE
+
+.big_image img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.chat_image {
+  max-width: 80%;
 }

@@ -11,20 +11,19 @@
 
 	<ion-card>
 		<ion-item class="profile-item">
-			<div class="profile-picture">
-				<img src="{{user.PhotoURL}}">
+			<div class="profile-picture" (click)="goToBigImage()" [ngStyle]="{'background-image': 'url(' + user.PhotoURL + ')'}">
 			</div>
 			<h2 class="profile-name">{{user.FirstName}} {{user.LastName}}</h2>
 			<p class="center">{{user.Email}}</p>
 		</ion-item>
 	</ion-card>
 	<ion-card>
-		<ion-item>
+		<ion-item (click)="GoToHistory(false)">
 			<ion-icon name="cart" color="secondary" item-left></ion-icon>
 			Commissioni fatte
 			<ion-badge item-right color="secondary">20</ion-badge>
 		</ion-item>
-		<ion-item>
+		<ion-item (click)="GoToHistory(true)">
 			<ion-icon name="home" color="secondary" item-left></ion-icon>
 			Commissioni ricevute
 			<ion-badge item-right color="secondary">8</ion-badge>
@@ -33,6 +32,23 @@
 			<ion-icon name="star" color="secondary" item-left></ion-icon>
 			Voto
 			<ion-badge item-right color="secondary">4.5</ion-badge>
+		</ion-item>
+	</ion-card>
+
+	<ion-card>
+		<ion-item (click)="goToReviews()">
+			<ion-icon name="podium" item-left></ion-icon>
+			Recensioni
+			<ion-note item-right>
+				<ion-icon name="arrow-forward"></ion-icon>
+			</ion-note>
+		</ion-item>
+		<ion-item (click)="goToPendingReviews()">
+			<ion-icon name="podium" item-left></ion-icon>
+			Recensioni da Fare
+			<ion-note item-right>
+				<ion-icon name="arrow-forward"></ion-icon>
+			</ion-note>
 		</ion-item>
 	</ion-card>
 

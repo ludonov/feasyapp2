@@ -2,7 +2,7 @@
 
 import { NavController, NavParams, AlertController, Tabs, LoadingController, Loading, LoadingOptions, Alert } from 'ionic-angular';
 
-import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, Candidate, StripForFirebase } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, Candidate, StripForFirebase, UnknownMan, UnknownWoman, SetImageOrDefaultOtherUser } from '../../classes/Feasy';
 
 import { Globals } from '../../classes/Globals';
 
@@ -14,11 +14,9 @@ import { CandidateInfoUnacceptedPage } from '../../pages/16_candidate_info_unacc
 })
 export class PublicatedListCandidatesPage {
 
-  //private candidates_db: FirebaseListObservable<any>;
-  private candidates: Object = {};
+  private Candidates: Array<Candidate> = new Array<Candidate>();
   private list_key: string;
   private cands: Array<Candidate> = new Array<Candidate>();
-  //private NoCandidates: boolean = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, @Inject(forwardRef(() => Globals)) public globals: Globals, public loadingCtrl: LoadingController, public alertCtrl: AlertController) {
     this.list_key = navParams.get("list_key");
@@ -34,6 +32,15 @@ export class PublicatedListCandidatesPage {
       console.log("Setting all candidates as visualised");
       this.cands = globals.GetAllCandidatesForList(this.list_key);
       for (let cand of this.cands) {
+        globals.af.object("/users/" + cand.uid).$ref.once("value", (_user: firebase.database.DataSnapshot) => {
+          let user: any = _user.val();
+          if (user != null) {
+            (cand as any).PhotoURL = SetImageOrDefaultOtherUser(user.Gender, user.PhotoURL);
+            (cand as any).Gender = user.Gender;
+            this.Candidates.push(cand);
+          }
+        });
+  
         if (!cand.Visualised) {
           unvisualisedCandidates[cand.$key] = {};
           Object.assign(unvisualisedCandidates[cand.$key], StripForFirebase(cand));
@@ -47,7 +54,7 @@ export class PublicatedListCandidatesPage {
   }
 
   ViewCandidate(candidate): void {
-    this.navCtrl.push(CandidateInfoUnacceptedPage, { candidate: candidate, candidate_key: candidate.$key, list_key: this.list_key })
+    this.navCtrl.push(CandidateInfoUnacceptedPage, { candidate: candidate, candidate_key: candidate.$key, list_key: this.list_key});
   }
 
 }

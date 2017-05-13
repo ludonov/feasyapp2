@@ -6,38 +6,40 @@
 
 <ion-content>
   
-  <ion-card>
+  <div *ngIf="Demander == true">
+  <ion-card color="secondary">
     <ion-card-header>
-      Ultimi movimenti
+      SPESE DA DEMANDER
     </ion-card-header>
 
     <ion-list>
-      <ion-item>
-        <ion-avatar item-left (click)="goToProfileOtherUser()">
-          <img src="assets/img/17_profilo/Alberto.jpg">
+      <ion-item *ngFor="let listD of HistoryListsDemander" (click)="goToListDetailsAsDemander(listD.$key)">
+        <ion-avatar item-left>
+          <img src="{{listD.PhotoURL}}">
         </ion-avatar>
-        <h2>Alberto Arrighi</h2>
-        <p>@albi</p>
-        <ion-note item-right>FATTA - 16:00 - 22/07/2016</ion-note>
+        <ion-label>{{listD.ChosenShopperName}}</ion-label>
+        <ion-note item-right>{{listD.TerminatedDate}}</ion-note>
       </ion-item>
-      <ion-item>
-        <ion-avatar item-left (click)="goToProfileOtherUser()">
-          <img src="assets/img/17_profilo/Daniele.jpg">
-        </ion-avatar>
-        <h2>Daniele Pettenuzzo</h2>
-        <p>@pette</p>
-        <ion-note item-right>FATTA - 14:36 - 22/07/2016</ion-note>
-      </ion-item>
-      <ion-item>
-        <ion-avatar item-left (click)="goToProfileOtherUser()">
-          <img src="assets/img/17_profilo/Ludovico.jpg">
-        </ion-avatar>
-        <h2>Ludovico Novelli</h2>
-        <p>@ludonov</p>
-        <ion-note item-right>RICEVUTA - 18:02 - 21/07/2016</ion-note>
-      </ion-item>
-
     </ion-list>
   </ion-card>
+  </div>
+
+<div *ngIf="Demander == false">
+  <ion-card color="secondary">
+    <ion-card-header>
+       SPESE DA SHOPPER
+    </ion-card-header>
+
+    <ion-list>
+      <ion-item *ngFor="let listS of HistoryListsShopper" (click)="goToListDetailsAsShopper(listS.$key)">
+        <ion-avatar item-left>
+          <img src="{{listS.PhotoURL}}">
+        </ion-avatar>
+        <ion-label>{{listS.DemanderName}}</ion-label>
+        <ion-note item-right>{{listS.TerminatedDate}}</ion-note>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+  </div>
 
 </ion-content>

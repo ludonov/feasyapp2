@@ -7,6 +7,7 @@ import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable }
 import { AngularFireAuth } from 'angularfire2/auth';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { ImagePicker } from '@ionic-native/image-picker';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Observable } from 'rxjs/Observable';
 
 import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candidates/14_publicated_list_candidates';
@@ -14,7 +15,7 @@ import { PublicatedListWithShopperPovShopperPage } from '../pages/11B_publicated
 import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
 
 
-import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, Chat, GenericWithKey } from './Feasy';
+import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, Chat, Message, ChatMessageType, GenericWithKey, UnknownMan, UnknownWoman } from './Feasy';
 
 
 @Injectable()
@@ -25,10 +26,16 @@ export class Globals {
   public root: any;
 
   public UID: string = "";
+  public _user: firebase.User;
   public IsWeb: boolean = true;
+
+  public WatchersLinked: boolean = false;
 
   public User: FeasyUser = new FeasyUser("", "", "");
   public User_db: FirebaseObjectObservable<any>;
+
+  public UserPicBig: string;
+  public UserPicBig_db: FirebaseObjectObservable<any>;
 
   public PublishedLists: Array<FeasyList> = new Array<FeasyList>();
   public PublishedLists_db: FirebaseListObservable<any>;
@@ -68,6 +75,7 @@ export class Globals {
   public Chats_db: FirebaseListObservable<any>;
   
   public JustRegistered: boolean = false;
+  public NotificationCounter: number = 0;
 
   public af: AngularFireDatabase;
   public afAuth: AngularFireAuth;
@@ -77,11 +85,27 @@ export class Globals {
   public http: Http;
   public localNotifications: LocalNotifications;
   public imagePicker: ImagePicker;
+  public camera: Camera;
 
   constructor(platform: Platform, public applicationRef: ApplicationRef, public cd: ChangeDetectorRef) {
     this.IsWeb = platform.is("core");
   }
 
+  public BIG_IMAGE_MAX_WIDTH(): number {
+    return 700;
+  }
+
+  public BIG_IMAGE_MAX_HEIGHT(): number {
+    return 700;
+  }
+
+  public SMALL_IMAGE_MAX_WIDTH(): number {
+    return 128;
+  }
+
+  public SMALL_IMAGE_MAX_HEIGHT(): number {
+    return 128;
+  }
 
   public StartConfigWatcher() {
     this.config_db = this.af.object("/config");
@@ -103,23 +127,35 @@ export class Globals {
     });
   }
 
-  public updateUser(): void {
+  public updateUser(): firebase.Promise<void> {
     if (this.User_db != null)
-      this.User_db.update(StripForFirebase(this.User)).then(() => {
+      return this.User_db.update(StripForFirebase(this.User)).then(() => {
         console.log("Globals.updateUser> User data updated");
       }).catch((err: Error) => {
         console.warn("Globals.updateUser> Cannot update user data: " + err.message);
       });
   }
 
+  public ShowGenericError(): Promise<any> {
+    let alert = this.alertCtrl.create({
+      title: 'Info',
+      subTitle: "Si è verificato un errore. Si prega di controllare la propria connettività e ritentare nuovamente.",
+      buttons: ['Ok']
+    });
+    return alert.present();
+  }
+
   public LinkAllWatchers(): void {
-    this.LinkUserWatchers();
-    this.LinkListsWatchers();
-    this.LinkCandidatesWatchers();
-    this.LinkCandidaturesWatchers();
-    this.LinkReviewsWatchers();
-    this.LinkUserChatsWatchers();
-    this.LinkChatsWatchers();
+    if (!this.WatchersLinked) {
+      this.LinkUserWatchers();
+      this.LinkListsWatchers();
+      this.LinkCandidatesWatchers();
+      this.LinkCandidaturesWatchers();
+      this.LinkReviewsWatchers();
+      this.LinkUserChatsWatchers();
+      this.LinkChatsWatchers();
+      this.WatchersLinked = true;
+    }
   }
 
 
@@ -138,7 +174,18 @@ export class Globals {
           this.User.Gender = GenderType.Male;
         this.User.SetImageOrDefault();
       } else {
-        console.log("User data null");
+        console.warn("User data null");
+      }
+    });
+
+    this.UserPicBig_db = this.af.object('/pics/' + this.UID + "/Big");
+    this.UserPicBig_db.$ref.once("value", (_pic: firebase.database.DataSnapshot) => {
+      let pic: string = _pic.val();
+      if (pic != null) {
+        console.log("User big pic fetched");
+        this.UserPicBig = pic;
+      } else {
+        console.warn("User big pic null");
       }
     });
   }
@@ -345,13 +392,15 @@ export class Globals {
           } else {
             // Schedule a single notification
             this.localNotifications.schedule({
-              id: 1,
+              id: this.NotificationCounter++,
               title: "Sei stato accettato!",
               text: "Clicca per vedere i dettagli",
               icon: 'res://icon'
             });
             this.localNotifications.on("click", (notification) => {
               this.navCtrl.push(PublicatedListWithShopperPovShopperPage, { list_owner: candidature.ListOwnerUid, list_key: candidature.ListReferenceKey, candidature_key: _candidature.key, candidature: candidature });
+              this.localNotifications.clearAll();
+              console.log(JSON.stringify(notification));  
             });
           }
         }
@@ -423,14 +472,17 @@ export class Globals {
           } else {
             // Schedule a single notification
             this.localNotifications.schedule({
-              id: 1,
+              id: this.NotificationCounter++,
               title: 'Nuovo candidato!',
               text: "Clicca per vedere i dettagli",
               data: { list_owner: this.UID, list_key: candidate.ListReferenceKey },
-              icon: 'res://icon'
+              icon: 'res://icon',
+              at: new Date(new Date().getTime() + 10)
             });
             this.localNotifications.on("click", (notification) => {
+              this.localNotifications.clearAll();
               this.navCtrl.push(PublicatedListCandidatesPage, { list_key: candidate.ListReferenceKey });
+              console.log(JSON.stringify(notification));
             });
           }
         }
@@ -512,13 +564,8 @@ export class Globals {
   }
 
   private LinkUserChatsWatchers(): void {
-    
-    // this.UserChats_db = this.af.list("/user_chats/" + this.UID);
-    // this.UserChats_db.$ref.on("value", (_userchat: firebase.database.DataSnapshot) => {
-    //   let userchat: Chat = _userchat.val();
-    //   this.UserChats[_userchat.key] = userchat;
-    // });
-    
+  
+  
     try {
       this.UserChats_db = this.af.list("user_chats/" + this.UID);
       this.UserChats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
@@ -533,17 +580,6 @@ export class Globals {
           this.UserChats.push(chat);
         this.ForceAppChanges();
       });
-
-      // this.UserChats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
-      //   //let chat: Chat = _chat.val();
-      //   let i: number = this.GetIndexByKey(this.UserChats, _chat.key);
-      //   if (i != -1)
-      //     Object.assign(this.Chats[i], chat);
-      //   else
-      //     console.warn("Globals.LinkReviewsWatchers> Cannot find index for key <" + _chat.key + "> in child_changed");
-
-      //   this.ForceAppChanges();
-      // });
 
     } catch(e) {
       console.log("Globals.LinkUserChatsWatchers catch err: " + JSON.stringify(e));
@@ -568,20 +604,32 @@ export class Globals {
       this.Chats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {
         let chat: Chat = _chat.val();
         chat.$key = _chat.key;
-        if (chat != null)
-          this.Chats.push(chat);
-        this.ForceAppChanges();
+        if (chat.DemanderUid == this.UID || chat.ShopperUid == this.UID) {
+          if (chat != null) {
+            chat.Messages = chat.Messages || {};
+            this.Chats.push(chat);
+          }
+          this.af.object("/users/" + (chat.DemanderUid == this.UID ? chat.ShopperUid : chat.DemanderUid)).$ref.once("value", (_user: firebase.database.DataSnapshot) => {
+            let user: FeasyUser = _user.val();
+            if (user != null)
+              (this.GetChatByKey(_chat.key) as any).PhotoURL = user.PhotoURL || (user.Gender == GenderType.Male ? UnknownMan : UnknownWoman);
+          });
+          this.SortMessageArrayByDate(_chat.key);
+          this.ForceAppChanges();
+        }
       });
 
       this.Chats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
         let chat: Chat = _chat.val();
-        let i: number = this.GetIndexByKey(this.Chats, _chat.key);
-        if (i != -1)
-          Object.assign(this.Chats[i], chat);
-        else
-          console.warn("Globals.LinkReviewsWatchers> Cannot find index for key <" + _chat.key + "> in child_changed");
-
-        this.ForceAppChanges();
+        if (chat.DemanderUid == this.UID || chat.ShopperUid == this.UID) {
+          let i: number = this.GetIndexByKey(this.Chats, _chat.key);
+          if (i != -1)
+            Object.assign(this.Chats[i], chat);
+          else
+            console.warn("Globals.LinkReviewsWatchers> Cannot find index for key <" + _chat.key + "> in child_changed");
+          this.SortMessageArrayByDate(_chat.key);
+          this.ForceAppChanges();
+        }
       });
 
     } catch (e) {
@@ -589,14 +637,39 @@ export class Globals {
     }
   }  
 
+  private SortMessageArrayByDate(_chat_key: string): void {
+    let _chat: Chat = this.GetChatByKey(_chat_key);
+    let _keys: Array<string> = Object.keys(_chat.Messages);
+    let MessagesInOrder: Array<Message> = new Array<Message>();
+    for (let i = 0; i < _keys.length; i++) {
+      _chat.Messages[_keys[i]].Date = new Date(_chat.Messages[_keys[i]].timestamp);
+      _chat.Messages[_keys[i]].Type = _chat.Messages[_keys[i]].Type || ChatMessageType.Text;
+      if (i == 0) {
+        MessagesInOrder.push(_chat.Messages[_keys[i]]);
+      } else {
+        for (let j = 0; j < MessagesInOrder.length; j++) {
+          if (_chat.Messages[_keys[i]].Date > MessagesInOrder[j].Date) {
+            MessagesInOrder.splice((_keys.length - j), 0, _chat.Messages[_keys[i]]);
+            break;
+          }
+        }
+      }
+    }
+    _chat.MessagesInOrder = MessagesInOrder;
+    _chat.LastMessage = MessagesInOrder[MessagesInOrder.length - 1];
+  }
+
   // UNLINK WATCHERS SECTION
 
   public UnlinkAllWatchers(): void {
-    this.UnlinkUserWatchers();
-    this.UnlinkListsWatchers();
-    this.UnlinkCandidatesWatchers();
-    this.UnlinkCandidaturesWatchers();
-    this.UnlinkReviewsWatchers();
+    if (this.WatchersLinked) {
+      this.UnlinkUserWatchers();
+      this.UnlinkListsWatchers();
+      this.UnlinkCandidatesWatchers();
+      this.UnlinkCandidaturesWatchers();
+      this.UnlinkReviewsWatchers();
+      this.WatchersLinked = false;
+    }
   }
 
   private UnlinkUserWatchers(): void {
@@ -612,10 +685,21 @@ export class Globals {
     this.TerminatedListsAsShopper_db.$ref.off();
     this.PublishedLists = [];
     this.PublishedLists_db = null;
+    this.NoPublishedLists = true;
     this.UnpublishedLists = [];
     this.UnpublishedLists_db = null;
+    this.NoUnpublishedLists = true;
+    this.TerminatedListsAsDemander = [];
     this.TerminatedListsAsDemander_db = null;
+    this.NoTerminatedListsAsDemander = true;
+    this.TerminatedListsAsShopper = [];
     this.TerminatedListsAsShopper_db = null;
+    this.NoTerminatedListsAsShopper = true;
+    this.AcceptedLists = [];
+    this.NoAcceptedLists = true;
+    this.AppliedLists = [];
+    this.NoAppliedLists = true;
+
   }
 
   private UnlinkCandidatesWatchers(): void {
@@ -744,7 +828,7 @@ export class Globals {
 
 
 
-  public ResizeImage(imgSrc: string): Promise<string> {
+  public ResizeImage(imgSrc: string, maxW: number, maxH: number): Promise<string> {
 
     return new Promise((resolve, reject) => {
       try {
@@ -754,10 +838,6 @@ export class Globals {
           ctx = canvas.getContext('2d');
         var cw = canvas.width;
         var ch = canvas.height;
-
-        // limit the image size
-        var maxW = 500;
-        var maxH = 500;
 
         var img = new Image;
         img.onload = function () {
@@ -785,77 +865,118 @@ export class Globals {
 
 
 
-  public InputImage(): Promise<string> {
+  public InputImage(maxW: number, maxH: number): Promise<string> {
 
     return new Promise((resolve, reject) => {
       try {
 
-        if (this.IsWeb) {
+        let alert = this.alertCtrl.create({
+          title: 'Choose one',
+          message: 'How do you want to choose the image?',
+          buttons: [
+            {
+              text: 'Camera',
+              handler: () => {
+                console.log('Globals.InputImage> camera chosen');
+                const options: CameraOptions = {
+                  quality: 90,
+                  targetWidth: maxW,
+                  targetHeight: maxH,
+                  allowEdit: true,
+                  destinationType: this.camera.DestinationType.DATA_URL,
+                  encodingType: this.camera.EncodingType.JPEG,
+                  mediaType: this.camera.MediaType.PICTURE
+                }
 
-          // Create an input element
-          var inputElement = document.createElement("input");
+                this.camera.getPicture(options).then((imageData) => {
+                  resolve('data:image/jpeg;base64,' + imageData);
+                }, (err) => {
+                  reject(err);
+                });
 
-          // Set its type to file
-          inputElement.type = "file";
+              }
+            },
+            {
+              text: 'Gallery',
+              handler: () => {
+                console.log('Globals.InputImage> gallery chosen');
 
-          // set onchange event to call callback when user has selected file
-          inputElement.addEventListener("change", (event: any) => {
+                if (this.IsWeb) {
 
-            var fReader = new FileReader();
-            fReader.readAsDataURL(inputElement.files[0]);
-            fReader.onloadend = (e: any) => {
-              this.ResizeImage(e.target.result).then(img => {
-                resolve(img);
-              }).catch((err: Error) => {
-                reject(err);
-              });
+                  // Create an input element
+                  var inputElement = document.createElement("input");
+
+                  // Set its type to file
+                  inputElement.type = "file";
+
+                  // set onchange event to call callback when user has selected file
+                  inputElement.addEventListener("change", (event: any) => {
+
+                    var fReader = new FileReader();
+                    fReader.readAsDataURL(inputElement.files[0]);
+                    fReader.onloadend = (e: any) => {
+                      this.ResizeImage(e.target.result, maxW, maxH).then(img => {
+                        resolve(img);
+                      }).catch((err: Error) => {
+                        reject(err);
+                      });
+                    }
+                    fReader.onerror = () => {
+                      reject(new Error("Cannot read file"));
+                    }
+                  });
+
+                  // dispatch a click event to open the file dialog
+                  inputElement.click();
+                }
+                else {
+                  let options = {
+                    // Android only. Max images to be selected, defaults to 15. If this is set to 1, upon
+                    // selection of a single image, the plugin will return it.
+                    maximumImagesCount: 1,
+
+                    // max width and height to allow the images to be.  Will keep aspect
+                    // ratio no matter what.  So if both are 800, the returned image
+                    // will be at most 800 pixels wide and 800 pixels tall.  If the width is
+                    // 800 and height 0 the image will be 800 pixels wide if the source
+                    // is at least that wide.
+                    width: maxW,
+                    height: maxH,
+
+                    // quality of resized image, defaults to 100
+                    quality: 90,
+
+                    // output type, defaults to FILE_URIs.
+                    // available options are 
+                    // window.imagePicker.OutputType.FILE_URI (0) or 
+                    // window.imagePicker.OutputType.BASE64_STRING (1)
+                    outputType: 1
+                  };
+
+                  this.imagePicker.getPictures(options).then((results) => {
+                    if (results == null || results.lenght == 0 || results[0] == null || results[0] == "")
+                      reject(new Error("No image selected"));
+                    else
+                      resolve('data:image/jpeg;base64,' + results[0]);
+                  }, (err) => { reject(err) });
+                }
+
+              }
             }
-            fReader.onerror = () => {
-              reject(new Error("Cannot read file"));
-            }
-          });
+          ]
+        });
+        alert.present();
 
-          // dispatch a click event to open the file dialog
-          inputElement.click();
-        }
-        else {
-          let options = {
-            // Android only. Max images to be selected, defaults to 15. If this is set to 1, upon
-            // selection of a single image, the plugin will return it.
-            maximumImagesCount: 1,
-
-            // max width and height to allow the images to be.  Will keep aspect
-            // ratio no matter what.  So if both are 800, the returned image
-            // will be at most 800 pixels wide and 800 pixels tall.  If the width is
-            // 800 and height 0 the image will be 800 pixels wide if the source
-            // is at least that wide.
-            width: 500,
-            height: 500,
-
-            // quality of resized image, defaults to 100
-            quality: 90,
-
-            // output type, defaults to FILE_URIs.
-            // available options are 
-            // window.imagePicker.OutputType.FILE_URI (0) or 
-            // window.imagePicker.OutputType.BASE64_STRING (1)
-            outputType: 1
-          };
-
-          this.imagePicker.getPictures(options).then((results) => {
-            if (results == null || results.lenght == 0 || results[0] == null || results[0] == "")
-              reject(new Error("No image selected"));
-            else
-              resolve('data:image/jpeg;base64,' + results[0]);
-          }, (err) => { reject(err)});
-        }
+        
 
       } catch (err) {
         reject(new Error(JSON.stringify(err)));
         //      observer.throw(new Error("Cannot load image: " + JSON.stringify(err)));
         //observer.complete();
       }
+
     });
+
   }
 
 }
