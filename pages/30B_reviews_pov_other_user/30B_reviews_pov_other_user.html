@@ -7,7 +7,7 @@
 <ion-content>
  
     <ion-list>
-        <ion-item *ngFor="let review of UserReviews" (click)="goToSingleReview(review, review.PhotoURL)">
+        <ion-item *ngFor="let review of UserReviews" (click)="goToSingleReview(review)">
             <ion-avatar item-left>
                 <img src="{{review.PhotoURL}}">
             </ion-avatar>
@@ -25,5 +25,5 @@
                 <ion-icon name="arrow-forward"></ion-icon>
             </ion-note>
         </ion-item>
-    </ion-list>
+    </ion-list> 
 </ion-content>

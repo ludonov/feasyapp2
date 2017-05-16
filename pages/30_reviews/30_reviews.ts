@@ -31,7 +31,7 @@ export class ReviewsPage {
 
   goToSingleReview(review: any, _photo_url: string): void {
     console.log("going to single review page");
-    this.navCtrl.push(SingleReviewDisplayPage, { review: review, photo_url: _photo_url });
+    this.navCtrl.push(SingleReviewDisplayPage, { review: review });
 
   }
 
