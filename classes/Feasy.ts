@@ -149,8 +149,9 @@ export class FeasyUser {
   public Addresses: Object;
   public CommissionsDone: number = 0;
   public CommissionsReceived: number = 0;
-  public Candidatures: Object = {};
+  public Candidatures: Object = {};             // serve questo???????
   public RegisterDate: string;
+  public NumberOfReviews: number = 0;
 
 
   constructor(email: string, firstName: string, lastName: string) {

@@ -20,6 +20,9 @@ export class SingleReviewInputPage {
   public review: Review = new Review();
   public TerminatedList_db: FirebaseObjectObservable<any>;
   public TerminatedList: FeasyList = new FeasyList("");
+  // public OtherUser_db: FirebaseObjectObservable<any>;
+  // public OtherUser: FeasyUser = new FeasyUser("","","");
+
 
 
   constructor(public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams,  public globals: Globals) {
@@ -29,11 +32,19 @@ export class SingleReviewInputPage {
           this.TerminatedList_db = globals.af.object("terminated_lists/" + globals.UID + "/as_demander/" + this.ReviewToLeave.$key);
           this.TerminatedList_db.$ref.on("value", (snapshot1: firebase.database.DataSnapshot) => {
             this.TerminatedList = snapshot1.val();
+            // this.OtherUser_db = globals.af.object("users/" + this.ReviewToLeave.ChosenShopperUid);
+            // this.OtherUser_db.$ref.on("value", (_user1: firebase.database.DataSnapshot) => {
+            //   this.OtherUser = _user1.val();
+            // });
           });
       }else{
         this.TerminatedList_db = globals.af.object("terminated_lists/" + globals.UID + "/as_shopper/" + this.ReviewToLeave.$key);
         this.TerminatedList_db.$ref.on("value", (snapshot2: firebase.database.DataSnapshot) => {
-            this.TerminatedList = snapshot2.val();
+          this.TerminatedList = snapshot2.val();
+          // this.OtherUser_db = globals.af.object("users/" + this.ReviewToLeave.owner);
+          // this.OtherUser_db.$ref.on("value", (_user2: firebase.database.DataSnapshot) => {
+          //   this.OtherUser = _user2.val();
+          // });
         });
       }
       
@@ -71,14 +82,20 @@ export class SingleReviewInputPage {
             this.review.RevieweeUid = this.ReviewToLeave.owner;
         }
         this.review.ListKey = this.ReviewToLeave.$key;
-        //this.review.RevieweeUid = this.ReviewToLeave.ChosenShopperUid;
         this.TerminatedList.ReviewLeft = true;
+        // let old_rating: number = this.OtherUser.Rating;
+        // this.OtherUser.Rating = ((old_rating * this.OtherUser.NumberOfReviews) + this.review.Rating) / (this.OtherUser.NumberOfReviews + 1);
+        // this.OtherUser.NumberOfReviews++;
         this.Review_db.push(StripForFirebase(this.review)).then(res => {
-            this.TerminatedList_db.update(StripForFirebase(this.TerminatedList)).then(res => {
+          this.TerminatedList_db.update(StripForFirebase(this.TerminatedList)).then(res => {
+            // this.OtherUser_db.update(StripForFirebase(this.OtherUser)).then(res => {
               this.navCtrl.popToRoot();
-            }).catch((err: Error) => {
-              console.log("Error: " + err.message);
-            });
+            // }).catch((err: Error) => {
+            //   console.log("Error: " + err.message);
+            // });
+          }).catch((err: Error) => {
+            console.log("Error: " + err.message);
+          });
         }).catch((err: Error) => {
           console.log("Error: " + err.message);
         });
