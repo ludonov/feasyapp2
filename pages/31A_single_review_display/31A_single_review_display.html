@@ -16,9 +16,15 @@
 		</ion-item>
  
 		<ion-card-content>
-			<p><ion-icon name="star"></ion-icon><ion-icon name="star-outline"></ion-icon><ion-icon name="star-outline"></ion-icon><ion-icon name="star-outline"></ion-icon><ion-icon name="star-outline"></ion-icon></p>
 			<h2 style="font-weight: bold;">{{review.Title}}</h2>
-			<p>{{review.Text}}</p>
+			<h2>
+					<ion-icon *ngIf="review.Rating <= 0" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 0 && review.Rating <= 0.5" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 0.5" name="star" color="secondary"></ion-icon>
+					<ion-icon *ngIf="review.Rating <= 1" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 1 && review.Rating <= 1.5" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 1.5" name="star" color="secondary"></ion-icon>
+					<ion-icon *ngIf="review.Rating <= 2" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 2 && review.Rating <= 2.5" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 2.5" name="star" color="secondary"></ion-icon>
+					<ion-icon *ngIf="review.Rating <= 3" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 3 && review.Rating <= 3.5" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 3.5" name="star" color="secondary"></ion-icon>
+					<ion-icon *ngIf="review.Rating <= 4" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 4 && review.Rating <= 4.5" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 4.5" name="star" color="secondary"></ion-icon>
+			</h2>
+			<p text-wrap>{{review.Text}}</p>
 		</ion-card-content>
 		
 	</ion-card>

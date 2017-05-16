@@ -67,6 +67,8 @@ export class Globals {
 
   public Reviews: Array<Review> = new Array<Review>();
   public Reviews_db: FirebaseListObservable<any>;
+  public ReviewsToLeaveAsDemander: Array<FeasyList> = new Array<FeasyList>();
+  public ReviewsToLeaveAsShopper: Array<FeasyList> = new Array<FeasyList>();
 
   public UserChats: Array<GenericWithKey> = new Array<GenericWithKey>();
   public UserChats_db: FirebaseListObservable<any>;
@@ -261,6 +263,18 @@ export class Globals {
       //this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
       //this.NoPublishedLists = Object.keys(this.PublishedLists).length == 0;
       this.RecopyArray(this.TerminatedListsAsDemander);
+
+      let list_d: FeasyList = list.val();
+      if(list_d.ReviewLeft == false) {
+          list_d.$key = list.key;
+          this.af.object('/users/' + list_d.ChosenShopperUid).$ref.on("value", (_user: firebase.database.DataSnapshot) => {
+              let user: FeasyUser = _user.val();
+              if (user != null && user.PhotoURL != null)
+                  (list_d as any).PhotoURL = user.PhotoURL;
+              this.ReviewsToLeaveAsDemander.push(list_d);
+          });
+      }
+
     });
 
     this.TerminatedListsAsDemander_db.$ref.on("child_changed", (list: firebase.database.DataSnapshot) => {
@@ -271,6 +285,11 @@ export class Globals {
         console.warn("Globals.LinkListsWatchers> Cannot find index for key <" + list.key + "> in TerminatedLists_db:child_changed");
       //this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
       this.RecopyArray(this.TerminatedListsAsDemander);
+
+      let list_d: FeasyList = list.val();
+      if(list_d.ReviewLeft == true) {
+          this.DeleteFromArrayByKey(this.ReviewsToLeaveAsDemander,list.key);
+      }
     });
 
     this.TerminatedListsAsDemander_db.$ref.on("child_removed", (list: firebase.database.DataSnapshot) => {
@@ -291,6 +310,17 @@ export class Globals {
       //this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
       //this.NoPublishedLists = Object.keys(this.PublishedLists).length == 0;
       this.RecopyArray(this.TerminatedListsAsShopper);
+
+      let list_d: FeasyList = list.val();
+      if(list_d.ReviewLeft == false) {
+          list_d.$key = list.key;
+          this.af.object('/users/' + list_d.owner).$ref.on("value", (_user: firebase.database.DataSnapshot) => {
+              let user: FeasyUser = _user.val();
+              if (user != null && user.PhotoURL != null)
+                  (list_d as any).PhotoURL = user.PhotoURL;
+              this.ReviewsToLeaveAsShopper.push(list_d);
+          });
+      }
     });
 
     this.TerminatedListsAsShopper_db.$ref.on("child_changed", (list: firebase.database.DataSnapshot) => {
@@ -301,6 +331,11 @@ export class Globals {
         console.warn("Globals.LinkListsWatchers> Cannot find index for key <" + list.key + "> in TerminatedLists_db:child_changed");
       //this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
       this.RecopyArray(this.TerminatedListsAsShopper);
+
+      let list_d: FeasyList = list.val();
+      if(list_d.ReviewLeft == true) {
+          this.DeleteFromArrayByKey(this.ReviewsToLeaveAsShopper,list.key);
+      }
     });
 
     this.TerminatedListsAsShopper_db.$ref.on("child_removed", (list: firebase.database.DataSnapshot) => {

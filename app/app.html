@@ -20,6 +20,11 @@
         <ion-icon name="person" item-left color="secondary"></ion-icon>
         Profilo
       </ion-item>
+      <ion-item (click)="goToReviewsToLeave()">
+        <ion-icon name="star" item-left color="secondary"></ion-icon>
+        Recensioni in attesa
+        <ion-badge ng-hide="(globals.ReviewsToLeaveAsDemander.length + globals.ReviewsToLeaveAsShopper.length) == 0" item-right color="danger">{{globals.ReviewsToLeaveAsDemander.length + globals.ReviewsToLeaveAsShopper.length}}</ion-badge>
+      </ion-item>
       <ion-item (click)="goToLists()">
         <ion-icon name="list" item-left color="secondary"></ion-icon>
         Liste

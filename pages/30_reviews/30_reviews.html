@@ -12,9 +12,11 @@
 			<img src="{{review.PhotoURL}}">
 			</ion-avatar>
 			<h2>{{review.WriterName}}</h2>
-			<h2>{{review.Title}}</h2>
-			<p><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon></p>
+			<div>
+			<h2><ion-icon name="star" color="secondary"></ion-icon><ion-icon name="star" color="secondary"></ion-icon><ion-icon name="star" color="secondary"></ion-icon><ion-icon name="star-half" color="secondary"></ion-icon><ion-icon name="star-outline" color="secondary"></ion-icon>
+			<span>{{review.Title}}</span></h2>
 			<p>{{review.Text}}</p>
+			</div>
 			<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 		</ion-item>
 	</ion-list>

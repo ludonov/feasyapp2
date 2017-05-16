@@ -20,7 +20,6 @@ export class SingleReviewDisplayPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public globals: Globals) {
     this.review = navParams.get('review');
     this.PhotoURL = navParams.get('_photo_url');
-    
   } 
 
 }
