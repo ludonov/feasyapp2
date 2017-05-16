@@ -67,7 +67,7 @@ body.keyboard-is-open .scroll-content {
 }
 
 .profile-picture {
-  border: 3px solid rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.25);
   padding: 3px;
   border-radius: 100%;
   -webkit-box-sizing: content-box;
@@ -97,8 +97,13 @@ body.keyboard-is-open .scroll-content {
   color: color($colors, secondary);
 }
 
-.image-circle { // to be removed because the profile of another user is OLD
-    border-radius: 50%;
+//.image-circle { // to be removed because the profile of another user is OLD
+//    border-radius: 50%;
+//}
+
+.profile-card-label {
+  font-weight: bold !important;
+  color: color($colors, secondary) !important;
 }
 
 
