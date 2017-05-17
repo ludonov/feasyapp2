@@ -145,7 +145,7 @@ export class FeasyUser {
   public MobileNumber: string;
   public PhotoURL: string;
   public Gender: GenderType = GenderType.Male;
-  public Rating: number;
+  public Rating: number = 0;
   public Addresses: Object;
   public CommissionsDone: number = 0;
   public CommissionsReceived: number = 0;
