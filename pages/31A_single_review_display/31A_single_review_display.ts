@@ -18,7 +18,8 @@ export class SingleReviewDisplayPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public globals: Globals) {
     this.review = navParams.get('review');
-  } 
+
+  }
 
 }
 

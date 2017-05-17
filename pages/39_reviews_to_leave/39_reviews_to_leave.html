@@ -9,7 +9,7 @@
 	<ion-list>
 			<ion-item-group>
 				<div class="spacer" style="height: 16px;"></div>
-				<ion-item-divider color="light" class="item-title">SPESE DA DEMANDER</ion-item-divider>
+				<ion-item-divider style="border-top-color: transparent;">SPESE DA DEMANDER</ion-item-divider>
 				<ion-item *ngFor="let reviewD of ReviewsToLeaveAsDemander" (click)="ViewReviewToLeave(reviewD)">
 						<ion-avatar item-left>
 						<img src="{{reviewD.PhotoURL}}">
@@ -22,7 +22,7 @@
 
 			<ion-item-group>
 				<div class="spacer" style="height: 16px;"></div>
-				<ion-item-divider color="light" class="item-title">SPESE DA SHOPPER</ion-item-divider>
+				<ion-item-divider style="border-top-color: transparent;">SPESE DA SHOPPER</ion-item-divider>
 				<ion-item *ngFor="let reviewS of ReviewsToLeaveAsShopper" (click)="ViewReviewToLeave(reviewS)">
 						<ion-avatar item-left>
 						<img src="{{reviewS.PhotoURL}}">

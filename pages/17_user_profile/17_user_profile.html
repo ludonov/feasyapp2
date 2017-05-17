@@ -21,21 +21,30 @@
 		<ion-item (click)="GoToHistory(false)">
 			<ion-icon name="cart" color="secondary" item-left></ion-icon>
 			Commissioni fatte
-			<ion-badge item-right color="secondary">20</ion-badge>
+			<h2 item-right class="profile-card-label">20</h2>
+			<ion-note item-right>
+				<ion-icon color="secondary" style="font-size:17pt" name="ios-arrow-forward"></ion-icon>
+			</ion-note>
 		</ion-item>
 		<ion-item (click)="GoToHistory(true)">
 			<ion-icon name="home" color="secondary" item-left></ion-icon>
 			Commissioni ricevute
-			<ion-badge item-right color="secondary">8</ion-badge>
+			<h2 item-right class="profile-card-label">8</h2>
+			<ion-note item-right>
+				<ion-icon color="secondary" style="font-size:17pt" name="ios-arrow-forward"></ion-icon>
+			</ion-note>
 		</ion-item>
-		<ion-item>
+		<ion-item (click)="goToReviews()">
 			<ion-icon name="star" color="secondary" item-left></ion-icon>
 			Voto
-			<ion-badge item-right color="secondary">4.5</ion-badge>
+			<p item-right class="profile-card-label">4.5</p>
+			<ion-note item-right>
+				<ion-icon color="secondary" style="font-size:17pt" name="ios-arrow-forward"></ion-icon>
+			</ion-note>
 		</ion-item>
 	</ion-card>
 
-	<ion-card>
+	<!--<ion-card>
 		<ion-item (click)="goToReviews()">
 			<ion-icon name="podium" item-left></ion-icon>
 			Recensioni
@@ -50,7 +59,7 @@
 				<ion-icon name="arrow-forward"></ion-icon>
 			</ion-note>
 		</ion-item>
-	</ion-card>
+	</ion-card>-->
 
 	<!--<ion-grid>
 		<ion-row>
@@ -169,7 +178,7 @@
 
 		<ion-item-group>
 			<!--<div class="spacer" style="height: 16px;"></div>-->
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">INFORMAZIONI PERSONALI</ion-item-divider>
+			<ion-item-divider style="border-top-color: transparent;">INFORMAZIONI PERSONALI</ion-item-divider>
 			<ion-item>
 				Nome
 				<ion-note item-right>{{user.FirstName}}</ion-note>

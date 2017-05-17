@@ -67,7 +67,7 @@ body.keyboard-is-open .scroll-content {
 }
 
 .profile-picture {
-  border: 3px solid rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.25);
   padding: 3px;
   border-radius: 100%;
   -webkit-box-sizing: content-box;
@@ -94,11 +94,17 @@ body.keyboard-is-open .scroll-content {
   font-size: x-large !important;
   font-weight: bold !important;
   text-transform: capitalize;
-  color: color($colors, secondary);
+  color: color($colors, secondary) !important;
 }
 
-.image-circle { // to be removed because the profile of another user is OLD
-    border-radius: 50%;
+//.image-circle { // to be removed because the profile of another user is OLD
+//    border-radius: 50%;
+//}
+
+.profile-card-label {
+  font-size: 15pt !important;
+  font-weight: 500 !important;
+  color: color($colors, secondary) !important;
 }
 
 
@@ -290,7 +296,8 @@ a:hover {
 
 
 
-    // BIG IMAGE
+// Big image
+// --------------------------------------------------
 
 .big_image img {
   position: absolute;
@@ -303,4 +310,11 @@ a:hover {
 
 .chat_image {
   max-width: 80%;
+}
+
+// Reviews
+// --------------------------------------------------
+
+ion-textarea.review-multiline textarea {
+  height: 200px;
 }

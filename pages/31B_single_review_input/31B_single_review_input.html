@@ -9,23 +9,20 @@
 <ion-list>
 	<ion-item-group>
         <ion-item>
-          <ion-label fixed>Titolo</ion-label>
-          <ion-input type="text" [(ngModel)]="review.Title"></ion-input>
+          <ion-input placeholder="Titolo" type="text" [(ngModel)]="review.Title"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label fixed>Voto</ion-label>
-          <ion-input [(ngModel)]="review.Rating" type="number" value=""></ion-input>
+          <ion-datetime placeholder="Voto" displayFormat="m" minuteValues="1,2,3,4,5" [(ngModel)]="review.Rating">
+          </ion-datetime>
         </ion-item>
-        <ion-item>
-          <ion-label fixed>Recensione</ion-label>
-          <ion-input type="text" [(ngModel)]="review.Text"></ion-input>
+        <ion-item style="height:200px">
+          <ion-textarea text-wrap placeholder="Contenuto" type="text" class="review-multiline" [(ngModel)]="review.Text"></ion-textarea>
         </ion-item>
       </ion-item-group>
-		
 	</ion-list>
 
 	<div class="lateral-padding">
-      <button ion-button block color="primary" (click)="AddReview()">Crea Recensione</button>
+      <button ion-button block color="secondary" (click)="AddReview()">Pubblica</button>
   </div>
 
 </ion-content>
