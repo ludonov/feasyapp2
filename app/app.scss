@@ -94,7 +94,7 @@ body.keyboard-is-open .scroll-content {
   font-size: x-large !important;
   font-weight: bold !important;
   text-transform: capitalize;
-  color: color($colors, secondary);
+  color: color($colors, secondary) !important;
 }
 
 //.image-circle { // to be removed because the profile of another user is OLD
@@ -102,7 +102,8 @@ body.keyboard-is-open .scroll-content {
 //}
 
 .profile-card-label {
-  font-weight: bold !important;
+  font-size: 15pt !important;
+  font-weight: 500 !important;
   color: color($colors, secondary) !important;
 }
 
@@ -295,7 +296,8 @@ a:hover {
 
 
 
-    // BIG IMAGE
+// Big image
+// --------------------------------------------------
 
 .big_image img {
   position: absolute;
@@ -308,4 +310,11 @@ a:hover {
 
 .chat_image {
   max-width: 80%;
+}
+
+// Reviews
+// --------------------------------------------------
+
+ion-textarea.review-multiline textarea {
+  height: 200px;
 }

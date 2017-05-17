@@ -15,8 +15,8 @@
           <ion-datetime placeholder="Voto" displayFormat="m" minuteValues="1,2,3,4,5" [(ngModel)]="review.Rating">
           </ion-datetime>
         </ion-item>
-        <ion-item>
-          <ion-textarea text-wrap placeholder="Contenuto" type="text" [(ngModel)]="review.Text"></ion-textarea>
+        <ion-item style="height:200px">
+          <ion-textarea text-wrap placeholder="Contenuto" type="text" class="review-multiline" [(ngModel)]="review.Text"></ion-textarea>
         </ion-item>
       </ion-item-group>
 	</ion-list>
