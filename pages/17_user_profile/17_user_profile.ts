@@ -39,9 +39,9 @@ export class UserProfilePage {
     });
   }
 
-  goToHistory(): void {
+  GoToHistory(demander: boolean): void {
     console.log("going to history page");
-    this.navCtrl.push(HistoryPage);
+    this.navCtrl.push(HistoryPage, {demander: demander});
   }
 
   editProfile(): void {
@@ -66,18 +66,7 @@ export class UserProfilePage {
 
   goToBigImage(): void {
     console.log("going to big image page");
-
-    //let loading: Loading = this.loadingCtrl.create({
-    //  spinner: 'dots',
-    //  content: 'Please wait...'
-    //});
-    //loading.present();
-
-    //this.globals.af.object("/pics/" + this.globals.UID + "/Big").$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-      //loading.dismiss();
       this.navCtrl.push(ViewBigImage, { image_content: this.globals.UserPicBig });
-    //});
-
   }
 
 }

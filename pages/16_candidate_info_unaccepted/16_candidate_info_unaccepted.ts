@@ -4,9 +4,10 @@ import { NavController, NavParams, AlertController, LoadingController, Loading, 
 
 
 
-import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, Candidate, StripForFirebase } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, Candidate, StripForFirebase, SetImageOrDefaultOtherUser } from '../../classes/Feasy';
 
 import { Globals } from '../../classes/Globals';
+import { ViewBigImage } from "../42_view_big_picture/42_view_big_picture";
 
 
 @Component({
@@ -20,6 +21,7 @@ export class CandidateInfoUnacceptedPage {
   private list_key: string;
   private candidate: Candidate;
   private address: DeliveryAddress;
+  private bigpic: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, @Inject(forwardRef(() => Globals)) public globals: Globals, public loadingCtrl: LoadingController,  public alertCtrl: AlertController) {
     this.candidate_key = navParams.get("candidate_key");
@@ -31,7 +33,13 @@ export class CandidateInfoUnacceptedPage {
       navCtrl.pop();
     } else {
       this.address = globals.GetPublishedListByKey(this.list_key).DeliveryAddresses[this.candidate.AddressKey];
+      this.globals.af.object("/pics/" + this.candidate.uid + "/Big").$ref.once("value", (_pic: firebase.database.DataSnapshot) => {
+        let pic: string = _pic.val();
+        if (pic != null || pic != undefined)
+          this.bigpic = pic;
+      });  
     }
+    
 
   }
 
@@ -58,5 +66,11 @@ export class CandidateInfoUnacceptedPage {
       alert.present();
     });
   }
+
+  // goToBigImage(): void {
+  //   console.log("going to big image page");
+  //   this.navCtrl.push(ViewBigImage, { image_content: this.bigpic });
+
+  // }
 
 }

@@ -6,15 +6,24 @@
 
 <ion-content>
 	    
-	<ion-list>
-		<ion-item *ngFor="let review of globals.Reviews_db | async"  (click)="goToSingleReview(review)">
+	<ion-list> 
+		<ion-item *ngFor="let review of ReviewsForDisplay"  (click)="goToSingleReview(review, review.PhotoURL)">
 			<ion-avatar item-left>
-			<img src="assets/img/17_profilo/Alberto.jpg">
+			<img src="{{review.PhotoURL}}">
 			</ion-avatar>
 			<h2>{{review.WriterName}}</h2>
-			<h2>{{review.Title}}</h2>
-			<p><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon></p>
+			<div>
+			<h2>
+					<ion-icon *ngIf="review.Rating <= 0.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 0.25 && review.Rating <= 0.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 0.75" name="star" color="secondary"></ion-icon>
+					<ion-icon *ngIf="review.Rating <= 1.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 1.25 && review.Rating <= 1.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 1.75" name="star" color="secondary"></ion-icon>
+					<ion-icon *ngIf="review.Rating <= 2.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 2.25 && review.Rating <= 2.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 2.75" name="star" color="secondary"></ion-icon>
+					<ion-icon *ngIf="review.Rating <= 3.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 3.25 && review.Rating <= 3.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 3.75" name="star" color="secondary"></ion-icon>
+					<ion-icon *ngIf="review.Rating <= 4.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 4.25 && review.Rating <= 4.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 4.75" name="star" color="secondary"></ion-icon>
+			
+					<span>{{review.Title}}</span>
+			</h2>
 			<p>{{review.Text}}</p>
+			</div>
 			<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 		</ion-item>
 	</ion-list>

@@ -5,14 +5,14 @@
 </ion-header>
 
 <ion-content>
-
+ 
 	<ion-list>
 			<ion-item-group>
 				<div class="spacer" style="height: 16px;"></div>
-				<ion-item-divider color="light" class="item-title">SPESE DA DEMANDER</ion-item-divider>
+				<ion-item-divider style="border-top-color: transparent;">SPESE DA DEMANDER</ion-item-divider>
 				<ion-item *ngFor="let reviewD of ReviewsToLeaveAsDemander" (click)="ViewReviewToLeave(reviewD)">
 						<ion-avatar item-left>
-						<img src="assets/img/17_profilo/Alberto.jpg">
+						<img src="{{reviewD.PhotoURL}}">
 						</ion-avatar>
 						<h2>{{reviewD.ChosenShopperName}}</h2>
 						<p>{{reviewD.TerminatedDate}}</p>
@@ -22,10 +22,10 @@
 
 			<ion-item-group>
 				<div class="spacer" style="height: 16px;"></div>
-				<ion-item-divider color="light" class="item-title">SPESE DA SHOPPER</ion-item-divider>
+				<ion-item-divider style="border-top-color: transparent;">SPESE DA SHOPPER</ion-item-divider>
 				<ion-item *ngFor="let reviewS of ReviewsToLeaveAsShopper" (click)="ViewReviewToLeave(reviewS)">
 						<ion-avatar item-left>
-						<img src="assets/img/17_profilo/Alberto.jpg">
+						<img src="{{reviewS.PhotoURL}}">
 						</ion-avatar>
 						<h2>{{reviewS.DemanderName}}</h2>
 						<p>{{reviewS.TerminatedDate}}</p>

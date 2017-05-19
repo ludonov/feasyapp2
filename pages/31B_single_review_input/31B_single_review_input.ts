@@ -4,7 +4,6 @@ import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
-
 import { FeasyUser, FeasyList, FeasyItem, Review, StripForFirebase } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
@@ -21,7 +20,6 @@ export class SingleReviewInputPage {
   public TerminatedList_db: FirebaseObjectObservable<any>;
   public TerminatedList: FeasyList = new FeasyList("");
 
-
   constructor(public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams,  public globals: Globals) {
       this.ReviewToLeave = navParams.get('review');
       this.Review_db = globals.af.list("reviews/" + globals.UID + "/to_move");
@@ -33,7 +31,7 @@ export class SingleReviewInputPage {
       }else{
         this.TerminatedList_db = globals.af.object("terminated_lists/" + globals.UID + "/as_shopper/" + this.ReviewToLeave.$key);
         this.TerminatedList_db.$ref.on("value", (snapshot2: firebase.database.DataSnapshot) => {
-            this.TerminatedList = snapshot2.val();
+          this.TerminatedList = snapshot2.val();
         });
       }
       
@@ -71,14 +69,13 @@ export class SingleReviewInputPage {
             this.review.RevieweeUid = this.ReviewToLeave.owner;
         }
         this.review.ListKey = this.ReviewToLeave.$key;
-        //this.review.RevieweeUid = this.ReviewToLeave.ChosenShopperUid;
         this.TerminatedList.ReviewLeft = true;
         this.Review_db.push(StripForFirebase(this.review)).then(res => {
-            this.TerminatedList_db.update(StripForFirebase(this.TerminatedList)).then(res => {
+          this.TerminatedList_db.update(StripForFirebase(this.TerminatedList)).then(res => {
               this.navCtrl.popToRoot();
-            }).catch((err: Error) => {
-              console.log("Error: " + err.message);
-            });
+          }).catch((err: Error) => {
+            console.log("Error: " + err.message);
+          });
         }).catch((err: Error) => {
           console.log("Error: " + err.message);
         });

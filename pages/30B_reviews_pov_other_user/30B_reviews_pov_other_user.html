@@ -1,0 +1,29 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Recensioni</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+ 
+    <ion-list>
+        <ion-item *ngFor="let review of UserReviews" (click)="goToSingleReview(review)">
+            <ion-avatar item-left>
+                <img src="{{review.PhotoURL}}">
+            </ion-avatar>
+            <h2>{{review.WriterName}}</h2>
+            <h2>{{review.Title}}</h2>
+            <p color="secondary">
+                <ion-icon name="star" color="secondary"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star"></ion-icon>
+                <ion-icon name="star-half"></ion-icon>
+                <ion-icon name="star-outline"></ion-icon>
+            </p>
+            <p>{{review.Text}}</p>
+            <ion-note item-right>
+                <ion-icon name="arrow-forward"></ion-icon>
+            </ion-note>
+        </ion-item>
+    </ion-list> 
+</ion-content>

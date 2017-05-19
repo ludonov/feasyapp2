@@ -15,20 +15,35 @@ export enum ChatMessageType { Text, Image};
 export enum UnitType { Pieces, Grams, Hectograms, Kilograms, Liters };
 
 export function GetUnits(): string[] {
-  return ["Pezzi", "Grammi", "Ettogrammi", "Kilogrammi", "Litri"];
+  return ["Pieces", "Grams", "Ettogrammi", "Kilograms", "Liters"];
 }
+
+// export function GetUnitNameFromEnum(unit: UnitType): string {
+//   if (unit == UnitType.Pieces)
+//     return "Pezzi";
+//   else if (unit == UnitType.Grams)
+//     return "Grammi";
+//   else if (unit == UnitType.Hectograms)
+//     return "Ettogrammi";
+//   else if (unit == UnitType.Kilograms)
+//     return "Kilogrammi";
+//   else if (unit == UnitType.Liters)
+//     return "Litri";
+//   else
+//     return "";
+// }
 
 export function GetUnitNameFromEnum(unit: UnitType): string {
   if (unit == UnitType.Pieces)
-    return "Pezzi";
+    return "Pieces";
   else if (unit == UnitType.Grams)
-    return "Grammi";
+    return "Grams";
   else if (unit == UnitType.Hectograms)
     return "Ettogrammi";
   else if (unit == UnitType.Kilograms)
-    return "Kilogrammi";
+    return "Kilograms";
   else if (unit == UnitType.Liters)
-    return "Litri";
+    return "Liters";
   else
     return "";
 }
@@ -130,11 +145,13 @@ export class FeasyUser {
   public MobileNumber: string;
   public PhotoURL: string;
   public Gender: GenderType = GenderType.Male;
-  public Rating: number;
+  public Rating: number = 0;
   public Addresses: Object;
-  public CommissionsDone: number;
-  public CommissionsReceived: number;
+  public CommissionsDone: number = 0;
+  public CommissionsReceived: number = 0;
   public RegisterDate: string;
+  public NumberOfReviews: number = 0;
+
 
   constructor(email: string, firstName: string, lastName: string) {
     this.Email = email;
@@ -152,7 +169,11 @@ export class FeasyUser {
         this.PhotoURL = UnknownWoman;
     }
   }
+
 }
+
+
+
 
 export class GenericWithKey {
   public $key: string;
@@ -185,6 +206,7 @@ export class FeasyList {
   public DeliveryAddresses: Object;
   public ReviewLeft: boolean = false;
   public Publish: boolean;
+  public ChatKey: string;
 
   constructor(name: string) {
     this.Name = name;
@@ -487,4 +509,17 @@ export function GetRealExpiryDate(expdate: ExpiryDateType): string {
     return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 14, 23, 59, 59).toUTCString();
   else
     return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 3, 23, 59, 59).toUTCString();
+}
+
+export function SetImageOrDefaultOtherUser(user_gender: number, photo_url: string): string {
+  let _photo_url: string;
+  if (photo_url == null || photo_url == "") {
+    if (user_gender == GenderType.Male)
+      _photo_url = UnknownMan;
+    else
+      _photo_url = UnknownWoman;
+  } else {
+    _photo_url = photo_url;
+  }
+  return _photo_url;
 }

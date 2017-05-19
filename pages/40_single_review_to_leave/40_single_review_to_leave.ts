@@ -7,6 +7,7 @@ import { Globals } from '../../classes/Globals';
 
 import { SingleReviewInputPage } from '../31B_single_review_input/31B_single_review_input';
 import { PublicatedListProductsPage } from '../../pages/12_publicated_list_products/12_publicated_list_products';
+import { UserProfilePovOtherUsersPage } from "../17B_user_profile_pov_other_users/17B_user_profile_pov_other_users";
 
 
 @Component({
@@ -27,13 +28,21 @@ export class SingleReviewToLeavePage {
     }
 
     WriteReview(): void {
-
         this.navCtrl.push(SingleReviewInputPage, {review: this.ReviewToLeave});
     }
 
     ViewItems(): void {
-
         this.navCtrl.push(PublicatedListProductsPage, { items: this.ReviewToLeave.Items });
+    }
+
+    GoToProfile(): void {
+        let _user_uid: string;
+        if (this.Demander == true) {
+            _user_uid = this.ReviewToLeave.ChosenShopperUid;
+        } else {
+            _user_uid = this.ReviewToLeave.owner;
+        }
+        this.navCtrl.push(UserProfilePovOtherUsersPage, { userUID: _user_uid });
     }
 
     

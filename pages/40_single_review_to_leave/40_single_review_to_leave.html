@@ -7,13 +7,16 @@
 <ion-content>
 
 	<ion-list>
-
 			<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">REVIEW INFORMATION</ion-item-divider>
-			<ion-item>
-				User Under Review
-				<ion-note item-right>{{PersonUnderReview}}</ion-note>
+			<ion-item-divider style="border-top-color: transparent;">REVIEW INFORMATION</ion-item-divider>
+			<ion-item *ngIf="Demander == true" (click)="GoToProfile()">
+				Shopper
+				<ion-note item-right>{{PersonUnderReview}} &nbsp; <ion-icon name="arrow-forward"></ion-icon></ion-note>
+			</ion-item>
+			<ion-item *ngIf="Demander == false" (click)="GoToProfile()">
+				Demander
+				<ion-note item-right>{{PersonUnderReview}} &nbsp; <ion-icon name="arrow-forward"></ion-icon></ion-note>
 			</ion-item>
 			<ion-item>
 				Data
@@ -24,15 +27,15 @@
 				<ion-note item-right>{{ReviewToLeave.Reward}}</ion-note>
 			</ion-item>
 			<ion-item icon-right (click)="ViewItems()">
-      			Prodotti
-      			<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
+				Prodotti
+				<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
     	</ion-item>
 		</ion-item-group>
 
 	</ion-list>
 
 	<div class="lateral-bottom-padding">
-      <button ion-button block color="primary" (click)="WriteReview()">Crea Recensione</button>
+      <button ion-button block color="secondary" (click)="WriteReview()">Scrivi recensione</button>
   </div>
 	
 </ion-content>

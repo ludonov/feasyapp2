@@ -25,10 +25,11 @@ import { SetPersonalDetailsPage } from '../pages/4A_set_personal_details/4A_set_
 import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 import { SettingsPage } from '../pages/23_settings/23_settings';
 import { UserProfilePage } from '../pages/17_user_profile/17_user_profile';
+import { ReviewsToLeavePage } from '../pages/39_reviews_to_leave/39_reviews_to_leave';
 
 import { ViewBigImage } from "../pages/42_view_big_picture/42_view_big_picture";
 
-import { Candidate, FeasyUser, StripForFirebase } from '../classes/Feasy';
+import { Candidate, FeasyUser, StripForFirebase, FeasyList } from '../classes/Feasy';
 import { Globals } from '../classes/Globals';
 
 import { MenuController } from 'ionic-angular';
@@ -64,6 +65,10 @@ export class MyApp {
 
       keyboard.onKeyboardHide().subscribe(() => {
         document.body.classList.remove('keyboard-is-open');
+      });
+
+      localNotifications.registerPermission().then(function (granted) {
+        console.log("local notification permission: " + granted);
       });
 
       globals.storage = storage;
@@ -199,7 +204,7 @@ export class MyApp {
     });
 
     statusBar.styleLightContent();
-    
+
   }
 
   private setRoot(rootPage: any) {
@@ -237,6 +242,12 @@ export class MyApp {
   goToChats(): void {
     console.log("going to chats page");
     this.navCtrl.setRoot(TabsPage, { tabIndex: 2 });
+    this.menuCtrl.close();
+  }
+
+  goToReviewsToLeave(): void {
+    console.log("going to reviews to leave page page");
+    this.navCtrl.push(ReviewsToLeavePage);
     this.menuCtrl.close();
   }
 

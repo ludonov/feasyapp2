@@ -7,6 +7,7 @@ import { Globals } from '../../classes/Globals';
 
 import { PublicatedListProductsPage } from '../../pages/12_publicated_list_products/12_publicated_list_products';
 import { AddressViewStaticPage } from '../../pages/30_address_view_static/30_address_view_static';
+import { UserProfilePovOtherUsersPage } from "../17B_user_profile_pov_other_users/17B_user_profile_pov_other_users";
 
 @Component({
   selector: 'page-list-from-map',
@@ -175,6 +176,11 @@ export class ListFromMapPage {
       });
       alert1.present();
     }
+  }
+
+  goToProfileOtherUser(): void {
+    console.log("going to profile page of another user");
+    this.navCtrl.push(UserProfilePovOtherUsersPage, { userUID: this.list_owner });
   }
 
 }
