@@ -94,6 +94,7 @@ export class Globals {
 
   // CACHE VARIABLES
   public UsersCache: Object = {};
+  public UsersPicBigCache: Object = {};
 
   constructor(platform: Platform, public applicationRef: ApplicationRef, public cd: ChangeDetectorRef) {
     this.IsWeb = platform.is("core");
@@ -1160,24 +1161,51 @@ export class Globals {
   public GetUser(userId: string): Promise<FeasyUser> {
     return new Promise<FeasyUser>((resolve, reject) => {
       //this.storage.get("user:" + userId).then((user) => {
-        if (this.UsersCache[userId] != null)
-          resolve(this.UsersCache[userId]);
-        else {
-          this.af.object("/users/" + userId).$ref.once("value", (_user: firebase.database.DataSnapshot) => {
-            let user: FeasyUser = _user.val();
-            if (user != null) {
-              //user.PhotoURL = user.PhotoURL || (user.Gender == GenderType.Male ? UnknownMan : UnknownWoman);
-              this.UsersCache[userId] = user;
-              //this.storage.set(userId, user).then(() => {
-                resolve(user);
-              //});
-            } else {
-              reject(new Error("Null User"));
-            }
-          }).catch((err: Error) => {
-            reject(err);
-          });
-        }
+      if (this.UsersCache[userId] != null)
+        resolve(this.UsersCache[userId]);
+      else {
+        this.af.object("/users/" + userId).$ref.once("value", (_user: firebase.database.DataSnapshot) => {
+          let user: FeasyUser = _user.val();
+          if (user != null) {
+            //user.PhotoURL = user.PhotoURL || (user.Gender == GenderType.Male ? UnknownMan : UnknownWoman);
+            this.UsersCache[userId] = user;
+            //this.storage.set(userId, user).then(() => {
+            resolve(user);
+            //});
+          } else {
+            reject(new Error("Null User"));
+          }
+        }).catch((err: Error) => {
+          reject(err);
+        });
+      }
+      //}).catch((err: Error) => {
+      //  reject(err);
+      //});
+    });
+  }
+
+  public GetUserPicBig(userId: string): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      //this.storage.get("user:" + userId).then((user) => {
+      if (this.UsersPicBigCache[userId] != null)
+        resolve(this.UsersPicBigCache[userId]);
+      else {
+        this.af.object("/pics/" + userId + "/Big").$ref.once("value", (_pic: firebase.database.DataSnapshot) => {
+          let pic: string = _pic.val();
+          if (pic != null) {
+            //user.PhotoURL = user.PhotoURL || (user.Gender == GenderType.Male ? UnknownMan : UnknownWoman);
+            this.UsersPicBigCache[userId] = pic;
+            //this.storage.set(userId, user).then(() => {
+            resolve(pic);
+            //});
+          } else {
+            reject(new Error("Null User"));
+          }
+        }).catch((err: Error) => {
+          reject(err);
+        });
+      }
       //}).catch((err: Error) => {
       //  reject(err);
       //});
