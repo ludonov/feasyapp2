@@ -185,16 +185,27 @@ export class Globals {
       }
     });
 
-    this.UserPicBig_db = this.af.object('/pics/' + this.UID + "/Big");
-    this.UserPicBig_db.$ref.once("value", (_pic: firebase.database.DataSnapshot) => {
-      let pic: string = _pic.val();
-      if (pic != null) {
-        console.log("User big pic fetched");
-        this.UserPicBig = pic;
+    this.storage.get("UserPicBig").then((big_pic) => {
+      if (big_pic == null) {
+        this.UserPicBig_db = this.af.object('/pics/' + this.UID + "/Big");
+        this.UserPicBig_db.$ref.once("value", (_pic: firebase.database.DataSnapshot) => {
+          let pic: string = _pic.val();
+          if (pic != null) {
+            console.log("User big pic fetched");
+            this.SetNewUserPicBig(pic);
+          } else {
+            console.warn("User big pic null");
+          }
+        });
       } else {
-        console.warn("User big pic null");
+        this.UserPicBig = big_pic;
       }
     });
+  }
+
+  public SetNewUserPicBig(pic: string) {
+    this.UserPicBig = pic;
+    this.storage.set("UserPicBig", pic);
   }
 
   private LinkListsWatchers(): void {

@@ -55,7 +55,8 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       //StatusBar.styleDefault();
-      splashScreen.hide();
+      if (!platform.is('core'))
+        splashScreen.hide();
       //keyboard.disableScroll(false);
       //keyboard.hideKeyboardAccessoryBar(true);
 
@@ -67,10 +68,11 @@ export class MyApp {
         document.body.classList.remove('keyboard-is-open');
       });
 
-      localNotifications.registerPermission().then(function (granted) {
-        console.log("local notification permission: " + granted);
-      });
-
+      if (!platform.is('core')) {
+        localNotifications.registerPermission().then(function (granted) {
+          console.log("local notification permission: " + granted);
+        });
+      }
       globals.storage = storage;
       globals.af = af;
       globals.afAuth = afAuth;
@@ -203,7 +205,8 @@ export class MyApp {
       //}
     });
 
-    statusBar.styleLightContent();
+    if (!platform.is('core'))
+      statusBar.styleLightContent();
 
   }
 
