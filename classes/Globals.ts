@@ -10,10 +10,11 @@ import { ImagePicker } from '@ionic-native/image-picker';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Observable } from 'rxjs/Observable';
 
+import { Storage } from '@ionic/storage';
+
 import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 import { PublicatedListWithShopperPovShopperPage } from '../pages/11B_publicated_list_with_shopper_pov_shopper/11B_publicated_list_with_shopper_pov_shopper';
 import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
-
 
 import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, Chat, Message, ChatMessageType, GenericWithKey, UnknownMan, UnknownWoman } from './Feasy';
 
@@ -72,10 +73,11 @@ export class Globals {
   public UserChats_db: FirebaseListObservable<any>;
 
   public Chats: Array<Chat> = new Array<Chat>();
-  public Chats_db: FirebaseListObservable<any>;
+  private chat_messages_refs: Array<firebase.database.Query> = new Array();
   
   public JustRegistered: boolean = false;
 
+  public storage: Storage;
   public af: AngularFireDatabase;
   public afAuth: AngularFireAuth;
   public navCtrl: NavController;
@@ -85,6 +87,10 @@ export class Globals {
   public localNotifications: LocalNotifications;
   public imagePicker: ImagePicker;
   public camera: Camera;
+
+
+  // CACHE VARIABLES
+  public UsersCache: Object = {};
 
   constructor(platform: Platform, public applicationRef: ApplicationRef, public cd: ChangeDetectorRef) {
     this.IsWeb = platform.is("core");
@@ -152,7 +158,6 @@ export class Globals {
       this.LinkCandidaturesWatchers();
       this.LinkReviewsWatchers();
       this.LinkUserChatsWatchers();
-      this.LinkChatsWatchers();
       this.WatchersLinked = true;
     }
   }
@@ -564,14 +569,23 @@ export class Globals {
       this.UserChats_db = this.af.list("user_chats/" + this.UID);
       this.UserChats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
         this.DeleteFromArrayByKey(this.UserChats, removed_chat.key);
+        this.DeleteFromArrayByKey(this.Chats, removed_chat.key);
+        this.storage.set("chat_" + removed_chat.key + "_Info", null);
+        this.storage.set("chat_" + removed_chat.key + "_MessagesInOrder", null);
+        for (let ref of this.chat_messages_refs) {
+          if ((ref as any).$key == removed_chat.key)
+            ref.off();
+        }
         this.ForceAppChanges();
       });
 
       this.UserChats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {     
         let chat: GenericWithKey = new GenericWithKey();
         chat.$key = _chat.key;
-        if (chat != null)
+        if (chat != null) {
           this.UserChats.push(chat);
+          this.LinkChatWatchers(_chat.key);
+        }
         this.ForceAppChanges();
       });
 
@@ -580,78 +594,125 @@ export class Globals {
     }
   }
 
-  private LinkChatsWatchers(): void {
+  private LinkChatWatchers(chatId: string): void {
     
-    // this.Chats_db = this.af.list("/chats");
-    // this.Chats_db.$ref.on("value", (_chat: firebase.database.DataSnapshot) => {
-    //   let chat: Chat = _chat.val();
-    //   this.Chats[_chat.key] = chat;
-    // });
     
     try {
-      this.Chats_db = this.af.list("/chats");
-      this.Chats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
-        this.DeleteFromArrayByKey(this.Chats, removed_chat.key);
-        this.ForceAppChanges();
-      });
+      let chat_db: FirebaseObjectObservable<any> = this.af.object("/chats/" + chatId);
 
-      this.Chats_db.$ref.on("child_added", (_chat: firebase.database.DataSnapshot) => {
-        let chat: Chat = _chat.val();
-        chat.$key = _chat.key;
-        if (chat.DemanderUid == this.UID || chat.ShopperUid == this.UID) {
-          if (chat != null) {
-            chat.Messages = chat.Messages || {};
-            this.Chats.push(chat);
-          }
-          this.af.object("/users/" + (chat.DemanderUid == this.UID ? chat.ShopperUid : chat.DemanderUid)).$ref.once("value", (_user: firebase.database.DataSnapshot) => {
-            let user: FeasyUser = _user.val();
-            if (user != null)
-              (this.GetChatByKey(_chat.key) as any).PhotoURL = user.PhotoURL || (user.Gender == GenderType.Male ? UnknownMan : UnknownWoman);
+      //(chat_db as any).$key = chatId;
+      //this.chat_refs.push(chat_db);
+
+      let chat: Chat = new Chat();
+      this.Chats.push(chat);
+      this.storage.get("chat_" + chatId + "_Info").then(info => {
+        let promises: Array<firebase.Promise<any>> = new Array();
+
+        if (info != null) {
+          Object.assign(chat, JSON.parse(info));
+          // get photo
+          this.GetUser((chat.DemanderUid == this.UID ? chat.ShopperUid : chat.DemanderUid)).then((user) => {
+            chat.PhotoURL = user.PhotoURL || (user.Gender == GenderType.Male ? UnknownMan : UnknownWoman);
+          }).catch(() => { });
+
+        } else {
+          info = {};
+          //Download single static(once) properties
+          promises.push(this.af.object("/chats/" + chatId + "/DemanderName").$ref.once("value", (_val: firebase.database.DataSnapshot) => {
+            info.DemanderName = _val.val();
+          }));
+          promises.push(this.af.object("/chats/" + chatId + "/ShopperName").$ref.once("value", (_val: firebase.database.DataSnapshot) => {
+            info.ShopperName = _val.val();
+          }));
+          promises.push(this.af.object("/chats/" + chatId + "/DemanderUid").$ref.once("value", (_val: firebase.database.DataSnapshot) => {
+            info.DemanderUid = _val.val();
+          }));
+          promises.push(this.af.object("/chats/" + chatId + "/ShopperUid").$ref.once("value", (_val: firebase.database.DataSnapshot) => {
+            info.ShopperUid = _val.val();
+          }));
+          promises.push(this.af.object("/chats/" + chatId + "/ListKey").$ref.once("value", (_val: firebase.database.DataSnapshot) => {
+            info.ListKey = _val.val();
+          }));
+
+
+          firebase.Promise.all(promises).then(() => {
+            Object.assign(chat, info);
+            this.storage.set("chat_" + chatId + "_Info", JSON.stringify(info));
+            // get photo
+            this.GetUser((chat.DemanderUid == this.UID ? chat.ShopperUid : chat.DemanderUid)).then((user) => {
+              chat.PhotoURL = user.PhotoURL || (user.Gender == GenderType.Male ? UnknownMan : UnknownWoman);
+            }).catch(() => { });
           });
-          this.SortMessageArrayByDate(_chat.key);
-          this.ForceAppChanges();
         }
-      });
 
-      this.Chats_db.$ref.on("child_changed", (_chat: firebase.database.DataSnapshot) => {
-        let chat: Chat = _chat.val();
-        if (chat.DemanderUid == this.UID || chat.ShopperUid == this.UID) {
-          let i: number = this.GetIndexByKey(this.Chats, _chat.key);
-          if (i != -1)
-            Object.assign(this.Chats[i], chat);
-          else
-            console.warn("Globals.LinkReviewsWatchers> Cannot find index for key <" + _chat.key + "> in child_changed");
-          this.SortMessageArrayByDate(_chat.key);
-          this.ForceAppChanges();
+
+        let add_message = (_message: firebase.database.DataSnapshot) => {
+          if (chat.Messages[_message.key] == null) {
+            let message: Message = _message.val();
+            message.$key = _message.key;
+            //message.Date = new Date(message.timestamp);
+            message.Type = message.Type || ChatMessageType.Text;
+            chat.Messages[_message.key] = message;
+            chat.MessagesInOrder.push(message);
+            this.storage.set("chat_" + chatId + "_MessagesInOrder", JSON.stringify(chat.MessagesInOrder));
+            this.ForceAppChanges();
+          }
         }
+
+        let chat_messages_ref: firebase.database.Query = this.af.list("/chats/" + chatId + "/Messages").$ref;
+        (chat_messages_ref as any).$key = chatId;
+        this.chat_messages_refs.push(chat_messages_ref);
+        this.storage.get("chat_" + chatId + "_MessagesInOrder").then(messages_in_order => {
+          if (messages_in_order == null) {
+            //download all messages
+            chat_messages_ref.orderByChild("timestamp").once("value", (_val: firebase.database.DataSnapshot) => {
+              chat.Messages = _val.val() || {};
+              for (let msgKey in chat.Messages) {
+                chat.Messages[msgKey].$key = msgKey;
+                //chat.Messages[msgKey].Date = new Date(chat.Messages[msgKey].timestamp);
+                chat.Messages[msgKey].Type = chat.Messages[msgKey].Type || ChatMessageType.Text;
+              }
+              chat.MessagesInOrder = this.ObjToArray<Message>(chat.Messages);
+              chat.LastMessage = chat.MessagesInOrder[chat.MessagesInOrder.length - 1];
+              this.storage.set("chat_" + chatId + "_MessagesInOrder", JSON.stringify(chat.MessagesInOrder)).then(() => {
+                chat_messages_ref.orderByChild("timestamp").startAt(chat.LastMessage.timestamp).on("child_added", add_message);
+              });
+            });
+          } else {
+            chat.MessagesInOrder = JSON.parse(messages_in_order);
+            chat.Messages = this.ArrayToObj(chat.MessagesInOrder);
+            chat.LastMessage = chat.MessagesInOrder[chat.MessagesInOrder.length - 1];
+            chat_messages_ref.orderByChild("timestamp").startAt(chat.LastMessage.timestamp).on("child_added", add_message);
+          }
+        });
       });
 
     } catch (e) {
-      console.log("Globals.LinkChatsWatchers catch err: " + JSON.stringify(e));
+      console.log("Globals.LinkChatWatchers catch err: " + JSON.stringify(e));
     }
   }  
 
-  private SortMessageArrayByDate(_chat_key: string): void {
-    let _chat: Chat = this.GetChatByKey(_chat_key);
-    let _keys: Array<string> = Object.keys(_chat.Messages);
-    let MessagesInOrder: Array<Message> = new Array<Message>();
-    for (let i = 0; i < _keys.length; i++) {
-      _chat.Messages[_keys[i]].Date = new Date(_chat.Messages[_keys[i]].timestamp);
-      _chat.Messages[_keys[i]].Type = _chat.Messages[_keys[i]].Type || ChatMessageType.Text;
-      if (i == 0) {
-        MessagesInOrder.push(_chat.Messages[_keys[i]]);
-      } else {
-        for (let j = 0; j < MessagesInOrder.length; j++) {
-          if (_chat.Messages[_keys[i]].Date > MessagesInOrder[j].Date) {
-            MessagesInOrder.splice((_keys.length - j), 0, _chat.Messages[_keys[i]]);
-            break;
-          }
-        }
-      }
-    }
-    _chat.MessagesInOrder = MessagesInOrder;
-    _chat.LastMessage = MessagesInOrder[MessagesInOrder.length - 1];
-  }
+  //private SortMessageArrayByDate(_chat_key: string): void {
+  //  let _chat: Chat = this.GetChatByKey(_chat_key);
+  //  let _keys: Array<string> = Object.keys(_chat.Messages);
+  //  let MessagesInOrder: Array<Message> = new Array<Message>();
+  //  for (let i = 0; i < _keys.length; i++) {
+  //    _chat.Messages[_keys[i]].Date = new Date(_chat.Messages[_keys[i]].timestamp);
+  //    _chat.Messages[_keys[i]].Type = _chat.Messages[_keys[i]].Type || ChatMessageType.Text;
+  //    if (i == 0) {
+  //      MessagesInOrder.push(_chat.Messages[_keys[i]]);
+  //    } else {
+  //      for (let j = 0; j < MessagesInOrder.length; j++) {
+  //        if (_chat.Messages[_keys[i]].Date > MessagesInOrder[j].Date) {
+  //          MessagesInOrder.splice((_keys.length - j), 0, _chat.Messages[_keys[i]]);
+  //          break;
+  //        }
+  //      }
+  //    }
+  //  }
+  //  _chat.MessagesInOrder = MessagesInOrder;
+  //  _chat.LastMessage = MessagesInOrder[MessagesInOrder.length - 1];
+  //}
 
   // UNLINK WATCHERS SECTION
 
@@ -662,6 +723,8 @@ export class Globals {
       this.UnlinkCandidatesWatchers();
       this.UnlinkCandidaturesWatchers();
       this.UnlinkReviewsWatchers();
+      this.UnlinkUserChatsWatchers();
+      this.UnlinkChatsWatchers();
       this.WatchersLinked = false;
     }
   }
@@ -677,42 +740,58 @@ export class Globals {
     this.UnpublishedLists_db.$ref.off();
     this.TerminatedListsAsDemander_db.$ref.off();
     this.TerminatedListsAsShopper_db.$ref.off();
-    this.PublishedLists = [];
+    this.PublishedLists.length = 0;
     this.PublishedLists_db = null;
     this.NoPublishedLists = true;
-    this.UnpublishedLists = [];
+    this.UnpublishedLists.length = 0;
     this.UnpublishedLists_db = null;
     this.NoUnpublishedLists = true;
-    this.TerminatedListsAsDemander = [];
+    this.TerminatedListsAsDemander.length = 0;
     this.TerminatedListsAsDemander_db = null;
     this.NoTerminatedListsAsDemander = true;
-    this.TerminatedListsAsShopper = [];
+    this.TerminatedListsAsShopper.length = 0;
     this.TerminatedListsAsShopper_db = null;
     this.NoTerminatedListsAsShopper = true;
-    this.AcceptedLists = [];
+    this.AcceptedLists.length = 0;
     this.NoAcceptedLists = true;
-    this.AppliedLists = [];
+    this.AppliedLists.length = 0;
     this.NoAppliedLists = true;
-
   }
 
   private UnlinkCandidatesWatchers(): void {
     this.Candidates_db.$ref.off();
     this.Candidates_db = null;
-    this.Candidates = [];
+    this.Candidates.length = 0;
   }
 
   private UnlinkCandidaturesWatchers(): void {
     this.Candidatures_db.$ref.off();
     this.Candidatures_db = null;
-    this.Candidatures = [];
+    this.Candidatures.length = 0;
   }
 
   private UnlinkReviewsWatchers(): void {
     this.Reviews_db.$ref.off();
     this.Reviews_db = null;
-    this.Reviews = [];
+    this.Reviews.length = 0;
   }
+
+  private UnlinkUserChatsWatchers(): void {
+    this.UserChats_db.$ref.off();
+    this.UserChats_db = null;
+    this.UserChats.length = 0;
+  }
+
+  private UnlinkChatsWatchers(): void {
+    for (let ref of this.chat_messages_refs) {
+      ref.off();
+    }
+    this.chat_messages_refs.length = 0;
+    this.Chats.length = 0;
+  }
+
+  // END UNLINK WATCHERS SECTION
+
 
   private CopyObj(_what: any, _where: any, key: string): void {
     if (_where[key] == undefined) {
@@ -731,10 +810,6 @@ export class Globals {
     //this.applicationRef.tick();
     //this.cd.detectChanges();
     this.cd.markForCheck();
-  }
-
-  public RecopyArray(arr: Array<any>) {
-    arr = arr.slice();
   }
 
   private copy_new_snapshot_list(list: firebase.database.DataSnapshot): FeasyList {
@@ -757,6 +832,32 @@ export class Globals {
     _list.ItemsCount = Object.keys(_list.Items).length;
   }
 
+
+  //ARRAY HELPERS
+
+  public ArrayToObj(arr: Array<any>): Object {
+    let obj: Object = {};
+    for (let index in arr) {
+      obj[arr[index].$key || index] = arr[index];
+    }
+    return obj;
+  }
+
+  public ObjToArray<T>(obj: Object, copyKeys: boolean = false): Array<T> {
+    let arr: Array<T> = new Array<T>();
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        if (copyKeys != null && copyKeys == true)
+          obj[key].$key = key;
+        arr.push(obj[key]);
+      }
+    }
+    return arr;
+  }
+
+  public RecopyArray(arr: Array<any>) {
+    arr = arr.slice();
+  }
 
   public GetIndexByKey(array: Array<any>, key: string): number {
     for (let i: number = 0; i < array.length; i++) {
@@ -924,35 +1025,54 @@ export class Globals {
                   inputElement.click();
                 }
                 else {
-                  let options = {
-                    // Android only. Max images to be selected, defaults to 15. If this is set to 1, upon
-                    // selection of a single image, the plugin will return it.
-                    maximumImagesCount: 1,
 
-                    // max width and height to allow the images to be.  Will keep aspect
-                    // ratio no matter what.  So if both are 800, the returned image
-                    // will be at most 800 pixels wide and 800 pixels tall.  If the width is
-                    // 800 and height 0 the image will be 800 pixels wide if the source
-                    // is at least that wide.
-                    width: maxW,
-                    height: maxH,
 
-                    // quality of resized image, defaults to 100
+                  const options: CameraOptions = {
                     quality: 90,
+                    targetWidth: maxW,
+                    targetHeight: maxH,
+                    allowEdit: true,
+                    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+                    destinationType: this.camera.DestinationType.DATA_URL,
+                    encodingType: this.camera.EncodingType.JPEG,
+                    mediaType: this.camera.MediaType.PICTURE
+                  }
 
-                    // output type, defaults to FILE_URIs.
-                    // available options are 
-                    // window.imagePicker.OutputType.FILE_URI (0) or 
-                    // window.imagePicker.OutputType.BASE64_STRING (1)
-                    outputType: 1
-                  };
+                  this.camera.getPicture(options).then((imageData) => {
+                    resolve('data:image/jpeg;base64,' + imageData);
+                  }, (err) => {
+                    reject(err);
+                  });
 
-                  this.imagePicker.getPictures(options).then((results) => {
-                    if (results == null || results.lenght == 0 || results[0] == null || results[0] == "")
-                      reject(new Error("No image selected"));
-                    else
-                      resolve('data:image/jpeg;base64,' + results[0]);
-                  }, (err) => { reject(err) });
+                  //let options = {
+                  //  // Android only. Max images to be selected, defaults to 15. If this is set to 1, upon
+                  //  // selection of a single image, the plugin will return it.
+                  //  maximumImagesCount: 1,
+
+                  //  // max width and height to allow the images to be.  Will keep aspect
+                  //  // ratio no matter what.  So if both are 800, the returned image
+                  //  // will be at most 800 pixels wide and 800 pixels tall.  If the width is
+                  //  // 800 and height 0 the image will be 800 pixels wide if the source
+                  //  // is at least that wide.
+                  //  width: maxW,
+                  //  height: maxH,
+
+                  //  // quality of resized image, defaults to 100
+                  //  quality: 90,
+
+                  //  // output type, defaults to FILE_URIs.
+                  //  // available options are 
+                  //  // window.imagePicker.OutputType.FILE_URI (0) or 
+                  //  // window.imagePicker.OutputType.BASE64_STRING (1)
+                  //  outputType: 1
+                  //};
+
+                  //this.imagePicker.getPictures(options).then((results) => {
+                  //  if (results == null || results.lenght == 0 || results[0] == null || results[0] == "")
+                  //    reject(new Error("No image selected"));
+                  //  else
+                  //    resolve('data:image/jpeg;base64,' + results[0]);
+                  //}, (err) => { reject(err) });
                 }
 
               }
@@ -971,6 +1091,45 @@ export class Globals {
 
     });
 
+  }
+  
+  public toHHMM(_date): string {
+    let date: Date = new Date(_date);
+    let hh: string = date.getHours().toString();
+    let mm: string = date.getMinutes().toString();
+    //let ss: string = date.getSeconds().toString();
+    if (date.getHours() < 10) { hh = "0" + hh; }
+    if (date.getMinutes() < 10) { mm = "0" + mm; }
+    //if (date.getSeconds() < 10) { ss = "0" + ss; }
+    return hh + ":" + mm;
+  }
+
+
+  public GetUser(userId: string): Promise<FeasyUser> {
+    return new Promise<FeasyUser>((resolve, reject) => {
+      //this.storage.get("user:" + userId).then((user) => {
+        if (this.UsersCache[userId] != null)
+          resolve(this.UsersCache[userId]);
+        else {
+          this.af.object("/users/" + userId).$ref.once("value", (_user: firebase.database.DataSnapshot) => {
+            let user: FeasyUser = _user.val();
+            if (user != null) {
+              //user.PhotoURL = user.PhotoURL || (user.Gender == GenderType.Male ? UnknownMan : UnknownWoman);
+              this.UsersCache[userId] = user;
+              //this.storage.set(userId, user).then(() => {
+                resolve(user);
+              //});
+            } else {
+              reject(new Error("Null User"));
+            }
+          }).catch((err: Error) => {
+            reject(err);
+          });
+        }
+      //}).catch((err: Error) => {
+      //  reject(err);
+      //});
+    });
   }
 
 }

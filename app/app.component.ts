@@ -2,6 +2,7 @@
 import { Http } from '@angular/http';
 
 import { Platform, NavController, Tabs, AlertController, Alert, Loading, LoadingController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
@@ -47,7 +48,7 @@ export class MyApp {
   _user: Observable<firebase.User>;
 
 
-  constructor(platform: Platform, public af: AngularFireDatabase, public afAuth: AngularFireAuth, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public http: Http, private splashScreen: SplashScreen, private keyboard: Keyboard, private statusBar: StatusBar, public menuCtrl: MenuController, private localNotifications: LocalNotifications, private imagePicker: ImagePicker, public camera: Camera) {
+  constructor(platform: Platform, private storage: Storage, public af: AngularFireDatabase, public afAuth: AngularFireAuth, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public http: Http, private splashScreen: SplashScreen, private keyboard: Keyboard, private statusBar: StatusBar, public menuCtrl: MenuController, private localNotifications: LocalNotifications, private imagePicker: ImagePicker, public camera: Camera) {
    
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -65,6 +66,7 @@ export class MyApp {
         document.body.classList.remove('keyboard-is-open');
       });
 
+      globals.storage = storage;
       globals.af = af;
       globals.afAuth = afAuth;
       globals.alertCtrl = alertCtrl;

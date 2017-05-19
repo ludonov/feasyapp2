@@ -20,10 +20,10 @@
 </ion-header>
 
 <ion-content padding class="background-color-body">
-
+    
  <div class="chat">
   <div class="bubble {{mess.OwnerUid == globals.UID ? 'me' : 'you'}}" *ngFor="let mess of chat.MessagesInOrder">
-    <img class="chat_image" src="{{mess.Text}}" *ngIf="mess.Type == 1" />
+    <img class="chat_image" src="{{mess.Text}}" *ngIf="mess.Type == 1" (click)="ViewImage(mess)"/>
     <div *ngIf="mess.Type == 0">{{mess.Text}}</div>
   </div>
 </div>

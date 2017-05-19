@@ -1,8 +1,10 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, ViewChild } from '@angular/core';
 
-import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Tabs, Content } from 'ionic-angular';
 import { FeasyUser, FeasyList, FeasyItem, Review, StripForFirebase, Chat, Message, ChatMessageType } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
+
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
@@ -22,7 +24,10 @@ export class ChatPage {
     public PersonInContact: string;
     public new_message: string;
 
-    constructor(public navCtrl: NavController, public globals: Globals, public alertCtrl: AlertController, public navParams: NavParams, public af: AngularFireDatabase) {
+    @ViewChild(Content) content: Content;
+
+
+    constructor(public navCtrl: NavController, public globals: Globals, public alertCtrl: AlertController, public navParams: NavParams, public af: AngularFireDatabase, public photoViewer: PhotoViewer) {
         this.chat_key = navParams.get('chat_key');
         this.chat = this.globals.GetChatByKey(this.chat_key);
         if (this.chat.DemanderUid == globals.UID) {
@@ -30,6 +35,12 @@ export class ChatPage {
         } else {
             this.PersonInContact = this.chat.DemanderName;
         }
+    }
+
+
+    //scrolls to bottom whenever the page has loaded
+    ionViewDidEnter() {
+      this.content.scrollToBottom();//300ms animation speed
     }
 
     SendMessage(input: any): void {
@@ -64,6 +75,10 @@ export class ChatPage {
       }).catch((err: Error) => {
         console.warn("ChatPage.SendImage> error: " + err.message);
       });
+    }
+
+    ViewImage(mess: Message): void {
+      this.photoViewer.show(mess.Text, 'View image', { share: false });
     }
 
 }

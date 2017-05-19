@@ -3,6 +3,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Http, HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { MyApp } from './app.component';
 
@@ -25,6 +26,7 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 import { LoginPage } from '../pages/1_login/1_login';
 import { ForgotPassPage } from '../pages/2_forgot_pass/2_forgot_pass';
@@ -156,6 +158,7 @@ export const firebaseConfig = {
           autoFocusAssist: 'instant'  // Valid options appear to be ['instant', 'delay', false]
         }
       ),
+    IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(firebaseConfig)
   ],
   bootstrap: [IonicApp],
@@ -212,7 +215,7 @@ export const firebaseConfig = {
     ViewBigImage,
     TabsPage
   ],
-  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, AngularFireDatabase, AngularFireAuth, Globals, ImagePicker, SplashScreen, LocalNotifications, Facebook, Geolocation, Diagnostic, Camera]
+  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, AngularFireDatabase, AngularFireAuth, Globals, ImagePicker, SplashScreen, LocalNotifications, Facebook, Geolocation, Diagnostic, Camera, PhotoViewer]
 })
 export class AppModule {
 

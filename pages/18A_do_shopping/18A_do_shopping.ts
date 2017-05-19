@@ -1,6 +1,6 @@
 ﻿
-﻿import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, Alert, AlertController, LoadingController, Loading, Platform } from 'ionic-angular';
+﻿import { Component, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { NavController, ViewController, Alert, AlertController, LoadingController, Loading, Platform } from 'ionic-angular';
 
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -9,7 +9,7 @@ import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition, MarkerO
 
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
-import { FeasyUser, FeasyList, GeoPoint } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, GeoPoint, DeliveryAddress } from '../../classes/Feasy';
 
 import { DoShoppingListsPage } from '../18B_do_shopping_lists/18B_do_shopping_lists';
 import { DoShoppingFiltersPage } from '../18C_do_shopping_filters/18C_do_shopping_filters';
@@ -25,8 +25,12 @@ import { Globals } from '../../classes/Globals';
 
 export class DoShoppingPage {
 
-  map: GoogleMap;
+  autocompleteItems;
+  autocomplete;
+  service = new google.maps.places.AutocompleteService();
 
+  map: GoogleMap;
+  
   @ViewChild('map') mapElement: ElementRef;
   public map_browser: google.maps.Map;
   public map_ready: boolean = false;
@@ -41,7 +45,7 @@ export class DoShoppingPage {
   private geopoints_db: FirebaseListObservable<any>;
   private no_geopoints: boolean = true;
 
-  constructor(public navCtrl: NavController, private platform: Platform, public geolocation: Geolocation, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public globals: Globals, public diagnostic: Diagnostic) {
+  constructor(public navCtrl: NavController, public viewCtrl: ViewController, private zone: NgZone, private platform: Platform, public geolocation: Geolocation, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public globals: Globals, public diagnostic: Diagnostic) {
     this.is_web = this.platform.is("core");
     this.platform.ready().then(() => {
       if (this.is_web) {
@@ -73,6 +77,12 @@ export class DoShoppingPage {
       this.no_geopoints = Object.keys(this.geopoints).length == 0;
       this.update_geopoints();
     });
+
+    // autocomplete
+    this.autocompleteItems = [];
+    this.autocomplete = {
+      query: ''
+    };
   }
 
   geolocate(): void {
@@ -128,7 +138,54 @@ export class DoShoppingPage {
         google.maps.event.addListener(this.map_browser, 'click', () => { this.infoWindow.close(); });
         //this.map_browser.addListener('idle', function () { this.update_geopoints(); });
         this.update_geopoints();
+
+        /*
+        // Create the search box and link it to the UI element.
+        let input: HTMLElement = document.getElementById('pac-input');
+        let searchBox = new google.maps.places.SearchBox(<HTMLInputElement>input);
+        this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        this.map.addListener('bounds_changed', () => {
+          searchBox.setBounds(this.map_browser.getBounds());
+        });
+
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', () => {
+          var places = searchBox.getPlaces();
+
+          if (places.length == 0) {
+            return;
+          }
+
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach((place) => {
+            if (!place.geometry) {
+              console.warn("Returned place contains no geometry");
+              return;
+            }
+
+            console.log("New place: " + place.name);
+            console.log("Location: " + place.geometry.location);
+
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          this.map_browser.fitBounds(bounds);
+
+        });
+        */
+
       });
+
+
+      
 
     } else {
 
@@ -327,4 +384,47 @@ export class DoShoppingPage {
     console.log("my proposed lists");
     this.navCtrl.setRoot(DoShoppingListsPage);    
   }
+
+  dismiss() {
+    console.log("dismiss");
+    if (!this.is_web)
+      this.map.setClickable(true);
+  }
+
+  chooseItem(item: any) {
+    console.log("Address chosen: " + item);
+    let addr: DeliveryAddress = new DeliveryAddress();
+    addr.StreetName = item;
+    addr.Geocode(this.alertCtrl).then((val) => {
+      if (val) {
+        this.autocompleteItems = [];
+        if (this.is_web) {
+          this.map_browser.setCenter(new google.maps.LatLng(addr.Latitude, addr.Longitude));
+        } else {
+          this.map.setCenter(new LatLng(addr.Latitude, addr.Longitude));
+          this.map.setClickable(true);
+        }
+        (<HTMLInputElement>document.querySelector("#searchBar input")).value = item;
+      }
+    })
+  }
+
+  updateSearch() {
+    if (this.autocomplete.query == '') {
+      this.autocompleteItems = [];
+      return;
+    }
+    this.service.getPlacePredictions({ input: this.autocomplete.query }, (predictions, status) => {
+      this.autocompleteItems = [];
+      this.zone.run(() => {
+        if (predictions != null)
+          predictions.forEach((prediction) => {
+            this.autocompleteItems.push(prediction.description);
+          });
+        if (!this.is_web)
+          this.map.setClickable(false);
+      });
+    });
+  }
+
 }

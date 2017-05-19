@@ -34,8 +34,8 @@ export class PublicatedListWithShopperPovShopperPage {
       console.warn("PublicatedListCandidatesPage: null listkeylist_owner/candidature_key/candidature. Going back.");
       navCtrl.pop();
     } else {
-      this.globals.af.object("/users/" + this.list_owner).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
-        Object.assign(this.demander, snapshot.val());
+      this.globals.GetUser(this.list_owner).then( (user) => {
+        Object.assign(this.demander, user);
         this.demander.SetImageOrDefault();
       });
       this.globals.af.object("/published_lists/" + this.list_owner + "/" + this.list_key).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
