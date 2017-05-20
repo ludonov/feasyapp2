@@ -64,8 +64,7 @@ export class ListFromMapPage {
       //  alert.present();
       //});
 
-      globals.af.object("/users/" + this.list_owner).$ref.on("value", (snaphot: firebase.database.DataSnapshot) => {
-        let val: any = snaphot.val();
+      globals.GetUser(this.list_owner).then( val => {
         if (val == null) {
           console.warn("ListFromMapPage: null owner data. Going back.");
           let alert: Alert = alertCtrl.create({

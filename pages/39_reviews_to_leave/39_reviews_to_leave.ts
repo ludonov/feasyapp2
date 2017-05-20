@@ -21,36 +21,34 @@ export class ReviewsToLeavePage {
     public ReviewsToLeaveAsDemander: Array<any> = new Array<any>();
     public ReviewsToLeaveAsShopper: Array<any> = new Array<any>();
 
-    public TerminatedLists_db: FirebaseListObservable<any>; 
-    public TerminatedListsAsDemander: Object = {}; 
+    public TerminatedLists_db: FirebaseListObservable<any>;
+    public TerminatedListsAsDemander: Object = {};
     public TerminatedListsAsShopper: Object = {};
 
-    constructor(public cd: ChangeDetectorRef, public navCtrl: NavController, public globals: Globals,  public alertCtrl: AlertController) {
-        this.TerminatedLists_db = globals.af.list("terminated_lists/" + globals.UID); 
+    constructor(public cd: ChangeDetectorRef, public navCtrl: NavController, public globals: Globals, public alertCtrl: AlertController) {
+        this.TerminatedLists_db = globals.af.list("terminated_lists/" + globals.UID);
         this.TerminatedLists_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
             let lists: any = snapshot.val();
-            this.TerminatedListsAsDemander=lists["as_demander"];
-            this.TerminatedListsAsShopper=lists["as_shopper"];
+            this.TerminatedListsAsDemander = lists["as_demander"];
+            this.TerminatedListsAsShopper = lists["as_shopper"];
 
             for (let demander_key in this.TerminatedListsAsDemander) {
                 let list_d: FeasyList = this.TerminatedListsAsDemander[demander_key];
-                if(list_d.ReviewLeft == false) {
+                if (list_d.ReviewLeft == false) {
                     list_d.$key = demander_key;
-                    this.globals.af.object('/users/' + list_d.ChosenShopperUid).$ref.on("value", (_user: firebase.database.DataSnapshot) => {
-                        let user: FeasyUser = _user.val();
+                    globals.GetUser(list_d.ChosenShopperUid).then(user => {
                         if (user != null && user.PhotoURL != null)
                             (list_d as any).PhotoURL = user.PhotoURL;
                         this.ReviewsToLeaveAsDemander.push(list_d);
                     });
                 }
-            } 
+            }
 
             for (let shopper_key in this.TerminatedListsAsShopper) {
                 let list_s: FeasyList = this.TerminatedListsAsShopper[shopper_key];
-                if(list_s.ReviewLeft == false){
+                if (list_s.ReviewLeft == false) {
                     list_s.$key = shopper_key;
-                    this.globals.af.object('/users/' + list_s.owner).$ref.on("value", (_user: firebase.database.DataSnapshot) => {
-                        let user: FeasyUser = _user.val();
+                    globals.GetUser(list_s.owner).then(user => {
                         if (user != null && user.PhotoURL != null)
                             (list_s as any).PhotoURL = user.PhotoURL;
                         this.ReviewsToLeaveAsShopper.push(list_s);
@@ -68,10 +66,10 @@ export class ReviewsToLeavePage {
         if (ReviewToLeave.owner == this.globals.UID) {
             Demander = true;
             PersonUnderReview = ReviewToLeave.ChosenShopperName;
-        }else{
+        } else {
             Demander = false;
             PersonUnderReview = ReviewToLeave.DemanderName;
         }
-        this.navCtrl.push(SingleReviewToLeavePage, {ReviewToLeave: ReviewToLeave, Demander: Demander, PersonUnderReview: PersonUnderReview});
-  }
+        this.navCtrl.push(SingleReviewToLeavePage, { ReviewToLeave: ReviewToLeave, Demander: Demander, PersonUnderReview: PersonUnderReview });
+    }
 }
