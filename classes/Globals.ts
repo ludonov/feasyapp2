@@ -5,9 +5,11 @@ import { NavController, AlertController, Alert, LoadingController, Loading, Plat
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { LocalNotifications } from '@ionic-native/local-notifications';
+import { LocalNotifications, ILocalNotification } from '@ionic-native/local-notifications';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
+
 import { Observable } from 'rxjs/Observable';
 
 import { Storage } from '@ionic/storage';
@@ -15,9 +17,11 @@ import { Storage } from '@ionic/storage';
 import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 import { PublicatedListWithShopperPovShopperPage } from '../pages/11B_publicated_list_with_shopper_pov_shopper/11B_publicated_list_with_shopper_pov_shopper';
 import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
+import { ViewBigPicture } from "../pages/42_view_big_picture/42_view_big_picture";
 
 import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, Chat, Message, ChatMessageType, GenericWithKey, UnknownMan, UnknownWoman } from './Feasy';
 
+export enum NotificationType { Accepted, HasNewCandidate }
 
 @Injectable()
 export class Globals {
@@ -29,6 +33,7 @@ export class Globals {
   public UID: string = "";
   public _user: firebase.User;
   public IsWeb: boolean = true;
+  public LN_AlreadyLinked: boolean = false;
 
   public WatchersLinked: boolean = false;
 
@@ -80,6 +85,9 @@ export class Globals {
   public JustRegistered: boolean = false;
   public NotificationCounter: number = 0;
 
+  public loading: Loading;
+
+  // NATIVE PLUGINS
   public storage: Storage;
   public af: AngularFireDatabase;
   public afAuth: AngularFireAuth;
@@ -90,6 +98,7 @@ export class Globals {
   public localNotifications: LocalNotifications;
   public imagePicker: ImagePicker;
   public camera: Camera;
+  public photoViewer: PhotoViewer;
 
 
   // CACHE VARIABLES
@@ -98,6 +107,15 @@ export class Globals {
 
   constructor(platform: Platform, public applicationRef: ApplicationRef, public cd: ChangeDetectorRef) {
     this.IsWeb = platform.is("core");
+  }
+
+  public NotificationHandler(notification: ILocalNotification) {
+    console.log(notification);
+    let data = JSON.parse(notification.data);
+    if (data.type == NotificationType.Accepted)
+      this.navCtrl.push(PublicatedListWithShopperPovShopperPage, data);
+    else if (data.type == NotificationType.HasNewCandidate)
+      this.navCtrl.push(PublicatedListCandidatesPage, data);
   }
 
   public BIG_IMAGE_MAX_WIDTH(): number {
@@ -289,6 +307,7 @@ export class Globals {
               if (user != null && user.PhotoURL != null)
                   (list_d as any).PhotoURL = user.PhotoURL;
               this.ReviewsToLeaveAsDemander.push(list_d);
+              this.ForceAppChanges();
           });
       }
 
@@ -305,7 +324,8 @@ export class Globals {
 
       let list_d: FeasyList = list.val();
       if(list_d.ReviewLeft == true) {
-          this.DeleteFromArrayByKey(this.ReviewsToLeaveAsDemander,list.key);
+        this.DeleteFromArrayByKey(this.ReviewsToLeaveAsDemander, list.key);
+        this.ForceAppChanges();
       }
     });
 
@@ -315,6 +335,7 @@ export class Globals {
       //delete this.UnpublishedLists[list.key];
       //this.NoUnpublishedLists = Object.keys(this.UnpublishedLists).length == 0;
       this.RecopyArray(this.TerminatedListsAsDemander);
+      this.ForceAppChanges();
     });
 
 
@@ -336,6 +357,7 @@ export class Globals {
               if (user != null && user.PhotoURL != null)
                   (list_d as any).PhotoURL = user.PhotoURL;
               this.ReviewsToLeaveAsShopper.push(list_d);
+              this.ForceAppChanges();
           });
       }
     });
@@ -351,7 +373,8 @@ export class Globals {
 
       let list_d: FeasyList = list.val();
       if(list_d.ReviewLeft == true) {
-          this.DeleteFromArrayByKey(this.ReviewsToLeaveAsShopper,list.key);
+        this.DeleteFromArrayByKey(this.ReviewsToLeaveAsShopper, list.key);
+        this.ForceAppChanges();
       }
     });
 
@@ -361,6 +384,7 @@ export class Globals {
       //delete this.UnpublishedLists[list.key];
       //this.NoUnpublishedLists = Object.keys(this.UnpublishedLists).length == 0;
       this.RecopyArray(this.TerminatedListsAsShopper);
+      this.ForceAppChanges();
     });
   }
 
@@ -442,17 +466,16 @@ export class Globals {
             });
             alert.present();
           } else {
+            //if (!this.IsWeb && !this.LN_AlreadyLinked) {
+            //  this.LN_AlreadyLinked = true;
+            //}
             // Schedule a single notification
             this.localNotifications.schedule({
               id: this.NotificationCounter++,
               title: "Sei stato accettato!",
               text: "Clicca per vedere i dettagli",
-              icon: 'res://icon'
-            });
-            this.localNotifications.on("click", (notification) => {
-              this.navCtrl.push(PublicatedListWithShopperPovShopperPage, { list_owner: candidature.ListOwnerUid, list_key: candidature.ListReferenceKey, candidature_key: _candidature.key, candidature: candidature });
-              this.localNotifications.clearAll();
-              console.log(JSON.stringify(notification));  
+              icon: 'res://icon',
+              data: { type: NotificationType.Accepted, list_owner: candidature.ListOwnerUid, list_key: candidature.ListReferenceKey, candidature_key: _candidature.key, candidature: candidature }
             });
           }
         }
@@ -527,14 +550,8 @@ export class Globals {
               id: this.NotificationCounter++,
               title: 'Nuovo candidato!',
               text: "Clicca per vedere i dettagli",
-              data: { list_owner: this.UID, list_key: candidate.ListReferenceKey },
               icon: 'res://icon',
-              at: new Date(new Date().getTime() + 10)
-            });
-            this.localNotifications.on("click", (notification) => {
-              this.localNotifications.clearAll();
-              this.navCtrl.push(PublicatedListCandidatesPage, { list_key: candidate.ListReferenceKey });
-              console.log(JSON.stringify(notification));
+              data: { type: NotificationType.HasNewCandidate, list_key: candidate.ListReferenceKey }
             });
           }
         }
@@ -657,6 +674,7 @@ export class Globals {
       //this.chat_refs.push(chat_db);
 
       let chat: Chat = new Chat();
+      chat.$key = chatId;
       this.Chats.push(chat);
       this.storage.get("chat_" + chatId + "_Info").then(info => {
         let promises: Array<firebase.Promise<any>> = new Array();
@@ -726,16 +744,22 @@ export class Globals {
                 chat.Messages[msgKey].Type = chat.Messages[msgKey].Type || ChatMessageType.Text;
               }
               chat.MessagesInOrder = this.ObjToArray<Message>(chat.Messages);
-              chat.LastMessage = chat.MessagesInOrder[chat.MessagesInOrder.length - 1];
+              chat.LastMessage = chat.MessagesInOrder.length > 0 ? chat.MessagesInOrder[chat.MessagesInOrder.length - 1] : null;
               this.storage.set("chat_" + chatId + "_MessagesInOrder", JSON.stringify(chat.MessagesInOrder)).then(() => {
-                chat_messages_ref.orderByChild("timestamp").startAt(chat.LastMessage.timestamp).on("child_added", add_message);
+                if (chat.LastMessage != null)
+                  chat_messages_ref.orderByChild("timestamp").startAt(chat.LastMessage.timestamp).on("child_added", add_message);
+                else
+                  chat_messages_ref.orderByChild("timestamp").on("child_added", add_message);
               });
             });
           } else {
             chat.MessagesInOrder = JSON.parse(messages_in_order);
             chat.Messages = this.ArrayToObj(chat.MessagesInOrder);
-            chat.LastMessage = chat.MessagesInOrder[chat.MessagesInOrder.length - 1];
-            chat_messages_ref.orderByChild("timestamp").startAt(chat.LastMessage.timestamp).on("child_added", add_message);
+            chat.LastMessage = chat.MessagesInOrder.length > 0 ? chat.MessagesInOrder[chat.MessagesInOrder.length - 1] : null;
+            if (chat.LastMessage != null)
+              chat_messages_ref.orderByChild("timestamp").startAt(chat.LastMessage.timestamp).on("child_added", add_message);
+            else
+              chat_messages_ref.orderByChild("timestamp").on("child_added", add_message);
           }
         });
       });
@@ -1157,6 +1181,14 @@ export class Globals {
     return hh + ":" + mm;
   }
 
+  public ViewBigImage(image: string, nav: NavController, title: string = "View Image"): void {
+    if (this.IsWeb) {
+      nav.push(ViewBigPicture, { image_content: image });
+    }
+    else {
+      this.photoViewer.show(image, title, { share: true });
+    }
+  }
 
   public GetUser(userId: string): Promise<FeasyUser> {
     return new Promise<FeasyUser>((resolve, reject) => {
@@ -1210,6 +1242,27 @@ export class Globals {
       //  reject(err);
       //});
     });
+  }
+
+
+  public ShowLoading(text: string = "Please wait...") {
+    try {
+      this.loading = this.loadingCtrl.create({
+        spinner: 'dots',
+        content: text
+      });
+      this.loading.present();
+    } catch (e) {
+      console.warn("Globals.ShowLoading> error: " + JSON.stringify(e));
+    }
+  }
+
+  public DismissLoading() {
+    try {
+      this.loading.dismiss();
+    } catch (e) {
+      console.warn("Globals.DismissLoading> error: " + JSON.stringify(e));
+    }
   }
 
 }

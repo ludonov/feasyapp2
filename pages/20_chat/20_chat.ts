@@ -4,8 +4,6 @@ import { NavController, NavParams, AlertController, Tabs, Content } from 'ionic-
 import { FeasyUser, FeasyList, FeasyItem, Review, StripForFirebase, Chat, Message, ChatMessageType } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
-import { PhotoViewer } from '@ionic-native/photo-viewer';
-
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
 import { PublicatedListWithShopperPage } from '../11_publicated_list_with_shopper/11_publicated_list_with_shopper';
@@ -27,7 +25,7 @@ export class ChatPage {
     @ViewChild(Content) content: Content;
 
 
-    constructor(public navCtrl: NavController, public globals: Globals, public alertCtrl: AlertController, public navParams: NavParams, public af: AngularFireDatabase, public photoViewer: PhotoViewer) {
+    constructor(public navCtrl: NavController, public globals: Globals, public alertCtrl: AlertController, public navParams: NavParams, public af: AngularFireDatabase) {
         this.chat_key = navParams.get('chat_key');
         this.chat = this.globals.GetChatByKey(this.chat_key);
         if (this.chat.DemanderUid == globals.UID) {
@@ -78,7 +76,7 @@ export class ChatPage {
     }
 
     ViewImage(mess: Message): void {
-      this.photoViewer.show(mess.Text, 'View image', { share: false });
+      this.globals.ViewBigImage(mess.Text, this.navCtrl);
     }
 
 }

@@ -124,7 +124,7 @@ export class DoShoppingPage {
       let latLng = new google.maps.LatLng(lat, lng);
       let mapOptions = {
         center: latLng,
-        zoom: 15,
+        zoom: far ? 5 : 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
 
@@ -402,11 +402,14 @@ export class DoShoppingPage {
         this.autocompleteItems = [];
         if (this.is_web) {
           this.map_browser.setCenter(new google.maps.LatLng(addr.Latitude, addr.Longitude));
+          this.map_browser.setZoom(11);
         } else {
           this.map.setCenter(new LatLng(addr.Latitude, addr.Longitude));
+          this.map.setZoom(11);
           this.map.setClickable(true);
         }
-        (<HTMLInputElement>document.querySelector("#searchBar input")).value = item;
+        this.autocomplete.query = item;
+        //(<HTMLInputElement>document.querySelector("#searchBar input")).value = item;
       }
     })
   }
@@ -414,6 +417,8 @@ export class DoShoppingPage {
   updateSearch() {
     if (this.autocomplete.query == '') {
       this.autocompleteItems = [];
+      if (!this.is_web)
+        this.map.setClickable(true);
       return;
     }
     this.service.getPlacePredictions({ input: this.autocomplete.query }, (predictions, status) => {

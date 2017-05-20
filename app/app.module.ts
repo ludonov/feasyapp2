@@ -78,7 +78,7 @@ import { SpecificAddressFromEditProfilePage } from '../pages/37_specific_address
 import { AddNewAddressPage } from '../pages/38_add_new_address/38_add_new_address';
 import { ReviewsToLeavePage } from '../pages/39_reviews_to_leave/39_reviews_to_leave';
 import { SingleReviewToLeavePage } from '../pages/40_single_review_to_leave/40_single_review_to_leave';
-import { ViewBigImage } from '../pages/42_view_big_picture/42_view_big_picture';
+import { ViewBigPicture } from '../pages/42_view_big_picture/42_view_big_picture';
 
 
 import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
@@ -149,7 +149,7 @@ export const firebaseConfig = {
     AddNewAddressPage,
     ReviewsToLeavePage,
     SingleReviewToLeavePage,
-    ViewBigImage,
+    ViewBigPicture,
     TabsPage
   ],
   imports: [
@@ -218,7 +218,7 @@ export const firebaseConfig = {
     AddNewAddressPage,
     ReviewsToLeavePage,
     SingleReviewToLeavePage,
-    ViewBigImage,
+    ViewBigPicture,
     TabsPage
   ],
   providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, AngularFireDatabase, AngularFireAuth, Globals, ImagePicker, SplashScreen, LocalNotifications, Facebook, Geolocation, Diagnostic, Camera, PhotoViewer]

@@ -20,24 +20,26 @@ export class SingleReviewInputPage {
   public TerminatedList_db: FirebaseObjectObservable<any>;
   public TerminatedList: FeasyList = new FeasyList("");
 
-  constructor(public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams,  public globals: Globals) {
-      this.ReviewToLeave = navParams.get('review');
-      this.Review_db = globals.af.list("reviews/" + globals.UID + "/to_move");
-      if (globals.UID == this.ReviewToLeave.owner){
-          this.TerminatedList_db = globals.af.object("terminated_lists/" + globals.UID + "/as_demander/" + this.ReviewToLeave.$key);
-          this.TerminatedList_db.$ref.on("value", (snapshot1: firebase.database.DataSnapshot) => {
-            this.TerminatedList = snapshot1.val();
-          });
-      }else{
-        this.TerminatedList_db = globals.af.object("terminated_lists/" + globals.UID + "/as_shopper/" + this.ReviewToLeave.$key);
-        this.TerminatedList_db.$ref.on("value", (snapshot2: firebase.database.DataSnapshot) => {
-          this.TerminatedList = snapshot2.val();
-        });
-      }
-      
-  } 
+  constructor(public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public globals: Globals) {
+    this.review.Rating = 5;
+    this.ReviewToLeave = navParams.get('review');
+    this.Review_db = globals.af.list("reviews/" + globals.UID + "/to_move");
+    if (globals.UID == this.ReviewToLeave.owner) {
+      this.TerminatedList_db = globals.af.object("terminated_lists/" + globals.UID + "/as_demander/" + this.ReviewToLeave.$key);
+      this.TerminatedList_db.$ref.on("value", (snapshot1: firebase.database.DataSnapshot) => {
+        this.TerminatedList = snapshot1.val();
+      });
+    } else {
+      this.TerminatedList_db = globals.af.object("terminated_lists/" + globals.UID + "/as_shopper/" + this.ReviewToLeave.$key);
+      this.TerminatedList_db.$ref.on("value", (snapshot2: firebase.database.DataSnapshot) => {
+        this.TerminatedList = snapshot2.val();
+      });
+    }
+
+  }
 
   AddReview(): void {
+    this.review.Rating = parseInt((this.review.Rating as any));
     if (this.review.Title == "" || this.review.Title == null) {
       let alert = this.alertCtrl.create({
         title: 'Info',
@@ -53,32 +55,32 @@ export class SingleReviewInputPage {
       });
       alert.present();
     } else if (this.review.Text == "" || this.review.Text == null) {
-        let alert = this.alertCtrl.create({
+      let alert = this.alertCtrl.create({
         title: 'Info',
         subTitle: 'Il testo non può essere vuoto',
         buttons: ['Ok']
-        });
-        alert.present();
+      });
+      alert.present();
     } else {
-        this.review.UID_Writer = this.globals.UID;
-        if (this.globals.UID == this.ReviewToLeave.owner) {
-            this.review.WriterName = this.ReviewToLeave.DemanderName;
-            this.review.RevieweeUid = this.ReviewToLeave.ChosenShopperUid;
-        } else {
-            this.review.WriterName = this.ReviewToLeave.ChosenShopperName;
-            this.review.RevieweeUid = this.ReviewToLeave.owner;
-        }
-        this.review.ListKey = this.ReviewToLeave.$key;
-        this.TerminatedList.ReviewLeft = true;
-        this.Review_db.push(StripForFirebase(this.review)).then(res => {
-          this.TerminatedList_db.update(StripForFirebase(this.TerminatedList)).then(res => {
-              this.navCtrl.popToRoot();
-          }).catch((err: Error) => {
-            console.log("Error: " + err.message);
-          });
+      this.review.UID_Writer = this.globals.UID;
+      if (this.globals.UID == this.ReviewToLeave.owner) {
+        this.review.WriterName = this.ReviewToLeave.DemanderName;
+        this.review.RevieweeUid = this.ReviewToLeave.ChosenShopperUid;
+      } else {
+        this.review.WriterName = this.ReviewToLeave.ChosenShopperName;
+        this.review.RevieweeUid = this.ReviewToLeave.owner;
+      }
+      this.review.ListKey = this.ReviewToLeave.$key;
+      this.TerminatedList.ReviewLeft = true;
+      this.Review_db.push(StripForFirebase(this.review)).then(res => {
+        this.TerminatedList_db.update(StripForFirebase(this.TerminatedList)).then(res => {
+          this.navCtrl.popToRoot();
         }).catch((err: Error) => {
           console.log("Error: " + err.message);
         });
+      }).catch((err: Error) => {
+        console.log("Error: " + err.message);
+      });
     }
   }
 
