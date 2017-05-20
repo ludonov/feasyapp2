@@ -5,28 +5,28 @@
 </ion-header>
 
 <ion-content>
+  <ion-fab top right edge>
+    <button ion-fab mini color="secondary" (click)="AddAddress()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
   <ion-list>
-    <div class="spacer" style="height: 32px;"></div>
-    <ion-item>
-      <ion-label fixed>Negozio</ion-label>
-      <ion-input [(ngModel)]="list.PreferredShops" type="text" value=""></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label fixed>Valore massimo spesa</ion-label>
-      <ion-input [(ngModel)]="list.MaxValue" type="number" value=""></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label fixed>Peso stimato (kg)</ion-label>
-      <ion-input [(ngModel)]="list.EstimatedWeight" type="number" value=""></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label fixed>Altri commenti</ion-label>
-      <ion-input [(ngModel)]="list.Comments" type="text" value=""></ion-input>
+    <div class="spacer" style="height: 16px;"></div>
+		<ion-item-divider style="border-top-color: transparent;">INDIRIZZO E ORARIO CONSEGNA </ion-item-divider>
+
+    <ion-item (click)="ViewAddress(address)" *ngFor="let address of list.DeliveryAddresses | keys">
+      <ion-label>
+        {{address.value.FormattedAddress}}
+      </ion-label>
+      <div item-content>
+        dalle {{address.value.From}} &nbsp; alle {{address.value.To}}  <br>
+      </div>
     </ion-item>
 
+<!--OLD    <div class="spacer" style="height: 16px;"></div>
+    <div class="center">
+      <button ion-button round color="secondary" (click)="AddAddress()" style="width:40%">Aggiungi</button>
+    </div>-->
   </ion-list>
 
-  <div class="spacer" style="height: 16px;"></div>
   <div class="lateral-bottom-padding">
     <button ion-button block color="secondary" (click)="PublicateList()">Pubblica</button>
   </div>
