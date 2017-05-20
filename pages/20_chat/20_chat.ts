@@ -35,10 +35,21 @@ export class ChatPage {
         }
     }
 
-
-    //scrolls to bottom whenever the page has loaded
+    scroll() {
+        //scrolls to bottom whenever the page has loaded
+        console.log("Scroll");
+        window["_this_content"].scrollToBottom();
+    }
+    
     ionViewDidEnter() {
-      this.content.scrollToBottom();//300ms animation speed
+        window["_this_content"] = this.content;
+        this.scroll();
+        this.globals.ChatMessageReceived.on(this.scroll);
+    }
+
+    ionViewWillLeave() {
+        delete window["_this_content"];
+        this.globals.ChatMessageReceived.off(this.scroll);
     }
 
     SendMessage(input: any): void {

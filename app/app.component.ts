@@ -222,6 +222,14 @@ export class MyApp {
 
   //SIDE MENU
 
+  menuOpen() {
+      this.globals.MenuOpenChange.trigger(true);
+  }
+
+  menuClosed() {
+      this.globals.MenuOpenChange.trigger(false);
+  }
+
   goToProfile(): void {
     console.log("going to profile page");
     this.navCtrl.push(UserProfilePage);

@@ -1,5 +1,4 @@
-﻿
-import { Injectable, ApplicationRef, ChangeDetectorRef } from '@angular/core';
+﻿import { Injectable, ApplicationRef, ChangeDetectorRef } from '@angular/core';
 import { Http } from '@angular/http';
 import { NavController, AlertController, Alert, LoadingController, Loading, Platform } from 'ionic-angular';
 import { AngularFireModule } from 'angularfire2';
@@ -11,6 +10,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 import { Observable } from 'rxjs/Observable';
+import { LiteEvent } from './LiteEvent';
 
 import { Storage } from '@ionic/storage';
 
@@ -26,14 +26,20 @@ export enum NotificationType { Accepted, HasNewCandidate }
 @Injectable()
 export class Globals {
 
+
+    //GENERAL VARIABLES
+    public root: any;
+    public IsWeb: boolean = true;
+    public JustRegistered: boolean = false;
+    public NotificationCounter: number = 0;
+
+
+    // WATCHERS VARIABLES
     public config: Config = new Config();
     private config_db: FirebaseObjectObservable<any>;
-    public root: any;
 
     public UID: string = "";
     public _user: firebase.User;
-    public IsWeb: boolean = true;
-    public LN_AlreadyLinked: boolean = false;
 
     public WatchersLinked: boolean = false;
 
@@ -81,11 +87,12 @@ export class Globals {
 
     public Chats: Array<Chat> = new Array<Chat>();
     private chat_messages_refs: Array<firebase.database.Query> = new Array();
+    public ChatMessageReceived: LiteEvent<Message> = new LiteEvent<Message>();
 
-    public JustRegistered: boolean = false;
-    public NotificationCounter: number = 0;
 
+    // OTHER VARIABLES
     public loading: Loading;
+    public MenuOpenChange: LiteEvent<boolean> = new LiteEvent<boolean>();
 
     // NATIVE PLUGINS
     public storage: Storage;
@@ -104,6 +111,7 @@ export class Globals {
     // CACHE VARIABLES
     public UsersCache: Object = {};
     public UsersPicBigCache: Object = {};
+
 
     constructor(platform: Platform, public applicationRef: ApplicationRef, public cd: ChangeDetectorRef) {
         this.IsWeb = platform.is("core");
@@ -668,14 +676,11 @@ export class Globals {
 
 
         try {
-            let chat_db: FirebaseObjectObservable<any> = this.af.object("/chats/" + chatId);
-
-            //(chat_db as any).$key = chatId;
-            //this.chat_refs.push(chat_db);
-
             let chat: Chat = new Chat();
             chat.$key = chatId;
             this.Chats.push(chat);
+
+            // check local storage to recover chat info, otherwise download
             this.storage.get("chat_" + chatId + "_Info").then(info => {
                 let promises: Array<firebase.Promise<any>> = new Array();
 
@@ -727,6 +732,7 @@ export class Globals {
                         chat.MessagesInOrder.push(message);
                         this.storage.set("chat_" + chatId + "_MessagesInOrder", JSON.stringify(chat.MessagesInOrder));
                         this.ForceAppChanges();
+                        this.ChatMessageReceived.trigger(message);
                     }
                 }
 
