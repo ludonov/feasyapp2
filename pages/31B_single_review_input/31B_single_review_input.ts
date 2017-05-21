@@ -19,6 +19,7 @@ export class SingleReviewInputPage {
   public review: Review = new Review();
   public TerminatedList_db: FirebaseObjectObservable<any>;
   public TerminatedList: FeasyList = new FeasyList("");
+  public x = { Rating: new Date() };
 
   constructor(public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams,  public globals: Globals) {
       this.ReviewToLeave = navParams.get('review');
@@ -38,6 +39,7 @@ export class SingleReviewInputPage {
   } 
 
   AddReview(): void {
+    this.review.Rating = this.x.Rating.getMonth();
     if (this.review.Title == "" || this.review.Title == null) {
       let alert = this.alertCtrl.create({
         title: 'Info',
@@ -60,7 +62,7 @@ export class SingleReviewInputPage {
         });
         alert.present();
     } else {
-        this.review.UID_Writer = this.globals.UID;
+      this.review.UID_Writer = this.globals.UID;
         if (this.globals.UID == this.ReviewToLeave.owner) {
             this.review.WriterName = this.ReviewToLeave.DemanderName;
             this.review.RevieweeUid = this.ReviewToLeave.ChosenShopperUid;

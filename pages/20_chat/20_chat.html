@@ -19,7 +19,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content hideTabs padding class="background-color-body">
+<ion-content hideTabs padding class="background-color-body has-footer">
 
  <div class="chat">
   <div class="bubble {{mess.OwnerUid == globals.UID ? 'me' : 'you'}}" *ngFor="let mess of chat.MessagesInOrder">
@@ -28,7 +28,22 @@
   </div>
 </div>
 
+
+
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar style="align-items: center">
+    <ion-list>
+      <ion-item-group>
+      <ion-item>
+        <ion-input style="background-color: white" type="text" #input placeholder="" [(ngModel)]="new_message"></ion-input>
+        <button item-right ion-fab mini class="send" (click)="SendMessage(input)"><ion-icon name="send"></ion-icon></button>
+      </ion-item>
+    </ion-item-group>
+    </ion-list>
+  </ion-toolbar>
+</ion-footer>
 
 <!--<ion-footer style="background-color: white">
   <ion-toolbar style="background-color: white">
@@ -41,11 +56,18 @@
   </ion-toolbar>
 </ion-footer>-->
 
-<ion-footer>
+<!--<ion-footer>
   
     <ion-row>
-      <ion-input type="text" #input placeholder="" [(ngModel)]="new_message"></ion-input>
+      <ion-input type="text" #input placeholder="" [(ngModel)]="new_message" style="background-color: white"></ion-input>
       <button ion-fab mini class="send" (click)="SendMessage(input)"><ion-icon name="send"></ion-icon></button>
     </ion-row>
+
+    <ion-list>
+      <ion-item>
+      <ion-input style="background-color: white" type="text" #input placeholder="" [(ngModel)]="new_message"></ion-input>
+      <button item-right ion-fab mini class="send" (click)="SendMessage(input)"><ion-icon name="send"></ion-icon></button>
+      </ion-item>
+    </ion-list>
   
-</ion-footer>
+</ion-footer>-->
