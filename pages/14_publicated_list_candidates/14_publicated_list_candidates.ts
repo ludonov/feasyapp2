@@ -32,8 +32,7 @@ export class PublicatedListCandidatesPage {
       console.log("Setting all candidates as visualised");
       this.cands = globals.GetAllCandidatesForList(this.list_key);
       for (let cand of this.cands) {
-        globals.af.object("/users/" + cand.uid).$ref.once("value", (_user: firebase.database.DataSnapshot) => {
-          let user: any = _user.val();
+        globals.GetUser(cand.uid).then( user => {
           if (user != null) {
             (cand as any).PhotoURL = SetImageOrDefaultOtherUser(user.Gender, user.PhotoURL);
             (cand as any).Gender = user.Gender;

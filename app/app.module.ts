@@ -3,6 +3,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Http, HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { MyApp } from './app.component';
 
@@ -25,6 +26,7 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 import { LoginPage } from '../pages/1_login/1_login';
 import { ForgotPassPage } from '../pages/2_forgot_pass/2_forgot_pass';
@@ -76,7 +78,7 @@ import { SpecificAddressFromEditProfilePage } from '../pages/37_specific_address
 import { AddNewAddressPage } from '../pages/38_add_new_address/38_add_new_address';
 import { ReviewsToLeavePage } from '../pages/39_reviews_to_leave/39_reviews_to_leave';
 import { SingleReviewToLeavePage } from '../pages/40_single_review_to_leave/40_single_review_to_leave';
-import { ViewBigImage } from '../pages/42_view_big_picture/42_view_big_picture';
+import { ViewBigPicture } from '../pages/42_view_big_picture/42_view_big_picture';
 
 
 import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
@@ -147,7 +149,7 @@ export const firebaseConfig = {
     AddNewAddressPage,
     ReviewsToLeavePage,
     SingleReviewToLeavePage,
-    ViewBigImage,
+    ViewBigPicture,
     TabsPage
   ],
   imports: [
@@ -160,6 +162,7 @@ export const firebaseConfig = {
           autoFocusAssist: 'instant'  // Valid options appear to be ['instant', 'delay', false]
         }
       ),
+    IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(firebaseConfig)
   ],
   bootstrap: [IonicApp],
@@ -215,10 +218,10 @@ export const firebaseConfig = {
     AddNewAddressPage,
     ReviewsToLeavePage,
     SingleReviewToLeavePage,
-    ViewBigImage,
+    ViewBigPicture,
     TabsPage
   ],
-  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, AngularFireDatabase, AngularFireAuth, Globals, ImagePicker, SplashScreen, LocalNotifications, Facebook, Geolocation, Diagnostic, Camera]
+  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, AngularFireDatabase, AngularFireAuth, Globals, ImagePicker, SplashScreen, LocalNotifications, Facebook, Geolocation, Diagnostic, Camera, PhotoViewer]
 })
 export class AppModule {
 

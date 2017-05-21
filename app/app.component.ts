@@ -2,6 +2,7 @@
 import { Http } from '@angular/http';
 
 import { Platform, NavController, Tabs, AlertController, Alert, Loading, LoadingController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
@@ -13,6 +14,7 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/1_login/1_login';
@@ -25,11 +27,10 @@ import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candid
 import { SettingsPage } from '../pages/23_settings/23_settings';
 import { UserProfilePage } from '../pages/17_user_profile/17_user_profile';
 import { ReviewsToLeavePage } from '../pages/39_reviews_to_leave/39_reviews_to_leave';
-
-import { ViewBigImage } from "../pages/42_view_big_picture/42_view_big_picture";
+import { PublicatedListWithShopperPovShopperPage } from '../pages/11B_publicated_list_with_shopper_pov_shopper/11B_publicated_list_with_shopper_pov_shopper';
 
 import { Candidate, FeasyUser, StripForFirebase, FeasyList } from '../classes/Feasy';
-import { Globals } from '../classes/Globals';
+import { Globals, NotificationType } from '../classes/Globals';
 
 import { MenuController } from 'ionic-angular';
 
@@ -47,13 +48,15 @@ export class MyApp {
 
   _user: Observable<firebase.User>;
 
-  constructor(platform: Platform, public af: AngularFireDatabase, public afAuth: AngularFireAuth, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public http: Http, private splashScreen: SplashScreen, private keyboard: Keyboard, private statusBar: StatusBar, public menuCtrl: MenuController, private localNotifications: LocalNotifications, private imagePicker: ImagePicker, public camera: Camera) {
-    
+
+  constructor(platform: Platform, private storage: Storage, public af: AngularFireDatabase, public afAuth: AngularFireAuth, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public http: Http, private splashScreen: SplashScreen, private keyboard: Keyboard, private statusBar: StatusBar, public menuCtrl: MenuController, private localNotifications: LocalNotifications, private imagePicker: ImagePicker, public camera: Camera, photoViewer: PhotoViewer) {
+   
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       //StatusBar.styleDefault();
-      splashScreen.hide();
+      if (!platform.is('core'))
+        splashScreen.hide();
       //keyboard.disableScroll(false);
       //keyboard.hideKeyboardAccessoryBar(true);
 
@@ -65,10 +68,12 @@ export class MyApp {
         document.body.classList.remove('keyboard-is-open');
       });
 
-      localNotifications.registerPermission().then(function (granted) {
-        console.log("local notification permission: " + granted);
-      });
-
+      if (!platform.is('core')) {
+        localNotifications.registerPermission().then(function (granted) {
+          console.log("local notification permission: " + granted);
+        });
+      }
+      globals.storage = storage;
       globals.af = af;
       globals.afAuth = afAuth;
       globals.alertCtrl = alertCtrl;
@@ -78,7 +83,11 @@ export class MyApp {
       globals.localNotifications = localNotifications;
       globals.imagePicker = imagePicker;
       globals.camera = camera;
+      globals.photoViewer = photoViewer;
       globals.root = LoginPage;
+
+      if (!globals.IsWeb)
+        localNotifications.on("click", (noti) => { globals.NotificationHandler(noti); });
 
       globals.StartConfigWatcher();
 
@@ -200,7 +209,8 @@ export class MyApp {
       //}
     });
 
-    statusBar.styleLightContent();
+    if (!platform.is('core'))
+      statusBar.styleLightContent();
 
   }
 
@@ -211,6 +221,14 @@ export class MyApp {
 
 
   //SIDE MENU
+
+  menuOpen() {
+      this.globals.MenuOpenChange.trigger(true);
+  }
+
+  menuClosed() {
+      this.globals.MenuOpenChange.trigger(false);
+  }
 
   goToProfile(): void {
     console.log("going to profile page");
@@ -250,7 +268,7 @@ export class MyApp {
 
   goToBigImage(): void {
     console.log("going to big image page");
-    this.navCtrl.push(ViewBigImage, { image_content: this.globals.UserPicBig });
+    this.globals.ViewBigImage(this.globals.UserPicBig, this.navCtrl);
     this.menuCtrl.close();
   }
 

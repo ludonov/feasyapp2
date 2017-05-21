@@ -35,8 +35,8 @@ export class PublicatedListWithShopperPage {
         navCtrl.pop();
       } else {
         this.ChosenAddress = this.list.DeliveryAddresses[this.candidate.AddressKey];
-        globals.af.object("/users/" + this.candidate.uid).$ref.once("value", (snapshot: firebase.database.DataSnapshot) => {
-          Object.assign(this.ChosenCandidate, snapshot.val());
+        globals.GetUser(this.candidate.uid).then( (user) => {
+          Object.assign(this.ChosenCandidate, user);
           this.ChosenCandidate.SetImageOrDefault();
         });
       }

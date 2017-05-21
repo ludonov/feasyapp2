@@ -37,14 +37,10 @@ export class EditProfilePage {
   }
 
   MyAddresses(): void {
-
     this.navCtrl.push(AddressesFromEditProfilePage);
-
   }
 
   selectImage() {
-
-
     this.globals.InputImage(this.globals.BIG_IMAGE_MAX_WIDTH(), this.globals.BIG_IMAGE_MAX_HEIGHT()).then(img => {
       let loading: Loading = this.loadingCtrl.create({
         spinner: 'dots',
@@ -54,7 +50,7 @@ export class EditProfilePage {
       if (img != null) {
         console.log("EditProfilePage> Selected image");
         this.globals.af.object("/pics/" + this.globals.UID + "/Big").set(img).then(() => {
-          this.globals.UserPicBig = img;
+          this.globals.SetNewUserPicBig(img);
           this.globals.ResizeImage(img, this.globals.SMALL_IMAGE_MAX_WIDTH(), this.globals.SMALL_IMAGE_MAX_HEIGHT()).then(img_small => {
             this.globals.User.PhotoURL = img_small;
             this.globals.updateUser().then(() => {
@@ -77,7 +73,6 @@ export class EditProfilePage {
       console.log("EditProfilePage> Err selecting image: " + err.message);
     });
   }
-
-
+  
 }
 

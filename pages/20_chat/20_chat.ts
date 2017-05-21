@@ -1,6 +1,6 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, ViewChild } from '@angular/core';
 
-import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Tabs, Content } from 'ionic-angular';
 import { FeasyUser, FeasyList, FeasyItem, Review, StripForFirebase, Chat, Message, ChatMessageType } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
@@ -22,6 +22,9 @@ export class ChatPage {
     public PersonInContact: string;
     public new_message: string;
 
+    @ViewChild(Content) content: Content;
+
+
     constructor(public navCtrl: NavController, public globals: Globals, public alertCtrl: AlertController, public navParams: NavParams, public af: AngularFireDatabase) {
         this.chat_key = navParams.get('chat_key');
         this.chat = this.globals.GetChatByKey(this.chat_key);
@@ -30,6 +33,23 @@ export class ChatPage {
         } else {
             this.PersonInContact = this.chat.DemanderName;
         }
+    }
+
+    scroll() {
+        //scrolls to bottom whenever the page has loaded
+        console.log("Scroll");
+        window["_this_content"].scrollToBottom();
+    }
+    
+    ionViewDidEnter() {
+        window["_this_content"] = this.content;
+        this.scroll();
+        this.globals.ChatMessageReceived.on(this.scroll);
+    }
+
+    ionViewWillLeave() {
+        delete window["_this_content"];
+        this.globals.ChatMessageReceived.off(this.scroll);
     }
 
     SendMessage(input: any): void {
@@ -64,6 +84,10 @@ export class ChatPage {
       }).catch((err: Error) => {
         console.warn("ChatPage.SendImage> error: " + err.message);
       });
+    }
+
+    ViewImage(mess: Message): void {
+      this.globals.ViewBigImage(mess.Text, this.navCtrl);
     }
 
 }

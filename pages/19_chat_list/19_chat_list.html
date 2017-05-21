@@ -18,7 +18,7 @@
           <h2>{{chat.DemanderUid == this.globals.UID ? chat.ShopperName : chat.DemanderName}}</h2>
           <p>{{chat.LastMessage == undefined ? "" : (chat.LastMessage.Type == null || chat.LastMessage.Type == 0 ? chat.LastMessage.Text : "Immagine")}}</p>
         <ion-note item-right>
-          {{chat.LastMessage == undefined ? "" : chat.LastMessage.Date.getHours() + ":" + chat.LastMessage.Date.getMinutes()}}
+          {{chat.LastMessage == undefined ? "" : globals.toHHMM(chat.LastMessage.timestamp)}}
         </ion-note>
       </ion-item>
 
