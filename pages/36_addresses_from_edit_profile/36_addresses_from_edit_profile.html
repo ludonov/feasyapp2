@@ -9,20 +9,20 @@
     <ion-list>
 
    <ion-item-sliding *ngFor="let address of addresses | keys">   
-        <ion-item class="item-icon-right"  type="item-text-wrap"  (click)="viewAddress(address)">
+        <ion-item class="item-icon-right"  type="item-text-wrap"  (tap)="viewAddress(address)">
             <h2>{{address.value.FormattedAddress}}</h2>
             <i class="icon ion-chevron-right icon-accessory"></i>
         </ion-item>
  
         <ion-item-options>
-          <button outline color="secondary" (click)="deleteAddress(address)"><p><ion-icon name="trash"></ion-icon>&nbsp; Delete</p></button>
+          <button outline color="secondary" (tap)="deleteAddress(address)"><p><ion-icon name="trash"></ion-icon>&nbsp; Delete</p></button>
         </ion-item-options>
     </ion-item-sliding>
 
     </ion-list>
 
     <div class="lateral-bottom-padding">
-      <button ion-button block color="secondary" (click)="addAddress()">Aggiungi</button>
+      <button ion-button block color="secondary" (tap)="addAddress()">Aggiungi</button>
     </div>
 
 </ion-content>

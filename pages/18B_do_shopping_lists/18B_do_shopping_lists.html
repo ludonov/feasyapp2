@@ -7,7 +7,7 @@
     <ion-navbar>
       <ion-title>Le mie commissioni</ion-title>
       <ion-buttons end>
-      <button ion-button icon-only (click)="map()">
+      <button ion-button icon-only (tap)="map()">
         <ion-icon name="map"></ion-icon>
       </button>
     </ion-buttons>
@@ -22,7 +22,7 @@
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">CONFERMATE</ion-item-divider>
       <h6 class="center" *ngIf="no_accepted_lists">Nessun lista accettata, attendi ancora!</h6>
-			<ion-item (click)="goToAcceptedList(list)" *ngFor="let list of accepted_lists | keys">
+			<ion-item (tap)="goToAcceptedList(list)" *ngFor="let list of accepted_lists | keys">
 				{{list.value.ChosenAddress.FormattedAddress}}
 				<ion-note item-right>{{list.value.ItemsCount}} pezzi</ion-note>
 			</ion-item>
@@ -32,7 +32,7 @@
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">PROPOSTE</ion-item-divider>
       <h6 class="center" *ngIf="no_pending_lists">Nessuna lista in sospeso...</h6>
-			<ion-item (click)="goToPendingList(list)" *ngFor="let list of pending_lists | keys">
+			<ion-item (tap)="goToPendingList(list)" *ngFor="let list of pending_lists | keys">
         {{list.value.ChosenAddress.FormattedAddress}}
         <ion-note item-right>{{list.value.ItemsCount}} pezzi</ion-note>
 			</ion-item>

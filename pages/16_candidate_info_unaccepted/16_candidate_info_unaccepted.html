@@ -9,7 +9,7 @@
 	<ion-list>	
 		<ion-card>
 			<ion-item class="profile-item">
-					<div class="profile-picture" (click)="goToBigImage()" [ngStyle]="{'background-image': 'url(' + candidate.PhotoURL + ')'}">
+					<div class="profile-picture" (tap)="goToBigImage()" [ngStyle]="{'background-image': 'url(' + candidate.PhotoURL + ')'}">
 					</div>
 				<h2 class="profile-name dark">{{candidate.DisplayName}}</h2>
 			</ion-item>
@@ -57,7 +57,7 @@
   <div class="center" style="color:#387ef5"><p>È lo shopper più adatto alle tue esigenze? Accettalo!</p></div>
   
 	<div class="lateral-bottom-padding">
-		<button ion-button block color="secondary" (click)="AcceptShopper()">Accetta</button>
+		<button ion-button block color="secondary" (tap)="AcceptShopper()">Accetta</button>
 	</div>
 		
 	</ion-content>

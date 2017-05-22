@@ -11,7 +11,7 @@
 
     <ion-list>
 
-      <ion-item *ngFor="let chat of globals.Chats" (click)="GoToChat(chat.$key)">
+      <ion-item *ngFor="let chat of globals.Chats" (tap)="GoToChat(chat.$key)">
           <ion-avatar item-left>
             <img src="{{chat.PhotoURL}}">
           </ion-avatar>
