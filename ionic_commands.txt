@@ -13,7 +13,8 @@ ionic plugin add --save cordova-plugin-geolocation
 ionic plugin add cordova-plugin-facebook4 --variable APP_ID="167576887016557" --variable APP_NAME="Feasy"
 ionic plugin add --save https://github.com/Telerik-Verified-Plugins/ImagePicker
 ionic plugin add --save cordova-plugin-camera
-ionic plugin add cordova-sqlite-storage --save
+ionic plugin add --save cordova-sqlite-storage
+ionic plugin add --save com-sarriaroman-photoviewer
 npm install --save @ionic-native/core
 npm install --save @ionic-native/status-bar
 npm install --save @ionic-native/diagnostic
@@ -25,7 +26,10 @@ npm install --save @ionic-native/facebook
 npm install --save @ionic-native/splash-screen
 npm install --save @ionic-native/image-picker
 npm install --save @ionic-native/camera
+npm install --save @ionic-native/photo-viewer
 
+//se c'è l'errore: Can't resolve 'promise-polyfill'
+npm install promise-polyfill --save-exact
 
 
 ALTRI COMANDI UTILI:
