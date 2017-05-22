@@ -87,11 +87,12 @@ import { TabsPage } from '../pages/tabs/tabs';
 
 // AF2 Settings
 export const firebaseConfig = {
-  apiKey: "AIzaSyB-GTECPmK-YrUDH_-roy0MGXdgUMqgCDc",
-  authDomain: "feasy-748cf.firebaseapp.com",
-  databaseURL: "https://feasy-748cf.firebaseio.com",
-  storageBucket: "feasy-748cf.appspot.com",
-  messagingSenderId: "1081025975065"
+    apiKey: "AIzaSyB-GTECPmK-YrUDH_-roy0MGXdgUMqgCDc",
+    authDomain: "feasy-748cf.firebaseapp.com",
+    databaseURL: "https://feasy-748cf.firebaseio.com",
+    projectId: "feasy-748cf",
+    storageBucket: "feasy-748cf.appspot.com",
+    messagingSenderId: "1081025975065"
 };
 
 @NgModule({

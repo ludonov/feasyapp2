@@ -1,4 +1,4 @@
-﻿import { Component, ViewChild } from '@angular/core';
+﻿import { Component, ViewChild, Inject, forwardRef } from '@angular/core';
 
 import { NavController, NavParams, AlertController, Tabs, Content } from 'ionic-angular';
 import { FeasyUser, FeasyList, FeasyItem, Review, StripForFirebase, Chat, Message, ChatMessageType } from '../../classes/Feasy';
@@ -25,7 +25,7 @@ export class ChatPage {
     @ViewChild(Content) content: Content;
 
 
-    constructor(public navCtrl: NavController, public globals: Globals, public alertCtrl: AlertController, public navParams: NavParams, public af: AngularFireDatabase) {
+    constructor(public navCtrl: NavController, @Inject(forwardRef(() => Globals)) public globals: Globals, public alertCtrl: AlertController, public navParams: NavParams, public af: AngularFireDatabase) {
         this.chat_key = navParams.get('chat_key');
         this.chat = this.globals.GetChatByKey(this.chat_key);
         if (this.chat.DemanderUid == globals.UID) {
@@ -45,11 +45,15 @@ export class ChatPage {
         window["_this_content"] = this.content;
         this.scroll();
         this.globals.ChatMessageReceived.on(this.scroll);
+        this.globals.CurrentChatOpen = this.chat_key;
+        this.globals.ChatSetLastView(this.chat_key);
     }
 
     ionViewWillLeave() {
         delete window["_this_content"];
         this.globals.ChatMessageReceived.off(this.scroll);
+        this.globals.CurrentChatOpen = "";
+        this.globals.ChatSetLastView(this.chat_key);
     }
 
     SendMessage(input: any): void {

@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, forwardRef, Inject } from '@angular/core';
 
 import { NavController, NavParams, AlertController, Alert, Tabs } from 'ionic-angular';
 
@@ -22,7 +22,7 @@ export class PublicatedListWithShopperPage {
   private list: FeasyList = new FeasyList("");
   private candidate: Candidate = new Candidate();
 
-  constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams,  public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, @Inject(forwardRef(() => Globals)) public globals: Globals, public navParams: NavParams,  public alertCtrl: AlertController) {
     this.list_key = navParams.get('list_key');
     if (this.list_key == undefined || this.list_key == null) {
       console.warn("PublicatedListWithShopperPage null list_key. Going back.")
