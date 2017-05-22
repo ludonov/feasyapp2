@@ -16,11 +16,11 @@
     </ion-list>
 
     <ion-list>
-      <ion-item (click)="goToProfile()">
+      <ion-item (tap)="goToProfile()">
         <ion-icon name="person" item-left color="secondary"></ion-icon>
         Profilo
       </ion-item>
-      <ion-item (click)="goToReviewsToLeave()">
+      <ion-item (tap)="goToReviewsToLeave()">
         <ion-icon name="star" item-left color="secondary"></ion-icon>
         Recensioni in attesa
         <ion-badge *ngIf="(globals.ReviewsToLeaveAsDemander.length + globals.ReviewsToLeaveAsShopper.length) > 0" item-right color="danger">{{globals.ReviewsToLeaveAsDemander.length + globals.ReviewsToLeaveAsShopper.length}}</ion-badge>
@@ -37,7 +37,7 @@
         <ion-icon name="chatbubbles" item-left color="secondary"></ion-icon>
         Chat
       </ion-item>-->
-      <ion-item (click)="goToSettings()">
+      <ion-item (tap)="goToSettings()">
         <ion-icon name="settings" item-left color="secondary"></ion-icon>
         Impostazioni
       </ion-item>
