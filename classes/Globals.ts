@@ -16,12 +16,13 @@ import { Storage } from '@ionic/storage';
 
 import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 import { PublicatedListWithShopperPovShopperPage } from '../pages/11B_publicated_list_with_shopper_pov_shopper/11B_publicated_list_with_shopper_pov_shopper';
+import { ChatListPage } from '../pages/19_chat_list/19_chat_list';
 import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
 import { ViewBigPicture } from "../pages/42_view_big_picture/42_view_big_picture";
 
 import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, Chat, Message, ChatMessageType, GenericWithKey, UnknownMan, UnknownWoman } from './Feasy';
 
-export enum NotificationType { Accepted, HasNewCandidate }
+export enum NotificationType { Accepted, HasNewCandidate, NewMessage }
 
 @Injectable()
 export class Globals {
@@ -31,7 +32,13 @@ export class Globals {
     public root: any;
     public IsWeb: boolean = true;
     public JustRegistered: boolean = false;
-    public NotificationCounter: number = 0;
+    public NotificationCounter: number = 10; // starts from 10 to allow fixed IDs for static notifications, such as UnreadMessagesNotificationID
+    public UnreadMessagesNotificationID: number = 1;
+    public CurrentChatOpen: string = "";
+    public MenuOpenChange: LiteEvent<boolean> = new LiteEvent<boolean>();
+    public ChatMessageReceived: LiteEvent<Message> = new LiteEvent<Message>();
+    private _NumberLinkedChatWithMessages: number = 0;
+    private _NumberChatWithMessages: number = 0;
 
 
     // WATCHERS VARIABLES
@@ -87,20 +94,16 @@ export class Globals {
 
     public Chats: Array<Chat> = new Array<Chat>();
     private chat_messages_refs: Array<firebase.database.Query> = new Array();
-    public ChatMessageReceived: LiteEvent<Message> = new LiteEvent<Message>();
+    
 
-
-    // OTHER VARIABLES
-    public loading: Loading;
-    public MenuOpenChange: LiteEvent<boolean> = new LiteEvent<boolean>();
-
-    // NATIVE PLUGINS
+    // CONTROLLERS AND NATIVE PLUGINS
     public storage: Storage;
     public af: AngularFireDatabase;
     public afAuth: AngularFireAuth;
     public navCtrl: NavController;
     public alertCtrl: AlertController;
     public loadingCtrl: LoadingController;
+    public loading: Loading;
     public http: Http;
     public localNotifications: LocalNotifications;
     public imagePicker: ImagePicker;
@@ -120,7 +123,9 @@ export class Globals {
     public NotificationHandler(notification: ILocalNotification) {
         console.log(notification);
         let data = JSON.parse(notification.data);
-        if (data.type == NotificationType.Accepted)
+        if (data.type == NotificationType.NewMessage)
+            this.navCtrl.push(ChatListPage);
+        else if (data.type == NotificationType.Accepted)
             this.navCtrl.push(PublicatedListWithShopperPovShopperPage, data);
         else if (data.type == NotificationType.HasNewCandidate)
             this.navCtrl.push(PublicatedListCandidatesPage, data);
@@ -645,6 +650,7 @@ export class Globals {
 
         try {
             this.UserChats_db = this.af.list("user_chats/" + this.UID);
+
             this.UserChats_db.$ref.on("child_removed", (removed_chat: firebase.database.DataSnapshot) => {
                 this.DeleteFromArrayByKey(this.UserChats, removed_chat.key);
                 this.DeleteFromArrayByKey(this.Chats, removed_chat.key);
@@ -679,6 +685,22 @@ export class Globals {
             let chat: Chat = new Chat();
             chat.$key = chatId;
             this.Chats.push(chat);
+
+            // add DemanderLastView watcher
+            let demanderLastView_db = this.af.object("/chats/" + chatId + "/DemanderLastView").$ref;
+            (demanderLastView_db as any).$key = chatId;
+            this.chat_messages_refs.push(demanderLastView_db);
+            demanderLastView_db.on("value", (_val: firebase.database.DataSnapshot) => {
+                chat.DemanderLastView = _val.val();
+            })
+
+            // add ShopperLastView watcher
+            let shopperLastView_db = this.af.object("/chats/" + chatId + "/ShopperLastView").$ref;
+            (shopperLastView_db as any).$key = chatId;
+            this.chat_messages_refs.push(shopperLastView_db);
+            shopperLastView_db.on("value", (_val: firebase.database.DataSnapshot) => {
+                chat.ShopperLastView = _val.val();
+            })
 
             // check local storage to recover chat info, otherwise download
             this.storage.get("chat_" + chatId + "_Info").then(info => {
@@ -730,9 +752,17 @@ export class Globals {
                         message.Type = message.Type || ChatMessageType.Text;
                         chat.Messages[_message.key] = message;
                         chat.MessagesInOrder.push(message);
+                        chat.LastMessage = chat.MessagesInOrder.length > 0 ? chat.MessagesInOrder[chat.MessagesInOrder.length - 1] : null;
                         this.storage.set("chat_" + chatId + "_MessagesInOrder", JSON.stringify(chat.MessagesInOrder));
-                        this.ForceAppChanges();
+                        //this.RecopyArray(this.Chats);
+                        //this.ForceAppChanges();
                         this.ChatMessageReceived.trigger(message);
+                        //this.ChatSetLastView(chat.$key);
+                        this.updateUnreadMessagesNotification();
+                    } else {
+                        this._NumberLinkedChatWithMessages++;
+                        if (this._NumberLinkedChatWithMessages == this._NumberChatWithMessages)
+                            this.updateUnreadMessagesNotification();
                     }
                 }
 
@@ -751,6 +781,8 @@ export class Globals {
                             }
                             chat.MessagesInOrder = this.ObjToArray<Message>(chat.Messages);
                             chat.LastMessage = chat.MessagesInOrder.length > 0 ? chat.MessagesInOrder[chat.MessagesInOrder.length - 1] : null;
+                            if (chat.LastMessage != null)
+                                this._NumberChatWithMessages++;
                             this.storage.set("chat_" + chatId + "_MessagesInOrder", JSON.stringify(chat.MessagesInOrder)).then(() => {
                                 if (chat.LastMessage != null)
                                     chat_messages_ref.orderByChild("timestamp").startAt(chat.LastMessage.timestamp).on("child_added", add_message);
@@ -763,6 +795,8 @@ export class Globals {
                         chat.Messages = this.ArrayToObj(chat.MessagesInOrder);
                         chat.LastMessage = chat.MessagesInOrder.length > 0 ? chat.MessagesInOrder[chat.MessagesInOrder.length - 1] : null;
                         if (chat.LastMessage != null)
+                            this._NumberChatWithMessages++;
+                        if (chat.LastMessage != null)
                             chat_messages_ref.orderByChild("timestamp").startAt(chat.LastMessage.timestamp).on("child_added", add_message);
                         else
                             chat_messages_ref.orderByChild("timestamp").on("child_added", add_message);
@@ -772,6 +806,100 @@ export class Globals {
 
         } catch (e) {
             console.log("Globals.LinkChatWatchers catch err: " + JSON.stringify(e));
+        }
+    }
+
+    private updateUnreadMessagesNotification() {
+        let unread_msgs: number = 0;
+        let unread_chats: number = 0;
+        let other_person: string;
+        for (let chat of this.Chats) {
+            //don't check messages belonging to the open chat
+            if (chat.$key != this.CurrentChatOpen) {
+                let last_check: number = this.ChatGetLastView(chat.$key);
+                //compare lastmessage timestamp with last_check
+                if (chat.LastMessage != null && chat.LastMessage.timestamp > last_check) {
+                    unread_chats++;
+                    other_person = this.UID == chat.DemanderUid ? chat.ShopperName : chat.DemanderName;
+                    for (let msg of chat.MessagesInOrder) {
+                        if (msg.timestamp > last_check)
+                            unread_msgs++;
+                    }
+                }
+            }
+        }
+
+        if (unread_chats > 0 && unread_msgs > 0) {
+            let msg_text = "";
+            if (unread_msgs > 1)
+                msg_text = unread_msgs.toString() + " nuovi messaggi da " + (unread_chats > 1 ? unread_chats.toString() + " chat diverse" : ": " + other_person);
+            else
+                msg_text = "1 nuovo messaggio da: " + other_person;
+            if (this.IsWeb) {
+                let alert: Alert = this.alertCtrl.create({
+                    title: "Hai nuovi messaggi!",
+                    subTitle: msg_text,
+                    buttons: [
+                        {
+                            text: 'Cancel',
+                            role: 'cancel'
+                        },
+                        {
+                            text: 'Ok',
+                            handler: () => {
+                                this.navCtrl.push(ChatListPage);
+                            }
+                        }]
+                });
+                alert.present();
+            } else {
+                this.localNotifications.schedule({
+                    id: this.UnreadMessagesNotificationID,
+                    title: "Hai nuovi messaggi!",
+                    text: msg_text,
+                    icon: 'res://icon',
+                    data: { type: NotificationType.NewMessage }
+                });
+            }
+        }
+    }
+
+    public ChatGetOtherPersonName(chatKey: string): string {
+        let chat: Chat = this.GetChatByKey(chatKey);
+        if (chat != null) {
+            if (this.UID == chat.DemanderUid) {
+                return chat.ShopperName;
+            } else {
+                return chat.DemanderName;
+            }
+        } else
+            return "";
+    }
+
+    public ChatGetLastView(chatKey: string): number {
+        let chat: Chat = this.GetChatByKey(chatKey);
+        if (chat != null) {
+            if (this.UID == chat.DemanderUid) {
+                return chat.DemanderLastView;
+            } else {
+                return chat.ShopperLastView;
+            }
+        } else
+            return 0;
+    }
+
+    public ChatSetLastView(chatKey: string) {
+        if (chatKey != "") {
+            let chat: Chat = this.GetChatByKey(chatKey);
+            if (chat != null) {
+                if (this.UID == chat.DemanderUid) {
+                    //sono Demander
+                    this.af.object("/chats/" + chatKey + "/DemanderLastView").set((new Date()).getTime());
+                } else {
+                    //sono Shopper
+                    this.af.object("/chats/" + chatKey + "/ShopperLastView").set((new Date()).getTime());
+                }
+            }
         }
     }
 

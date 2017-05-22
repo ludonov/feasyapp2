@@ -279,11 +279,14 @@ export class Chat {
   public ShopperName: string;
   public DemanderUid: string;
   public ShopperUid: string;
-  public LastMessage: Message;   // runtime
+  public DemanderLastView: number;
+  public ShopperLastView: number;
   public ListKey: string;
   public Messages: Object;
+  public LastMessage: Message;   // runtime
   public MessagesInOrder: Array<Message>;   // runtime
   public PhotoURL: string;  // runtime
+  public UnreadMessages: number;  // runtime
 
   constructor() {
     this.Messages = {};
