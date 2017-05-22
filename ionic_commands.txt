@@ -14,6 +14,8 @@ ionic plugin add cordova-plugin-facebook4 --variable APP_ID="167576887016557" --
 ionic plugin add --save https://github.com/Telerik-Verified-Plugins/ImagePicker
 ionic plugin add --save cordova-plugin-camera
 ionic plugin add cordova-sqlite-storage --save
+ionic cordova plugin add com-sarriaroman-photoviewer
+
 npm install --save @ionic-native/core
 npm install --save @ionic-native/status-bar
 npm install --save @ionic-native/diagnostic
@@ -25,6 +27,7 @@ npm install --save @ionic-native/facebook
 npm install --save @ionic-native/splash-screen
 npm install --save @ionic-native/image-picker
 npm install --save @ionic-native/camera
+npm install --save @ionic-native/photo-viewer
 
 
 
