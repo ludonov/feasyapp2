@@ -47,6 +47,9 @@ export class ChatPage {
         this.globals.ChatMessageReceived.on(this.scroll);
         this.globals.CurrentChatOpen = this.chat_key;
         this.globals.ChatSetLastView(this.chat_key);
+        if (!this.globals.IsWeb && this.globals.UnreadMessagesNotificationData.indexOf(this.chat_key) != -1) {
+            this.globals.localNotifications.clear(this.globals.UnreadMessagesNotificationID);
+        }
     }
 
     ionViewWillLeave() {
@@ -64,6 +67,7 @@ export class ChatPage {
       this.af.list("/chats/" + this.chat_key + "/Messages").push(StripForFirebase(mess)).then(res => {
         this.new_message = null;
         input.setFocus();
+        this.globals.ChatSetLastView(this.chat_key);
       }).catch((err: Error) => {
         console.warn("ChatPage.SendMessage> Error: " + err.message);
       });
