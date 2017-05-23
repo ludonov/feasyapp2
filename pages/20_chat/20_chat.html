@@ -31,20 +31,16 @@
 
 </ion-content>
 
-<ion-footer style="height:7.5%">
-  <ion-toolbar style="align-items: center">
-    <ion-list>
-      <ion-item-group>
-      <ion-item>
+<ion-footer>
+  <!--<ion-toolbar>-->
         <!--<ion-label>
           <ion-icon name="image" color="secondary" style="font-size: 25px" (tap)="SendImage()"></ion-icon>
           </ion-label>-->
-        <ion-input style="background-color: white; height:95%" type="text" #input placeholder="" [(ngModel)]="new_message"></ion-input>
-        <button item-right ion-fab mini class="send" (tap)="SendMessage(input)"><ion-icon name="send"></ion-icon></button>
-      </ion-item>
-    </ion-item-group>
-    </ion-list>
-  </ion-toolbar>
+  <ion-row>
+    <ion-input #ChatInput style="background-color: white;" type="text" #input placeholder="" autocomplete="true" spellcheck="true" [(ngModel)]="new_message"></ion-input>
+    <button item-right ion-fab mini class="send" (tap)="SendMessage(input)"><ion-icon name="send"></ion-icon></button>
+  </ion-row>
+  <!--</ion-toolbar>-->
 </ion-footer>
 
 <!--<ion-footer style="background-color: white">

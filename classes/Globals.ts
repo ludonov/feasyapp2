@@ -4,6 +4,7 @@ import { NavController, AlertController, Alert, LoadingController, Loading, Plat
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase';
 import { LocalNotifications, ILocalNotification } from '@ionic-native/local-notifications';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -96,7 +97,7 @@ export class Globals {
 
     public Chats: Array<Chat> = new Array<Chat>();
     private chat_messages_refs: Array<firebase.database.Query> = new Array();
-    
+
 
     // CONTROLLERS AND NATIVE PLUGINS
     public storage: Storage;
@@ -739,7 +740,7 @@ export class Globals {
                     }));
 
 
-                    Promise.all(promises).then(() => {
+                    firebase.Promise.all(promises).then(() => {
                         Object.assign(chat, info);
                         this.storage.set("chat_" + chatId + "_Info", JSON.stringify(info));
                         // get photo
@@ -1330,6 +1331,10 @@ export class Globals {
     }
 
     public ViewBigImage(image: string, nav: NavController, title: string = "View Image"): void {
+        if (image == null || image == "") {
+            console.warn("Globals.ViewBigImage> null image");
+            return;
+        }
         if (this.IsWeb) {
             nav.push(ViewBigPicture, { image_content: image });
         }

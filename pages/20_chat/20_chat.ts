@@ -23,6 +23,7 @@ export class ChatPage {
     public new_message: string;
 
     @ViewChild(Content) content: Content;
+    @ViewChild('ChatInput') ChatInputField;
 
 
     constructor(public navCtrl: NavController, @Inject(forwardRef(() => Globals)) public globals: Globals, public alertCtrl: AlertController, public navParams: NavParams, public af: AngularFireDatabase) {
@@ -38,12 +39,12 @@ export class ChatPage {
     scroll() {
         //scrolls to bottom whenever the page has loaded
         console.log("Scroll");
-        window["_this_content"].scrollToBottom();
+        setTimeout(function () { window["_this_content"].scrollToBottom(); }, 150);
     }
-    
+
     ionViewDidEnter() {
         window["_this_content"] = this.content;
-        this.scroll();
+        this.content.scrollToBottom();
         this.globals.ChatMessageReceived.on(this.scroll);
         this.globals.CurrentChatOpen = this.chat_key;
         this.globals.ChatSetLastView(this.chat_key);
@@ -61,42 +62,43 @@ export class ChatPage {
     }
 
     SendMessage(input: any): void {
-      let mess: Message = new Message();
-      mess.Text = this.new_message;
-      mess.OwnerUid = this.globals.UID;
-      mess.timestamp = (new Date()).getTime();
-      this.af.list("/chats/" + this.chat_key + "/Messages").push(StripForFirebase(mess)).then(res => {
-        this.new_message = null;
-        input.setFocus();
-        this.globals.ChatSetLastView(this.chat_key);
-      }).catch((err: Error) => {
-        console.warn("ChatPage.SendMessage> Error: " + err.message);
-      });
-    }  
+        this.ChatInputField.setFocus();
+        let mess: Message = new Message();
+        mess.Text = this.new_message;
+        mess.OwnerUid = this.globals.UID;
+        mess.timestamp = (new Date()).getTime();
+        this.af.list("/chats/" + this.chat_key + "/Messages").push(StripForFirebase(mess)).then(res => {
+            this.new_message = "";
+            this.ChatInputField.setFocus();
+            this.globals.ChatSetLastView(this.chat_key);
+        }).catch((err: Error) => {
+            console.warn("ChatPage.SendMessage> Error: " + err.message);
+        });
+    }
 
-    GoToList(): void{
+    GoToList(): void {
         this.navCtrl.push(PublicatedListWithShopperPage, { list_key: this.chat.ListKey });
     }
 
     SendImage(): void {
-      this.globals.InputImage(1024, 1024).then(img => {
-        let mess: Message = new Message();
-        mess.Text = img;
-        mess.OwnerUid = this.globals.UID;
-        mess.timestamp = (new Date()).getTime();
-        mess.Type = ChatMessageType.Image;
-        this.af.list("/chats/" + this.chat_key + "/Messages").push(StripForFirebase(mess)).then(res => {
-          console.log("ChatPage.SendImage> image uploaded");
+        this.globals.InputImage(1024, 1024).then(img => {
+            let mess: Message = new Message();
+            mess.Text = img;
+            mess.OwnerUid = this.globals.UID;
+            mess.timestamp = (new Date()).getTime();
+            mess.Type = ChatMessageType.Image;
+            this.af.list("/chats/" + this.chat_key + "/Messages").push(StripForFirebase(mess)).then(res => {
+                console.log("ChatPage.SendImage> image uploaded");
+            }).catch((err: Error) => {
+                console.warn("ChatPage.SendImage> error: " + err.message);
+            });
         }).catch((err: Error) => {
-          console.warn("ChatPage.SendImage> error: " + err.message);
+            console.warn("ChatPage.SendImage> error: " + err.message);
         });
-      }).catch((err: Error) => {
-        console.warn("ChatPage.SendImage> error: " + err.message);
-      });
     }
 
     ViewImage(mess: Message): void {
-      this.globals.ViewBigImage(mess.Text, this.navCtrl);
+        this.globals.ViewBigImage(mess.Text, this.navCtrl);
     }
 
 }
