@@ -36,8 +36,8 @@
         <!--<ion-label>
           <ion-icon name="image" color="secondary" style="font-size: 25px" (tap)="SendImage()"></ion-icon>
           </ion-label>-->
-  <ion-row>
-    <ion-input #ChatInput style="background-color: white;" type="text" #input placeholder="" autocomplete="true" spellcheck="true" [(ngModel)]="new_message"></ion-input>
+  <ion-row style="background-color:white; border-style: solid; border-color: gray; border-bottom-width: 0px; border-right-width: 0px; border-left-width: 0px; border-top-width: 2px; ">
+    <ion-input #ChatInput style="background-color: white;" type="text" #input placeholder="Scrivi un messaggio" autocomplete="true" spellcheck="true" [(ngModel)]="new_message"></ion-input>
     <button item-right ion-fab mini class="send" (tap)="SendMessage(input)"><ion-icon name="send"></ion-icon></button>
   </ion-row>
   <!--</ion-toolbar>-->
