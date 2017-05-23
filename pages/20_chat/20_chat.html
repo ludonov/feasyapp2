@@ -19,25 +19,27 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content hideTabs padding class="background-color-body has-footer">
+<ion-content hideTabs padding class="background-color-body" style="height:93%">
 
  <div class="chat">
   <div class="bubble {{mess.OwnerUid == globals.UID ? 'me' : 'you'}}" *ngFor="let mess of chat.MessagesInOrder">
     <img class="chat_image" src="{{mess.Text}}" *ngIf="mess.Type == 1" (tap)="ViewImage(mess)"/>
     <div *ngIf="mess.Type == 0">{{mess.Text}}</div>
   </div>
+  <br><br><br><br><br>
 </div>
-
-
 
 </ion-content>
 
-<ion-footer>
+<ion-footer style="height:7.5%">
   <ion-toolbar style="align-items: center">
     <ion-list>
       <ion-item-group>
       <ion-item>
-        <ion-input style="background-color: white" type="text" #input placeholder="" [(ngModel)]="new_message"></ion-input>
+        <!--<ion-label>
+          <ion-icon name="image" color="secondary" style="font-size: 25px" (tap)="SendImage()"></ion-icon>
+          </ion-label>-->
+        <ion-input style="background-color: white; height:95%" type="text" #input placeholder="" [(ngModel)]="new_message"></ion-input>
         <button item-right ion-fab mini class="send" (tap)="SendMessage(input)"><ion-icon name="send"></ion-icon></button>
       </ion-item>
     </ion-item-group>
