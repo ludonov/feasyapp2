@@ -739,7 +739,7 @@ export class Globals {
                     }));
 
 
-                    firebase.Promise.all(promises).then(() => {
+                    Promise.all(promises).then(() => {
                         Object.assign(chat, info);
                         this.storage.set("chat_" + chatId + "_Info", JSON.stringify(info));
                         // get photo
@@ -827,10 +827,13 @@ export class Globals {
                 if (chat.LastMessage != null && chat.LastMessage.timestamp > last_check) {
                     unread_chats.push(chat.$key);
                     other_person = this.UID == chat.DemanderUid ? chat.ShopperName : chat.DemanderName;
+                    let unread: number = 0;
                     for (let msg of chat.MessagesInOrder) {
                         if (msg.timestamp > last_check)
-                            unread_msgs++;
+                            unread++;
                     }
+                    unread_msgs += unread;
+                    chat.UnreadMessages = unread;
                 }
             }
         }
@@ -840,7 +843,7 @@ export class Globals {
         if (unread_chats.length > 0 && unread_msgs > 0) {
             let msg_text = "";
             if (unread_msgs > 1)
-                msg_text = unread_msgs.toString() + " nuovi messaggi da " + (unread_chats.length > 1 ? unread_chats.toString() + " chat diverse" : ": " + other_person);
+                msg_text = unread_msgs.toString() + " nuovi messaggi da " + (unread_chats.length > 1 ? unread_chats.length.toString() + " chat diverse" : ": " + other_person);
             else
                 msg_text = "1 nuovo messaggio da: " + other_person;
             if (this.IsWeb) {

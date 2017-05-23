@@ -47,6 +47,7 @@ export class ChatPage {
         this.globals.ChatMessageReceived.on(this.scroll);
         this.globals.CurrentChatOpen = this.chat_key;
         this.globals.ChatSetLastView(this.chat_key);
+        this.chat.UnreadMessages = 0;
         if (!this.globals.IsWeb && this.globals.UnreadMessagesNotificationData.indexOf(this.chat_key) != -1) {
             this.globals.localNotifications.clear(this.globals.UnreadMessagesNotificationID);
         }
