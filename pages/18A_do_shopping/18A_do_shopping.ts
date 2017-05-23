@@ -412,7 +412,7 @@ export class DoShoppingPage {
                 } else {
                     this.map.animateCamera({
                         'target': new LatLng(addr.Latitude, addr.Longitude),
-                        'zoom': 11,
+                        'zoom': 16,
                         'duration': 1500 // = 5 sec.
                     });
                     this.map.setClickable(true);
