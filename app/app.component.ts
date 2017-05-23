@@ -59,7 +59,7 @@ export class MyApp {
             if (!platform.is('core'))
                 splashScreen.hide();
             //keyboard.disableScroll(false);
-            //keyboard.hideKeyboardAccessoryBar(true);
+            keyboard.hideKeyboardAccessoryBar(true);
 
             keyboard.onKeyboardShow().subscribe(() => {
                 document.body.classList.add('keyboard-is-open');
