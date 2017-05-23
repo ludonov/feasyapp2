@@ -19,7 +19,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content hideTabs padding class="background-color-body">
+<ion-content padding class="background-color-body">
 
  <div class="chat">
   <div class="bubble {{mess.OwnerUid == globals.UID ? 'me' : 'you'}}" *ngFor="let mess of chat.MessagesInOrder">
