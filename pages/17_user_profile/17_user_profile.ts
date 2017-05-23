@@ -13,7 +13,6 @@ import { EditProfilePage } from '../../pages/24_edit_profile/24_edit_profile';
 import { ReviewsPage } from '../../pages/30_reviews/30_reviews';
 import { AddressesFromProfilePage } from "../34_addresses_from_profile/34_addresses_from_profile";
 import { ReviewsToLeavePage } from "../39_reviews_to_leave/39_reviews_to_leave";
-import { ViewBigImage } from "../42_view_big_picture/42_view_big_picture";
 import { TabsPage } from '../tabs/tabs';
 
 @Component({
@@ -31,12 +30,8 @@ export class UserProfilePage {
   public gender: string;
 
   constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
-    this.user_db = globals.af.object("users/" + globals.UID);
-    this.addresses_db = globals.af.list("users/" + globals.UID + "/Addresses");
-    this.user_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-      this.user = snapshot.val();
-      this.gender = GetGenderNameFromEnum(this.user.Gender);
-    });
+    this.user = globals.User;
+    this.gender = GetGenderNameFromEnum(this.user.Gender);
   }
 
   GoToHistory(demander: boolean): void {
@@ -66,7 +61,7 @@ export class UserProfilePage {
 
   goToBigImage(): void {
     console.log("going to big image page");
-      this.navCtrl.push(ViewBigImage, { image_content: this.globals.UserPicBig });
+    this.globals.ViewBigImage(this.globals.UserPicBig, this.navCtrl);
   }
 
 }

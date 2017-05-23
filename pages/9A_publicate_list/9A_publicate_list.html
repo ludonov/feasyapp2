@@ -7,7 +7,7 @@
 <ion-content>
 
   <ion-list>
-    
+
     <div class="spacer" style="height: 16px;"></div>
 		<ion-item-divider style="border-top-color: transparent;">DETTAGLI SPESA</ion-item-divider>
 
@@ -22,7 +22,7 @@
     <ion-item>
       <ion-input placeholder="Negozio" [(ngModel)]="list.PreferredShops" type="text" value=""></ion-input>
     </ion-item>
-    
+
     <ion-item>
       <ion-input placeholder="Valore massimo della spesa" [(ngModel)]="list.MaxValue" type="number" value=""></ion-input>
     </ion-item>
@@ -45,11 +45,11 @@
       <ion-label fixed>Nome<sup>*</sup></ion-label>
       <ion-input [(ngModel)]="list.Name" type="text" value=""></ion-input>
     </ion-item>
-			
+
     <div class="spacer" style="height: 16px;"></div>
 		<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZO E ORARIO CONSEGNA<sup>*</sup></ion-item-divider>
 
-    <ion-item class="item item-field" (click)="ViewAddress(address)" *ngFor="let address of list.DeliveryAddresses | keys">
+    <ion-item class="item item-field" (tap)="ViewAddress(address)" *ngFor="let address of list.DeliveryAddresses | keys">
       <ion-label>
         {{address.value.FormattedAddress}}
       </ion-label>
@@ -60,12 +60,12 @@
 
     <div class="spacer" style="height: 16px;"></div>
     <div class="center">
-      <button ion-button round color="secondary" (click)="AddAddress()" style="width:40%">Aggiungi</button>
+      <button ion-button round color="secondary" (tap)="AddAddress()" style="width:40%">Aggiungi</button>
     </div>
 
     <div class="spacer" style="height: 16px;"></div>
 		<ion-item-divider class="item-title" style="border-top-color: transparent;">RICOMPENSA<sup>*</sup></ion-item-divider>
-    
+
     <ion-item>
       <ion-label fixed>Quantità</ion-label>
       <ion-input [(ngModel)]="list.Reward" type="number" value=""></ion-input>
@@ -85,9 +85,8 @@
     </ion-item>
   </ion-list>-->
 
-
   <div class="lateral-bottom-padding">
-    <button ion-button block color="secondary" (click)="GoToPublicateListSecond()">Avanti</button>
+    <button ion-button block color="secondary" (tap)="GoToPublicateListSecond()">Avanti</button>
   </div>
 
 </ion-content>

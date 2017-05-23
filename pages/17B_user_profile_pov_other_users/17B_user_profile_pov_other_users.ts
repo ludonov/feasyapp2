@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 
 import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 
@@ -9,7 +9,6 @@ import { HistoryPage } from '../../pages/22_history/22_history';
 import { ReviewsPovOtherUserPage } from '../../pages/30B_reviews_pov_other_user/30B_reviews_pov_other_user';
 
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
-import { ViewBigImage } from "../42_view_big_picture/42_view_big_picture";
 
 @Component({
   selector: 'page-user-profile-pov-other-users',
@@ -23,20 +22,23 @@ export class UserProfilePovOtherUsersPage {
   public UserInfo: FeasyUser = new FeasyUser("", "", "");
   public gender: string;
   public Demander: boolean;
-  public BigImage: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public globals: Globals, public af: AngularFireDatabase) {
     this.userUID = navParams.get('userUID');
-    this.UserInfo_db = af.object('/users/' + this.userUID);
-    this.UserInfo_db.$ref.on("value", (_user: firebase.database.DataSnapshot) => {
-      this.globals.af.object("/pics/" + this.userUID + "/Big").$ref.once("value", (_pic: firebase.database.DataSnapshot) => {
-        this.UserInfo = _user.val();
+    globals.ShowLoading();
+    globals.GetUser(this.userUID).then(user => {
+      globals.GetUserPicBig(this.userUID).then(usr_bigpic => {
+        globals.DismissLoading();
+        this.UserInfo = user;
         if (this.UserInfo != null || this.UserInfo != undefined) {
           this.gender = GetGenderNameFromEnum(this.UserInfo.Gender);
-          this.BigImage = _pic.val();
           this.UserInfo.PhotoURL = SetImageOrDefaultOtherUser(this.UserInfo.Gender, this.UserInfo.PhotoURL);
         }
+      }).catch(() => {
+        globals.DismissLoading();
       });
+    }).catch(() => {
+      globals.DismissLoading();
     });
   }
 
@@ -47,8 +49,9 @@ export class UserProfilePovOtherUsersPage {
 
   goToBigImage(): void {
     console.log("going to big image page");
-    this.navCtrl.push(ViewBigImage, { image_content: this.BigImage });
-
+    this.globals.GetUserPicBig(this.userUID).then(usr_bigpic => {
+      this.globals.ViewBigImage(usr_bigpic, this.navCtrl);
+    })
   }
   
 }

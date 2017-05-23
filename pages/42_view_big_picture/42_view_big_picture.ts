@@ -11,11 +11,11 @@ import { Globals } from '../../classes/Globals';
   selector: 'page-viewbigimage',
   templateUrl: '42_view_big_picture.html'
 })
-export class ViewBigImage {
+export class ViewBigPicture {
 
   public image = { content : "" };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public globals: Globals, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
     let content = navParams.get("image_content");
     if (content == null) {
       console.warn("ViewBigImage> null image_content");

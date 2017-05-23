@@ -15,12 +15,11 @@ import { Globals } from "../../classes/Globals";
 export class SingleReviewDisplayPage {
 
   public review: Review;
-  public PhotoURL: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public globals: Globals) {
     this.review = navParams.get('review');
-    this.PhotoURL = navParams.get('_photo_url');
-  } 
+
+  }
 
 }
 

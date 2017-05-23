@@ -11,7 +11,7 @@
       <ion-list>
         <ion-item-divider color="light" class="item-title">DETTAGLI CONSEGNA</ion-item-divider>
 
-        <ion-item class="item-icon-right"  type="item-text-wrap"  (click)="ViewAddress(address)" *ngFor="let address of list.DeliveryAddresses | keys">
+        <ion-item class="item-icon-right"  type="item-text-wrap"  (tap)="ViewAddress(address)" *ngFor="let address of list.DeliveryAddresses | keys">
           <h2>{{address.value.FormattedAddress}}</h2>
           <p>dalle {{address.value.From}} &nbsp; alle {{address.value.To}}</p>
           <i class="icon ion-chevron-right icon-accessory"></i>
@@ -43,12 +43,12 @@
 
         <div class="spacer" style="height: 32px;"></div>
 
-        <ion-item icon-left icon-right (click)="ViewCandidates()">
+        <ion-item icon-left icon-right (tap)="ViewCandidates()">
           <ion-icon name="people"></ion-icon>
           Candidati
           <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 			  </ion-item>
-        <ion-item icon-left icon-right (click)="ViewItems()">
+        <ion-item icon-left icon-right (tap)="ViewItems()">
           <ion-icon name="list"></ion-icon>
           Lista prodotti
           <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
@@ -57,11 +57,11 @@
 
         <div class="spacer" style="height: 32px;"></div>
         <div class="lateral-padding">
-          <button ion-button block color="secondary" (click)="WithdrawList()">Ritira</button>
+          <button ion-button block color="secondary" (tap)="WithdrawList()">Ritira</button>
         </div>
         <div class="spacer" style="height: 16px;"></div>
         <div class="lateral-bottom-padding">
-          <button ion-button block outline color="secondary" (click)="RemoveList()">Elimina</button>
+          <button ion-button block outline color="secondary" (tap)="RemoveList()">Elimina</button>
         </div>
       </ion-list>
 

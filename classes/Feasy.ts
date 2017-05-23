@@ -100,7 +100,7 @@ export function GetExpiryDateFromEnum(expiryDate: ExpiryDateType): string {
 
 
 
-// FEASY CLOUD FUNCTIONS RESPONSE CLASS
+// FEASY REMOTE CONFIG
 export class Config {
   
   public Maintenance: boolean = false;
@@ -145,12 +145,12 @@ export class FeasyUser {
   public MobileNumber: string;
   public PhotoURL: string;
   public Gender: GenderType = GenderType.Male;
-  public Rating: number;
+  public Rating: number = 0;
   public Addresses: Object;
   public CommissionsDone: number = 0;
   public CommissionsReceived: number = 0;
-  public Candidatures: Object = {};
   public RegisterDate: string;
+  public NumberOfReviews: number = 0;
 
 
   constructor(email: string, firstName: string, lastName: string) {
@@ -283,10 +283,14 @@ export class Chat {
   public ShopperName: string;
   public DemanderUid: string;
   public ShopperUid: string;
-  public LastMessage: Message;   // runtime
+  public DemanderLastView: number;
+  public ShopperLastView: number;
   public ListKey: string;
   public Messages: Object;
+  public LastMessage: Message;   // runtime
   public MessagesInOrder: Array<Message>;   // runtime
+  public PhotoURL: string;  // runtime
+  public UnreadMessages: number;  // runtime
 
   constructor() {
     this.Messages = {};
@@ -297,7 +301,7 @@ export class Chat {
 export class Message {
   public $key: string;  // runtime
   public Text: string;
-  public Date: Date;  // runtime
+  //public Date: Date;  // runtime
   public timestamp: number;
   public OwnerUid: string;
   public Type: ChatMessageType;

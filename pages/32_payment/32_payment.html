@@ -30,7 +30,7 @@
 
 		    <div class="spacer" style="height: 16px;"></div>
         <ion-item-divider style="border-bottom-color: transparent;">TOTALE</ion-item-divider>
-        
+
 				<ion-card>
 					<div [ngSwitch]="paymentMethod">
 						<ion-card-header *ngSwitchCase="'cash'">Contanti</ion-card-header>
@@ -103,7 +103,7 @@
 											<h2 item-right class="payment-card-label-total">{{(totalPaymentPayPal).toFixed(2)}} €</h2>
 										</ion-item>
 									</ion-list>
-							</div>	
+							</div>
 						</div>
 					</ion-card-content>
 				</ion-card>
@@ -111,7 +111,7 @@
 
 			<div class="spacer" style="height: 10px;"></div>
 			<div class="lateral-bottom-padding">
-				<button ion-button block color="secondary" (click)="performPayment()">Paga</button>
+				<button ion-button block color="secondary" (tap)="performPayment()">Paga</button>
 			</div>
 
 </ion-content>

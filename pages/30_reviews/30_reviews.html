@@ -7,7 +7,7 @@
 <ion-content>
 	    
 	<ion-list> 
-		<ion-item *ngFor="let review of ReviewsForDisplay"  (click)="goToSingleReview(review, review.PhotoURL)">
+		<ion-item *ngFor="let review of ReviewsForDisplay"  (tap)="goToSingleReview(review, review.PhotoURL)">
 			<ion-avatar item-left>
 			<img src="{{review.PhotoURL}}">
 			</ion-avatar>

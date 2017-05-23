@@ -6,46 +6,66 @@
       </ion-avatar>-->
       Chat con {{PersonInContact}}
     </ion-title>
-    <ion-buttons right>
-      <button ion-button icon-only (click)="GoToList()">
+    <!--<ion-buttons start>
+      <button ion-button icon-only (tap)="GoToList()">
         <ion-icon name="information-circle"></ion-icon>
       </button>
-    </ion-buttons>
-    <ion-buttons left>
-      <button ion-button icon-only (click)="SendImage()">
-        <ion-icon name="information-circle"></ion-icon>
+    </ion-buttons>-->
+    <ion-buttons end>
+      <button ion-button icon-only (tap)="SendImage()">
+        <ion-icon name="image"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content hideTabs padding class="background-color-body">
+<ion-content padding class="background-color-body">
 
  <div class="chat">
   <div class="bubble {{mess.OwnerUid == globals.UID ? 'me' : 'you'}}" *ngFor="let mess of chat.MessagesInOrder">
-    <img class="chat_image" src="{{mess.Text}}" *ngIf="mess.Type == 1" />
+    <img class="chat_image" src="{{mess.Text}}" *ngIf="mess.Type == 1" (tap)="ViewImage(mess)"/>
     <div *ngIf="mess.Type == 0">{{mess.Text}}</div>
   </div>
+  <br><br><br><br><br>
 </div>
 
 </ion-content>
+
+<ion-footer>
+  <!--<ion-toolbar>-->
+        <!--<ion-label>
+          <ion-icon name="image" color="secondary" style="font-size: 25px" (tap)="SendImage()"></ion-icon>
+          </ion-label>-->
+  <ion-row style="background-color:white; border-style: solid; border-color: gray; border-bottom-width: 0px; border-right-width: 0px; border-left-width: 0px; border-top-width: 2px; ">
+    <ion-input #ChatInput style="background-color: white;" type="text" #input placeholder="Scrivi un messaggio" autocomplete="true" spellcheck="true" [(ngModel)]="new_message"></ion-input>
+    <button item-right ion-fab mini class="send" (tap)="SendMessage(input)"><ion-icon name="send"></ion-icon></button>
+  </ion-row>
+  <!--</ion-toolbar>-->
+</ion-footer>
 
 <!--<ion-footer style="background-color: white">
   <ion-toolbar style="background-color: white">
     <ion-input left type="text" #input style="background-color: white" [(ngModel)]="new_message"></ion-input>
     <ion-buttons end style="background-color: white">
-      <button ion-fab mini class="send" (click)="SendMessage(input)">
+      <button ion-fab mini class="send" (tap)="SendMessage(input)">
         <ion-icon name="send"></ion-icon>
       </button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>-->
 
-<ion-footer>
+<!--<ion-footer>
   
     <ion-row>
-      <ion-input type="text" #input placeholder="" [(ngModel)]="new_message"></ion-input>
-      <button ion-fab mini class="send" (click)="SendMessage(input)"><ion-icon name="send"></ion-icon></button>
+      <ion-input type="text" #input placeholder="" [(ngModel)]="new_message" style="background-color: white"></ion-input>
+      <button ion-fab mini class="send" (tap)="SendMessage(input)"><ion-icon name="send"></ion-icon></button>
     </ion-row>
+
+    <ion-list>
+      <ion-item>
+      <ion-input style="background-color: white" type="text" #input placeholder="" [(ngModel)]="new_message"></ion-input>
+      <button item-right ion-fab mini class="send" (tap)="SendMessage(input)"><ion-icon name="send"></ion-icon></button>
+      </ion-item>
+    </ion-list>
   
-</ion-footer>
+</ion-footer>-->

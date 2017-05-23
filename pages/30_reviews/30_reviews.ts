@@ -21,8 +21,7 @@ export class ReviewsPage {
 
   constructor(public navCtrl: NavController,  public globals: Globals) {
     for (let review of globals.Reviews) {
-      this.globals.af.object('/users/' + review.RevieweeUid).$ref.once("value", (_user: firebase.database.DataSnapshot) => {
-        let user: FeasyUser = _user.val();
+      globals.GetUser(review.RevieweeUid).then( user => {
         (review as any).PhotoURL = SetImageOrDefaultOtherUser(user.Gender, user.PhotoURL);
         this.ReviewsForDisplay.push(review);
       });
@@ -31,7 +30,7 @@ export class ReviewsPage {
 
   goToSingleReview(review: any, _photo_url: string): void {
     console.log("going to single review page");
-    this.navCtrl.push(SingleReviewDisplayPage, { review: review, photo_url: _photo_url });
+    this.navCtrl.push(SingleReviewDisplayPage, { review: review });
 
   }
 

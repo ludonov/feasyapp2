@@ -2,7 +2,7 @@
   <ion-navbar>
     <ion-title>Info Prodotto</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="save()">
+      <button ion-button icon-only (tap)="save()">
         <ion-icon name="checkmark-round"></ion-icon>
       </button>
     </ion-buttons>
@@ -14,7 +14,7 @@
   <ion-list>
     <ion-item>
       <ion-label floating>Prodotto</ion-label>
-      <ion-input #NameInput [(ngModel)]="item.Name" type="text" value="" autofocus></ion-input>
+      <ion-input #NameInput [(ngModel)]="item.Name" type="text" value="" autofocus autocomplete="true" spellcheck="true"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Quantità</ion-label>
@@ -30,26 +30,26 @@
     </ion-item>
     <ion-item>
       <ion-label floating>Marca</ion-label>
-      <ion-input [(ngModel)]="item.Brand" type="text" value=""></ion-input>
+      <ion-input [(ngModel)]="item.Brand" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Fascia prezzo</ion-label>
-      <ion-input [(ngModel)]="item.PriceRange" type="text" value=""></ion-input>
+      <ion-input [(ngModel)]="item.PriceRange" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Altri dettagli</ion-label>
-      <ion-input [(ngModel)]="item.Comments" type="text" value=""></ion-input>
+      <ion-input [(ngModel)]="item.Comments" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
     </ion-item>
   </ion-list>
 
   <div class="spacer" style="height: 16px;"></div>
   <div class="center lateral-padding">
-    <button ion-button round color="secondary" (click)="save()" style="width:40%">Salva</button>
+    <button ion-button round color="secondary" (tap)="save()" style="width:40%">Salva</button>
   </div>
 
   <div class="spacer" style="height: 10px;"></div>
   <div class="center lateral-bottom-padding">
-    <button ion-button round outline (click)="delete()" [hidden]="is_new" color="secondary" style="width:40%">Elimina</button>
+    <button ion-button round outline (tap)="delete()" [hidden]="is_new" color="secondary" style="width:40%">Elimina</button>
   </div>
 
 </ion-content>

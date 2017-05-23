@@ -7,7 +7,7 @@
 
 <ion-content>
     <ion-list>
-        <ion-item (click)="ViewItem(item)" *ngFor="let item of items | keys">
+        <ion-item (tap)="ViewItem(item)" *ngFor="let item of items | keys">
           {{item.value.Name}}
           <ion-note item-right>{{item.value.Qty}} &nbsp; {{GetUnitName(item.value.Unit)}}</ion-note>
 			  </ion-item>

@@ -1,30 +1,36 @@
-<ion-header>
+﻿<ion-header>
   <ion-navbar>
     <ion-title>Single Review</ion-title>
   </ion-navbar>
-</ion-header> 
+</ion-header>
 
 <ion-content>
 
-<ion-list>
-	<ion-item-group>
-        <ion-item>
-          <ion-input placeholder="Titolo" type="text" [(ngModel)]="review.Title"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-datetime placeholder="Voto" displayFormat="m" minuteValues="1,2,3,4,5" [(ngModel)]="review.Rating">
-          </ion-datetime>
-        </ion-item>
-        <ion-item style="height:200px">
-          <ion-textarea text-wrap placeholder="Contenuto" type="text" class="review-multiline" [(ngModel)]="review.Text"></ion-textarea>
-        </ion-item>
-      </ion-item-group>
-	</ion-list>
+  <ion-list>
+    <ion-item-group>
+      <ion-item>
+        <ion-input placeholder="Titolo" type="text" [(ngModel)]="review.Title"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Voto</ion-label>
+        <ion-select [(ngModel)]="review.Rating" interface="action-sheet" multiple="false" placeholder="5">
+          <ion-option value=1 selected="review.Rating == 1">1</ion-option>
+          <ion-option value=2 selected="review.Rating == 2">2</ion-option>
+          <ion-option value=3 selected="review.Rating == 3">3</ion-option>
+          <ion-option value=4 selected="review.Rating == 4">4</ion-option>
+          <ion-option value=5 selected="review.Rating == 5">5</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item style="height:200px">
+        <ion-textarea text-wrap placeholder="Contenuto" type="text" class="review-multiline" [(ngModel)]="review.Text"></ion-textarea>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
 
-	<div class="lateral-padding">
-      <button ion-button block color="secondary" (click)="AddReview()">Pubblica</button>
+
+  <div class="lateral-padding">
+    <button ion-button block color="secondary" (tap)="AddReview()">Pubblica</button>
   </div>
 
 </ion-content>
 
- 

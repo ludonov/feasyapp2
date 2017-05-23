@@ -13,7 +13,7 @@
     </ion-card-header>
 
     <ion-list>
-      <ion-item *ngFor="let listD of HistoryListsDemander" (click)="goToListDetailsAsDemander(listD.$key)">
+      <ion-item *ngFor="let listD of HistoryListsDemander" (tap)="goToListDetailsAsDemander(listD.$key)">
         <ion-avatar item-left>
           <img src="{{listD.PhotoURL}}">
         </ion-avatar>
@@ -31,7 +31,7 @@
     </ion-card-header>
 
     <ion-list>
-      <ion-item *ngFor="let listS of HistoryListsShopper" (click)="goToListDetailsAsShopper(listS.$key)">
+      <ion-item *ngFor="let listS of HistoryListsShopper" (tap)="goToListDetailsAsShopper(listS.$key)">
         <ion-avatar item-left>
           <img src="{{listS.PhotoURL}}">
         </ion-avatar>

@@ -19,8 +19,8 @@
 // General
 // --------------------------------------------------
 
-.no-scroll .scroll-content{
-     overflow: hidden;
+.no-scroll .scroll-content {
+  overflow: hidden;
 }
 
 .center{
@@ -36,8 +36,9 @@ body.keyboard-is-open .tabbar {
   display: none;
 }
 
+
 body.keyboard-is-open .scroll-content {
-  margin-bottom: 0 !important;
+  margin-bottom: 0;
 }
 
 
@@ -114,7 +115,7 @@ body.keyboard-is-open .scroll-content {
 
 #map {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 60px);
 }
 
 ._gmaps_cdv_ .nav-decor {
@@ -147,13 +148,39 @@ position: absolute;
   margin: 0 auto;
 }
 
+.search-bar-container {
+  display: block;
+  width: 100%;
+  font-size: 20px;
+  z-index: 9;
+}
+
+.search-bar-container .searchbar-input {
+  border-radius: 50px !important;
+  border-width: 2px;
+  border-style: solid;
+  border-color: color($colors, secondary);
+  background-color: white;
+}
+
+.searchbar-input {
+  margin: 0px;
+}
+
+.maps-suggestions {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  z-index: 99;
+}
 
 
 // Position
 // --------------------------------------------------
 
 .center-vertically-grid-rows {
-  height: 100%; 
+  height: 100%;
   justify-content: center;
 }
 
@@ -267,25 +294,25 @@ a:hover {
         width: 20px;
     }*/
     .you {
-        background-color: white; 
+        background-color: white;
         color: black;
         float: left;
         margin: 5px 45px 5px 20px;
     }
     .you::before {
-        background-color: white; 
+        background-color: white;
         box-shadow: -2px 2px 2px 0 rgba( 178, 178, 178, .4);
         left: -9px;
     }
     .me {
-        background-color: #00bcd4; 
+        background-color: #00bcd4;
         color: white;
         text-align: right;
         float: right;
         margin: 5px 20px 5px 45px;
     }
     .me::before {
-      background-color: #00bcd4; 
+      background-color: #00bcd4;
         box-shadow: 2px -2px 2px 0 rgba( 178, 178, 178, .4);
         right: -9px;
     }
@@ -352,4 +379,8 @@ ion-textarea.publish-list-multiline textarea {
 
 .color-sentence {
   color: color($colors, secondary) !important;
+
+
+.bold {
+  font-weight: bold;
 }

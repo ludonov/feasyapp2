@@ -1,6 +1,6 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, ViewChild, Inject, forwardRef } from '@angular/core';
 
-import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Tabs, Content } from 'ionic-angular';
 import { FeasyUser, FeasyList, FeasyItem, Review, StripForFirebase, Chat, Message, ChatMessageType } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
@@ -22,7 +22,11 @@ export class ChatPage {
     public PersonInContact: string;
     public new_message: string;
 
-    constructor(public navCtrl: NavController, public globals: Globals, public alertCtrl: AlertController, public navParams: NavParams, public af: AngularFireDatabase) {
+    @ViewChild(Content) content: Content;
+    @ViewChild('ChatInput') ChatInputField;
+
+
+    constructor(public navCtrl: NavController, @Inject(forwardRef(() => Globals)) public globals: Globals, public alertCtrl: AlertController, public navParams: NavParams, public af: AngularFireDatabase) {
         this.chat_key = navParams.get('chat_key');
         this.chat = this.globals.GetChatByKey(this.chat_key);
         if (this.chat.DemanderUid == globals.UID) {
@@ -32,38 +36,69 @@ export class ChatPage {
         }
     }
 
-    SendMessage(input: any): void {
-      let mess: Message = new Message();
-      mess.Text = this.new_message;
-      mess.OwnerUid = this.globals.UID;
-      mess.timestamp = (new Date()).getTime();
-      this.af.list("/chats/" + this.chat_key + "/Messages").push(StripForFirebase(mess)).then(res => {
-        this.new_message = null;
-        input.setFocus();
-      }).catch((err: Error) => {
-        console.warn("ChatPage.SendMessage> Error: " + err.message);
-      });
-    }  
+    scroll() {
+        //scrolls to bottom whenever the page has loaded
+        console.log("Scroll");
+        setTimeout(function () { window["_this_content"].scrollToBottom(); }, 150);
+    }
 
-    GoToList(): void{
+    ionViewDidEnter() {
+        window["_this_content"] = this.content;
+        this.content.scrollToBottom();
+        this.globals.ChatMessageReceived.on(this.scroll);
+        this.globals.CurrentChatOpen = this.chat_key;
+        this.globals.ChatSetLastView(this.chat_key);
+        this.chat.UnreadMessages = 0;
+        if (!this.globals.IsWeb && this.globals.UnreadMessagesNotificationData.indexOf(this.chat_key) != -1) {
+            this.globals.localNotifications.clear(this.globals.UnreadMessagesNotificationID);
+        }
+    }
+
+    ionViewWillLeave() {
+        delete window["_this_content"];
+        this.globals.ChatMessageReceived.off(this.scroll);
+        this.globals.CurrentChatOpen = "";
+        this.globals.ChatSetLastView(this.chat_key);
+    }
+
+    SendMessage(input: any): void {
+        this.ChatInputField.setFocus();
+        let mess: Message = new Message();
+        mess.Text = this.new_message;
+        mess.OwnerUid = this.globals.UID;
+        mess.timestamp = (new Date()).getTime();
+        this.af.list("/chats/" + this.chat_key + "/Messages").push(StripForFirebase(mess)).then(res => {
+            this.new_message = "";
+            this.ChatInputField.setFocus();
+            this.globals.ChatSetLastView(this.chat_key);
+        }).catch((err: Error) => {
+            console.warn("ChatPage.SendMessage> Error: " + err.message);
+        });
+    }
+
+    GoToList(): void {
         this.navCtrl.push(PublicatedListWithShopperPage, { list_key: this.chat.ListKey });
     }
 
     SendImage(): void {
-      this.globals.InputImage(1024, 1024).then(img => {
-        let mess: Message = new Message();
-        mess.Text = img;
-        mess.OwnerUid = this.globals.UID;
-        mess.timestamp = (new Date()).getTime();
-        mess.Type = ChatMessageType.Image;
-        this.af.list("/chats/" + this.chat_key + "/Messages").push(StripForFirebase(mess)).then(res => {
-          console.log("ChatPage.SendImage> image uploaded");
+        this.globals.InputImage(1024, 1024).then(img => {
+            let mess: Message = new Message();
+            mess.Text = img;
+            mess.OwnerUid = this.globals.UID;
+            mess.timestamp = (new Date()).getTime();
+            mess.Type = ChatMessageType.Image;
+            this.af.list("/chats/" + this.chat_key + "/Messages").push(StripForFirebase(mess)).then(res => {
+                console.log("ChatPage.SendImage> image uploaded");
+            }).catch((err: Error) => {
+                console.warn("ChatPage.SendImage> error: " + err.message);
+            });
         }).catch((err: Error) => {
-          console.warn("ChatPage.SendImage> error: " + err.message);
+            console.warn("ChatPage.SendImage> error: " + err.message);
         });
-      }).catch((err: Error) => {
-        console.warn("ChatPage.SendImage> error: " + err.message);
-      });
+    }
+
+    ViewImage(mess: Message): void {
+        this.globals.ViewBigImage(mess.Text, this.navCtrl);
     }
 
 }
