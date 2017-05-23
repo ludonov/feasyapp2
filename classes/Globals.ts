@@ -224,9 +224,9 @@ export class Globals {
             }
         });
 
+        this.UserPicBig_db = this.af.object('/pics/' + this.UID + "/Big");
         this.storage.get("UserPicBig").then((big_pic) => {
             if (big_pic == null) {
-                this.UserPicBig_db = this.af.object('/pics/' + this.UID + "/Big");
                 this.UserPicBig_db.$ref.once("value", (_pic: firebase.database.DataSnapshot) => {
                     let pic: string = _pic.val();
                     if (pic != null) {
@@ -1210,7 +1210,7 @@ export class Globals {
                                 }
 
                                 this.camera.getPicture(options).then((imageData) => {
-                                    resolve('data:image/jpeg;base64,' + imageData);
+                                    resolve('data:image/jpeg;base64,' + imageData.replaceAll("\r", "").replaceAll("\n", ""));
                                 }, (err) => {
                                     reject(err);
                                 });
@@ -1265,7 +1265,7 @@ export class Globals {
                                     }
 
                                     this.camera.getPicture(options).then((imageData) => {
-                                        resolve('data:image/jpeg;base64,' + imageData);
+                                        resolve('data:image/jpeg;base64,' + imageData.replaceAll("\r", "").replaceAll("\n", ""));
                                     }, (err) => {
                                         reject(err);
                                     });
