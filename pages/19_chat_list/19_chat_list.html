@@ -11,7 +11,7 @@
 
     <ion-list>
 
-      <ion-item *ngFor="let chat of globals.Chats" (click)="GoToChat(chat.$key)" [ngClass]="{'bold': chat.UnreadMessages > 0}">
+      <ion-item *ngFor="let chat of globals.Chats" (tap)="GoToChat(chat.$key)" [ngClass]="{'bold': chat.UnreadMessages > 0}">
           <ion-avatar item-left>
             <img src="{{chat.PhotoURL}}">
           </ion-avatar>

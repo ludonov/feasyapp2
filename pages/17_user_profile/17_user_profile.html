@@ -2,7 +2,7 @@
 	<ion-navbar>
 		<ion-title>Profilo</ion-title>
 		<ion-buttons end>
-			<button ion-button item-right (click)="editProfile()">MODIFICA</button>
+			<button ion-button item-right (tap)="editProfile()">MODIFICA</button>
 		</ion-buttons>
 	</ion-navbar>
 </ion-header>
@@ -11,14 +11,14 @@
 
 	<ion-card>
 		<ion-item class="profile-item">
-			<div class="profile-picture" (click)="goToBigImage()" [ngStyle]="{'background-image': 'url(' + user.PhotoURL + ')'}">
+			<div class="profile-picture" (tap)="goToBigImage()" [ngStyle]="{'background-image': 'url(' + user.PhotoURL + ')'}">
 			</div>
 			<h2 class="profile-name">{{user.FirstName}} {{user.LastName}}</h2>
 			<p class="center">{{user.Email}}</p>
 		</ion-item>
 	</ion-card>
 	<ion-card>
-		<ion-item (click)="GoToHistory(false)">
+		<ion-item (tap)="GoToHistory(false)">
 			<ion-icon name="cart" color="secondary" item-left></ion-icon>
 			Commissioni fatte
 			<h2 item-right class="profile-card-label">20</h2>
@@ -26,7 +26,7 @@
 				<ion-icon color="secondary" style="font-size:17pt" name="ios-arrow-forward"></ion-icon>
 			</ion-note>
 		</ion-item>
-		<ion-item (click)="GoToHistory(true)">
+		<ion-item (tap)="GoToHistory(true)">
 			<ion-icon name="home" color="secondary" item-left></ion-icon>
 			Commissioni ricevute
 			<h2 item-right class="profile-card-label">8</h2>
@@ -34,7 +34,7 @@
 				<ion-icon color="secondary" style="font-size:17pt" name="ios-arrow-forward"></ion-icon>
 			</ion-note>
 		</ion-item>
-		<ion-item (click)="goToReviews()">
+		<ion-item (tap)="goToReviews()">
 			<ion-icon name="star" color="secondary" item-left></ion-icon>
 			Voto
 			<p item-right class="profile-card-label">4.5</p>
@@ -45,14 +45,14 @@
 	</ion-card>
 
 	<!--<ion-card>
-		<ion-item (click)="goToReviews()">
+		<ion-item (tap)="goToReviews()">
 			<ion-icon name="podium" item-left></ion-icon>
 			Recensioni
 			<ion-note item-right>
 				<ion-icon name="arrow-forward"></ion-icon>
 			</ion-note>
 		</ion-item>
-		<ion-item (click)="goToPendingReviews()">
+		<ion-item (tap)="goToPendingReviews()">
 			<ion-icon name="podium" item-left></ion-icon>
 			Recensioni da Fare
 			<ion-note item-right>
@@ -99,14 +99,14 @@
 
 	<!--
 	<ion-card>
-		<button ion-item (click)="goToHistory()">
+		<button ion-item (tap)="goToHistory()">
 						<ion-icon name="time" item-left color="secondary"></ion-icon>
 						History
 						<ion-note item-right style="font-size: 15px">Ultima commissione: Ieri</ion-note>
 					</button>
 	</ion-card>
 	<ion-card>
-		<button ion-item (click)="goToReviews()">
+		<button ion-item (tap)="goToReviews()">
 						<ion-icon name="podium" item-left color="secondary"></ion-icon>
 							Le mie recensioni
 						<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
@@ -118,7 +118,7 @@
 	<!--<ion-row class="center">
     		<ion-col col-12>
 				<ion-card>
-					<button ion-item (click)="goToReviews()">
+					<button ion-item (tap)="goToReviews()">
 						<ion-icon name="podium" item-left color="secondary"></ion-icon>
 							Le mie recensioni
 						<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
@@ -129,14 +129,14 @@
 
 
 	<!--<ion-card>
-		<button ion-item (click)="goToHistory()">
+		<button ion-item (tap)="goToHistory()">
 		<ion-icon name="time" item-left color="secondary"></ion-icon>
 		History
 		<ion-note item-right style="font-size: 15px">Ultima commissione: Ieri</ion-note>
 		</button>
 	</ion-card>
 	<ion-card>
-		<button ion-item (click)="goToReviews()">
+		<button ion-item (tap)="goToReviews()">
 		<ion-icon name="podium" item-left color="secondary"></ion-icon>
 		Le mie recensioni
 		<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
@@ -144,7 +144,7 @@
 	</ion-card>-->
 	<!--
 	<ion-card>
-		<button ion-item (click)="goToPendingReviews()">
+		<button ion-item (tap)="goToPendingReviews()">
 		<ion-icon name="filing" item-left color="secondary"></ion-icon>
 		Recensioni in attesa
 		<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
@@ -208,7 +208,7 @@
 		<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZI</ion-item-divider>
-			<ion-item icon-right (click)="MyAddresses()">
+			<ion-item icon-right (tap)="MyAddresses()">
 				I Miei Indirizzi
 				<ion-note item-right>
 					<ion-icon name="arrow-forward"></ion-icon>

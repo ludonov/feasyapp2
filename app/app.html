@@ -9,40 +9,40 @@
 
       <div class="spacer" style="height: 16px;"></div>
       <ion-item class="profile-item" style="border-bottom-color: white">
-        <div class="profile-picture" (click)="goToBigImage()" [ngStyle]="{'background-image': 'url(' + globals.UserPicBig + ')'}">
+        <div class="profile-picture" (tap)="goToBigImage()" [ngStyle]="{'background-image': 'url(' + globals.UserPicBig + ')'}">
         </div>
         <h2 class="side-bar-name center">{{globals.User.FirstName}} {{globals.User.LastName}}</h2>
       </ion-item>
     </ion-list>
 
     <ion-list>
-      <ion-item (click)="goToProfile()">
+      <ion-item (tap)="goToProfile()">
         <ion-icon name="person" item-left color="secondary"></ion-icon>
         Profilo
       </ion-item>
-      <ion-item (click)="goToReviewsToLeave()">
+      <ion-item (tap)="goToReviewsToLeave()">
         <ion-icon name="star" item-left color="secondary"></ion-icon>
         Recensioni in attesa
         <ion-badge *ngIf="(globals.ReviewsToLeaveAsDemander.length + globals.ReviewsToLeaveAsShopper.length) > 0" item-right color="danger">{{globals.ReviewsToLeaveAsDemander.length + globals.ReviewsToLeaveAsShopper.length}}</ion-badge>
       </ion-item>
-      <!--<ion-item (click)="goToLists()">
+      <!--<ion-item (tap)="goToLists()">
         <ion-icon name="list" item-left color="secondary"></ion-icon>
         Liste
       </ion-item>
-      <ion-item (click)="goToFind()">
+      <ion-item (tap)="goToFind()">
         <ion-icon name="search" item-left color="secondary"></ion-icon>
         Trova
       </ion-item>
-      <ion-item (click)="goToChats()">
+      <ion-item (tap)="goToChats()">
         <ion-icon name="chatbubbles" item-left color="secondary"></ion-icon>
         Chat
       </ion-item>-->
-      <ion-item (click)="goToSettings()">
+      <ion-item (tap)="goToSettings()">
         <ion-icon name="settings" item-left color="secondary"></ion-icon>
         Impostazioni
       </ion-item>
       <div class="spacer" style="height: 20px;"></div>
-      <ion-item (click)="logout()" style="color:red">
+      <ion-item (tap)="logout()" style="color:red">
         <ion-icon item-left name="log-out" style="color:red"></ion-icon>
         Log Out
       </ion-item>

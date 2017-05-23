@@ -11,7 +11,7 @@
 
   <h6 class="center" *ngIf="cands.length == 0">Nessun candidato presente, attendi ancora!</h6>
   <ion-list>
-    <ion-item (click)="ViewCandidate(candidate)" *ngFor="let candidate of Candidates">
+    <ion-item (tap)="ViewCandidate(candidate)" *ngFor="let candidate of Candidates">
       <ion-avatar item-left>
         <img src="{{candidate.PhotoURL}}">
       </ion-avatar>

@@ -11,7 +11,7 @@
       <ion-list>
 
         <ion-item-divider color="light" class="item-title">DETTAGLI RICHIEDENTE</ion-item-divider>
-        <ion-item (click)="goToProfileOtherUser()">
+        <ion-item (tap)="goToProfileOtherUser()">
           <ion-avatar item-left>
             <img src="{{owner.PhotoURL}}">
           </ion-avatar>
@@ -33,7 +33,7 @@
 
         <div class="spacer" style="height: 16px;"></div>
         <ion-item-divider color="light" class="item-title">DETTAGLI CONSEGNA</ion-item-divider>
-        <ion-item class="item-icon-right" type="item-text-wrap" (click)="ViewAddress(address)" *ngFor="let address of list.DeliveryAddresses | keys">
+        <ion-item class="item-icon-right" type="item-text-wrap" (tap)="ViewAddress(address)" *ngFor="let address of list.DeliveryAddresses | keys">
           <h2>{{address.value.FormattedAddress}}</h2>
           <p>dalle {{address.value.From}} &nbsp; alle {{address.value.To}}</p>
           <i class="icon ion-chevron-right icon-accessory"></i>
@@ -61,7 +61,7 @@
 
         <div class="spacer" style="height: 32px;"></div>
 
-        <ion-item icon-left icon-right (click)="ViewItems()">
+        <ion-item icon-left icon-right (tap)="ViewItems()">
           <ion-icon name="list"></ion-icon>
           Lista prodotti
           <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
@@ -69,7 +69,7 @@
 
         <div class="spacer" style="height: 32px;"></div>
         <div class="lateral-bottom-padding">
-          <button ion-button block color="secondary" (click)="Apply()" class="center">Candidati</button>
+          <button ion-button block color="secondary" (tap)="Apply()" class="center">Candidati</button>
         </div>
         
       </ion-list>

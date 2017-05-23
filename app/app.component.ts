@@ -1,4 +1,4 @@
-﻿import { Component, ViewChild } from '@angular/core';
+﻿import { Component, ViewChild, enableProdMode } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { Platform, NavController, Tabs, AlertController, Alert, Loading, LoadingController } from 'ionic-angular';

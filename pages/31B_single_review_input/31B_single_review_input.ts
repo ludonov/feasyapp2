@@ -19,6 +19,7 @@ export class SingleReviewInputPage {
   public review: Review = new Review();
   public TerminatedList_db: FirebaseObjectObservable<any>;
   public TerminatedList: FeasyList = new FeasyList("");
+  public x = { Rating: new Date() };
 
   constructor(public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public globals: Globals) {
     this.review.Rating = 5;
@@ -40,6 +41,7 @@ export class SingleReviewInputPage {
 
   AddReview(): void {
     this.review.Rating = parseInt((this.review.Rating as any));
+
     if (this.review.Title == "" || this.review.Title == null) {
       let alert = this.alertCtrl.create({
         title: 'Info',
@@ -75,6 +77,7 @@ export class SingleReviewInputPage {
       this.Review_db.push(StripForFirebase(this.review)).then(res => {
         this.TerminatedList_db.update(StripForFirebase(this.TerminatedList)).then(res => {
           this.navCtrl.popToRoot();
+
         }).catch((err: Error) => {
           console.log("Error: " + err.message);
         });

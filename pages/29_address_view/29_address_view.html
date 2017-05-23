@@ -2,7 +2,7 @@
   <ion-navbar>
     <ion-title>Dettagli Indirizzo</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="saveAddress()">
+      <button ion-button icon-only (tap)="saveAddress()">
         <ion-icon name="information-circle"></ion-icon>
       </button>
     </ion-buttons>
@@ -46,13 +46,13 @@
 
     <div class="spacer" style="height: 32px;"></div>
     <div class="lateral-padding center">
-      <button ion-button block color="secondary" (click)="saveAddress()">Salva</button>
+      <button ion-button block color="secondary" (tap)="saveAddress()">Salva</button>
     </div>
 
     <div class="spacer" style="height: 16px;"></div>
 
     <div class="lateral-bottom-padding center">
-      <button ion-button block outline color="secondary" (click)="deleteAddress()" [hidden]="is_new">Elimina</button>
+      <button ion-button block outline color="secondary" (tap)="deleteAddress()" [hidden]="is_new">Elimina</button>
     </div>
 
   </ion-list>

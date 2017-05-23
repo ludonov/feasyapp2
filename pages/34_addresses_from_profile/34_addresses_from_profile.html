@@ -8,7 +8,7 @@
 
     <ion-list>
 
-        <ion-item class="item-icon-right"  type="item-text-wrap"  (click)="ViewAddress(address)" *ngFor="let address of addresses | keys">
+        <ion-item class="item-icon-right"  type="item-text-wrap"  (tap)="ViewAddress(address)" *ngFor="let address of addresses | keys">
             <h2>{{address.value.FormattedAddress}}</h2>
             <i class="icon ion-chevron-right icon-accessory"></i>
         </ion-item>

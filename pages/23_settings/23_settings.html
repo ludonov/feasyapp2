@@ -8,21 +8,21 @@
 
   <ion-list>  
 
-    <ion-item icon-right (click)="editProfile()">
+    <ion-item icon-right (tap)="editProfile()">
       Modifica profilo
       <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
     </ion-item>
-    <ion-item icon-right (click)="editPassword()">
+    <ion-item icon-right (tap)="editPassword()">
       Reimposta password
       <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
     </ion-item>
-    <ion-item icon-right (click)="terms()">
+    <ion-item icon-right (tap)="terms()">
       Termini e condizioni
       <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
     </ion-item>
     
     <div class="spacer" style="height: 32px;"></div>
-    <ion-item style="color:red; font-weight:lighter" class="center" (click)="logout()">
+    <ion-item style="color:red; font-weight:lighter" class="center" (tap)="logout()">
       LOG OUT
     </ion-item>
   </ion-list>

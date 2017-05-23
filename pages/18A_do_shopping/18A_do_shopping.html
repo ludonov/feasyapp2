@@ -4,7 +4,7 @@
       <ion-icon name='menu'></ion-icon>
     </button>
     <ion-buttons end>
-      <button ion-button (click)="filters()">
+      <button ion-button (tap)="filters()">
         FILTERS
       </button>
     </ion-buttons>
@@ -22,7 +22,7 @@
   <div class="search-bar-container" style="margin: 0px">
     <ion-searchbar id="searchBar" class="search-bar-input" placeholder="Search a place" [(ngModel)]="autocomplete.query" (ionInput)="updateSearch()" (ionCancel)="dismiss()" (ionClear)="dismiss()"></ion-searchbar>
     <ion-list class="maps-suggestions">
-      <ion-item *ngFor="let item of autocompleteItems" tappable (click)="chooseItem(item)" style="">
+      <ion-item *ngFor="let item of autocompleteItems" tappable (tap)="chooseItem(item)" style="">
         {{ item }}
       </ion-item>
     </ion-list>
@@ -34,7 +34,7 @@
     <!--<div style="  position: absolute;top: 10px;left: 25%;z-index: 5; padding: 5px;text-align: center;padding-left: 10px;">
       <ion-searchbar [(ngModel)]="autocomplete.query" [showCancelButton]="true" (ionInput)="updateSearch()" (ionCancel)="dismiss()"></ion-searchbar>
       <ion-list>
-        <ion-item *ngFor="let item of autocompleteItems" tappable (click)="chooseItem(item)" style="">
+        <ion-item *ngFor="let item of autocompleteItems" tappable (tap)="chooseItem(item)" style="">
           {{ item }}
         </ion-item>
       </ion-list>
