@@ -36,8 +36,9 @@ body.keyboard-is-open .tabbar {
   display: none;
 }
 
+
 body.keyboard-is-open .scroll-content {
-  margin-bottom: 0 !important;
+  margin-bottom: 0;
 }
 
 
@@ -342,4 +343,9 @@ a:hover {
 
 ion-textarea.review-multiline textarea {
   height: 200px;
+}
+
+
+.bold {
+  font-weight: bold;
 }

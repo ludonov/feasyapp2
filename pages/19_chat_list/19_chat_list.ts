@@ -24,4 +24,11 @@ export class ChatListPage {
     }
 
 
+    ionViewDidEnter() {
+        //if (!this.globals.IsWeb) {
+        //    this.globals.localNotifications.clear(this.globals.UnreadMessagesNotificationID);
+        //}
+    }
+
+
 }

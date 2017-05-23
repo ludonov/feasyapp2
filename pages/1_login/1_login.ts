@@ -2,6 +2,7 @@
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { Platform, NavController, AlertController } from 'ionic-angular';
 import { FirebaseError } from 'firebase';
+import * as firebase from 'firebase';
 
 import { FeasyUser, GenderType } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';

@@ -4,6 +4,7 @@ import { NavController, AlertController, Alert, LoadingController, Loading, Plat
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase';
 import { LocalNotifications, ILocalNotification } from '@ionic-native/local-notifications';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -17,6 +18,7 @@ import { Storage } from '@ionic/storage';
 import { PublicatedListCandidatesPage } from '../pages/14_publicated_list_candidates/14_publicated_list_candidates';
 import { PublicatedListWithShopperPovShopperPage } from '../pages/11B_publicated_list_with_shopper_pov_shopper/11B_publicated_list_with_shopper_pov_shopper';
 import { ChatListPage } from '../pages/19_chat_list/19_chat_list';
+import { ChatPage } from '../pages/20_chat/20_chat';
 import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
 import { ViewBigPicture } from "../pages/42_view_big_picture/42_view_big_picture";
 
@@ -34,6 +36,7 @@ export class Globals {
     public JustRegistered: boolean = false;
     public NotificationCounter: number = 10; // starts from 10 to allow fixed IDs for static notifications, such as UnreadMessagesNotificationID
     public UnreadMessagesNotificationID: number = 1;
+    public UnreadMessagesNotificationData: Array<string> = new Array();
     public CurrentChatOpen: string = "";
     public MenuOpenChange: LiteEvent<boolean> = new LiteEvent<boolean>();
     public ChatMessageReceived: LiteEvent<Message> = new LiteEvent<Message>();
@@ -94,7 +97,7 @@ export class Globals {
 
     public Chats: Array<Chat> = new Array<Chat>();
     private chat_messages_refs: Array<firebase.database.Query> = new Array();
-    
+
 
     // CONTROLLERS AND NATIVE PLUGINS
     public storage: Storage;
@@ -123,8 +126,12 @@ export class Globals {
     public NotificationHandler(notification: ILocalNotification) {
         console.log(notification);
         let data = JSON.parse(notification.data);
-        if (data.type == NotificationType.NewMessage)
-            this.navCtrl.push(ChatListPage);
+        if (data.type == NotificationType.NewMessage) {
+            if (data.chatIDs != null && data.chatIDs.length == 1)
+                this.navCtrl.push(ChatPage, { chat_key: data.chatIDs[0] });
+            else
+                this.navCtrl.push(ChatListPage);
+        }
         else if (data.type == NotificationType.Accepted)
             this.navCtrl.push(PublicatedListWithShopperPovShopperPage, data);
         else if (data.type == NotificationType.HasNewCandidate)
@@ -811,7 +818,7 @@ export class Globals {
 
     private updateUnreadMessagesNotification() {
         let unread_msgs: number = 0;
-        let unread_chats: number = 0;
+        let unread_chats: Array<string> = new Array();
         let other_person: string;
         for (let chat of this.Chats) {
             //don't check messages belonging to the open chat
@@ -819,20 +826,25 @@ export class Globals {
                 let last_check: number = this.ChatGetLastView(chat.$key);
                 //compare lastmessage timestamp with last_check
                 if (chat.LastMessage != null && chat.LastMessage.timestamp > last_check) {
-                    unread_chats++;
+                    unread_chats.push(chat.$key);
                     other_person = this.UID == chat.DemanderUid ? chat.ShopperName : chat.DemanderName;
+                    let unread: number = 0;
                     for (let msg of chat.MessagesInOrder) {
                         if (msg.timestamp > last_check)
-                            unread_msgs++;
+                            unread++;
                     }
+                    unread_msgs += unread;
+                    chat.UnreadMessages = unread;
                 }
             }
         }
 
-        if (unread_chats > 0 && unread_msgs > 0) {
+        this.UnreadMessagesNotificationData = unread_chats;
+
+        if (unread_chats.length > 0 && unread_msgs > 0) {
             let msg_text = "";
             if (unread_msgs > 1)
-                msg_text = unread_msgs.toString() + " nuovi messaggi da " + (unread_chats > 1 ? unread_chats.toString() + " chat diverse" : ": " + other_person);
+                msg_text = unread_msgs.toString() + " nuovi messaggi da " + (unread_chats.length > 1 ? unread_chats.length.toString() + " chat diverse" : ": " + other_person);
             else
                 msg_text = "1 nuovo messaggio da: " + other_person;
             if (this.IsWeb) {
@@ -847,7 +859,10 @@ export class Globals {
                         {
                             text: 'Ok',
                             handler: () => {
-                                this.navCtrl.push(ChatListPage);
+                                if (unread_chats.length == 1)
+                                    this.navCtrl.push(ChatPage, { chat_key: unread_chats[0] });
+                                else
+                                    this.navCtrl.push(ChatListPage);
                             }
                         }]
                 });
@@ -858,7 +873,7 @@ export class Globals {
                     title: "Hai nuovi messaggi!",
                     text: msg_text,
                     icon: 'res://icon',
-                    data: { type: NotificationType.NewMessage }
+                    data: { type: NotificationType.NewMessage, chatIDs: unread_chats }
                 });
             }
         }
@@ -1316,6 +1331,10 @@ export class Globals {
     }
 
     public ViewBigImage(image: string, nav: NavController, title: string = "View Image"): void {
+        if (image == null || image == "") {
+            console.warn("Globals.ViewBigImage> null image");
+            return;
+        }
         if (this.IsWeb) {
             nav.push(ViewBigPicture, { image_content: image });
         }
