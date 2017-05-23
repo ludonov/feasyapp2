@@ -1,6 +1,6 @@
 ﻿<ion-header>
   <ion-navbar>
-    <ion-title *ngIf="list != undefined">{{list.Name}} List</ion-title>
+    <ion-title *ngIf="list != undefined">Lista {{list.Name}}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (tap)="addItem()">
         <ion-icon name="add"></ion-icon>
@@ -26,12 +26,12 @@
     <div class="spacer" style="height: 16px;"></div>
 
     <div class="lateral-padding">
-      <button ion-button block color="secondary" (tap)="publicateList()">Publish List</button>
+      <button ion-button block color="secondary" (tap)="publicateList()">Pubblica</button>
     </div>
 
     <div class="spacer" style="height: 16px;"></div>
     <div class="lateral-bottom-padding">
-      <button ion-button block outline color="secondary" (tap)="deleteList()">Delete List</button>
+      <button ion-button block outline color="secondary" (tap)="deleteList()">Elimina</button>
     </div>
 
 </ion-content>

@@ -5,7 +5,7 @@ import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
 
-import { FeasyUser, FeasyList, FeasyItem, Review, Candidature } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, FeasyItem, Review, Candidature, SetImageOrDefaultOtherUser } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
 import { SingleReviewToLeavePage } from '../40_single_review_to_leave/40_single_review_to_leave';
@@ -38,7 +38,7 @@ export class ReviewsToLeavePage {
                     list_d.$key = demander_key;
                     globals.GetUser(list_d.ChosenShopperUid).then(user => {
                         if (user != null && user.PhotoURL != null)
-                            (list_d as any).PhotoURL = user.PhotoURL;
+                            (list_d as any).PhotoURL = SetImageOrDefaultOtherUser(user.Gender, user.PhotoURL);
                         this.ReviewsToLeaveAsDemander.push(list_d);
                     });
                 }
@@ -50,7 +50,7 @@ export class ReviewsToLeavePage {
                     list_s.$key = shopper_key;
                     globals.GetUser(list_s.owner).then(user => {
                         if (user != null && user.PhotoURL != null)
-                            (list_s as any).PhotoURL = user.PhotoURL;
+                            (list_s as any).PhotoURL = SetImageOrDefaultOtherUser(user.Gender, user.PhotoURL);
                         this.ReviewsToLeaveAsShopper.push(list_s);
                     });
                 }
