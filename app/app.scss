@@ -326,3 +326,30 @@ ion-textarea.review-multiline textarea {
 ion-textarea.publish-list-multiline textarea {
   height: 100px;
 }
+
+
+// Payment
+// --------------------------------------------------
+
+.payment-card-label {
+  font-size: 12pt !important;
+  font-weight: 500 !important;
+}
+
+.payment-card-label-total {
+  font-size: 14pt !important;
+  font-weight: 500 !important;
+  color: color($colors, secondary) !important;
+}
+
+.total-color {
+  font-weight: 500 !important;
+  color: color($colors, secondary) !important;
+}
+
+// Candidate info not accepted
+// --------------------------------------------------
+
+.color-sentence {
+  color: color($colors, secondary) !important;
+}

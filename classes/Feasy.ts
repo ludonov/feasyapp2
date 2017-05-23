@@ -207,6 +207,10 @@ export class FeasyList {
   public ReviewLeft: boolean = false;
   public Publish: boolean;
   public ChatKey: string;
+  public ListExpense: number;
+  public PaymentMethod: string;
+  public PaymentMethodCommission: number;
+  public FeasyCommission: number;
 
   constructor(name: string) {
     this.Name = name;
@@ -297,6 +301,19 @@ export class Message {
   public timestamp: number;
   public OwnerUid: string;
   public Type: ChatMessageType;
+
+  constructor() {
+
+  }
+}
+
+export class Payment {
+  public $key: string;
+  public Reward: number;
+  public ListExpense: number;
+  public PaymentMethod: string;
+  public PaymentMethodCommission: number;
+  public FeasyCommission: number;
 
   constructor() {
 
