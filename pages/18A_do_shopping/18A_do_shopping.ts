@@ -5,7 +5,7 @@ import { NavController, ViewController, Alert, AlertController, LoadingControlle
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Geolocation } from '@ionic-native/geolocation';
 
-import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition, MarkerOptions, Marker, GoogleMapsAnimation } from '@ionic-native/google-maps';
+import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition, MarkerOptions, Marker, GoogleMapsAnimation, AnimateCameraOptions } from '@ionic-native/google-maps';
 
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
@@ -410,8 +410,11 @@ export class DoShoppingPage {
                     this.map_browser.setCenter(new google.maps.LatLng(addr.Latitude, addr.Longitude));
                     this.map_browser.setZoom(11);
                 } else {
-                    this.map.setCenter(new LatLng(addr.Latitude, addr.Longitude));
-                    this.map.setZoom(11);
+                    this.map.animateCamera({
+                        'target': new LatLng(addr.Latitude, addr.Longitude),
+                        'zoom': 11,
+                        'duration': 1500 // = 5 sec.
+                    });
                     this.map.setClickable(true);
                 }
                 this.autocomplete.query = item;
