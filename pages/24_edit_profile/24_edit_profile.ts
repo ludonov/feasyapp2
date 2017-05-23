@@ -44,7 +44,7 @@ export class EditProfilePage {
     this.globals.InputImage(this.globals.BIG_IMAGE_MAX_WIDTH(), this.globals.BIG_IMAGE_MAX_HEIGHT()).then(img => {
       let loading: Loading = this.loadingCtrl.create({
         spinner: 'dots',
-        content: 'Publishing...'
+        content: 'Saving...'
       });
       loading.present();
       if (img != null) {
