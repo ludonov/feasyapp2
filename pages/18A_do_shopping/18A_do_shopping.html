@@ -5,15 +5,14 @@
     </button>
     <ion-buttons end>
       <button ion-button (tap)="filters()">
-        FILTERS
+        FILTRA
       </button>
     </ion-buttons>
-    <ion-title>Search</ion-title>
+    <ion-title>Trova</ion-title>
   </ion-navbar>
   <ion-toolbar>
     <div class="search-bar-container" style="margin: 0px">
-      <ion-searchbar id="searchBar" class="search-bar-input" placeholder="Search a place" [(ngModel)]="autocomplete.query" (ionInput)="updateSearch()" (ionCancel)="dismiss()" (ionClear)="dismiss()"></ion-searchbar>
-
+      <ion-searchbar id="searchBar" class="search-bar-input" placeholder="Cerca Indirizzo" [(ngModel)]="autocomplete.query" (ionInput)="updateSearch()" (ionCancel)="dismiss()" (ionClear)="dismiss()"></ion-searchbar>
     </div>
 </ion-toolbar>
 </ion-header>

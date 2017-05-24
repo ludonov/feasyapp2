@@ -5,7 +5,7 @@ import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
 
-import { FeasyUser, FeasyList, FeasyItem, Review, Candidature } from '../../classes/Feasy';
+import { FeasyUser, FeasyList, FeasyItem, Review, Candidature, SetImageOrDefaultOtherUser } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
 import { SingleReviewToLeavePage } from '../40_single_review_to_leave/40_single_review_to_leave';
@@ -18,9 +18,8 @@ import { SingleReviewToLeavePage } from '../40_single_review_to_leave/40_single_
 
 export class ReviewsToLeavePage {
     
-
     constructor(public navCtrl: NavController, public globals: Globals, public alertCtrl: AlertController) {
-        
+
     }
 
     ViewReviewToLeave(ReviewToLeave: any): void {

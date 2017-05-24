@@ -3,7 +3,7 @@
 	<button ion-button menuToggle icon-only>
       <ion-icon name='menu'></ion-icon>
     </button>
-    <ion-title>Lists</ion-title>
+    <ion-title>Liste</ion-title>
     <ion-buttons *ngIf="lists == 'demander'" end>
       <button ion-button icon-only (tap)="addList()">
         <ion-icon name="add"></ion-icon>
@@ -29,7 +29,7 @@
 		<div *ngSwitchCase="'demander'">
 			<ion-card color="secondary">
 				<ion-card-header>
-					PUBLISHED
+					PUBBLICATE
 				</ion-card-header>
 
 
@@ -44,14 +44,14 @@
 							{{list.Name}}
 						</ion-label>
 						<ion-note item-right>
-							{{list.ItemsCount}} items
+							{{list.ItemsCount}} pezzi
 						</ion-note>
 					</ion-item>
 				</ion-list>
 			</ion-card>
 			<ion-card color="secondary">
 				<ion-card-header>
-					UNPUBLISHED
+					DA PUBBLICARE
 				</ion-card-header>
 				<ion-list>
 					<ion-item detail-none *ngIf="globals.NoUnpublishedLists">
@@ -64,7 +64,7 @@
 							{{list.Name}}
 						</ion-label>
 						<ion-note item-right>
-							{{list.ItemsCount}} items
+							{{list.ItemsCount}} pezzi
 						</ion-note>
 					</ion-item>
 				</ion-list>

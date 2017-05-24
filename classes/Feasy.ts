@@ -15,7 +15,7 @@ export enum ChatMessageType { Text, Image};
 export enum UnitType { Pieces, Grams, Hectograms, Kilograms, Liters };
 
 export function GetUnits(): string[] {
-  return ["Pieces", "Grams", "Ettogrammi", "Kilograms", "Liters"];
+  return ["Pezzi", "Grammi", "Ettogrammi", "Chilogrammi", "Litri"];
 }
 
 // export function GetUnitNameFromEnum(unit: UnitType): string {
