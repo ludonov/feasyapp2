@@ -41,7 +41,7 @@
 		</ion-item-group>
 
     <div class="spacer" style="height: 16px;"></div>
-    <ion-item-divider color="light" class="item-title">CONSEGNA PROPOSTA DALLO SHOPPER</ion-item-divider>
+    <ion-item-divider class="item-title">CONSEGNA PROPOSTA DALLO SHOPPER</ion-item-divider>
     <ion-item class="item-icon-right"  type="item-text-wrap">
       <h2>{{address.FormattedAddress}}</h2>
       <p>dalle {{address.From}} &nbsp; alle {{address.To}}</p>
@@ -49,7 +49,7 @@
     </ion-item>
 		
     <div class="spacer" style="height: 16px;"></div>
-      <ion-item-divider color="light" class="item-title">NOTE DELLO SHOPPER </ion-item-divider>
+      <ion-item-divider class="item-title">NOTE DELLO SHOPPER </ion-item-divider>
       <ion-item>
         <p>{{candidate.Comment == null || candidate.Comment == "" ? "Nessun commento" : candidate.Comment}}</p>
       </ion-item>
