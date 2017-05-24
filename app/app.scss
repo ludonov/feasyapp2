@@ -155,7 +155,7 @@ position: absolute;
   z-index: 9;
 }
 
-.search-bar-container .searchbar-input {
+.search-bar-container .search-bar-input {
   border-radius: 50px !important;
   border-width: 2px;
   border-style: solid;
@@ -163,8 +163,12 @@ position: absolute;
   background-color: white;
 }
 
-.searchbar-input {
+.search-bar-input {
   margin: 0px;
+}
+
+.searchbar-input{
+  background-color: white !important;
 }
 
 .maps-suggestions {
