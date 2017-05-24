@@ -9,7 +9,7 @@
       <div class="spacer" style="height: 16px;"></div>
 
       <ion-list>
-        <ion-item-divider class="item-title">DETTAGLI CONSEGNA</ion-item-divider>
+        <ion-item-divider>DETTAGLI CONSEGNA</ion-item-divider>
 
         <ion-item class="item-icon-right"  type="item-text-wrap"  (tap)="ViewAddress(address)" *ngFor="let address of list.DeliveryAddresses | keys">
           <h2>{{address.value.FormattedAddress}}</h2>
@@ -18,7 +18,7 @@
         </ion-item>
 
         <div class="spacer" style="height: 16px;"></div>
-        <ion-item-divider class="item-title">DETTAGLI COMMISSIONE</ion-item-divider>
+        <ion-item-divider>DETTAGLI COMMISSIONE</ion-item-divider>
 
         <ion-item>
           Mancia (€)
