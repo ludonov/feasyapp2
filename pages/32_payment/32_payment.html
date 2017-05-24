@@ -5,55 +5,114 @@
 </ion-header>
 
 <ion-content>
-
-      <div class="spacer" style="height: 16px;"></div>
       <ion-list>
 
-        <ion-item-divider color="light" class="item-title">SHOPPER</ion-item-divider>
+				<div class="spacer" style="height: 16px;"></div>
+        <ion-item-divider>SHOPPER</ion-item-divider>
+
         <ion-item>
           <ion-avatar item-left>
-            <img src="assets/img/32_payment/Ludovico.jpg">
+            <img src="{{ChosenCandidate.PhotoURL}}">
           </ion-avatar>
-          <h2>Ludovico Novelli</h2>
-          <p>@ludonov</p>
+          <h2>{{ChosenCandidate.DisplayName}}</h2>
         </ion-item>
 
         <div class="spacer" style="height: 16px;"></div>
-        <ion-item-divider color="light" class="item-title">SOMMA DA PAGARE</ion-item-divider>
+        <ion-item-divider>SOMMA DA PAGARE</ion-item-divider>
 
 				<ion-item>
-					<ion-label fixed>Mancia</ion-label>
-					<ion-input type="number" value="10 €"></ion-input>
+					Mancia
+					<ion-note item-right>{{list.Reward}} €</ion-note>
 				</ion-item>
 				<ion-item>
-					<ion-label fixed>Spesa</ion-label>
-					<ion-input type="number" value="10 €"></ion-input>
+					<ion-input placeholder="Spesa" [(ngModel)]="listExpense" (keyup)='updateVariables()' type="number" value=""></ion-input>
 				</ion-item>
 
 		    <div class="spacer" style="height: 16px;"></div>
-        <ion-item-divider color="light" class="item-title">METODO DI PAGAMENTO</ion-item-divider>
-        
-				<ion-item>
-					<ion-label>Metodo</ion-label>
-					<ion-select>
-						<ion-option value="cash">Contanti</ion-option>
-						<ion-option value="cdc">Carta di credito</ion-option>
-						<ion-option value="pp">PayPal</ion-option>
-						<ion-option value="sp">Satispay</ion-option>
-					</ion-select>
-				</ion-item>
-				<ion-item>
-				<ion-label style="color:#999">Commissione</ion-label> <!-- Cambia a seconda della scelta del metodo cosi li invogliamo a usare quello che vogliamo noi -->
-					<ion-note item-right>0,50 €</ion-note>
-				</ion-item>
+        <ion-item-divider style="border-bottom-color: transparent;">TOTALE</ion-item-divider>
 
-	      <div class="spacer" style="height: 32px;"></div>
-				
-				<div class="lateral-bottom-padding">
-        	<button ion-button block color="secondary" (tap)="goToPaymentSummary()">Paga</button>
-				</div>
-
+				<ion-card>
+					<div [ngSwitch]="paymentMethod">
+						<ion-card-header *ngSwitchCase="'cash'">Contanti</ion-card-header>
+						<ion-card-header *ngSwitchCase="'cdc'">Carta di Credito</ion-card-header>
+						<ion-card-header *ngSwitchCase="'pp'">PayPal</ion-card-header>
+					</div>
+					<ion-card-content>
+						<ion-segment color="secondary" class="segment" [(ngModel)]="paymentMethod">
+							<ion-segment-button value="cash"><ion-icon name="cash"></ion-icon></ion-segment-button>
+							<ion-segment-button value="cdc"><ion-icon name="card"></ion-icon></ion-segment-button>
+							<ion-segment-button value="pp"><i class="fa fa-paypal" style="font-size:20px" aria-hidden="true"></i></ion-segment-button>
+						</ion-segment>
+						<div [ngSwitch]="paymentMethod">
+							<div *ngSwitchCase="'cash'">
+									<ion-list>
+										<ion-item>
+											Somma a Shopper
+											<h2 item-right class="payment-card-label">{{listExpenseAndReward}} €</h2>
+										</ion-item>
+										<ion-item>
+											Commissione contanti
+											<h2 item-right class="payment-card-label">{{cashCommission}} €</h2>
+										</ion-item>
+										<ion-item>
+											Commissione Feasy
+											<h2 item-right class="payment-card-label">{{feasyCommission}} €</h2>
+										</ion-item>
+										<ion-item class="total-color">
+											TOTAL
+											<h2 item-right class="payment-card-label-total">{{(totalPaymentCash).toFixed(2)}} €</h2>
+										</ion-item>
+									</ion-list>
+							</div>
+							<div *ngSwitchCase="'cdc'">
+									<ion-list>
+										<ion-item>
+											Somma a Shopper
+											<h2 item-right class="payment-card-label">{{listExpenseAndReward}} €</h2>
+										</ion-item>
+										<ion-item>
+											Commissione carta
+											<h2 item-right class="payment-card-label">{{creditCardCommission}} €</h2>
+										</ion-item>
+										<ion-item>
+											Commissione Feasy
+											<h2 item-right class="payment-card-label">{{feasyCommission}} €</h2>
+										</ion-item>
+										<ion-item class="total-color">
+											TOTAL
+											<h2 item-right class="payment-card-label-total">{{(totalPaymentCreditCard).toFixed(2)}} €</h2>
+										</ion-item>
+									</ion-list>
+							</div>
+							<div *ngSwitchCase="'pp'">
+									<ion-list>
+										<ion-item>
+											Somma a Shopper
+											<h2 item-right class="payment-card-label">{{listExpenseAndReward}} €</h2>
+										</ion-item>
+										<ion-item>
+											Commissione PayPal
+											<h2 item-right class="payment-card-label">{{PayPalCommission}} €</h2>
+										</ion-item>
+										<ion-item>
+											Commissione Feasy
+											<h2 item-right class="payment-card-label">{{feasyCommission}} €</h2>
+										</ion-item>
+										<ion-item class="total-color">
+											TOTAL
+											<h2 item-right class="payment-card-label-total">{{(totalPaymentPayPal).toFixed(2)}} €</h2>
+										</ion-item>
+									</ion-list>
+							</div>
+						</div>
+					</ion-card-content>
+				</ion-card>
       </ion-list>
+
+			<div class="spacer" style="height: 10px;"></div>
+			<div class="lateral-bottom-padding">
+				<button ion-button block color="secondary" (tap)="performPayment()">Paga</button>
+			</div>
 
 </ion-content>
 

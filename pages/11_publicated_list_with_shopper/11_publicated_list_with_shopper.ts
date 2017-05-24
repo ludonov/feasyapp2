@@ -43,28 +43,6 @@ export class PublicatedListWithShopperPage {
     }
   }
 
-  goToPayment(): void {
-    console.log("TERMINATING LIST");
-    //this.navCtrl.push(PaymentPage);
-
-    this.globals.PublishedLists_db.update(this.list_key, { TerminatedDate: (new Date()).toUTCString() }).then(() => {
-      console.log("List terminated!");
-      this.globals.DeleteFromArrayByKey(this.globals.PublishedLists, this.list_key);
-      let alert: Alert = this.alertCtrl.create({
-        title: 'Info',
-        subTitle: "Lista terminata",
-        buttons: ['Ok']
-      });
-      alert.onDidDismiss(() => {
-        this.navCtrl.popToRoot();
-      });
-      alert.present();
-    }).catch((err: Error) => {
-      console.warn("Cannot push list to published lists: " + err.message);
-      this.ShowGenericError();
-    });
-  }
-
   ShowGenericError() {
     let alert = this.alertCtrl.create({
       title: 'Info',
@@ -82,6 +60,11 @@ export class PublicatedListWithShopperPage {
   ViewItems(): void {
     console.log("Going to PublicatedListProductsPage");
     this.navCtrl.push(PublicatedListProductsPage, { items: this.list.Items });
+  }
+
+  goToPaymentPage(): void {
+    console.log("Going to PaymentPage");
+    this.navCtrl.push(PaymentPage, { list_key: this.list_key});
   }
 
 }

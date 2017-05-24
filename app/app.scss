@@ -184,7 +184,7 @@ position: absolute;
 // --------------------------------------------------
 
 .center-vertically-grid-rows {
-  height: 100%; 
+  height: 100%;
   justify-content: center;
 }
 
@@ -298,25 +298,25 @@ a:hover {
         width: 20px;
     }*/
     .you {
-        background-color: white; 
+        background-color: white;
         color: black;
         float: left;
         margin: 5px 45px 5px 20px;
     }
     .you::before {
-        background-color: white; 
+        background-color: white;
         box-shadow: -2px 2px 2px 0 rgba( 178, 178, 178, .4);
         left: -9px;
     }
     .me {
-        background-color: #00bcd4; 
+        background-color: #00bcd4;
         color: white;
         text-align: right;
         float: right;
         margin: 5px 20px 5px 45px;
     }
     .me::before {
-      background-color: #00bcd4; 
+      background-color: #00bcd4;
         box-shadow: 2px -2px 2px 0 rgba( 178, 178, 178, .4);
         right: -9px;
     }
@@ -350,6 +350,40 @@ ion-textarea.review-multiline textarea {
   height: 200px;
 }
 
+
+// Publish list
+// --------------------------------------------------
+
+ion-textarea.publish-list-multiline textarea {
+  height: 100px;
+}
+
+
+// Payment
+// --------------------------------------------------
+
+.payment-card-label {
+  font-size: 12pt !important;
+  font-weight: 500 !important;
+}
+
+.payment-card-label-total {
+  font-size: 14pt !important;
+  font-weight: 500 !important;
+  color: color($colors, secondary) !important;
+}
+
+.total-color {
+  font-weight: 500 !important;
+  color: color($colors, secondary) !important;
+}
+
+// Candidate info not accepted
+// --------------------------------------------------
+
+.color-sentence {
+  color: color($colors, secondary) !important;
+}
 
 .bold {
   font-weight: bold;
