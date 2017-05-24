@@ -20,11 +20,6 @@ export class PublicateListFirstPage {
 
   public list: FeasyList = new FeasyList("");
   public list_key: string;
-  public addresses_db: FirebaseListObservable<any>;
-  //public published_lists_db: FirebaseListObservable<any>;
-  //public unpublished_lists_db: FirebaseListObservable<any>;
-  public no_addresses: boolean = true;
-  public expirydates: string[] = GetExpiryDates();
 
   constructor(public navCtrl: NavController, public globals: Globals, public navParams: NavParams,  public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
     this.list_key = navParams.get('list_key');
@@ -35,40 +30,17 @@ export class PublicateListFirstPage {
       //this.published_lists_db = globals.af.list('/published_lists/' + globals.UID);
       //this.unpublished_lists_db = globals.af.list('/unpublished_lists/' + globals.UID);
       this.list = globals.GetUnpublishedListByKey(this.list_key);
-      this.no_addresses = Object.keys(this.list.DeliveryAddresses).length == 0;
-      this.addresses_db = globals.af.list('unpublished_lists/' + globals.UID + '/' + this.list.$key + '/DeliveryAddresses');
-      this.addresses_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
-        this.no_addresses = !snapshot.hasChildren();
-        //this.list = globals.UnpublishedLists[this.list_key];
-        this.list.DeliveryAddresses = snapshot.val() || {};
-      });
-      this.list.ExpiryDate = ExpiryDateType.InThreeDays;
     }
   }
 
-
-  AddAddress(): void {
-    console.log("Goto add address");
-    this.navCtrl.push(AddressViewPage, { list_key: this.list_key });
-  }
-
-  ViewAddress(address: any): void {
-    console.log("Goto view address:" + address.FormattedAddress);
-    let _address: DeliveryAddress = new DeliveryAddress();
-    copyObject(address.value, _address);
-    this.navCtrl.push(AddressViewPage, { list_key: this.list_key, address: _address, address_key: address.key });
-  }
-
-
   GoToPublicateListSecond(): void {
     console.log("Goto really publicate list: " + this.list.Name);
-    if (Object.keys(this.list.DeliveryAddresses).length == 0) {
+    if (Object.keys(this.list.Name) == null) {
       let alert = this.alertCtrl.create({
         title: 'Info',
-        subTitle: "Aggiungere almeno un indirizzo",
+        subTitle: "Aggiungere un nome alla lista",
         buttons: ['Ok']
-      });
-      alert.present();
+      })
     } else if (this.list.Reward == null || this.list.Reward == 0) {
       let alert = this.alertCtrl.create({
         title: 'Info',
@@ -77,7 +49,6 @@ export class PublicateListFirstPage {
       });
       alert.present();
     } else {
-
         let loading: Loading = this.loadingCtrl.create({
             spinner: 'dots',
             content: 'Saving...'

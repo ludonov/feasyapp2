@@ -8,12 +8,44 @@
 
   <ion-list>
 
+    <div class="spacer" style="height: 16px;"></div>
+		<ion-item-divider style="border-top-color: transparent;">DETTAGLI SPESA</ion-item-divider>
+
+    <ion-item>
+      <ion-input placeholder="Nome" [(ngModel)]="list.Name" type="text" value=""></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input placeholder="Mancia" [(ngModel)]="list.Reward" type="number" value=""></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input placeholder="Negozio" [(ngModel)]="list.PreferredShops" type="text" value=""></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input placeholder="Valore massimo della spesa" [(ngModel)]="list.MaxValue" type="number" value=""></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input placeholder="Peso stimato (kg)" [(ngModel)]="list.EstimatedWeight" type="number" value=""></ion-input>
+    </ion-item>
+
+    <ion-item style="height:100px">
+      <ion-textarea text-wrap placeholder="Altri commenti" type="text" class="publish-list-multiline" [(ngModel)]="list.Comments"></ion-textarea>
+    </ion-item>
+
+  </ion-list>
+
+  <!--
+  <ion-list>
+
     <div class="spacer" style="height: 32px;"></div>
     <ion-item>
       <ion-label fixed>Nome<sup>*</sup></ion-label>
       <ion-input [(ngModel)]="list.Name" type="text" value=""></ion-input>
     </ion-item>
-			
+
     <div class="spacer" style="height: 16px;"></div>
 		<ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZO E ORARIO CONSEGNA<sup>*</sup></ion-item-divider>
 
@@ -33,7 +65,7 @@
 
     <div class="spacer" style="height: 16px;"></div>
 		<ion-item-divider class="item-title" style="border-top-color: transparent;">RICOMPENSA<sup>*</sup></ion-item-divider>
-    
+
     <ion-item>
       <ion-label fixed>Quantità</ion-label>
       <ion-input [(ngModel)]="list.Reward" type="number" value=""></ion-input>
@@ -51,10 +83,9 @@
         </ion-option>
       </ion-select>
     </ion-item>
-  </ion-list>
+  </ion-list>-->
 
-  <div class="spacer" style="height: 32px;"></div>
-  <div class="lateral-padding">
+  <div class="lateral-bottom-padding">
     <button ion-button block color="secondary" (tap)="GoToPublicateListSecond()">Avanti</button>
   </div>
 
