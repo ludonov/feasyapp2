@@ -34,18 +34,11 @@ export function GetUnits(): string[] {
 // }
 
 export function GetUnitNameFromEnum(unit: UnitType): string {
-  if (unit == UnitType.Pieces)
-    return "Pieces";
-  else if (unit == UnitType.Grams)
-    return "Grams";
-  else if (unit == UnitType.Hectograms)
-    return "Ettogrammi";
-  else if (unit == UnitType.Kilograms)
-    return "Kilograms";
-  else if (unit == UnitType.Liters)
-    return "Liters";
-  else
-    return "";
+    try {
+        return GetUnits()[unit];
+    } catch (e) {
+        return "";
+    }
 }
 
 

@@ -19,7 +19,7 @@ import { SingleReviewToLeavePage } from '../40_single_review_to_leave/40_single_
 export class ReviewsToLeavePage {
     
     constructor(public navCtrl: NavController, public globals: Globals, public alertCtrl: AlertController) {
-    
+
     }
 
     ViewReviewToLeave(ReviewToLeave: any): void {

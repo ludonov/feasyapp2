@@ -21,7 +21,7 @@
 		<ion-item (tap)="GoToHistory(false)">
 			<ion-icon name="cart" color="secondary" item-left></ion-icon>
 			Commissioni fatte
-			<h2 item-right class="profile-card-label">20</h2>
+			<h2 item-right class="profile-card-label">{{user.CommissionsDone}}</h2>
 			<ion-note item-right>
 				<ion-icon color="secondary" style="font-size:17pt" name="ios-arrow-forward"></ion-icon>
 			</ion-note>
@@ -29,7 +29,7 @@
 		<ion-item (tap)="GoToHistory(true)">
 			<ion-icon name="home" color="secondary" item-left></ion-icon>
 			Commissioni ricevute
-			<h2 item-right class="profile-card-label">8</h2>
+			<h2 item-right class="profile-card-label">{{user.CommissionsReceived}}</h2>
 			<ion-note item-right>
 				<ion-icon color="secondary" style="font-size:17pt" name="ios-arrow-forward"></ion-icon>
 			</ion-note>
@@ -37,7 +37,7 @@
 		<ion-item (tap)="goToReviews()">
 			<ion-icon name="star" color="secondary" item-left></ion-icon>
 			Voto
-			<p item-right class="profile-card-label">4.5</p>
+			<p item-right class="profile-card-label">{{user.Rating}}</p>
 			<ion-note item-right>
 				<ion-icon color="secondary" style="font-size:17pt" name="ios-arrow-forward"></ion-icon>
 			</ion-note>
