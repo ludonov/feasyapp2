@@ -21,6 +21,7 @@ import { ChatListPage } from '../pages/19_chat_list/19_chat_list';
 import { ChatPage } from '../pages/20_chat/20_chat';
 import { MaintenancePage } from '../pages/99_maintenance/99_maintenance';
 import { ViewBigPicture } from "../pages/42_view_big_picture/42_view_big_picture";
+import { PaymentPage } from '../pages/32_payment/32_payment';
 
 import { Config, FeasyUser, FeasyList, Candidate, Candidature, Review, GenderType, StripForFirebase, Chat, Message, ChatMessageType, GenericWithKey, UnknownMan, UnknownWoman } from './Feasy';
 
