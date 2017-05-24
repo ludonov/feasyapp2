@@ -29,32 +29,36 @@ export class ReviewsToLeavePage {
         this.TerminatedLists_db = globals.af.list("terminated_lists/" + globals.UID);
         this.TerminatedLists_db.$ref.on("value", (snapshot: firebase.database.DataSnapshot) => {
             let lists: any = snapshot.val();
-            this.TerminatedListsAsDemander = lists["as_demander"];
-            this.TerminatedListsAsShopper = lists["as_shopper"];
-
-            for (let demander_key in this.TerminatedListsAsDemander) {
-                let list_d: FeasyList = this.TerminatedListsAsDemander[demander_key];
-                if (list_d.ReviewLeft == false) {
-                    list_d.$key = demander_key;
-                    globals.GetUser(list_d.ChosenShopperUid).then(user => {
-                        if (user != null && user.PhotoURL != null)
-                            (list_d as any).PhotoURL = SetImageOrDefaultOtherUser(user.Gender, user.PhotoURL);
-                        this.ReviewsToLeaveAsDemander.push(list_d);
-                    });
+            if (lists != null && lists["as_demander"] != null) {
+                this.TerminatedListsAsDemander = lists["as_demander"];
+                for (let demander_key in this.TerminatedListsAsDemander) {
+                    let list_d: FeasyList = this.TerminatedListsAsDemander[demander_key];
+                    if (list_d.ReviewLeft == false) {
+                        list_d.$key = demander_key;
+                        globals.GetUser(list_d.ChosenShopperUid).then(user => {
+                            if (user != null && user.PhotoURL != null)
+                                (list_d as any).PhotoURL = SetImageOrDefaultOtherUser(user.Gender, user.PhotoURL);
+                            this.ReviewsToLeaveAsDemander.push(list_d);
+                        });
+                    }
                 }
             }
 
-            for (let shopper_key in this.TerminatedListsAsShopper) {
-                let list_s: FeasyList = this.TerminatedListsAsShopper[shopper_key];
-                if (list_s.ReviewLeft == false) {
-                    list_s.$key = shopper_key;
-                    globals.GetUser(list_s.owner).then(user => {
-                        if (user != null && user.PhotoURL != null)
-                            (list_s as any).PhotoURL = SetImageOrDefaultOtherUser(user.Gender, user.PhotoURL);
-                        this.ReviewsToLeaveAsShopper.push(list_s);
-                    });
+            if (lists != null && lists["as_shopper"] != null) {
+                this.TerminatedListsAsShopper = lists["as_shopper"];
+                for (let shopper_key in this.TerminatedListsAsShopper) {
+                    let list_s: FeasyList = this.TerminatedListsAsShopper[shopper_key];
+                    if (list_s.ReviewLeft == false) {
+                        list_s.$key = shopper_key;
+                        globals.GetUser(list_s.owner).then(user => {
+                            if (user != null && user.PhotoURL != null)
+                                (list_s as any).PhotoURL = SetImageOrDefaultOtherUser(user.Gender, user.PhotoURL);
+                            this.ReviewsToLeaveAsShopper.push(list_s);
+                        });
+                    }
                 }
             }
+            
         });
     }
 
