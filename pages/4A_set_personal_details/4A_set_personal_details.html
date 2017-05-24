@@ -10,28 +10,22 @@
 
     <ion-item-group>
         <ion-item>
-          <ion-label fixed>Nazionalità</ion-label>
-          <ion-input [(ngModel)]="user.Nationality" type="text"></ion-input>
+          <ion-input placeholder="Nazionalità" [(ngModel)]="user.Nationality" type="text"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label fixed>Telefono</ion-label>
-          <ion-input [(ngModel)]="user.MobileNumber" type="text"></ion-input>
+          <ion-input placeholder="Telefono" [(ngModel)]="user.MobileNumber" type="text"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label fixed>Sesso</ion-label>
-            <ion-select [(ngModel)]="user.Gender" interface="action-sheet" multiple="false" placeholder="{{GetGenderName(0)}}">
+            <ion-select placeholder="Sesso" [(ngModel)]="user.Gender" interface="action-sheet" multiple="false" placeholder="{{GetGenderName(0)}}">
               <ion-option value="{{i}}" selected="user.Gender == {{i}}" *ngFor="let gender of genders; let i = index">
                 {{gender}}
               </ion-option>
             </ion-select>
         </ion-item>
         <ion-item>
-            <ion-label fixed>Data di nascita</ion-label>
-            <ion-datetime displayFormat="DD MMM YYYY" [(ngModel)]="user.Birthdate"></ion-datetime>
+            <ion-datetime placeholder="Data di nascità" displayFormat="DD MMM YYYY" [(ngModel)]="user.Birthdate"></ion-datetime>
         </ion-item>
       </ion-item-group>
-
-  <div class="spacer" style="height: 32px;"></div>
 
   <div class="lateral-padding">
     <button ion-button block outline color="secondary" (tap)="skip()">Salta</button>

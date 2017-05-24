@@ -15,40 +15,31 @@
   <ion-list>
 
     <ion-item>
-      <ion-label fixed>Via</ion-label>
-      <ion-input #StreetNameInput [(ngModel)]="address.StreetName" type="text" value=""></ion-input>
+      <ion-input #StreetNameInput placeholder="Via" [(ngModel)]="address.StreetName" type="text" value=""></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label fixed>Città</ion-label>
-      <ion-input [(ngModel)]="address.City" type="text" value=""></ion-input>
+      <ion-input placeholder="Città" [(ngModel)]="address.City" type="text" value=""></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label fixed>CAP</ion-label>
-      <ion-input [(ngModel)]="address.PostCode" type="text" value=""></ion-input>
+      <ion-input placeholder="Codice postale" [(ngModel)]="address.PostCode" type="text" value=""></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label fixed>Nazione</ion-label>
-      <ion-input [(ngModel)]="address.Nation" type="text" value=""></ion-input>
+      <ion-input placeholder="Nazione" [(ngModel)]="address.Nation" type="text" value=""></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label fixed>Dalle</ion-label>
-      <ion-input [(ngModel)]="address.From" type="text" value=""></ion-input>
+      <ion-input placeholder="Dalle" [(ngModel)]="address.From" type="text" value=""></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label fixed>Alle</ion-label>
-      <ion-input [(ngModel)]="address.To" type="text" value=""></ion-input>
+      <ion-input placeholder="Alle" [(ngModel)]="address.To" type="text" value=""></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label fixed>Data</ion-label>
-      <ion-datetime displayFormat="DD/MM/YYYY"></ion-datetime>
+      <ion-datetime placeholder="Giorno" displayFormat="DD/MM/YYYY"></ion-datetime>
     </ion-item>
     <ion-item>
-      <ion-label fixed>Commenti</ion-label>
-      <ion-input [(ngModel)]="address.Comments" type="text" value=""></ion-input>
+      <ion-input placeholder="Commenti" [(ngModel)]="address.Comments" type="text" value=""></ion-input>
     </ion-item>
+  </ion-list>
 
-
-    <div class="spacer" style="height: 32px;"></div>
     <div class="lateral-padding center">
       <button ion-button block color="secondary" (tap)="saveAddress()">Salva</button>
     </div>
@@ -59,5 +50,5 @@
       <button ion-button block outline color="secondary" (tap)="deleteAddress()" [hidden]="is_new">Elimina</button>
     </div>
 
-  </ion-list>
+
 </ion-content>

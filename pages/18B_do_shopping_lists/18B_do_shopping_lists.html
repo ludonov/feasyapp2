@@ -20,7 +20,7 @@
 
 		<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">CONFERMATE</ion-item-divider>
+			<ion-item-divider style="border-top-color: transparent;">CONFERMATE</ion-item-divider>
       <h6 class="center" *ngIf="no_accepted_lists">Nessun lista accettata, attendi ancora!</h6>
 			<ion-item (tap)="goToAcceptedList(list)" *ngFor="let list of accepted_lists | keys">
 				{{list.value.ChosenAddress.FormattedAddress}}
@@ -30,7 +30,7 @@
 
     <ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">PROPOSTE</ion-item-divider>
+			<ion-item-divider style="border-top-color: transparent;">PROPOSTE</ion-item-divider>
       <h6 class="center" *ngIf="no_pending_lists">Nessuna lista in sospeso...</h6>
 			<ion-item (tap)="goToPendingList(list)" *ngFor="let list of pending_lists | keys">
         {{list.value.ChosenAddress.FormattedAddress}}

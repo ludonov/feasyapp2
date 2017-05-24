@@ -13,32 +13,26 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-label floating>Prodotto</ion-label>
-      <ion-input #NameInput [(ngModel)]="item.Name" type="text" value="" autofocus autocomplete="true" spellcheck="true"></ion-input>
+      <ion-input placeholder="Prodotto" #NameInput [(ngModel)]="item.Name" type="text" value="" autofocus autocomplete="true" spellcheck="true"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label floating>Quantità</ion-label>
-      <ion-input [(ngModel)]="item.Qty" type="number" value=""></ion-input>
+      <ion-input placeholder="Quantità" [(ngModel)]="item.Qty" type="number" value=""></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label floating>Unità</ion-label>
-      <ion-select [(ngModel)]="item.Unit" interface="action-sheet" multiple="false" placeholder="{{GetUnitName(0)}}">
+      <ion-select [(ngModel)]="item.Unit" interface="action-sheet" multiple="false" placeholder="Unità {{GetUnitName(0)}}">
         <ion-option value="{{i}}" selected="item.Unit == {{i}}" *ngFor="let unit of units; let i = index">
           {{unit}}
         </ion-option>
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-label floating>Marca</ion-label>
-      <ion-input [(ngModel)]="item.Brand" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
+      <ion-input placeholder="Marca" [(ngModel)]="item.Brand" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label floating>Fascia prezzo</ion-label>
-      <ion-input [(ngModel)]="item.PriceRange" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
+      <ion-input placeholder="Fascia prezzo" [(ngModel)]="item.PriceRange" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label floating>Altri dettagli</ion-label>
-      <ion-input [(ngModel)]="item.Comments" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
+      <ion-input placeholder="Altri dettagli"[(ngModel)]="item.Comments" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
     </ion-item>
   </ion-list>
 
