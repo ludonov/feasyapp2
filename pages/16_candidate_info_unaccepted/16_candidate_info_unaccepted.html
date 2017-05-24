@@ -22,19 +22,21 @@
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">UTILIZZO</ion-item-divider>
 			<ion-item>
 				Iscritto dal
-				<ion-note item-right>12/07/2016</ion-note>
+				<ion-note item-right>{{date_to_print}}</ion-note>
 			</ion-item>
       <ion-item>
 				Commissioni fatte
-				<ion-note item-right>12</ion-note>
+				<ion-note item-right>{{user.CommissionsDone}}</ion-note>
 			</ion-item>
 			<ion-item>
 				Commissioni ricevute
-				<ion-note item-right>6</ion-note>
+				<ion-note item-right>{{user.CommissionsReceived}}</ion-note>
 			</ion-item>
 			<ion-item>
 				Punteggio
-				<ion-note item-right><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon></ion-note>
+				<ion-note item-right>{{rating}}
+					<!--<ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon>-->
+				</ion-note>
 			</ion-item>
 		</ion-item-group>
 

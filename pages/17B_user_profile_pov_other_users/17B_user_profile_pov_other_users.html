@@ -20,52 +20,39 @@
 		<ion-item>
 			<ion-icon name="cart" color="secondary" item-left></ion-icon>
 			Commissioni fatte
-			<ion-badge item-right color="secondary">20</ion-badge>
+			<h2 item-right class="profile-card-label">{{UserInfo.CommissionsDone}}</h2>
+			<ion-note item-right>
+				<ion-icon name=""></ion-icon>
+			</ion-note>
 		</ion-item>
 		<ion-item>
 			<ion-icon name="home" color="secondary" item-left></ion-icon>
 			Commissioni ricevute
-			<ion-badge item-right color="secondary">8</ion-badge>
+			<h2 item-right class="profile-card-label">{{UserInfo.CommissionsReceived}}</h2>
+			<ion-note item-right>
+				<ion-icon name=""></ion-icon>
+			</ion-note>
 		</ion-item>
-		<ion-item>
+		<ion-item (tap)="goToReviews()">
 			<ion-icon name="star" color="secondary" item-left></ion-icon>
 			Voto
-			<ion-badge item-right color="secondary">4.5</ion-badge>
+			<p item-right class="profile-card-label">{{rating}}</p>
+			<ion-note item-right>
+				<ion-icon name="arrow-forward" color="secondary"></ion-icon>
+			</ion-note>
 		</ion-item>
 	</ion-card>
 
-	<ion-card>
+	<!--<ion-card>
 		<button ion-item (tap)="goToReviews()">
 		<ion-icon name="podium" item-left></ion-icon>
 		Recensioni
 		<ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 		</button>
-	</ion-card>
+	</ion-card>-->
 	
 	<ion-list>
-		<!--<ion-item-group>
-			<div class="spacer" style="height: 16px;"></div>
-			<ion-item-divider class="item-title" style="border-top-color: transparent;">UTILIZZO</ion-item-divider>
-			<ion-item>
-				Iscritto dal
-				<ion-note item-right>DA AGGIUNGERE</ion-note>
-			</ion-item>
-			<ion-item>
-				Commissioni fatte
-				<ion-note item-right>{{UserInfo.DoneAsShopper}}</ion-note>
-			</ion-item>
-			<ion-item>
-				Commissioni ricevute
-				<ion-note item-right>{{UserInfo.DoneAsDemander}}</ion-note>
-			</ion-item>
-			<ion-item>
-				Punteggio
-				<ion-note item-right><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon></ion-note>
-			</ion-item>
 
-		</ion-item-group>-->
-
-		
 		<ion-item-group>
 			<div class="spacer" style="height: 16px;"></div>
 			<ion-item-divider class="item-title" style="border-top-color: transparent;">INFORMAZIONI</ion-item-divider>

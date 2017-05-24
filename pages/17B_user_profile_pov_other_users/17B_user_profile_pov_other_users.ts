@@ -21,6 +21,7 @@ export class UserProfilePovOtherUsersPage {
   public UserInfo_db: FirebaseObjectObservable<any>;
   public UserInfo: FeasyUser = new FeasyUser("", "", "");
   public gender: string;
+  public rating: any;
   public Demander: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public globals: Globals, public af: AngularFireDatabase) {
@@ -33,6 +34,11 @@ export class UserProfilePovOtherUsersPage {
         if (this.UserInfo != null || this.UserInfo != undefined) {
           this.gender = GetGenderNameFromEnum(this.UserInfo.Gender);
           this.UserInfo.PhotoURL = SetImageOrDefaultOtherUser(this.UserInfo.Gender, this.UserInfo.PhotoURL);
+          if (this.UserInfo.Rating == 0) {
+            this.rating = "-";
+          } else {
+            this.rating = this.UserInfo.Rating;
+          }
         }
       }).catch(() => {
         globals.DismissLoading();

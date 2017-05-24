@@ -18,17 +18,35 @@ export class CandidateInfoUnacceptedPage {
   private list_key: string;
   private candidate: Candidate;
   private address: DeliveryAddress;
+  private user: FeasyUser = new FeasyUser("", "", "");
+  private rating: any;
+  private date_to_print: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, @Inject(forwardRef(() => Globals)) public globals: Globals, public loadingCtrl: LoadingController,  public alertCtrl: AlertController) {
     this.candidate_key = navParams.get("candidate_key");
     this.list_key = navParams.get("list_key");
     this.candidate = navParams.get("candidate");
+    globals.GetUser(this.candidate.uid).then(_user => {
+      this.user = _user;
+      if (this.user != null) {
+        if (this.user.Rating == 0) {
+          this.rating = "-";
+        } else {
+          this.rating = this.user.Rating;
+        }
+        let date: Date = new Date(this.user.RegisterDate);
+        let day: number = date.getDay();
+        let month: number = date.getMonth();
+        let year: number = date.getFullYear();
+        this.date_to_print = (day.toString()) + "-" + (month.toString()) + "-" + (year.toString());
+      }
+    });
 
     if (this.candidate == null || this.list_key == null) {
       console.warn("CandidateInfoUnacceptedPage: null candidate or list_key. Going back.");
       navCtrl.pop();
     } else {
-      this.address = globals.GetPublishedListByKey(this.list_key).DeliveryAddresses[this.candidate.AddressKey];
+      this.address = globals.GetPublishedListByKey(this.list_key).DeliveryAddresses[this.candidate.AddressKey];   
     }
     
 
