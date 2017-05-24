@@ -321,10 +321,9 @@ export class Globals {
             this.RecopyArray(this.TerminatedListsAsDemander);
 
             let list_d: FeasyList = list.val();
-            if (list_d.ReviewLeft == false) {
+            if (list_d.ReviewLeft == false && this.GetIndexByKey(this.ReviewsToLeaveAsDemander, list.key) == -1) {
                 list_d.$key = list.key;
-                this.af.object('/users/' + list_d.ChosenShopperUid).$ref.on("value", (_user: firebase.database.DataSnapshot) => {
-                    let user: FeasyUser = _user.val();
+                this.GetUser(list_d.ChosenShopperUid).then(user => {
                     if (user != null && user.PhotoURL != null)
                         (list_d as any).PhotoURL = user.PhotoURL;
                     this.ReviewsToLeaveAsDemander.push(list_d);
@@ -342,7 +341,7 @@ export class Globals {
                 console.warn("Globals.LinkListsWatchers> Cannot find index for key <" + list.key + "> in TerminatedLists_db:child_changed");
             //this.UnpublishedLists[list.key] = this.copy_snapshot_list(list);
             this.RecopyArray(this.TerminatedListsAsDemander);
-
+            
             let list_d: FeasyList = list.val();
             if (list_d.ReviewLeft == true) {
                 this.DeleteFromArrayByKey(this.ReviewsToLeaveAsDemander, list.key);
@@ -371,10 +370,9 @@ export class Globals {
             this.RecopyArray(this.TerminatedListsAsShopper);
 
             let list_d: FeasyList = list.val();
-            if (list_d.ReviewLeft == false) {
+            if (list_d.ReviewLeft == false && this.GetIndexByKey(this.ReviewsToLeaveAsShopper, list.key) == -1) {
                 list_d.$key = list.key;
-                this.af.object('/users/' + list_d.owner).$ref.on("value", (_user: firebase.database.DataSnapshot) => {
-                    let user: FeasyUser = _user.val();
+                this.GetUser(list_d.owner).then(user => {
                     if (user != null && user.PhotoURL != null)
                         (list_d as any).PhotoURL = user.PhotoURL;
                     this.ReviewsToLeaveAsShopper.push(list_d);
@@ -1353,7 +1351,7 @@ export class Globals {
                 this.af.object("/users/" + userId).$ref.once("value", (_user: firebase.database.DataSnapshot) => {
                     let user: FeasyUser = _user.val();
                     if (user != null) {
-                        //user.PhotoURL = user.PhotoURL || (user.Gender == GenderType.Male ? UnknownMan : UnknownWoman);
+                        user.PhotoURL = user.PhotoURL || (user.Gender == GenderType.Male ? UnknownMan : UnknownWoman);
                         this.UsersCache[userId] = user;
                         //this.storage.set(userId, user).then(() => {
                         resolve(user);
