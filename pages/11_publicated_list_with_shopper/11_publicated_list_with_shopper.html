@@ -11,7 +11,7 @@
   <ion-list>
 
     <ion-item-divider color="light" class="item-title">DETTAGLI CANDIDATO SCELTO</ion-item-divider>
-    <ion-item>
+    <ion-item (tap)="showCandidateInfo()">
       <ion-avatar item-left icon-right>
         <img src="{{ChosenCandidate.PhotoURL}}">
       </ion-avatar>
