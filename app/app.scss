@@ -393,3 +393,10 @@ ion-textarea.publish-list-multiline textarea {
 .bold {
   font-weight: bold;
 }
+
+// Lists
+// --------------------------------------------------
+
+.no-item-message {
+  color: color($colors, secondary) !important;
+}
