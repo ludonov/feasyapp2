@@ -11,7 +11,7 @@
 
 
 <ion-content>
-    <p class="center" style="font-size:12pt; color:#00bcd1" *ngIf="list != undefined && list.ItemsCount == 0">Nessun prodotto in lista, aggiungilo!</p>
+    <p class="center color-sentence" *ngIf="list != undefined && list.ItemsCount == 0">Nessun prodotto in lista, aggiungilo!</p>
     <ion-list *ngIf="list != undefined">
       <ion-item (tap)="goToItem(item)" *ngFor="let item of list.Items | keys">
         <ion-label>
