@@ -9,9 +9,8 @@
   <div class="spacer" style="height: 16px;"></div>
 
   <ion-list>
-
-    <ion-item-divider color="light" class="item-title">DETTAGLI CANDIDATO SCELTO</ion-item-divider>
-    <ion-item>
+    <ion-item-divider>DETTAGLI CANDIDATO SCELTO</ion-item-divider>
+    <ion-item (tap)="showCandidateInfo()">
       <ion-avatar item-left icon-right>
         <img src="{{ChosenCandidate.PhotoURL}}">
       </ion-avatar>
@@ -29,7 +28,7 @@
 
 
     <div class="spacer" style="height: 16px;"></div>
-    <ion-item-divider color="light" class="item-title">DETTAGLI CONSEGNA</ion-item-divider>
+    <ion-item-divider>DETTAGLI CONSEGNA</ion-item-divider>
     <ion-item class="item-icon-right" type="item-text-wrap" (tap)="ViewAddress()">
       <h2>{{ChosenAddress.FormattedAddress}}</h2>
       <p>dalle {{ChosenAddress.From}} &nbsp; alle {{ChosenAddress.To}}</p>
@@ -37,7 +36,7 @@
     </ion-item>
 
     <div class="spacer" style="height: 16px;"></div>
-    <ion-item-divider color="light" class="item-title">DETTAGLI COMMISSIONE</ion-item-divider>
+    <ion-item-divider>DETTAGLI COMMISSIONE</ion-item-divider>
 
     <ion-item>
       Mancia (€)

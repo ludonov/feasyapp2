@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, Inject, forwardRef } from '@angular/core';
 
 import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 
@@ -23,14 +23,20 @@ export class UserProfilePovOtherUsersPage {
   public gender: string;
   public rating: any;
   public Demander: boolean;
+  private date_to_print: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public globals: Globals, public af: AngularFireDatabase) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, @Inject(forwardRef(() => Globals)) public globals: Globals, public af: AngularFireDatabase) {
     this.userUID = navParams.get('userUID');
     globals.ShowLoading();
     globals.GetUser(this.userUID).then(user => {
       globals.GetUserPicBig(this.userUID).then(usr_bigpic => {
         globals.DismissLoading();
         this.UserInfo = user;
+        let date: Date = new Date(this.UserInfo.RegisterDate);
+        let day: number = date.getDay();
+        let month: number = date.getMonth() + 1;
+        let year: number = date.getFullYear();
+        this.date_to_print = (day.toString()) + "/" + (month.toString()) + "/" + (year.toString());
         if (this.UserInfo != null || this.UserInfo != undefined) {
           this.gender = GetGenderNameFromEnum(this.UserInfo.Gender);
           this.UserInfo.PhotoURL = SetImageOrDefaultOtherUser(this.UserInfo.Gender, this.UserInfo.PhotoURL);

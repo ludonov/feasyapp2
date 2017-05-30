@@ -36,9 +36,9 @@ export class CandidateInfoUnacceptedPage {
         }
         let date: Date = new Date(this.user.RegisterDate);
         let day: number = date.getDay();
-        let month: number = date.getMonth();
+        let month: number = date.getMonth() + 1;
         let year: number = date.getFullYear();
-        this.date_to_print = (day.toString()) + "-" + (month.toString()) + "-" + (year.toString());
+        this.date_to_print = (day.toString()) + "/" + (month.toString()) + "/" + (year.toString());
       }
     });
 

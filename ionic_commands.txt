@@ -28,6 +28,7 @@ npm install --save @ionic-native/image-picker
 npm install --save @ionic-native/camera
 npm install --save @ionic-native/native-storage
 npm install --save @ionic-native/photo-viewer
+npm install —-save font-awesome
 
 //se c'è l'errore: Can't resolve 'promise-polyfill'
 npm install promise-polyfill --save-exact

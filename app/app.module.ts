@@ -160,7 +160,8 @@ export const firebaseConfig = {
           // These options are available in ionic-angular@2.0.0-beta.2 and up.
           // http://ionicframework.com/docs/v2/api/config/Config/)
           scrollAssist: false,    // Valid options appear to be [true, false]
-          autoFocusAssist: 'instant'  // Valid options appear to be ['instant', 'delay', false]
+          autoFocusAssist: 'instant',  // Valid options appear to be ['instant', 'delay', false]
+          backButtonText: ''
         }
       ),
     IonicStorageModule.forRoot(),

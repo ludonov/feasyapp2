@@ -36,6 +36,7 @@ export class AddOrShowItemPage {
       this.is_new = item == undefined || item == null;
       if (this.is_new) {
         this.item = new FeasyItem("", 1);
+        this.item.Qty = null;
       } else {
         this.item = item;
       }

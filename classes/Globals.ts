@@ -1329,6 +1329,17 @@ export class Globals {
         return hh + ":" + mm;
     }
 
+    public toDate(_date): string {
+        let date: Date = new Date(_date);
+        let day: string = date.getDay().toString();
+        let month: string = date.getMonth().toString();
+        let year: string = date.getFullYear().toString();
+        if (date.getDay() < 10) { day = "0" + day; }
+        if (date.getMonth() < 10) { month = "0" + month }
+        if (date.getFullYear() < 10) { year = "0" + year; }
+        return day + "/" + month + "/" + year;
+    }
+
     public ViewBigImage(image: string, nav: NavController, title: string = "View Image"): void {
         if (image == null || image == "") {
             console.warn("Globals.ViewBigImage> null image");

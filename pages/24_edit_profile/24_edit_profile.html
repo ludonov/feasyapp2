@@ -21,22 +21,18 @@
 
     <ion-item-group>
       <div class="spacer" style="height: 16px;"></div>
-      <ion-item-divider class="item-title" style="border-top-color: transparent;">INFORMAZIONI PERSONALI</ion-item-divider>
+      <ion-item-divider style="border-top-color: transparent;">INFORMAZIONI PERSONALI</ion-item-divider>
       <ion-item>
-        <ion-label fixed>Nome</ion-label>
-        <ion-input type="text" [(ngModel)]="user.FirstName"></ion-input>
+        <ion-input placeholder="Nome" type="text" [(ngModel)]="user.FirstName"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label fixed>Cognome</ion-label>
-        <ion-input type="text" [(ngModel)]="user.LastName"></ion-input>
+        <ion-input placeholder="Cognome" type="text" [(ngModel)]="user.LastName"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label fixed>Nazionalità</ion-label>
-        <ion-input type="text" [(ngModel)]="user.Nationality"></ion-input>
+        <ion-input placeholder="Nazionalità" type="text" [(ngModel)]="user.Nationality"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label fixed>Telefono</ion-label>
-        <ion-input type="text" [(ngModel)]="user.MobileNumber"></ion-input>
+        <ion-input placeholder="Telefono" type="text" [(ngModel)]="user.MobileNumber"></ion-input>
       </ion-item>
       <!--<ion-item>
       <ion-label fixed>Sesso</ion-label>
@@ -47,27 +43,24 @@
       </ion-select>
         </ion-item>-->
       <ion-item>
-        <ion-label fixed>Sesso</ion-label>
-        <ion-input type="text" [(ngModel)]="gender"></ion-input>
+        <ion-input placeholder="Sesso" type="text" [(ngModel)]="gender"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label fixed>Data di nascita</ion-label>
-        <ion-datetime displayFormat="DD MMM YYYY" [(ngModel)]="user.Birthdate"></ion-datetime>
+        <ion-datetime placeholder="Data di nascità" displayFormat="DD MMM YYYY" [(ngModel)]="user.Birthdate"></ion-datetime>
       </ion-item>
     </ion-item-group>
 
     <ion-item-group>
       <div class="spacer" style="height: 16px;"></div>
-      <ion-item-divider class="item-title" style="border-top-color: transparent;">INDIRIZZI</ion-item-divider>
+      <ion-item-divider style="border-top-color: transparent;">INDIRIZZI</ion-item-divider>
       <ion-item icon-right (tap)="MyAddresses()">
         Modifica Indirizzi
         <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
       </ion-item>
     </ion-item-group>
-
   </ion-list>
 
-  <div class="lateral-padding">
+  <div class="lateral-bottom-padding">
     <button ion-button block color="secondary" (tap)="changeProfile()">Applica</button>
   </div>
 

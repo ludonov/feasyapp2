@@ -11,31 +11,24 @@
 
     <ion-item-group>
           <ion-item>
-            <ion-label fixed>Nome</ion-label>
-            <ion-input [(ngModel)]="userdata.FirstName" type="text" value=""></ion-input>
+            <ion-input placeholder="Nome" [(ngModel)]="userdata.FirstName" type="text" value=""></ion-input>
             <!--<button ion-button clear color="dark" type="button" item-right> <ion-icon name="ion-ios-close"> </ion-icon> </button>-->
           </ion-item>
           <ion-item>
-            <ion-label fixed>Cognome</ion-label>
-            <ion-input [(ngModel)]="userdata.LastName" type="text" value=""></ion-input>
+            <ion-input placeholder="Cognome" [(ngModel)]="userdata.LastName" type="text" value=""></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label fixed>Email</ion-label>
-            <ion-input [(ngModel)]="userdata.Email" type="email" value=""></ion-input>
+            <ion-input placeholder="Email" [(ngModel)]="userdata.Email" type="email" value=""></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label fixed>Password</ion-label>
-            <ion-input [(ngModel)]="userdata.Password" type="password" value=""></ion-input>
+            <ion-input placeholder="Password" [(ngModel)]="userdata.Password" type="password" value=""></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label fixed>Ripeti password</ion-label>
-            <ion-input type="password" value=""></ion-input>
+            <ion-input placeholder="Ripeti password" type="password" value=""></ion-input>
           </ion-item>
       </ion-item-group>
 
   </ion-list>
-
-  <div class="spacer" style="height: 32px;"></div>
 
   <ion-item-group>
   <ion-item class="center background-color-body">
@@ -44,8 +37,6 @@
   </ion-item>
   </ion-item-group>
 
-  
-  <div class="spacer" style="height: 32px;"></div>
   <div class="lateral-bottom-padding">
     <button ion-button block color="secondary" (tap)="signUp()">Iscriviti</button>
   </div>

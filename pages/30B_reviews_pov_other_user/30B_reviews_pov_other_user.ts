@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+﻿import { Component, Inject, forwardRef } from '@angular/core';
 
 import { NavController, NavParams, AlertController, Tabs } from 'ionic-angular';
 
@@ -18,7 +18,7 @@ export class ReviewsPovOtherUserPage {
     public userUID: string;     
     public UserReviews: Array<Review> = new Array<Review>();
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public globals: Globals, public af: AngularFireDatabase) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, @Inject(forwardRef(() => Globals)) public globals: Globals, public af: AngularFireDatabase) {
         this.userUID = navParams.get('userUid');
         globals.af.list('/reviews/' + this.userUID + '/done').$ref.once("value", (_reviews: firebase.database.DataSnapshot) => {
             let reviews: Object = _reviews.val();
