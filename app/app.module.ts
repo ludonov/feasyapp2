@@ -66,7 +66,6 @@ import { ReviewsPovOtherUserPage } from '../pages/30B_reviews_pov_other_user/30B
 import { SingleReviewDisplayPage } from '../pages/31A_single_review_display/31A_single_review_display';
 import { SingleReviewInputPage } from '../pages/31B_single_review_input/31B_single_review_input';
 import { PaymentPage } from '../pages/32_payment/32_payment';
-import { PaymentSummaryPage } from '../pages/33_payment_summary/33_payment_summary';
 import { AddressViewPage } from '../pages/29_address_view/29_address_view';
 import { ListFromMapPage } from '../pages/28_list_from_map_details/28_list_from_map_details';
 import { AddressViewStaticPage } from '../pages/30_address_view_static/30_address_view_static';
@@ -140,7 +139,6 @@ export const firebaseConfig = {
     SingleReviewDisplayPage,
     SingleReviewInputPage,
     PaymentPage,
-    PaymentSummaryPage,
     AddressViewPage,
     AddressViewStaticPage,
     AddressesFromProfilePage,
@@ -211,7 +209,6 @@ export const firebaseConfig = {
     SingleReviewInputPage,
     AddressViewPage,
     PaymentPage,
-    PaymentSummaryPage,
     AddressViewStaticPage,
     AddressesFromProfilePage,
     SpecificAddressFromProfilePage,
