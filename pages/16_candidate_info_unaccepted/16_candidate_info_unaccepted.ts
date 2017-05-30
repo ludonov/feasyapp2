@@ -30,7 +30,7 @@ export class CandidateInfoUnacceptedPage {
       this.user = _user;
       if (this.user != null) {
         if (this.user.Rating == 0) {
-          this.rating = "-";
+          this.rating = 0;
         } else {
           this.rating = this.user.Rating;
         }

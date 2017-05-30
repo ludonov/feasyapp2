@@ -19,7 +19,15 @@
         </ion-item>
         <ion-item>
           Punteggio
-          <ion-note item-right><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon></ion-note>
+          <ion-note item-right>
+            <h2>
+              <ion-icon *ngIf="review.Rating <= 0.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 0.25 && review.Rating <= 0.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 0.75" name="star" color="secondary"></ion-icon>
+              <ion-icon *ngIf="review.Rating <= 1.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 1.25 && review.Rating <= 1.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 1.75" name="star" color="secondary"></ion-icon>
+              <ion-icon *ngIf="review.Rating <= 2.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 2.25 && review.Rating <= 2.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 2.75" name="star" color="secondary"></ion-icon>
+              <ion-icon *ngIf="review.Rating <= 3.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 3.25 && review.Rating <= 3.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 3.75" name="star" color="secondary"></ion-icon>
+              <ion-icon *ngIf="review.Rating <= 4.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 4.25 && review.Rating <= 4.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="review.Rating > 4.75" name="star" color="secondary"></ion-icon>
+            </h2>
+          </ion-note>
         </ion-item>
         <ion-item>
           Commissioni Ricevute
