@@ -13,10 +13,10 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-input placeholder="Prodotto" #NameInput [(ngModel)]="item.Name" type="text" value="" autofocus autocomplete="true" spellcheck="true"></ion-input>
+      <ion-input placeholder="Prodotto" clearInput #NameInput [(ngModel)]="item.Name" type="text" value="" autofocus autocomplete="true" spellcheck="true"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="Quantità" [(ngModel)]="item.Qty" type="number" value=""></ion-input>
+      <ion-input placeholder="Quantità" clearInput [(ngModel)]="item.Qty" type="number" value=""></ion-input>
     </ion-item>
     <ion-item>
       <ion-select [(ngModel)]="item.Unit" interface="action-sheet" multiple="false" placeholder="Unità {{GetUnitName(0)}}">
@@ -26,13 +26,13 @@
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="Marca" [(ngModel)]="item.Brand" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
+      <ion-input placeholder="Marca" clearInput [(ngModel)]="item.Brand" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="Fascia prezzo" [(ngModel)]="item.PriceRange" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
+      <ion-input placeholder="Fascia prezzo" clearInput [(ngModel)]="item.PriceRange" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="Altri dettagli"[(ngModel)]="item.Comments" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
+      <ion-input placeholder="Altri dettagli" clearInput [(ngModel)]="item.Comments" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
     </ion-item>
   </ion-list>
 

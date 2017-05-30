@@ -10,10 +10,10 @@
 
     <ion-item-group>
         <ion-item>
-          <ion-input placeholder="Nazionalità" [(ngModel)]="user.Nationality" type="text"></ion-input>
+          <ion-input placeholder="Nazionalità" clearInput [(ngModel)]="user.Nationality" type="text"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input placeholder="Telefono" [(ngModel)]="user.MobileNumber" type="text"></ion-input>
+          <ion-input placeholder="Telefono" clearInput [(ngModel)]="user.MobileNumber" type="text"></ion-input>
         </ion-item>
         <ion-item>
             <ion-select placeholder="Sesso" [(ngModel)]="user.Gender" interface="action-sheet" multiple="false" placeholder="{{GetGenderName(0)}}">
