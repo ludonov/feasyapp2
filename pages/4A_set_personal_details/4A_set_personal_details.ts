@@ -16,8 +16,7 @@ import { Globals } from '../../classes/Globals';
   templateUrl: '4A_set_personal_details.html'
 })
 export class SetPersonalDetailsPage {
-
-  public user: FeasyUser = new FeasyUser("", "", "");
+  
   //public gender: string;
   public genders: string[] = GetGenders();
 
@@ -33,7 +32,7 @@ export class SetPersonalDetailsPage {
   setPersonalDetails(): void {
     console.log("personal details set");
     //this.user.Gender=GetEnumFromGenderName(this.gender);
-    this.globals.User_db.update(StripForFirebase(this.user)).then(res => {
+    this.globals.User_db.update(StripForFirebase(this.globals.User)).then(res => {
       this.navCtrl.push(SetAddressPage);
     }).catch((err: Error) => {
       console.log("Error: " + err.message);

@@ -12,41 +12,41 @@ import { FeasyUser, FeasyList, FeasyItem, DeliveryAddress, StripForFirebase, cop
 import { Globals } from '../../classes/Globals';
 
 @Component({
-  selector: 'page-setaddress',
-  templateUrl: '4B_set_address.html'
+    selector: 'page-setaddress',
+    templateUrl: '4B_set_address.html'
 })
 export class SetAddressPage {
 
-  public addresses_db: FirebaseListObservable<any>;
-  public address: DeliveryAddress = new DeliveryAddress();
+    public addresses_db: FirebaseListObservable<any>;
+    public address: DeliveryAddress = new DeliveryAddress();
 
-    constructor(public navCtrl: NavController,  public alertCtrl: AlertController, public globals: Globals) {
-    this.addresses_db = globals.af.list("users/" + globals.UID + "/Addresses"); // aggiunto
-    
-    
+    constructor(public navCtrl: NavController, public alertCtrl: AlertController, public globals: Globals) {
+        this.addresses_db = globals.af.list("users/" + globals.UID + "/Addresses"); // aggiunto
+
+
     }
 
-  skipToTabRoot(): void {
-    console.log("skip to tab root 1");
-    this.navCtrl.setRoot(TabsPage);
-  }
+    skipToTabRoot(): void {
+        console.log("skip to tab root 1");
+        this.navCtrl.setRoot(TabsPage);
+    }
 
-  setAddress(): void {
-    console.log("personal address set");
-    //this.user_db.push(this.address);
-    this.address.Geocode(this.alertCtrl).then( (res) => {
-      let new_address_promise = this.addresses_db.push(this.address);
-      let new_address_key = new_address_promise.key;
-      new_address_promise.then(new_address_db => {
-          this.navCtrl.setRoot(TabsPage);
-      }).catch((err: Error) => {
-        console.warn("Error: " + err.message);
-      });
-    }).catch((err: Error) => {
-      console.log("Cannot geocode: " + err.message);
-    });
+    setAddress(): void {
+        console.log("personal address set");
+        //this.user_db.push(this.address);
+        this.address.Geocode(this.alertCtrl).then((res) => {
+            let new_address_promise = this.addresses_db.push(this.address);
+            let new_address_key = new_address_promise.key;
+            new_address_promise.then(new_address_db => {
+                this.navCtrl.setRoot(TabsPage);
+            }).catch((err: Error) => {
+                console.warn("Error: " + err.message);
+            });
+        }).catch((err: Error) => {
+            console.log("Cannot geocode: " + err.message);
+        });
 
-  }
+    }
 
 }
 
