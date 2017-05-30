@@ -30,12 +30,10 @@
 
   </ion-list>
 
-  <ion-item-group>
-  <ion-item class="center background-color-body">
-    <ion-label>Accetto i termini e le condizioni</ion-label>
-    <ion-checkbox class="center" [(ngModel)]="terms_accepted"></ion-checkbox>
-  </ion-item>
-  </ion-item-group>
+  <div class="center">
+    <ion-checkbox [(ngModel)]="terms_accepted"></ion-checkbox>
+    <p style="display:inline-block; font-size:12pt; padding-left:5px">Accetto i termini e le condizioni</p>
+  </div>
 
   <div class="lateral-bottom-padding">
     <button ion-button block color="secondary" (tap)="signUp()">Iscriviti</button>

@@ -21,7 +21,7 @@ export class ReviewsPage {
 
   constructor(public navCtrl: NavController,  public globals: Globals) {
     for (let review of globals.Reviews) {
-      globals.GetUser(review.RevieweeUid).then( user => {
+      globals.GetUser(review.UID_Writer).then( user => {
         (review as any).PhotoURL = SetImageOrDefaultOtherUser(user.Gender, user.PhotoURL);
         this.ReviewsForDisplay.push(review);
       });
