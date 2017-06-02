@@ -210,19 +210,24 @@ export class Globals {
 
     private LinkUserWatchers(): void {
         this.User_db = this.af.object('/users/' + this.UID);
-        this.User_db.$ref.on("value", (_user: firebase.database.DataSnapshot) => {
-            let u = _user.val();
-            if (u != null) {
-                let user: FeasyUser = new FeasyUser("", "", "");
-                Object.assign(user, u);
-                this.User = user;
-                console.log("User data fetched. Name: " + this.User.DisplayName);
-                if (this.User.Gender == null)
-                    this.User.Gender = GenderType.Male;
-                this.User.SetImageOrDefault();
-            } else {
-                console.warn("User data null");
-            }
+        this.storage.get("User").then(_user => {
+            if (_user != null) 
+                this.User = JSON.parse(_user);
+            this.User_db.$ref.on("value", (_user: firebase.database.DataSnapshot) => {
+                let u = _user.val();
+                if (u != null) {
+                    let user: FeasyUser = new FeasyUser("", "", "");
+                    Object.assign(user, u);
+                    this.User = user;
+                    console.log("User data fetched. Name: " + this.User.DisplayName);
+                    if (this.User.Gender == null)
+                        this.User.Gender = GenderType.Male;
+                    this.User.SetImageOrDefault();
+                    this.storage.set("User", this.User);
+                } else {
+                    console.warn("User data null");
+                }
+            });
         });
 
         this.UserPicBig_db = this.af.object('/pics/' + this.UID + "/Big");
