@@ -10,10 +10,10 @@
 
     <ion-item-group>
         <ion-item>
-          <ion-input placeholder="Nazionalità" [(ngModel)]="user.Nationality" type="text"></ion-input>
+          <ion-input placeholder="Nazionalità" clearInput [(ngModel)]="user.Nationality" type="text"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input placeholder="Telefono" [(ngModel)]="user.MobileNumber" type="text"></ion-input>
+          <ion-input placeholder="Telefono" clearInput [(ngModel)]="user.MobileNumber" type="text"></ion-input>
         </ion-item>
         <ion-item>
             <ion-select placeholder="Sesso" [(ngModel)]="user.Gender" interface="action-sheet" multiple="false" placeholder="{{GetGenderName(0)}}">
@@ -26,15 +26,14 @@
             <ion-datetime placeholder="Data di nascità" displayFormat="DD MMM YYYY" [(ngModel)]="user.Birthdate"></ion-datetime>
         </ion-item>
       </ion-item-group>
+    </ion-list>
 
   <div class="lateral-padding">
-    <button ion-button block outline color="secondary" (tap)="skip()">Salta</button>
+    <button ion-button block outline color="secondary" (tap)="skip()" class="button-negative">Salta</button>
   </div>
 
   <div class="spacer" style="height: 16px;"></div>
   <div class="lateral-bottom-padding">
     <button ion-button block color="secondary" (tap)="setPersonalDetails()">Ok</button>
   </div>
-
-  </ion-list>
 </ion-content> 

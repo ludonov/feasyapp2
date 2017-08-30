@@ -11,7 +11,7 @@
 
 
 <ion-content>
-    <h6 class="center" *ngIf="list != undefined && list.ItemsCount == 0">Nessun prodotto in lista, aggiungilo!</h6>
+    <p class="center color-sentence" *ngIf="list != undefined && list.ItemsCount == 0">Nessun prodotto in lista, aggiungilo!</p>
     <ion-list *ngIf="list != undefined">
       <ion-item (tap)="goToItem(item)" *ngFor="let item of list.Items | keys">
         <ion-label>
@@ -30,7 +30,7 @@
 
     <div class="spacer" style="height: 16px;"></div>
     <div class="lateral-bottom-padding">
-      <button ion-button block outline color="secondary" (tap)="deleteList()">Elimina</button>
+      <button ion-button block outline color="secondary" (tap)="deleteList()" class="button-negative">Elimina</button>
     </div>
 
 </ion-content>

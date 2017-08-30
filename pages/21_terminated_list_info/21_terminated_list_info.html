@@ -22,12 +22,8 @@
         </ion-item>
         <ion-item>
             Punteggio
-            <ion-note item-right>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star"></ion-icon>
-                <ion-icon name="star-half"></ion-icon>
-                <ion-icon name="star-outline"></ion-icon>
+            <ion-note item-right style="font-size:14pt">
+                  <ion-icon *ngIf="OtherUser.Rating <= 0.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="OtherUser.Rating > 0.25 && OtherUser.Rating <= 0.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="OtherUser.Rating > 0.75" name="star" color="secondary"></ion-icon><ion-icon *ngIf="OtherUser.Rating <= 1.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="OtherUser.Rating > 1.25 && OtherUser.Rating <= 1.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="OtherUser.Rating > 1.75" name="star" color="secondary"></ion-icon><ion-icon *ngIf="OtherUser.Rating <= 2.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="OtherUser.Rating > 2.25 && OtherUser.Rating <= 2.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="OtherUser.Rating > 2.75" name="star" color="secondary"></ion-icon><ion-icon *ngIf="OtherUser.Rating <= 3.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="OtherUser.Rating > 3.25 && OtherUser.Rating <= 3.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="OtherUser.Rating > 3.75" name="star" color="secondary"></ion-icon><ion-icon *ngIf="OtherUser.Rating <= 4.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="OtherUser.Rating > 4.25 && OtherUser.Rating <= 4.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="OtherUser.Rating > 4.75" name="star" color="secondary"></ion-icon>
             </ion-note>
         </ion-item>
         <ion-item>

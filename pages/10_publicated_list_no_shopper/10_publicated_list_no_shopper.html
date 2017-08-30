@@ -53,17 +53,15 @@
           Lista prodotti
           <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 			  </ion-item>
-        
+      </ion-list>
 
-        <div class="spacer" style="height: 32px;"></div>
         <div class="lateral-padding">
           <button ion-button block color="secondary" (tap)="WithdrawList()">Ritira</button>
         </div>
         <div class="spacer" style="height: 16px;"></div>
         <div class="lateral-bottom-padding">
-          <button ion-button block outline color="secondary" (tap)="RemoveList()">Elimina</button>
+          <button ion-button block outline color="secondary" (tap)="RemoveList()" class="button-negative">Elimina</button>
         </div>
-      </ion-list>
 
 </ion-content>
 

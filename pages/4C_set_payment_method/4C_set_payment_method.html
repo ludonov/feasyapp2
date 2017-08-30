@@ -10,27 +10,28 @@
 
     <ion-item-group>
         <ion-item>
-          <ion-input placeholder="Metodo" type="text" value=""></ion-input>
+          <ion-input placeholder="Metodo" clearInput type="text" value=""></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input placeholder="Nome" type="text" value=""></ion-input>
+          <ion-input placeholder="Nome" clearInput type="text" value=""></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input placeholder="Cognome" type="text" value=""></ion-input>
+          <ion-input placeholder="Cognome" clearInput type="text" value=""></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input placeholder="Numero di Carta" type="text" value=""></ion-input>
+          <ion-input placeholder="Numero di Carta" clearInput type="text" value=""></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input placeholder="Scadenza" type="text" value=""></ion-input>
+          <ion-input placeholder="Scadenza" clearInput type="text" value=""></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input placeholder="CVV" type="text" value=""></ion-input>
+          <ion-input placeholder="CVV" clearInput type="text" value=""></ion-input>
         </ion-item>
       </ion-item-group>
+    </ion-list>
 
       <div class="lateral-padding">
-        <button ion-button block outline color="secondary" (tap)="skipToTabRoot()">Salta</button>
+        <button ion-button block outline color="secondary" (tap)="skipToTabRoot()" class="button-negative">Salta</button>
       </div>
 
       <div class="spacer" style="height: 16px;"></div>
@@ -38,6 +39,4 @@
       <div class="lateral-bottom-padding">
         <button ion-button block color="secondary" (tap)="setPaymentMethod()">Ok</button>
       </div>
-
-  </ion-list>
 </ion-content>

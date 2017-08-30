@@ -23,7 +23,9 @@
 
         <ion-item>
           Punteggio
-          <ion-note item-right><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star"></ion-icon><ion-icon name="star-half"></ion-icon><ion-icon name="star-outline"></ion-icon></ion-note>
+          <ion-note item-right style="font-size:14pt">
+              <ion-icon *ngIf="owner.Rating <= 0.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="owner.Rating > 0.25 && owner.Rating <= 0.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="owner.Rating > 0.75" name="star" color="secondary"></ion-icon><ion-icon *ngIf="owner.Rating <= 1.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="owner.Rating > 1.25 && owner.Rating <= 1.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="owner.Rating > 1.75" name="star" color="secondary"></ion-icon><ion-icon *ngIf="owner.Rating <= 2.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="owner.Rating > 2.25 && owner.Rating <= 2.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="owner.Rating > 2.75" name="star" color="secondary"></ion-icon><ion-icon *ngIf="owner.Rating <= 3.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="owner.Rating > 3.25 && owner.Rating <= 3.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="owner.Rating > 3.75" name="star" color="secondary"></ion-icon><ion-icon *ngIf="owner.Rating <= 4.25" name="star-outline" color="secondary"></ion-icon><ion-icon *ngIf="owner.Rating > 4.25 && owner.Rating <= 4.75" name="star-half" color="secondary"></ion-icon><ion-icon *ngIf="owner.Rating > 4.75" name="star" color="secondary"></ion-icon>
+          </ion-note>
         </ion-item>
         <ion-item>
           Commissioni Ricevute
@@ -67,11 +69,11 @@
           <ion-note item-right><ion-icon name="arrow-forward"></ion-icon></ion-note>
 			  </ion-item>
 
-        <div class="spacer" style="height: 32px;"></div>
-        <div class="lateral-bottom-padding">
-          <button ion-button block color="secondary" (tap)="Apply()" class="center">Candidati</button>
-        </div>
-        
       </ion-list>
+
+      <div class="lateral-bottom-padding">
+        <button ion-button block color="secondary" (tap)="Apply()" class="center">Candidati</button>
+      </div>
+        
 
 </ion-content>

@@ -35,7 +35,7 @@
 
 				<ion-list>
 					<ion-item detail-none *ngIf="globals.NoPublishedLists">
-						<ion-label class="center">Nessuna lista attiva</ion-label>
+						<ion-label class="center no-item-message">Nessuna lista attiva</ion-label>
 					</ion-item>
 
 
@@ -55,7 +55,7 @@
 				</ion-card-header>
 				<ion-list>
 					<ion-item detail-none *ngIf="globals.NoUnpublishedLists">
-						<ion-label class="center" >Nessuna lista da pubblicare</ion-label>
+						<ion-label class="center no-item-message">Nessuna lista da pubblicare</ion-label>
 					</ion-item>
 
 
@@ -79,7 +79,7 @@
 				</ion-card-header>
 				<ion-list>
 					<ion-item detail-none *ngIf="globals.NoAcceptedLists">
-						<ion-label class="center">Nessun lista accettata, attendi ancora!</ion-label>
+						<ion-label class="center no-item-message">Nessun lista accettata, attendi ancora!</ion-label>
 					</ion-item>
 					<ion-item (tap)="goToAcceptedList(list)" *ngFor="let list of globals.AcceptedLists">
 						{{list.ChosenAddress.FormattedAddress}}
@@ -93,7 +93,7 @@
 				</ion-card-header>
 				<ion-list>
 					<ion-item detail-none *ngIf="globals.NoAppliedLists">
-						<ion-label class="center">Nessuna lista in sospeso</ion-label>
+						<ion-label class="center no-item-message">Nessuna lista in sospeso</ion-label>
 					</ion-item>
 					<ion-item (tap)="goToPendingList(list)" *ngFor="let list of globals.AppliedLists">
 						{{list.ChosenAddress.FormattedAddress}}

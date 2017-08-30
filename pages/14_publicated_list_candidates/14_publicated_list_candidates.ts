@@ -36,6 +36,7 @@ export class PublicatedListCandidatesPage {
           if (user != null) {
             (cand as any).PhotoURL = SetImageOrDefaultOtherUser(user.Gender, user.PhotoURL);
             (cand as any).Gender = user.Gender;
+            (cand as any).Rating = user.Rating;
             this.Candidates.push(cand);
           }
         });
@@ -50,6 +51,7 @@ export class PublicatedListCandidatesPage {
         globals.af.list("/candidates").update(globals.UID, StripForFirebase(unvisualisedCandidates));
       }
     }
+
   }
 
   ViewCandidate(candidate): void {

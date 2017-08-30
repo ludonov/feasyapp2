@@ -13,10 +13,10 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-input placeholder="Prodotto" #NameInput [(ngModel)]="item.Name" type="text" value="" autofocus autocomplete="true" spellcheck="true"></ion-input>
+      <ion-input placeholder="Prodotto" clearInput #NameInput [(ngModel)]="item.Name" type="text" value="" autofocus autocomplete="true" spellcheck="true"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="Quantità" [(ngModel)]="item.Qty" type="number" value=""></ion-input>
+      <ion-input placeholder="Quantità" clearInput [(ngModel)]="item.Qty" type="number" value=""></ion-input>
     </ion-item>
     <ion-item>
       <ion-select [(ngModel)]="item.Unit" interface="action-sheet" multiple="false" placeholder="Unità {{GetUnitName(0)}}">
@@ -26,24 +26,23 @@
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="Marca" [(ngModel)]="item.Brand" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
+      <ion-input placeholder="Marca" clearInput [(ngModel)]="item.Brand" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="Fascia prezzo" [(ngModel)]="item.PriceRange" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
+      <ion-input placeholder="Fascia prezzo" clearInput [(ngModel)]="item.PriceRange" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="Altri dettagli"[(ngModel)]="item.Comments" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
+      <ion-input placeholder="Altri dettagli" clearInput [(ngModel)]="item.Comments" type="text" value="" autocomplete="true" spellcheck="true"></ion-input>
     </ion-item>
   </ion-list>
 
-  <div class="spacer" style="height: 16px;"></div>
   <div class="center lateral-padding">
     <button ion-button round color="secondary" (tap)="save()" style="width:40%">Salva</button>
   </div>
 
   <div class="spacer" style="height: 10px;"></div>
   <div class="center lateral-bottom-padding">
-    <button ion-button round outline (tap)="delete()" [hidden]="is_new" color="secondary" style="width:40%">Elimina</button>
+    <button ion-button round outline (tap)="delete()" [hidden]="is_new" color="secondary" style="width:40%" class="button-negative">Elimina</button>
   </div>
 
 </ion-content>

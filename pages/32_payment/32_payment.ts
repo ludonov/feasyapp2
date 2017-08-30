@@ -7,7 +7,6 @@ import { NavController, NavParams, AlertController, Alert, Tabs } from 'ionic-an
 import { FeasyUser, FeasyList, FeasyItem, Candidate, StripForFirebase, Payment, copyObject } from '../../classes/Feasy';
 import { Globals } from '../../classes/Globals';
 
-import { PaymentSummaryPage } from '../../pages/33_payment_summary/33_payment_summary';
 
 
 

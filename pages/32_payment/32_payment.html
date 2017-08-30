@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Payment</ion-title>
+    <ion-title>Pagamento</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -25,7 +25,7 @@
 					<ion-note item-right>{{list.Reward}} €</ion-note>
 				</ion-item>
 				<ion-item>
-					<ion-input placeholder="Spesa" [(ngModel)]="listExpense" (keyup)='updateVariables()' type="number" value=""></ion-input>
+					<ion-input placeholder="Spesa" clearInput [(ngModel)]="listExpense" (keyup)='updateVariables()' type="number" value=""></ion-input>
 				</ion-item>
 
 		    <div class="spacer" style="height: 16px;"></div>
@@ -109,7 +109,6 @@
 				</ion-card>
       </ion-list>
 
-			<div class="spacer" style="height: 10px;"></div>
 			<div class="lateral-bottom-padding">
 				<button ion-button block color="secondary" (tap)="performPayment()">Paga</button>
 			</div>
